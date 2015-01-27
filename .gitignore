@@ -1,7 +1,8 @@
 #################
 ## Customized
 #################
-runtime/*
+XXXCocosLuaGame/runtime/*
+XXXCocosLuaGame/framework/*
 
 
 #################
