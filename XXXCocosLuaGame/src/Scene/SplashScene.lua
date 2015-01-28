@@ -72,7 +72,6 @@ function SplashScene:createPressScreenInfo()
 end
 
 function SplashScene:createBackLayer()
-
 	local backLayer = cc.Layer:create()
 
 	local splashSprite = cc.Sprite:create("imgs/splash_bg.png")

@@ -10,7 +10,6 @@ XXXCocosLuaGame/framework/*
 #################
 
 *.pydevproject
-.project
 .metadata
 bin/
 tmp/
@@ -19,7 +18,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.classpath
 .settings/
 .loadpath
 
@@ -31,9 +29,6 @@ local.properties
 
 # CDT-specific
 .cproject
-
-# PDT-specific
-.buildpath
 
 
 #################

@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 -- GameIcon.lua - 游戏图标管理器
--- author: fangzhou.long
+-- @author fangzhou.long
 -- TODO 将本管理器包装成Manager类
 --------------------------------------------------------------------------------
 
@@ -12,9 +12,7 @@ GIconSelectType = 4
 --加载游戏图标资源
 function loadGameIcon()
     local test = cc.SpriteFrameCache:getInstance()
-    cclog("Cache size: "..test:getReferenceCount());
     cc.SpriteFrameCache:getInstance():addSpriteFrames("imgs/GameIcon.plist")
-    cclog("Cache size: "..test:getReferenceCount());
 end
 
 --获取某个棋子
