@@ -1,14 +1,41 @@
 --------------------------------------------------------------------------------
 -- Splash.lua - 游戏登录场景
--- author: fangzhou.long
--- TODO 将本场景包装成类
+-- @author fangzhou.long
+-- 
+-- TODO Add login animations and login panel
 --------------------------------------------------------------------------------
 
-require("src/Scene/GameScene")
+require("core.BaseScene")
+require("Scene.GameScene")
 
-local visibleSize = cc.Director:getInstance():getVisibleSize()	
+local SplashScene = class("BaseScene", function()
+    return BaseScene.create()
+end)
 
-local function createEyeSprite()
+function SplashScene.create()
+    local scene = SplashScene.new()
+    scene:init()
+    return scene
+end
+
+function SplashScene:init()
+    self:addChild(self:createBackLayer())
+
+    local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
+    AudioEngine.playMusic(bgMusicPath, true)
+
+    local eyeSprite1 = self:createEyeSprite()
+    eyeSprite1:setPosition({GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180})
+    cclog("GBackGroundMiddlePoint  "..GBackGroundMiddlePoint.x.."  "..GBackGroundMiddlePoint.y)
+
+    local eyeSprite2 = self:createEyeSprite()
+    eyeSprite2:setPosition({GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180})
+
+    self:addChild(eyeSprite1)
+    self:addChild(eyeSprite2)
+end
+
+function SplashScene:createEyeSprite()
 	local eyeSprite = cc.Sprite:create("imgs/eye.png")
 
 	
@@ -26,7 +53,7 @@ local function createEyeSprite()
 	return eyeSprite
 end
 
-local function createPressScreenInfo()
+function SplashScene:createPressScreenInfo()
 	local testLabel = cc.LabelTTF:create("Press Screen", "Arial", 30)
 	
 	local scale1 = cc.ScaleTo:create(1.5, 1.2)
@@ -39,12 +66,12 @@ local function createPressScreenInfo()
 	local repeatFunc = cc.RepeatForever:create(sequence)
 	testLabel:runAction(repeatFunc)
 
-	testLabel:setPosition(cc.p(visibleSize.width / 2, 130))
+    testLabel:setPosition(cc.p(self.visibleSize.width / 2, 130))
 
 	return testLabel
 end
 
-local function createBackLayer()
+function SplashScene:createBackLayer()
 
 	local backLayer = cc.Layer:create()
 
@@ -54,7 +81,7 @@ local function createBackLayer()
 
 	backLayer:addChild(splashSprite)
 
-	local testLabel = createPressScreenInfo()
+    local testLabel = self:createPressScreenInfo()
 	backLayer:addChild(testLabel)
 
     -- handing touch events
@@ -80,23 +107,4 @@ local function createBackLayer()
 	return backLayer
 end
 
--- create main menu
-function CreateSplashScene()
-	local scene = cc.Scene:create()
-	scene:addChild(createBackLayer())
-
-	local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
-	AudioEngine.playMusic(bgMusicPath, true)
-
-	local eyeSprite1 = createEyeSprite()
-	eyeSprite1:setPosition({GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180})
-	cclog("GBackGroundMiddlePoint  "..GBackGroundMiddlePoint.x.."  "..GBackGroundMiddlePoint.y)
-
-	local eyeSprite2 = createEyeSprite()
-	eyeSprite2:setPosition({GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180})
-
-	scene:addChild(eyeSprite1)
-	scene:addChild(eyeSprite2)
-
-    return scene
-end
+return SplashScene

@@ -25,7 +25,7 @@ local function initGLView()
     local director = cc.Director:getInstance()
     local glView = director:getOpenGLView()
     if nil == glView then
-        glView = cc.GLViewImpl:create("Lua Empty Test")
+        glView = cc.GLViewImpl:create("Lua Debbuger")
         director:setOpenGLView(glView)
     end
 
@@ -40,12 +40,25 @@ local function initGLView()
     director:setAnimationInterval(1.0 / 60)
 end
 
--- avoid memory leak
-collectgarbage("setpause", 100) 
-collectgarbage("setstepmul", 5000)
+local function main()
+    -- avoid memory leak
+    collectgarbage("setpause", 100) 
+    collectgarbage("setstepmul", 5000)
 
--- run
-initGLView()
+    -- run
+    initGLView()
 
-require("src/Scene/SplashScene")
-cc.Director:getInstance():runWithScene(CreateSplashScene())
+    local scene = require("src/Scene/SplashScene")
+    local splashScene = scene.create()
+
+    if cc.Director:getInstance():getRunningScene() then
+        cc.Director:getInstance():replaceScene(splashScene)
+    else
+        cc.Director:getInstance():runWithScene(splashScene)
+    end
+end
+
+local status, msg = xpcall(main, __G__TRACKBACK__)
+if not status then
+    error(msg)
+end
