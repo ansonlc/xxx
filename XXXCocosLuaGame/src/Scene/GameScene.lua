@@ -4,10 +4,11 @@
 -- TODO 将本场景包装成类
 --------------------------------------------------------------------------------
 
-require "src/Logic/GameBoardLogic"
-require "src/Sprite/GameIcon"
+require "Logic.GameBoardLogic"
+require "Sprite.GameIcon"
+require "core.BaseScene"
 
-local scene = nil
+local GameScene = class("GameScene", function() return BaseScene.create() end)
 
 local curSelectTag = nil
 
@@ -46,6 +47,40 @@ local blinkCell = nil
 
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 
+function GameScene:ctor()
+    self.sceneName = "GameScene"
+end
+
+function GameScene.create()
+    local scene = GameScene.new()
+    scene:initScene()
+    return scene
+end
+
+-- create game scene
+function GameScene:onInit()
+    self:addChild(self.createBackLayer())
+
+    AudioEngine.stopMusic(true)
+
+    local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
+    AudioEngine.playMusic(bgMusicPath, true)
+
+    loadGameIcon()
+
+    initGameBoard()
+    self:initGameBoardIcon()
+
+    self:addChild(self:createTouchLayer(), 1000)
+
+    --创建用于延迟执行刷新棋盘函数的节点
+    RefreshBoardNode = cc.Node:create()
+    self:addChild(RefreshBoardNode)
+
+    FallEndCheckNode = cc.Node:create()
+    self:addChild(FallEndCheckNode)
+end
+
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index)
 	local iconNormalSprite = getGameIconSprite(GIconNormalType, index)
@@ -81,19 +116,19 @@ local function createNodeByCell(cell)
 end
 
 --初始化棋盘图标
-local function initGameBoardIcon()
+function GameScene:initGameBoardIcon()
 	for x=1, GBoardSizeX do
 		for y = 1, GBoardSizeY do
 			local iconNode = createNodeByCell({x = x, y = y})
-			scene:addChild(iconNode)
+			self:addChild(iconNode)
 		end
 	end
 end
 
 --重置之前选中棋子的选中状态״̬
-local function resetSelectGameIcon()
+function GameScene:resetSelectGameIcon()
 	if curSelectTag ~= nil then
-		local cellNode = scene:getChildByTag(NODE_TAG_START + curSelectTag)
+		local cellNode = self:getChildByTag(NODE_TAG_START + curSelectTag)
 		if cellNode ~= nil then
 			local normalSprite = cellNode:getChildByTag(NORMAL_TAG)
 			local selectSprite = cellNode:getChildByTag(SELECT_TAG)
@@ -110,30 +145,30 @@ local function resetSelectGameIcon()
 end
 
 --点击棋子更换图标效果
-local function onClickGameIcon(cell)
+function GameScene:onClickGameIcon(cell)
 	if cell.x == 0 or cell.y == 0 then
 		return
 	end
 
-	resetSelectGameIcon()
+	self:resetSelectGameIcon()
 
 	curSelectTag = 10 * cell.x + cell.y
 
-	scene:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(NORMAL_TAG):setVisible(false)
-	scene:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(SELECT_TAG):setVisible(true)
+	self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(NORMAL_TAG):setVisible(false)
+	self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(SELECT_TAG):setVisible(true)
 
 	AudioEngine.playEffect("sound/A_select.wav")
 end
 
 
 --交换相邻棋子，并执行回调函数(一般为检测是否命中)
-local function switchCell(cellA, cellB, cfCallBack)
+function GameScene:switchCell(cellA, cellB, cfCallBack)
 	--cclog("switchCell...")
 	--cclog("cellA.."..cellA.x.." "..cellA.y)
 	--cclog("cellB.."..cellB.x.." "..cellB.y)
 	isTouching = false
 
-	resetSelectGameIcon()
+	self:resetSelectGameIcon()
 
 	local tagA = 10 * cellA.x + cellA.y
 	local tagB = 10 * cellB.x + cellB.y
@@ -141,8 +176,8 @@ local function switchCell(cellA, cellB, cfCallBack)
 	local cellPointA = getCellCenterPoint(cellA)
 	local cellPointB = getCellCenterPoint(cellB)
 
-	local nodeA = scene:getChildByTag(NODE_TAG_START + tagA)
-	local nodeB = scene:getChildByTag(NODE_TAG_START + tagB)
+	local nodeA = self:getChildByTag(NODE_TAG_START + tagA)
+	local nodeB = self:getChildByTag(NODE_TAG_START + tagB)
 
 	if nodeA == nil or nodeB == nil then
 		cclog("can't find node!!")
@@ -224,10 +259,11 @@ local function cfMatchAndFade(node)
 end
 
 --将某个集合的格子渐隐并移除
-local function removeCellSet(cellSet)
+function removeCellSet(cellSet)
 	for i = 1, #cellSet do
 		--cclog("remove.."..cellSet[i].x.."  "..cellSet[i].y)
 		local tag = 10 * cellSet[i].x + cellSet[i].y
+        local scene = cc.Director:getInstance():getRunningScene()
 		local node = scene:getChildByTag(NODE_TAG_START + tag)
 
         --此时直接清除数据
@@ -238,11 +274,12 @@ local function removeCellSet(cellSet)
 end
 
 --匹配消除后刷新游戏面板
-local function cfRefreshBoard()
+function cfRefreshBoard()
 	--cclog("cfRefreshBoard..")
 	local firstEmptyCell = nil
 	local addCellList = nil
 	local moveCellList = nil
+    local scene = cc.Director:getInstance():getRunningScene()
 
 	firstEmptyCell, addCellList, moveCellList = getRefreshBoardData()
 
@@ -257,7 +294,7 @@ local function cfRefreshBoard()
 				local cell = {x = moveCellList[i][j].x, y = moveCellList[i][j].y}
 				--cclog("moveCellList"..i..".."..cell.x..cell.y)
 				local tag = 10 * cell.x + cell.y
-				local node = scene:getChildByTag(NODE_TAG_START + tag)
+                local node = scene:getChildByTag(NODE_TAG_START + tag)
 
 				local desTag = 100 * GameBoard[cell.x][cell.y] + 10 * nextDesCell.x + nextDesCell.y
 				node:setTag(FALLING_TAG + desTag)
@@ -280,7 +317,7 @@ local function cfRefreshBoard()
                 --新加的结点tag中包含自己的index信息
 				local desTag = 100 * addCellList[i][j] + 10 * nextDesCell.x + nextDesCell.y
 				node:setTag(FALLING_TAG + desTag)
-				scene:addChild(node)
+                scene:addChild(node)
 
 				actionNodeList[#actionNodeList + 1] = {}
 				actionNodeList[#actionNodeList][1] = node
@@ -381,14 +418,14 @@ local function onCheckSuccess(succCellSet)
 end
 
 --创建随机棋子下落到棋盘并改变棋盘数据
-local function addBlinkIconToBoard()
+function GameScene:addBlinkIconToBoard()
 
     --在棋盘上显示该随机棋子
 	local blinkSprite = createBlinkIconSprite()
 	local blinkStartPoint = getCellCenterPoint({x = 6, y = 10})
 	blinkSprite:setPosition(blinkStartPoint.x, blinkStartPoint.y)
 	blinkSprite:setTag(BLINK_TAG + GBlinkIconIndex)
-	scene:addChild(blinkSprite)
+	self:addChild(blinkSprite)
 
     --随机落到棋盘某个点并改变该点数据
 	math.randomseed(math.random(os.time()))
@@ -401,12 +438,13 @@ local function addBlinkIconToBoard()
 
 	local fallEndPoint = getCellCenterPoint({x = x, y = y})
 
+    local scene = self
 
 	local function cfblinkFallEnd()
 		cclog("blink fall end..")
 		local tag = 10 * blinkCell.x + blinkCell.y
 		local node = scene:getChildByTag(NODE_TAG_START + tag)
-		node:removeFromParentAndCleanup(true)
+		--node:removeFromParentAndCleanup(true)
 		scene:getChildByTag(BLINK_TAG + GBlinkIconIndex):setTag(NODE_TAG_START + tag)
 	end
 			
@@ -424,8 +462,9 @@ end
 function cfCheckFallCell()
 	cclog("cfCheckFallCell...")
 	local boardMovable , succList= checkBoardMovable()
+    local scene = cc.Director:getInstance():getRunningScene()
 	if #succList <= 3 then
-		addBlinkIconToBoard()
+        scene:addBlinkIconToBoard()
 	end
 	
     --复制为局部变量
@@ -453,6 +492,8 @@ end
 --检测互相交换的两个格子是否命中
 function cfCheckSwitchCell()
 	--cclog("cfCheckSwitchCell...")
+	
+    local scene = cc.Director:getInstance():getRunningScene()
 
     --复制为局部变量
 	local checkSet = {}
@@ -480,7 +521,7 @@ function cfCheckSwitchCell()
 		cclog("switch failed...")
 
         --还原移动并清空交换区
-		switchCell(switchCellPair[1], switchCellPair[2], nil)
+		scene:switchCell(switchCellPair[1], switchCellPair[2], nil)
 		switchCellPair = {}
 	
 		AudioEngine.playEffect("sound/A_falsemove.wav")
@@ -490,7 +531,7 @@ function cfCheckSwitchCell()
 end
 
 --背景层
-local function createBackLayer()
+function GameScene.createBackLayer()
 	local backLayer = cc.Layer:create()
 
 	local backSprite = cc.Sprite:create("imgs/game_bg.png")
@@ -498,17 +539,18 @@ local function createBackLayer()
 
 	backLayer:addChild(backSprite)
 
-
 	return backLayer
 end
 
 --触摸层
-local function createTouchLayer()
+function GameScene:createTouchLayer()
 
 	local touchColor = cc.c4b(255, 255, 255 ,0)
 	local touchLayer = cc.LayerColor:create(touchColor)
 
 	touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
+	
+	local scene = self
 
     local function onTouchBegan(x, y)
 		--cclog("touchLayerBegan: %.2f, %.2f", x, y)
@@ -524,13 +566,13 @@ local function createTouchLayer()
 
 				switchCellPair[1] = curSelectCell
 				switchCellPair[2] = touchStartCell
-				switchCell(curSelectCell, touchStartCell, cfCheckSwitchCell)
+				scene:switchCell(curSelectCell, touchStartCell, cfCheckSwitchCell)
 
 				return true
 			end
 		end
 
-		onClickGameIcon(touchStartCell)
+        scene:onClickGameIcon(touchStartCell)
 
         return true
     end
@@ -546,7 +588,7 @@ local function createTouchLayer()
 
 				switchCellPair[1] = touchCurCell
 				switchCellPair[2] = touchStartCell
-				switchCell(touchCurCell, touchStartCell, cfCheckSwitchCell)
+				scene:switchCell(touchCurCell, touchStartCell, cfCheckSwitchCell)
 			end
 		end		
     end
@@ -575,31 +617,4 @@ local function createTouchLayer()
 	return touchLayer
 end
 
-
--- create game scene
-function CreateGameScene()
-   
-	scene = cc.Scene:create()
-	scene:addChild(createBackLayer())
-
-	AudioEngine.stopMusic(true)
-
-	local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
-	AudioEngine.playMusic(bgMusicPath, true)
-
-	loadGameIcon()
-
-	initGameBoard()
-	initGameBoardIcon()
-
-	scene:addChild(createTouchLayer(), 1000)
-
-    --创建用于延迟执行刷新棋盘函数的节点
-	RefreshBoardNode = cc.Node:create()
-	scene:addChild(RefreshBoardNode)
-
-	FallEndCheckNode = cc.Node:create()
-	scene:addChild(FallEndCheckNode)
-
-    return scene
-end
+return GameScene

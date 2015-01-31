@@ -93,7 +93,11 @@ function SplashScene:createBackLayer()
 
     local function onTouchBegan(x, y)
 		print("touch began...")
-		cc.Director:getInstance():replaceScene(CreateGameScene())
+		
+        local scene = require("Scene.GameScene")
+        local gameScene = scene.create()
+        cc.Director:getInstance():replaceScene(gameScene)
+		
         touchBeginPoint = {x = x, y = y}
         -- CCTOUCHBEGAN event must return true
         return true
