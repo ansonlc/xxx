@@ -1,24 +1,30 @@
 --------------------------------------------------------------------------------
 -- Splash.lua - 游戏登录场景
 -- @author fangzhou.long
--- 
 -- TODO Add login animations and login panel
 --------------------------------------------------------------------------------
 
 require("core.BaseScene")
 require("Scene.GameScene")
 
-local SplashScene = class("BaseScene", function()
-    return BaseScene.create()
-end)
+local SplashScene = class("SplashScene", function() return BaseScene.create() end)
 
+function SplashScene:ctor()
+    self.sceneName = "SplashScene"
+end
+
+--------------------------------------------------------------------------------
+-- Scene initialize progress:
+-- BaseScene.create -> BaseScene.new -> BaseScene.ctor -> SplashScene.ctor -> 
+-- BaseScene.initScene -> SplashScene.onInit()
+--------------------------------------------------------------------------------
 function SplashScene.create()
     local scene = SplashScene.new()
-    scene:init()
+    scene:initScene()
     return scene
 end
 
-function SplashScene:init()
+function SplashScene:onInit()
     self:addChild(self:createBackLayer())
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
@@ -38,7 +44,6 @@ end
 function SplashScene:createEyeSprite()
 	local eyeSprite = cc.Sprite:create("imgs/eye.png")
 
-	
 	local scale1 = cc.ScaleTo:create(0.1, 1, 0.2)
 	local scale2 = cc.ScaleTo:create(0.1, 1, 1)	
 	local delay = cc.DelayTime:create(2)		
