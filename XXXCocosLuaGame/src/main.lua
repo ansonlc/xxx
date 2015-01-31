@@ -51,6 +51,8 @@ local function main()
     local scene = require("src/Scene/SplashScene")
     local splashScene = scene.create()
 
+
+    -- TODO User SceneManager to replace scene here
     if cc.Director:getInstance():getRunningScene() then
         cc.Director:getInstance():replaceScene(splashScene)
     else
