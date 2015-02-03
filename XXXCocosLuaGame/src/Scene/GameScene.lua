@@ -19,7 +19,6 @@ local SELECT_TAG = 40
 
 local REMOVED_TAG = 20000
 local FALLING_TAG = 30000
-local BLINK_TAG   = 40000
 
 local isTouching = false
 local isMoving = false
@@ -42,9 +41,6 @@ local switchCellPair = {}
 local RefreshBoardNode = nil
 local FallEndCheckNode = nil
 
---闪烁节点
-local blinkCell = nil
-
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 
 function GameScene:ctor()
@@ -59,7 +55,8 @@ end
 
 -- create game scene
 function GameScene:onInit()
-    self:addChild(self.createBackLayer())
+    local GameBackgroundLayer = require("panel.GameBackgroundLayer")
+    self:addChild(GameBackgroundLayer.create())
 
     AudioEngine.stopMusic(true)
 
@@ -417,55 +414,11 @@ local function onCheckSuccess(succCellSet)
 
 end
 
---创建随机棋子下落到棋盘并改变棋盘数据
-function GameScene:addBlinkIconToBoard()
-
-    --在棋盘上显示该随机棋子
-	local blinkSprite = createBlinkIconSprite()
-	local blinkStartPoint = getCellCenterPoint({x = 6, y = 10})
-	blinkSprite:setPosition(blinkStartPoint.x, blinkStartPoint.y)
-	blinkSprite:setTag(BLINK_TAG + GBlinkIconIndex)
-	self:addChild(blinkSprite)
-
-    --随机落到棋盘某个点并改变该点数据
-	math.randomseed(math.random(os.time()))
-	local x = math.random(GBoardSizeX)
-	local y = math.random(GBoardSizeY)
-
-    --提前修改棋盘数据防止过程中交换
-	GameBoard[x][y] = GBlinkIconIndex
-	blinkCell = {x = x, y = y}
-
-	local fallEndPoint = getCellCenterPoint({x = x, y = y})
-
-    local scene = self
-
-	local function cfblinkFallEnd()
-		cclog("blink fall end..")
-		local tag = 10 * blinkCell.x + blinkCell.y
-		local node = scene:getChildByTag(NODE_TAG_START + tag)
-		--node:removeFromParentAndCleanup(true)
-		scene:getChildByTag(BLINK_TAG + GBlinkIconIndex):setTag(NODE_TAG_START + tag)
-	end
-			
-	local move = cc.MoveTo:create(0.2, cc.p(fallEndPoint.x , fallEndPoint.y))
-	local blinkFallEnd = cc.CallFunc:create(cfblinkFallEnd)	
-
-    local arrayOfActions = {move, blinkFallEnd}
-		
-	local sequence = cc.Sequence:create(arrayOfActions)
-
-	blinkSprite:runAction(sequence)
-end
-
 --检测落下的棋子是否命中
 function cfCheckFallCell()
 	cclog("cfCheckFallCell...")
 	local boardMovable , succList= checkBoardMovable()
     local scene = cc.Director:getInstance():getRunningScene()
-	if #succList <= 3 then
-        scene:addBlinkIconToBoard()
-	end
 	
     --复制为局部变量
 	local checkSet = {}
