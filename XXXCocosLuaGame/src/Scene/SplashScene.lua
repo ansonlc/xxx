@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------------
 
 require("core.BaseScene")
-require("Scene.GameScene")
+require("Config.CommonDefine")
 
 local SplashScene = class("SplashScene", function() return BaseScene.create() end)
 
