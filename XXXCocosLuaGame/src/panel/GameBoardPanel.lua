@@ -245,8 +245,8 @@ function removeCellSet(cellSet)
     for i = 1, #cellSet do
         --cclog("remove.."..cellSet[i].x.."  "..cellSet[i].y)
         local tag = 10 * cellSet[i].x + cellSet[i].y
-        local scene = cc.Director:getInstance():getRunningScene().gameBaord
-        local node = scene:getChildByTag(NODE_TAG_START + tag)
+        local board = cc.Director:getInstance():getRunningScene().gameBaord
+        local node = board:getChildByTag(NODE_TAG_START + tag)
 
         --此时直接清除数据
         node:setTag(REMOVED_TAG + tag)
@@ -261,7 +261,7 @@ function cfRefreshBoard()
     local firstEmptyCell = nil
     local addCellList = nil
     local moveCellList = nil
-    local scene = cc.Director:getInstance():getRunningScene().gameBaord
+    local board = cc.Director:getInstance():getRunningScene().gameBaord
 
     firstEmptyCell, addCellList, moveCellList = getRefreshBoardData()
 
@@ -276,7 +276,7 @@ function cfRefreshBoard()
                 local cell = {x = moveCellList[i][j].x, y = moveCellList[i][j].y}
                 --cclog("moveCellList"..i..".."..cell.x..cell.y)
                 local tag = 10 * cell.x + cell.y
-                local node = scene:getChildByTag(NODE_TAG_START + tag)
+                local node = board:getChildByTag(NODE_TAG_START + tag)
 
                 local desTag = 100 * GameBoard[cell.x][cell.y] + 10 * nextDesCell.x + nextDesCell.y
                 node:setTag(FALLING_TAG + desTag)
@@ -299,7 +299,7 @@ function cfRefreshBoard()
                 --新加的结点tag中包含自己的index信息
                 local desTag = 100 * addCellList[i][j] + 10 * nextDesCell.x + nextDesCell.y
                 node:setTag(FALLING_TAG + desTag)
-                scene:addChild(node)
+                board:addChild(node)
 
                 actionNodeList[#actionNodeList + 1] = {}
                 actionNodeList[#actionNodeList][1] = node
@@ -403,7 +403,6 @@ end
 function cfCheckFallCell()
     cclog("cfCheckFallCell...")
     local boardMovable , succList= checkBoardMovable()
-    local scene = cc.Director:getInstance():getRunningScene().gameBaord
 
     --复制为局部变量
     local checkSet = {}
@@ -431,7 +430,7 @@ end
 function cfCheckSwitchCell()
     --cclog("cfCheckSwitchCell...")
 
-    local scene = cc.Director:getInstance():getRunningScene().gameBaord
+    local board = cc.Director:getInstance():getRunningScene().gameBaord
 
     --复制为局部变量
     local checkSet = {}
@@ -459,7 +458,7 @@ function cfCheckSwitchCell()
         cclog("switch failed...")
 
         --还原移动并清空交换区
-        scene:switchCell(switchCellPair[1], switchCellPair[2], nil)
+        board:switchCell(switchCellPair[1], switchCellPair[2], nil)
         switchCellPair = {}
 
         AudioEngine.playEffect("sound/A_falsemove.wav")
@@ -488,7 +487,7 @@ function GameBoardPanel:createTouchLayer()
 
     touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
 
-    local scene = self
+    local board = self
 
     local function onTouchBegan(x, y)
         --cclog("touchLayerBegan: %.2f, %.2f", x, y)
@@ -504,13 +503,13 @@ function GameBoardPanel:createTouchLayer()
 
                 switchCellPair[1] = curSelectCell
                 switchCellPair[2] = touchStartCell
-                scene:switchCell(curSelectCell, touchStartCell, cfCheckSwitchCell)
+                board:switchCell(curSelectCell, touchStartCell, cfCheckSwitchCell)
 
                 return true
             end
         end
 
-        scene:onClickGameIcon(touchStartCell)
+        board:onClickGameIcon(touchStartCell)
 
         return true
     end
@@ -526,7 +525,7 @@ function GameBoardPanel:createTouchLayer()
 
                 switchCellPair[1] = touchCurCell
                 switchCellPair[2] = touchStartCell
-                scene:switchCell(touchCurCell, touchStartCell, cfCheckSwitchCell)
+                board:switchCell(touchCurCell, touchStartCell, cfCheckSwitchCell)
             end
         end     
     end
