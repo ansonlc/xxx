@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------------
 
 require("core.BaseScene")
-require("Config.CommonDefine")
+require("config.CommonDefine")
 
 local LoginScene = class("LoginScene", function() return BaseScene.create() end)
 
@@ -99,7 +99,7 @@ function LoginScene:createBackLayer()
     local function onTouchBegan(x, y)
 		print("touch began...")
 		
-        local scene = require("Scene.GameScene")
+        local scene = require("scene.GameScene")
         local gameScene = scene.create()
         cc.Director:getInstance():replaceScene(gameScene)
 		

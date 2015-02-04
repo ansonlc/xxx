@@ -3,8 +3,8 @@
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
-require "Logic.GameBoardLogic"
-require "Sprite.GameIcon"
+require "logic.GameBoardLogic"
+require "manager.GameIcon"
 require "core.BaseScene"
 
 local GameBoardPanel = class("GameBoardPanel", function() return cc.Layer:create() end)
