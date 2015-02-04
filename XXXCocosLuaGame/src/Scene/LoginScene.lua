@@ -26,18 +26,20 @@ end
 
 function LoginScene:onInit()
     self:addChild(self:createBackLayer())
+    
+    self:addChild(self:createTitleInfo())
+    
+    self:addChild(self:createPressScreenInfo())
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     AudioEngine.playMusic(bgMusicPath, true)
 
     local eyeSprite1 = self:createEyeSprite()
-    eyeSprite1:setPosition({GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180})
-    cclog("GBackGroundMiddlePoint  "..GBackGroundMiddlePoint.x.."  "..GBackGroundMiddlePoint.y)
+    eyeSprite1:setPosition(cc.p(GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180))
+    self:addChild(eyeSprite1)
 
     local eyeSprite2 = self:createEyeSprite()
-    eyeSprite2:setPosition({GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180})
-
-    self:addChild(eyeSprite1)
+    eyeSprite2:setPosition(cc.p(GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180))
     self:addChild(eyeSprite2)
 end
 
@@ -58,6 +60,14 @@ function LoginScene:createEyeSprite()
 	return eyeSprite
 end
 
+function LoginScene:createTitleInfo()
+    local titleLabel = cc.LabelTTF:create("This is a game title", "Arial", 70)
+
+    titleLabel:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.85))
+    
+    return titleLabel
+end
+
 function LoginScene:createPressScreenInfo()
 	local testLabel = cc.LabelTTF:create("Press to Start", "Arial", 30)
 	
@@ -71,7 +81,7 @@ function LoginScene:createPressScreenInfo()
 	local repeatFunc = cc.RepeatForever:create(sequence)
 	testLabel:runAction(repeatFunc)
 
-    testLabel:setPosition(cc.p(self.visibleSize.width / 2, 130))
+    testLabel:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.15))
 
 	return testLabel
 end
@@ -81,12 +91,7 @@ function LoginScene:createBackLayer()
 
 	local splashSprite = cc.Sprite:create("imgs/splash_bg.png")
 	splashSprite:setPosition(splashSprite:getContentSize().width / 2, splashSprite:getContentSize().height / 2)
-
-
 	backLayer:addChild(splashSprite)
-
-    local testLabel = self:createPressScreenInfo()
-	backLayer:addChild(testLabel)
 
     -- handing touch events
     local touchBeginPoint = nil
