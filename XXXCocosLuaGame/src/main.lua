@@ -48,7 +48,7 @@ local function main()
     -- run
     initGLView()
 
-    local scene = require("src/Scene/SplashScene")
+    local scene = require("Scene.LoginScene")
     local splashScene = scene.create()
 
 
