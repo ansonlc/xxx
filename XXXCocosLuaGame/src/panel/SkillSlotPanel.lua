@@ -23,8 +23,8 @@ function SkillSlotPanel:initPanel()
    self:addChild(backgroundLayer)
    
    -- Create the ForegroundLayer
-   local foregroundLayer = self:createForegroundLayer()
-   self:addChild(foregroundLayer)
+   -- local foregroundLayer = self:createForegroundLayer()
+   -- self:addChild(foregroundLayer)
    
    -- Create the TouchLayer
    local touchLayer = self:createTouchLayer()
