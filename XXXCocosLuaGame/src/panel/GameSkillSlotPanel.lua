@@ -3,8 +3,6 @@
 -- @author Chicheng Ren
 --------------------------------------------------------------------------------
 
-require "core.BaseScene"
-
 local GameSkillSlotPanel = class("GameSkillSlotPanel", function() return cc.Layer:create() end)
 
 -- local variables
@@ -86,10 +84,20 @@ function GameSkillSlotPanel:createTouchLayer()
         -- TODO To be Implemented
        local spriteSize = 64
        
-       print("x:"..x.." y:"..y)
+       -- print("x:"..x.." y:"..y)
        
        if x >= (100 - spriteSize / 2) and x<= (100 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2)then
             cclog("Attack Skill Used")
+            local gameScene = touchLayer:getParent():getParent()
+            local nodeCount = gameScene:getChildrenCount()
+            print(nodeCount)
+            local battleLogic = gameScene:getChildByTag(123)
+            --battleLogic
+            local doDamageFunc = cc.CallFunc:create(battleLogic, cfDoDamage(25))
+            local actions = {doDamageFunc}
+            local sequence = cc.Sequence:create(actions)
+            battleLogic:runAction(sequence)
+            local test = 0
        elseif x >= (200 - spriteSize / 2) and x <= (200 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2) then
             cclog("Magic Skill Used")
        elseif x >= (300 - spriteSize / 2) and x <= (300 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2) then

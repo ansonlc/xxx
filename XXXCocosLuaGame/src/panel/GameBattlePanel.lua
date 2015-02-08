@@ -3,8 +3,6 @@
 -- @author Chicheng Ren
 --------------------------------------------------------------------------------
 
-require "core.BaseScene"
-
 local GameBattlePanel = class("GameBattlePanel", function() return cc.Layer:create() end)
 
 local visibleSize = cc.Director:getInstance():getVisibleSize()
