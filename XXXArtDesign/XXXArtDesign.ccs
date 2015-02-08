@@ -2,7 +2,45 @@
   <PropertyGroup Name="XXXArtDesign" Version="2.1.0.0" Type="CocosStudio" />
   <SolutionFolder>
     <Group ctype="ResourceGroup">
-      <RootFolder Name="." />
+      <RootFolder Name=".">
+        <Folder Name="effects">
+          <PlistParticleFile Name="fx_activities.plist" />
+          <PlistParticleFile Name="fx_big_bluefire.plist" />
+          <PlistParticleFile Name="fx_blue_fire.plist" />
+          <PlistParticleFile Name="fx_blue_gem.plist" />
+          <PlistParticleFile Name="fx_card_beattacked.plist" />
+          <PlistParticleFile Name="fx_card_evolve.plist" />
+          <PlistParticleFile Name="fx_card_lvup.plist" />
+          <PlistParticleFile Name="fx_card_upwave.plist" />
+          <PlistParticleFile Name="fx_chest.plist" />
+          <PlistParticleFile Name="fx_door.plist" />
+          <PlistParticleFile Name="fx_fire.plist" />
+          <PlistParticleFile Name="fx_fireworm.plist" />
+          <PlistParticleFile Name="fx_flower.plist" />
+          <PlistParticleFile Name="fx_red_gem.plist" />
+          <PlistParticleFile Name="fx_skill_update.plist" />
+          <PlistParticleFile Name="fx_snow.plist" />
+          <PlistParticleFile Name="fx_starline.plist" />
+          <PlistParticleFile Name="fx_stars_blowup.plist" />
+          <PlistParticleFile Name="fx_star_blowup.plist" />
+          <PlistParticleFile Name="fx_tree_light.plist" />
+          <File Name="particleTexture.webp" />
+          <File Name="tx_4star.webp" />
+          <File Name="tx_ball.webp" />
+          <File Name="tx_box.webp" />
+          <File Name="tx_fire.webp" />
+          <File Name="tx_flower.webp" />
+          <File Name="tx_purple.webp" />
+          <File Name="tx_snow.webp" />
+          <File Name="tx_star.webp" />
+          <File Name="tx_wave.webp" />
+          <Image Name="particleTexture.png" />
+          <Image Name="tx_4star.png" />
+          <Image Name="tx_snow.png" />
+          <Image Name="tx_wave.png" />
+        </Folder>
+        <Project Name="ParticleTestScene.csd" />
+      </RootFolder>
     </Group>
   </SolutionFolder>
 </Solution>
