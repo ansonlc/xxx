@@ -32,7 +32,7 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="effects/fx_starline.plist" />
           </NodeObjectData>
-          <NodeObjectData Name="Button_1" ActionTag="-1695166869" FrameEvent="" Tag="16" ObjectIndex="1" LeftMargin="510.8157" RightMargin="523.1843" TopMargin="1145.3772" BottomMargin="738.6227" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+          <NodeObjectData Name="Button_Home" ActionTag="-1695166869" FrameEvent="" Tag="16" ObjectIndex="1" LeftMargin="510.8157" RightMargin="523.1843" TopMargin="1145.3772" BottomMargin="738.6227" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
             <Position X="533.8157" Y="756.6227" />
             <Scale ScaleX="6.6522" ScaleY="3.4444" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />

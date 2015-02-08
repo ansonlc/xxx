@@ -31,7 +31,7 @@ local function initGLView()
 
     director:setOpenGLView(glView)
 
-    glView:setDesignResolutionSize(712, 1024, cc.ResolutionPolicy.NO_BORDER)
+    glView:setDesignResolutionSize(1080, 1920, cc.ResolutionPolicy.NO_BORDER)
 
     --turn on display FPS
     director:setDisplayStats(true)
