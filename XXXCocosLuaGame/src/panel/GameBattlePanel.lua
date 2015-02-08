@@ -12,10 +12,9 @@ local visibleSize = cc.Director:getInstance():getVisibleSize()
 function GameBattlePanel.create()
     local panel = GameBattlePanel.new()
     -- set the panel position
-    --local panelAnchorPoint = Vec2(0,0)
-    --local panelPosition = Vec(0, visibleSize.y * 0.8)
     panel:setAnchorPoint(0,0)
     panel:setPosition(0, visibleSize.height * 0.8)
+    -- initialize the panel
     panel:initPanel()
     return panel
 end
