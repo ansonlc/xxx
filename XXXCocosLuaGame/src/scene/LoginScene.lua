@@ -28,8 +28,6 @@ function LoginScene:onInit()
     self:addChild(self:createBackLayer())
     
     self:addChild(self:createTitleInfo())
-    
-    self:addChild(self:createPressScreenInfo())
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     AudioEngine.playMusic(bgMusicPath, true)
@@ -68,22 +66,22 @@ function LoginScene:createTitleInfo()
     return titleLabel
 end
 
-function LoginScene:createPressScreenInfo()
-	local testLabel = cc.LabelTTF:create("Press to Start", "Arial", 30)
+function LoginScene:createTextBtn(btnStr)
+	local button = ccui.Button:create()
+    button:setTitleText(btnStr)
+	button:setScale(2)
 	
-	local scale1 = cc.ScaleTo:create(1.5, 1.2)
-	local scale2 = cc.ScaleTo:create(1.5, 1)			
+	local scale1 = cc.ScaleTo:create(2.5, 2.2)
+	local scale2 = cc.ScaleTo:create(2.5, 2)			
 
     local arrayOfActions = {scale1,scale2}
 
 	local sequence = cc.Sequence:create(arrayOfActions)
 
 	local repeatFunc = cc.RepeatForever:create(sequence)
-	testLabel:runAction(repeatFunc)
+    button:runAction(repeatFunc)
 
-    testLabel:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.15))
-
-	return testLabel
+    return button
 end
 
 function LoginScene:createBackLayer()
@@ -96,9 +94,7 @@ function LoginScene:createBackLayer()
     -- handing touch events
     local touchBeginPoint = nil
 
-    local function onTouchBegan(x, y)
-		print("touch began...")
-		
+    local function onTouchEnded()		
         local scene = require("scene.GameScene")
         local gameScene = scene.create()
         cc.Director:getInstance():replaceScene(gameScene)
@@ -108,14 +104,30 @@ function LoginScene:createBackLayer()
         return true
     end
 
-    local function onTouch(eventType, x, y)
-        if eventType == "began" then   
-            return onTouchBegan(x, y)
+    local function onStartBtnPress(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then   
+            return onTouchEnded()
         end
     end
-
-    backLayer:registerScriptTouchHandler(onTouch)
-    backLayer:setTouchEnabled(true)
+    
+    local startBtn = self:createTextBtn("Press Here to Start")
+    startBtn:addTouchEventListener(onStartBtnPress)
+    startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.15))
+    backLayer:addChild(startBtn)
+    
+    local function onDebugBtnPress(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then
+            local scene = require("scene.ParticleTestScene")
+            local gameScene = scene.create()
+            cc.Director:getInstance():replaceScene(gameScene)
+            return true
+        end
+    end
+    
+    local debugBtn = self:createTextBtn("Debug Particular Scene");
+    debugBtn:addTouchEventListener(onDebugBtnPress)
+    debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.1))
+    backLayer:addChild(debugBtn)
 
 	return backLayer
 end
