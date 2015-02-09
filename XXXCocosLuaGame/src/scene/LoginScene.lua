@@ -34,11 +34,11 @@ function LoginScene:onInit()
 
     local eyeSprite1 = self:createEyeSprite()
     eyeSprite1:setPosition(cc.p(GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180))
-    self:addChild(eyeSprite1)
+    --self:addChild(eyeSprite1)
 
     local eyeSprite2 = self:createEyeSprite()
     eyeSprite2:setPosition(cc.p(GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180))
-    self:addChild(eyeSprite2)
+    --self:addChild(eyeSprite2)
 end
 
 function LoginScene:createEyeSprite()
