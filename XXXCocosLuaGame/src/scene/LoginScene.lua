@@ -27,7 +27,7 @@ end
 function LoginScene:onInit()
     self:addChild(self:createBackLayer())
     
-    self:addChild(self:createTitleInfo())
+    --self:addChild(self:createTitleInfo())
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     AudioEngine.playMusic(bgMusicPath, true)
@@ -87,7 +87,7 @@ end
 function LoginScene:createBackLayer()
 	local backLayer = cc.Layer:create()
 
-	local splashSprite = cc.Sprite:create("imgs/splash_bg.png")
+    local splashSprite = cc.Sprite:create("imgs/MenuScene00-0.png")
 	splashSprite:setPosition(splashSprite:getContentSize().width / 2, splashSprite:getContentSize().height / 2)
 	backLayer:addChild(splashSprite)
 
@@ -111,8 +111,9 @@ function LoginScene:createBackLayer()
     end
     
     local startBtn = self:createTextBtn("Press Here to Start")
+    
     startBtn:addTouchEventListener(onStartBtnPress)
-    startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.15))
+    startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.55))
     backLayer:addChild(startBtn)
     
     local function onDebugBtnPress(sender, eventType)
@@ -126,7 +127,7 @@ function LoginScene:createBackLayer()
     
     local debugBtn = self:createTextBtn("Debug Particular Scene");
     debugBtn:addTouchEventListener(onDebugBtnPress)
-    debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.1))
+    debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.32))
     backLayer:addChild(debugBtn)
 
 	return backLayer
