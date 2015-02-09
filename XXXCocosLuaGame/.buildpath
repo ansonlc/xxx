@@ -2,6 +2,6 @@
 <buildpath>
 	<buildpathentry excluding="src/" kind="src" path=""/>
 	<buildpathentry kind="src" path="src"/>
-	<buildpathentry kind="con" path="org.ccdt.ldt.ExecutionEnvironmentContainer/cocos2dx/3.3"/>
 	<buildpathentry kind="con" path="org.ccdt.ldt.ExecutionEnvironmentContainer/lua/5.1"/>
+	<buildpathentry kind="con" path="org.ccdt.ldt.ExecutionEnvironmentContainer/cocos2dx/3.3"/>
 </buildpath>
