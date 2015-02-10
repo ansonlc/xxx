@@ -1,8 +1,8 @@
---------------------------------------------------------------------------------
+--------------------------------
 -- LoginScene.lua - 游戏登录场景
 -- @author fangzhou.long
 -- TODO Add login animations and login panel
---------------------------------------------------------------------------------
+--------------------------------
 
 require("core.BaseScene")
 require("config.CommonDefine")
@@ -69,10 +69,10 @@ end
 function LoginScene:createTextBtn(btnStr)
 	local button = ccui.Button:create()
     button:setTitleText(btnStr)
-	button:setScale(2)
+	button:setScale(4)
 	
-	local scale1 = cc.ScaleTo:create(2.5, 2.2)
-	local scale2 = cc.ScaleTo:create(2.5, 2)			
+	local scale1 = cc.ScaleTo:create(4.5, 3.2)
+	local scale2 = cc.ScaleTo:create(3.5, 4)			
 
     local arrayOfActions = {scale1,scale2}
 
@@ -87,9 +87,13 @@ end
 function LoginScene:createBackLayer()
 	local backLayer = cc.Layer:create()
 
-    local splashSprite = cc.Sprite:create("imgs/MenuScene00-0.png")
-	splashSprite:setPosition(splashSprite:getContentSize().width / 2, splashSprite:getContentSize().height / 2)
-	backLayer:addChild(splashSprite)
+    local bgSprite = cc.Sprite:create("imgs/main_menu_bg.png")
+    bgSprite:setPosition(bgSprite:getContentSize().width / 2, bgSprite:getContentSize().height / 2)
+    backLayer:addChild(bgSprite)
+    
+    local logoSprite = cc.Sprite:create("imgs/main_menu_logo.png")
+    logoSprite:setPosition(logoSprite:getContentSize().width / 2, logoSprite:getContentSize().height / 3)
+    backLayer:addChild(logoSprite)
 
     -- handing touch events
     local touchBeginPoint = nil
@@ -110,7 +114,7 @@ function LoginScene:createBackLayer()
     local startBtn = self:createTextBtn("Press Here to Start")
     
     startBtn:addTouchEventListener(onStartBtnPress)
-    startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.55))
+    startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.32))
     backLayer:addChild(startBtn)
     
     local function onDebugBtnPress(sender, eventType)
@@ -122,7 +126,7 @@ function LoginScene:createBackLayer()
     
     local debugBtn = self:createTextBtn("Debug Particular Scene");
     debugBtn:addTouchEventListener(onDebugBtnPress)
-    debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.32))
+    debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.22))
     backLayer:addChild(debugBtn)
 
 	return backLayer
