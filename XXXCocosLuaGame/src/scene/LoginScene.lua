@@ -25,54 +25,20 @@ function LoginScene.create()
 end
 
 function LoginScene:onInit()
-    self:addChild(self:createBackLayer())
+    self:addChild(self.createBackLayer())
+    self:addChild(self:createBtnLayer())
     
-    --self:addChild(self:createTitleInfo())
-
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     AudioEngine.playMusic(bgMusicPath, true)
-
-    local eyeSprite1 = self:createEyeSprite()
-    eyeSprite1:setPosition(cc.p(GBackGroundMiddlePoint.x - 50, GBackGroundMiddlePoint.y + 180))
-    --self:addChild(eyeSprite1)
-
-    local eyeSprite2 = self:createEyeSprite()
-    eyeSprite2:setPosition(cc.p(GBackGroundMiddlePoint.x + 50, GBackGroundMiddlePoint.y + 180))
-    --self:addChild(eyeSprite2)
 end
 
-function LoginScene:createEyeSprite()
-	local eyeSprite = cc.Sprite:create("imgs/eye.png")
-
-	local scale1 = cc.ScaleTo:create(0.1, 1, 0.2)
-	local scale2 = cc.ScaleTo:create(0.1, 1, 1)	
-	local delay = cc.DelayTime:create(2)		
-
-    local arrayOfActions = {scale1, scale2, delay}  
-
-    local sequence = cc.Sequence:create(arrayOfActions)
-
-	local repeatFunc = cc.RepeatForever:create(sequence)
-	eyeSprite:runAction(repeatFunc)
-
-	return eyeSprite
-end
-
-function LoginScene:createTitleInfo()
-    local titleLabel = cc.LabelTTF:create("This is a game title", "Arial", 70)
-
-    titleLabel:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.85))
-    
-    return titleLabel
-end
-
-function LoginScene:createTextBtn(btnStr)
+function LoginScene.createTextBtn(btnStr)
 	local button = ccui.Button:create()
     button:setTitleText(btnStr)
 	button:setScale(4)
 	
-	local scale1 = cc.ScaleTo:create(4.5, 3.2)
-	local scale2 = cc.ScaleTo:create(3.5, 4)			
+	local scale1 = cc.ScaleTo:create(4.5, 3.5)
+	local scale2 = cc.ScaleTo:create(4.5, 4)			
 
     local arrayOfActions = {scale1,scale2}
 
@@ -84,7 +50,7 @@ function LoginScene:createTextBtn(btnStr)
     return button
 end
 
-function LoginScene:createBackLayer()
+function LoginScene.createBackLayer()
 	local backLayer = cc.Layer:create()
 
     local bgSprite = cc.Sprite:create("imgs/main_menu_bg.png")
@@ -95,12 +61,18 @@ function LoginScene:createBackLayer()
     logoSprite:setPosition(logoSprite:getContentSize().width / 2, logoSprite:getContentSize().height / 3)
     backLayer:addChild(logoSprite)
 
+	return backLayer
+end
+
+function LoginScene:createBtnLayer()
+    local btnLayer = cc.Layer:create()
+    
     -- handing touch events
     local touchBeginPoint = nil
 
     local function onTouchEnded()
         SceneManager.replaceSceneWithName("GameScene")
-        
+
         -- CCTOUCHBEGAN event must return true
         return true
     end
@@ -110,26 +82,26 @@ function LoginScene:createBackLayer()
             return onTouchEnded()
         end
     end
-    
-    local startBtn = self:createTextBtn("Press Here to Start")
-    
+
+    local startBtn = self.createTextBtn("Press Here to Start")
+
     startBtn:addTouchEventListener(onStartBtnPress)
     startBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.32))
-    backLayer:addChild(startBtn)
-    
+    btnLayer:addChild(startBtn)
+
     local function onDebugBtnPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
             SceneManager.replaceSceneWithName("ParticleTestScene", "Test parameter passed by LoginScene")
             return true
         end
     end
-    
-    local debugBtn = self:createTextBtn("Debug Particular Scene");
+
+    local debugBtn = self.createTextBtn("Debug Particular Scene");
     debugBtn:addTouchEventListener(onDebugBtnPress)
     debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.22))
-    backLayer:addChild(debugBtn)
-
-	return backLayer
+    btnLayer:addChild(debugBtn)
+    
+    return btnLayer
 end
 
 return LoginScene
