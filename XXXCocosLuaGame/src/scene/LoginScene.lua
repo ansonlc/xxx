@@ -94,12 +94,9 @@ function LoginScene:createBackLayer()
     -- handing touch events
     local touchBeginPoint = nil
 
-    local function onTouchEnded()		
-        local scene = require("scene.GameScene")
-        local gameScene = scene.create()
-        cc.Director:getInstance():replaceScene(gameScene)
-		
-        touchBeginPoint = {x = x, y = y}
+    local function onTouchEnded()
+        SceneManager.replaceSceneWithName("GameScene")
+        
         -- CCTOUCHBEGAN event must return true
         return true
     end
@@ -118,9 +115,7 @@ function LoginScene:createBackLayer()
     
     local function onDebugBtnPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
-            local scene = require("scene.ParticleTestScene")
-            local gameScene = scene.create()
-            cc.Director:getInstance():replaceScene(gameScene)
+            SceneManager.replaceSceneWithName("ParticleTestScene", "Test parameter passed by LoginScene")
             return true
         end
     end
