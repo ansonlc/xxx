@@ -1,7 +1,7 @@
---------------------------------------------------------------------------------
+--------------------------------
 -- SceneManager.lua - 游戏场景管理器
 -- @author fangzhou.long
---------------------------------------------------------------------------------
+--------------------------------
 
 --------------------------------
 --  Scene manager for the game
@@ -26,8 +26,8 @@ end
 -- @param #table params Parameters passed to create target scene
 function SceneManager.replaceSceneWithName(sceneName, params)
     local ccRunning = cc.Director:getInstance():getRunningScene()
-    if ccRunning and ccRunning.onExit then
-        ccRunning:onExit()
+    if ccRunning and ccRunning.doExit then
+        ccRunning:doExit()
         -- ccRunning:dispose()
     end
     
@@ -40,7 +40,7 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         cc.Director:getInstance():runWithScene(targetScene)
     end
     
-    if targetScene.onEnter then
-        targetScene:onEnter()
+    if targetScene.doEnter then
+        targetScene:doEnter()
     end
 end

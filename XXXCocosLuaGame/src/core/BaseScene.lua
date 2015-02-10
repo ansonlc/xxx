@@ -1,9 +1,9 @@
---------------------------------------------------------------------------------
+--------------------------------
 -- BaseScene.lua - 模板场景
 -- @author fangzhou.long
 -- @version 1.0
 -- TEMPLATE This is a template scene
---------------------------------------------------------------------------------
+--------------------------------
 
 --------------------------------
 --  Base UI scene for every scene
@@ -61,7 +61,10 @@ function BaseScene:onInit() end
 --  Handle something when enter this scene, called by SceneManager
 -- @function [parent=#BaseScene] onEnter
 -- @param self
-function BaseScene:onEnter()
+function BaseScene:onEnter() end
+
+function BaseScene:doEnter()
+    self:onEnter()
     if self.onUpdate then
         self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(onUpdateGlobal, 0, false)
     end
@@ -71,10 +74,13 @@ end
 --  Handle something whent exit this scene, called by SceneManager
 -- @function [parent=#BaseScene] onExit
 -- @param self
-function BaseScene:onExit()
+function BaseScene:onExit() end
+
+function BaseScene:doExit()
     if self.onUpdate then
         cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.onUpdateEntry)
     end
+    self:onExit()
 end
 
 --------------------------------
