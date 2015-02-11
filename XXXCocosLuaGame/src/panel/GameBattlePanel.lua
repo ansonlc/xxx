@@ -57,3 +57,4 @@ end
 -- Merge Test
 
 return GameBattlePanel
+
