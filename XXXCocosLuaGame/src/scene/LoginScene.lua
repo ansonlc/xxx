@@ -25,11 +25,16 @@ function LoginScene.create()
 end
 
 function LoginScene:onInit()
-    self:addChild(self.createBackLayer())
+    self:addChild(self:createBackLayer())
     self:addChild(self:createBtnLayer())
     
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     AudioEngine.playMusic(bgMusicPath, true)
+end
+
+function LoginScene:onEnter()
+    local action = cc.FadeIn:create(2.0)
+    self.logoSprite:runAction(action)
 end
 
 function LoginScene.createTextBtn(btnStr)
@@ -50,16 +55,17 @@ function LoginScene.createTextBtn(btnStr)
     return button
 end
 
-function LoginScene.createBackLayer()
+function LoginScene:createBackLayer()
 	local backLayer = cc.Layer:create()
 
     local bgSprite = cc.Sprite:create("imgs/main_menu_bg.png")
     bgSprite:setPosition(bgSprite:getContentSize().width / 2, bgSprite:getContentSize().height / 2)
     backLayer:addChild(bgSprite)
     
-    local logoSprite = cc.Sprite:create("imgs/main_menu_logo.png")
-    logoSprite:setPosition(logoSprite:getContentSize().width / 2, logoSprite:getContentSize().height / 3)
-    backLayer:addChild(logoSprite)
+    self.logoSprite = cc.Sprite:create("imgs/main_menu_logo.png")
+    self.logoSprite:setPosition(self.logoSprite:getContentSize().width / 2, self.logoSprite:getContentSize().height / 3)
+    backLayer:addChild(self.logoSprite)
+    self.logoSprite:setOpacity(0)
 
 	return backLayer
 end
