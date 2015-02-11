@@ -453,7 +453,7 @@ function cfCheckSwitchCell()
         end
     end
 
-    if #succCellSet == 0 then
+    if #succCellSet == -1 then
         --匹配失败
         cclog("switch failed...")
 
