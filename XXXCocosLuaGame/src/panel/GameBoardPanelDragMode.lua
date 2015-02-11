@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- GameBoardPanelSlideMode.lua 
+-- GameBoardPanelDragMode.lua 
 -- @author Gaoyuan Chen
 --------------------------------------------------------------------------------
 
 require "manager.GameIcon"
 
-local GameBoardPanelSlideMode = class("GameBoardPanelSlideMode", function() return cc.Layer:create() end)
+local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return cc.Layer:create() end)
 
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
@@ -25,8 +25,8 @@ local MATCH_TAG = 30
 local SELECT_TAG = 40
 
 
-function GameBoardPanelSlideMode.create()
-    local panel = GameBoardPanelSlideMode.new()
+function GameBoardPanelDragMode.create()
+    local panel = GameBoardPanelDragMode.new()
     panel:initPanel()
     return panel
 end
@@ -58,13 +58,13 @@ end
 local icon1
 local x = 0
 
-function GameBoardPanelSlideMode:update(delta)
+function GameBoardPanelDragMode:update(delta)
     print("update")
     icon1:setPosition(centerWidth - myWidth / 2 + x, centerHeight - myHeight / 2 + x)
     x = x + 100
 end
 
-function GameBoardPanelSlideMode:initPanel()
+function GameBoardPanelDragMode:initPanel()
 
     --self:registerScriptUpdateHandler(update)
     --self:setUpdateEnabled(true)
@@ -99,7 +99,7 @@ end
 
 -- Create the Background Layer for this panel
 
-function GameBoardPanelSlideMode:createBackgroundLayer()
+function GameBoardPanelDragMode:createBackgroundLayer()
 
     local backgroundColor = cc.c4b(99, 99, 99, 99)    
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
@@ -114,7 +114,7 @@ end
 
 -- Create the Touch Layer for this panel
 
-function GameBoardPanelSlideMode:createTouchLayer()
+function GameBoardPanelDragMode:createTouchLayer()
     local touchColor = cc.c4b(255, 255, 255, 0)
     local touchLayer = cc.LayerColor:create(touchColor)
 
@@ -137,4 +137,4 @@ function GameBoardPanelSlideMode:createTouchLayer()
     return touchLayer
 end
 
-return GameBoardPanelSlideMode
+return GameBoardPanelDragMode

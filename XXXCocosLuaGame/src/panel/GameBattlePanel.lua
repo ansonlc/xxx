@@ -23,7 +23,7 @@ function GameBattlePanel:initPanel()
     local backgroundLayer = self:createBackgroundLayer()
     self:addChild(backgroundLayer)
     
-    local monster = cc.Sprite:create("res/imgs/Monster/Pikachu.png")
+    local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")
     monster:setPosition(550, 200)
 
     self:addChild(monster)
