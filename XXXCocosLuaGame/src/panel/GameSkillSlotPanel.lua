@@ -57,11 +57,16 @@ function GameSkillSlotPanel:createForegroundLayer()
     -- here we have to insert all the sprite node here
     -- test code for inserting the sprite
     local skillSprite1 = cc.Sprite:create("res/imgs/temp/sword_1.png")
-    skillSprite1:setPosition(100, 100) -- currently hardcoded position
+    skillSprite1:setPosition(220, 200) -- currently hardcoded position
+    skillSprite1:setScale(3)
+    
     local skillSprite2 = cc.Sprite:create("res/imgs/temp/magic_1.png")
-    skillSprite2:setPosition(200, 100)
+    skillSprite2:setPosition(520, 200)
+    skillSprite2:setScale(3)
+    
     local skillSprite3 = cc.Sprite:create("res/imgs/temp/shield_1.png")
-    skillSprite3:setPosition(300, 100)
+    skillSprite3:setPosition(820, 200)
+    skillSprite3:setScale(3)
     
     foregroundLayer:addChild(skillSprite1)
     foregroundLayer:addChild(skillSprite2)

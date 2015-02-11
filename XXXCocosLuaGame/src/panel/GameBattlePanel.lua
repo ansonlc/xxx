@@ -22,6 +22,11 @@ function GameBattlePanel:initPanel()
     -- Create the BackgroundLayer
     local backgroundLayer = self:createBackgroundLayer()
     self:addChild(backgroundLayer)
+    
+    local monster = cc.Sprite:create("res/imgs/Monster/Pikachu.png")
+    monster:setPosition(550, 200)
+
+    self:addChild(monster)
 
 -- Create the ForegroundLayer
 -- local foregroundLayer = self:createForegroundLayer()
@@ -40,7 +45,7 @@ function GameBattlePanel:createBackgroundLayer()
 
     -- TODO change the single color to the final sprite in te res file
     -- local backgroundSprite = cc.Sprite:create("")
-    local backgroundColor = cc.c4b(255, 255, 0, 180)
+    local backgroundColor = cc.c4b(255, 255, 255, 180)
     --backgroundLayer:setColor(backgroundColor)
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
