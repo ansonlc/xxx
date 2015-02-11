@@ -42,8 +42,8 @@ function LoginScene.createTextBtn(btnStr)
     button:setTitleText(btnStr)
 	button:setScale(4)
 	
-	local scale1 = cc.ScaleTo:create(4.5, 3.5)
-	local scale2 = cc.ScaleTo:create(4.5, 4)			
+	local scale1 = cc.ScaleTo:create(1.5, 3.5)
+	local scale2 = cc.ScaleTo:create(2, 4)			
 
     local arrayOfActions = {scale1,scale2}
 
