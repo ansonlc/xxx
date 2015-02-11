@@ -1,7 +1,7 @@
 --------------------------------
 -- LoginScene.lua - 游戏登录场景
 -- @author fangzhou.long
--- TODO Add login animations and login panel
+-- TODO Add login panel
 --------------------------------
 
 require("core.BaseScene")
@@ -59,11 +59,11 @@ function LoginScene:createBackLayer()
 	local backLayer = cc.Layer:create()
 
     local bgSprite = cc.Sprite:create("imgs/main_menu_bg.png")
-    bgSprite:setPosition(bgSprite:getContentSize().width / 2, bgSprite:getContentSize().height / 2)
+    bgSprite:setPosition(self.visibleSize.width / 2, self.visibleSize.height / 2)
     backLayer:addChild(bgSprite)
     
     self.logoSprite = cc.Sprite:create("imgs/main_menu_logo.png")
-    self.logoSprite:setPosition(self.logoSprite:getContentSize().width / 2, self.logoSprite:getContentSize().height / 3)
+    self.logoSprite:setPosition(self.visibleSize.width / 2, self.visibleSize.height / 3)
     backLayer:addChild(self.logoSprite)
     self.logoSprite:setOpacity(0)
 
@@ -77,7 +77,7 @@ function LoginScene:createBtnLayer()
     local touchBeginPoint = nil
 
     local function onTouchEnded()
-        SceneManager.replaceSceneWithName("GameScene")
+        SceneManager.replaceSceneWithName("MainMenuScene")
 
         -- CCTOUCHBEGAN event must return true
         return true

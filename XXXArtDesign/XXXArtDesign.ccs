@@ -40,6 +40,17 @@
           <Image Name="tx_wave.png" />
         </Folder>
         <Project Name="ParticleTestScene.csd" />
+        <Project Name="MainMenuScene.csd" />
+        <Folder Name="imgs">
+          <Image Name="main_menu_bg.png" />
+          <Image Name="main_menu_logo.png" />
+          <Folder Name="btns">
+            <File Name="imgs" />
+            <Image Name="main_menu_endlessBtn.png" />
+            <Image Name="main_menu_storyBtn.png" />
+            <Image Name="main_menu_vsBtn.png" />
+          </Folder>
+        </Folder>
       </RootFolder>
     </Group>
   </SolutionFolder>
