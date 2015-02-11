@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- GameBoardPanel.lua - 游戏棋盘面板
+-- GameBoardPanelSwitchMode.lua - 游戏棋盘面板
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ require "logic.GameBoardLogic"
 require "manager.GameIcon"
 require "core.BaseScene"
 
-local GameBoardPanel = class("GameBoardPanel", function() return cc.Layer:create() end)
+local GameBoardPanelSwitchMode = class("GameBoardPanelSwitchMode", function() return cc.Layer:create() end)
 
 local curSelectTag = nil
 
@@ -42,13 +42,13 @@ local FallEndCheckNode = nil
 
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 
-function GameBoardPanel.create()
-    local panel = GameBoardPanel.new()
+function GameBoardPanelSwitchMode.create()
+    local panel = GameBoardPanelSwitchMode.new()
     panel:initPanel()
     return panel
 end
 
-function GameBoardPanel:initPanel()    
+function GameBoardPanelSwitchMode:initPanel()    
     loadGameIcon()
     initGameBoard()
     self:initGameBoardIcon()
@@ -98,7 +98,7 @@ local function createNodeByCell(cell)
 end
 
 --初始化棋盘图标
-function GameBoardPanel:initGameBoardIcon()
+function GameBoardPanelSwitchMode:initGameBoardIcon()
     for x=1, GBoardSizeX do
         for y = 1, GBoardSizeY do
             local iconNode = createNodeByCell({x = x, y = y})
@@ -108,7 +108,7 @@ function GameBoardPanel:initGameBoardIcon()
 end
 
 --重置之前选中棋子的选中状态״̬
-function GameBoardPanel:resetSelectGameIcon()
+function GameBoardPanelSwitchMode:resetSelectGameIcon()
     if curSelectTag ~= nil then
         local cellNode = self:getChildByTag(NODE_TAG_START + curSelectTag)
         if cellNode ~= nil then
@@ -127,7 +127,7 @@ function GameBoardPanel:resetSelectGameIcon()
 end
 
 --点击棋子更换图标效果
-function GameBoardPanel:onClickGameIcon(cell)
+function GameBoardPanelSwitchMode:onClickGameIcon(cell)
     if cell.x == 0 or cell.y == 0 then
         return
     end
@@ -144,7 +144,7 @@ end
 
 
 --交换相邻棋子，并执行回调函数(一般为检测是否命中)
-function GameBoardPanel:switchCell(cellA, cellB, cfCallBack)
+function GameBoardPanelSwitchMode:switchCell(cellA, cellB, cfCallBack)
     --cclog("switchCell...")
     --cclog("cellA.."..cellA.x.." "..cellA.y)
     --cclog("cellB.."..cellB.x.." "..cellB.y)
@@ -468,7 +468,7 @@ function cfCheckSwitchCell()
 end
 
 --背景层
-function GameBoardPanel.createBackLayer()
+function GameBoardPanelSwitchMode.createBackLayer()
     local backLayer = cc.Layer:create()
 
     local backSprite = cc.Sprite:create("imgs/game_bg.png")
@@ -480,7 +480,7 @@ function GameBoardPanel.createBackLayer()
 end
 
 --触摸层
-function GameBoardPanel:createTouchLayer()
+function GameBoardPanelSwitchMode:createTouchLayer()
 
     local touchColor = cc.c4b(255, 255, 255 ,0)
     local touchLayer = cc.LayerColor:create(touchColor)
@@ -554,4 +554,4 @@ function GameBoardPanel:createTouchLayer()
     return touchLayer
 end
 
-return GameBoardPanel
+return GameBoardPanelSwitchMode
