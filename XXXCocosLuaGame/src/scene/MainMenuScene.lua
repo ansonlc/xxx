@@ -44,11 +44,17 @@ end
 function MainMenuScene:onEnter()
     local moveToAction = cc.MoveTo:create(0.5, cc.p(self.visibleSize.width/2, self.visibleSize.height/2))
     
-    local curScene = self
     local function endOnMoveTo()
-        curScene.btnStory:runAction(cc.FadeIn:create(1))
-        curScene.btnEndless:runAction(cc.FadeIn:create(1))
-        curScene.btnVs:runAction(cc.FadeIn:create(1))
+        self.btnStory:runAction(cc.FadeIn:create(1))
+        self.btnEndless:runAction(cc.FadeIn:create(1))
+        self.btnVs:runAction(cc.FadeIn:create(1))
+        
+        local part = cc.ParticleGalaxy:create()
+        local sequence = cc.Sequence:create({cc.MoveBy:create(2, cc.p(self.visibleSize.width-200, 0)), cc.MoveBy:create(2, cc.p(200-self.visibleSize.width, 0))})
+        local repeatFunc = cc.RepeatForever:create(sequence)
+        self:addChild(part)
+        part:setPosition(cc.p(100, self.visibleSize.height/1.5))
+        part:runAction(repeatFunc)
     end
     
     local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
