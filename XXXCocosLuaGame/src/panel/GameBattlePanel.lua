@@ -40,7 +40,7 @@ function GameBattlePanel:createBackgroundLayer()
 
     -- TODO change the single color to the final sprite in te res file
     -- local backgroundSprite = cc.Sprite:create("")
-    local backgroundColor = cc.c4b(255, 255, 0, 255)
+    local backgroundColor = cc.c4b(255, 255, 0, 180)
     --backgroundLayer:setColor(backgroundColor)
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 

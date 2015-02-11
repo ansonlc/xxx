@@ -29,10 +29,14 @@ function GameScene:onInit()
     self.gameBaord = GameBoardPanel.create()
     self:addChild(self.gameBaord)
     
+    --local GameBoardPanelSlideMode = require("panel.GameBoardPanelSlideMode")
+    --self.gameBaordSlideMode = GameBoardPanelSlideMode.create()
+    --self:addChild(self.gameBaordSlideMode)
+    
     -- Add the SkillSlotPanel
     local GameSkillSlotPanel = require("panel.GameSkillSlotPanel")
     self.skillPanel = GameSkillSlotPanel.create()
-    self:addChild(self.skillPanel)    
+    self:addChild(self.skillPanel)
     
     -- Add the GameBattlePanel
     local GameBattlePanel = require("panel.GameBattlePanel")

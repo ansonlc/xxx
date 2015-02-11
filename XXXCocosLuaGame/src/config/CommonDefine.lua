@@ -6,10 +6,10 @@
 GBackGroundWidth = 712
 GBackGroundHeight = 1024
 
-GLeftBottomOffsetX = 42
-GLeftBottomOffsetY = 100
+GLeftBottomOffsetX = 40
+GLeftBottomOffsetY = 440
 
-GCellWidth = 90
+GCellWidth = 1000 / 7
 
 GBoardSizeX = 7
 GBoardSizeY = 7
