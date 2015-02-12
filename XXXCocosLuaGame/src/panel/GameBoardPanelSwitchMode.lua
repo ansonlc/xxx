@@ -546,6 +546,7 @@ function GameBoardPanelSwitchMode:createTouchLayer()
         elseif eventType == "ended" then
             return onTouchEnded(x, y)
         end
+        
     end
 
     touchLayer:registerScriptTouchHandler(onTouch)

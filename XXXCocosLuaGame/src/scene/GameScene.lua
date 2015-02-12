@@ -31,7 +31,7 @@ function GameScene:onInit()
     self:addChild(self.gameBaord)
     --]]
     
-    --
+    ---[[
     local GameBoardPanelDragMode = require("panel.GameBoardPanelDragMode")
     self.gameBaordDragMode = GameBoardPanelDragMode.create()
     self:addChild(self.gameBaordDragMode)
