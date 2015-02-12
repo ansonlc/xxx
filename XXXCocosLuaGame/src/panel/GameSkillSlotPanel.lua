@@ -3,6 +3,8 @@
 -- @author Chicheng Ren
 --------------------------------------------------------------------------------
 
+require "logic.GameBattleLogic.lua"
+
 local GameSkillSlotPanel = class("GameSkillSlotPanel", function() return cc.Layer:create() end)
 
 -- local variables

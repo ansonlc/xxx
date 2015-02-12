@@ -54,6 +54,7 @@ function GameBattlePanel:createBackgroundLayer()
     return backgroundLayer
 end   
 
+-- Merge Test
+
 return GameBattlePanel
 
---Hello Ren

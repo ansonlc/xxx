@@ -25,16 +25,16 @@ function GameScene:onInit()
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
     
-    --
+    --[[
     local GameBoardPanelSwitchMode = require("panel.GameBoardPanelSwitchMode")
     self.gameBaord = GameBoardPanelSwitchMode.create()
     self:addChild(self.gameBaord)
     --]]
     
-    --[[
-    local GameBoardPanelSlideMode = require("panel.GameBoardPanelSlideMode")
-    self.gameBaordSlideMode = GameBoardPanelSlideMode.create()
-    self:addChild(self.gameBaordSlideMode)
+    --
+    local GameBoardPanelDragMode = require("panel.GameBoardPanelDragMode")
+    self.gameBaordDragMode = GameBoardPanelDragMode.create()
+    self:addChild(self.gameBaordDragMode)
     --]]
     
     -- Add the SkillSlotPanel

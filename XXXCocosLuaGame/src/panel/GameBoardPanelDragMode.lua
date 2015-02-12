@@ -10,12 +10,13 @@ local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 local myWidth = visibleSize.width * 0.88
-local myHeight = visibleSize.height * 0.5
+local myHeight = visibleSize.height * 0.45
 local centerWidth = visibleSize.width * 0.5
 local centerHeight = visibleSize.height * 0.5
+local iconSize = 150
 
 local nColumn = 6
-local nRow = 6
+local nRow = 5
 local nType = 5
 
 local GameBoard = {}
@@ -24,6 +25,7 @@ local NORMAL_TAG = 10
 local MATCH_TAG = 30
 local SELECT_TAG = 40
 
+local icons = {}
 
 function GameBoardPanelDragMode.create()
     local panel = GameBoardPanelDragMode.new()
@@ -32,7 +34,11 @@ function GameBoardPanelDragMode.create()
 end
 
 
-
+local function getCellCenter(i, j)
+    local x = centerWidth - myWidth / 2 + (myWidth / nColumn) * (i - 0.5) 
+    local y = centerHeight - myHeight / 2 + (myHeight / nRow) * (j - 0.5) 
+    return {x = x, y = y}
+end
 
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index)
@@ -43,7 +49,11 @@ local function createNodeByIndex(index)
     iconNormalSprite:setTag(NORMAL_TAG)
     iconMatchSprite:setTag(MATCH_TAG)
     iconSelectSprite:setTag(SELECT_TAG)
-
+    
+    iconNormalSprite:setScale(iconSize / iconNormalSprite:getContentSize().width, iconSize / iconNormalSprite:getContentSize().height)
+    iconMatchSprite:setScale(iconSize / iconMatchSprite:getContentSize().width, iconSize / iconMatchSprite:getContentSize().height)
+    iconSelectSprite:setScale(iconSize / iconSelectSprite:getContentSize().width, iconSize / iconSelectSprite:getContentSize().height)
+    
     iconMatchSprite:setVisible(false)
     iconSelectSprite:setVisible(false)
 
@@ -59,9 +69,9 @@ local icon1
 local x = 0
 
 function GameBoardPanelDragMode:update(delta)
-    print("update")
-    icon1:setPosition(centerWidth - myWidth / 2 + x, centerHeight - myHeight / 2 + x)
-    x = x + 100
+    --print("update")
+    
+    
 end
 
 function GameBoardPanelDragMode:initPanel()
@@ -71,13 +81,9 @@ function GameBoardPanelDragMode:initPanel()
 
 
     loadGameIcon()
-
-
-
-    icon1 = createNodeByIndex(1)
-    self.addChild(self,icon1)
-    icon1:setPosition(centerWidth - myWidth / 2 + x, centerHeight - myHeight / 2 + x)
-
+    
+    
+  
     --self.scheduleUpdate()
 
     -- Create the BackgroundLayer
@@ -87,14 +93,27 @@ function GameBoardPanelDragMode:initPanel()
     -- Create the TouchLayer
     local touchLayer = self:createTouchLayer()
     self:addChild(touchLayer)
-
-
-    for i = 1, nRow do
+    
+    for i = 1, nColumn do
         GameBoard[i] = {}
-        for j = 1, nColumn do
-            GameBoard[i][j] = 1
+        icons[i] = {}
+        for j = 1, nRow do
+            math.randomseed(math.random(os.time()))
+            GameBoard[i][j] = math.random(nType)
+            icons[i][j] = {}
+            for k = 1, nType do
+                icons[i][j][k] = createNodeByIndex(k)
+                icons[i][j][k]:setPosition(getCellCenter(i,j).x, getCellCenter(i,j).y)
+                if k == GameBoard[i][j] then
+                    icons[i][j][k]:setVisible(true)
+                else
+                    icons[i][j][k]:setVisible(false)
+                end
+                self.addChild(self,icons[i][j][k])
+            end
         end
     end
+
 end
 
 -- Create the Background Layer for this panel
@@ -123,9 +142,8 @@ function GameBoardPanelDragMode:createTouchLayer()
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
-        local spriteSize = 64
-
         -- print("x:"..x.." y:"..y)
+        
 
 
 
