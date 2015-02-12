@@ -24,6 +24,7 @@ local NORMAL_TAG = 10
 local MATCH_TAG = 30
 local SELECT_TAG = 40
 
+local icons = {}
 
 function GameBoardPanelDragMode.create()
     local panel = GameBoardPanelDragMode.new()
@@ -59,9 +60,9 @@ local icon1
 local x = 0
 
 function GameBoardPanelDragMode:update(delta)
-    print("update")
-    icon1:setPosition(centerWidth - myWidth / 2 + x, centerHeight - myHeight / 2 + x)
-    x = x + 100
+    --print("update")
+    
+    
 end
 
 function GameBoardPanelDragMode:initPanel()
@@ -71,13 +72,9 @@ function GameBoardPanelDragMode:initPanel()
 
 
     loadGameIcon()
-
-
-
-    icon1 = createNodeByIndex(1)
-    self.addChild(self,icon1)
-    icon1:setPosition(centerWidth - myWidth / 2 + x, centerHeight - myHeight / 2 + x)
-
+    
+    
+  
     --self.scheduleUpdate()
 
     -- Create the BackgroundLayer
@@ -87,14 +84,26 @@ function GameBoardPanelDragMode:initPanel()
     -- Create the TouchLayer
     local touchLayer = self:createTouchLayer()
     self:addChild(touchLayer)
-
-
+    
     for i = 1, nRow do
         GameBoard[i] = {}
+        icons[i] = {}
         for j = 1, nColumn do
             GameBoard[i][j] = 1
+            icons[i][j] = {}
+            for k = 1, nType do
+                icons[i][j][k] = createNodeByIndex(k)
+                icons[i][j][k]:setPosition(centerWidth - myWidth / 2 + (i-1) * 100, centerHeight - myHeight / 2 + (j-1) * 100)
+                if k == GameBoard[i][j] then
+                    icons[i][j][k]:setVisible(true)
+                else
+                    icons[i][j][k]:setVisible(false)
+                end
+                self.addChild(self,icons[i][j][k])
+            end
         end
     end
+
 end
 
 -- Create the Background Layer for this panel
