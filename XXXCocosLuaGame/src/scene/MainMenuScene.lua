@@ -26,12 +26,14 @@ function MainMenuScene:onInit()
     self.btnStory = rootNode:getChildByName("btn_story")
     self.btnEndless = rootNode:getChildByName("btn_endless")
     self.btnVs = rootNode:getChildByName("btn_vs")
+    self.panelIcon = rootNode:getChildByName("panel_icon")
     
     self.logoSprite:setPosition(self.visibleSize.width/2, self.visibleSize.height/3)
     
     self.btnStory:setOpacity(0)
     self.btnEndless:setOpacity(0)
     self.btnVs:setOpacity(0)
+    self.panelIcon:setOpacity(0)
     
     local function onStoryPress(sender, eventType)
         SceneManager.replaceSceneWithName("GameScene")
@@ -48,6 +50,7 @@ function MainMenuScene:onEnter()
         self.btnStory:runAction(cc.FadeIn:create(1))
         self.btnEndless:runAction(cc.FadeIn:create(1))
         self.btnVs:runAction(cc.FadeIn:create(1))
+        self.panelIcon:runAction(cc.FadeIn:create(1))
         
         local part = cc.ParticleGalaxy:create()
         local sequence = cc.Sequence:create({cc.MoveBy:create(2, cc.p(self.visibleSize.width-200, 0)), cc.MoveBy:create(2, cc.p(200-self.visibleSize.width, 0))})
