@@ -10,6 +10,8 @@ local GameSkillSlotPanel = class("GameSkillSlotPanel", function() return cc.Laye
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 
+local spriteSize
+
 function GameSkillSlotPanel.create()
     local panel = GameSkillSlotPanel.new()
     panel:initPanel()
@@ -70,6 +72,9 @@ function GameSkillSlotPanel:createForegroundLayer()
     skillSprite3:setPosition(820, 200)
     skillSprite3:setScale(3)
     
+    -- get the size of the sprite
+    spriteSize = skillSprite1:getContentSize()
+    
     foregroundLayer:addChild(skillSprite1)
     foregroundLayer:addChild(skillSprite2)
     foregroundLayer:addChild(skillSprite3)
@@ -89,25 +94,24 @@ function GameSkillSlotPanel:createTouchLayer()
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
-       local spriteSize = 64
-       
-       -- print("x:"..x.." y:"..y)
-       
-       if x >= (100 - spriteSize / 2) and x<= (100 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2)then
+       if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
             cclog("Attack Skill Used")
             local gameScene = touchLayer:getParent():getParent()
             local nodeCount = gameScene:getChildrenCount()
-            print(nodeCount)
+            
             local battleLogic = gameScene:getChildByTag(123)
-            --battleLogic
-            local doDamageFunc = cc.CallFunc:create(battleLogic, cfDoDamage(25))
-            local actions = {doDamageFunc}
-            local sequence = cc.Sequence:create(actions)
+            
+            local removeFunc = cc.CallFunc:create(cfDoDamage, {25})         
+
+            local arrayOfActions = {removeFunc}
+
+            local sequence = cc.Sequence:create(arrayOfActions)
+
             battleLogic:runAction(sequence)
-            local test = 0
-       elseif x >= (200 - spriteSize / 2) and x <= (200 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2) then
+            
+       elseif x >= (520 - spriteSize.width / 2) and x <= (520 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
             cclog("Magic Skill Used")
-       elseif x >= (300 - spriteSize / 2) and x <= (300 + spriteSize / 2) and y >= (100 - spriteSize / 2) and y <= (100 + spriteSize / 2) then
+       elseif x >= (820 - spriteSize.width / 2) and x <= (820 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
             cclog("Shield Skill Used")
        end
        

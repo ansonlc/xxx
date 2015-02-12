@@ -1,12 +1,11 @@
 --------------------------------------------------------------------------------
 -- GameBattleLogci.lua
 -- author: Chicheng Ren
+-- Description:@field [parent=#logic.GameBattleLogic] #type name description
+-- This GameBattleLogic Node manages all the game battle data (
 --------------------------------------------------------------------------------
 
 local GameBattleLogic = class("GameBattleLogic", function() return cc.Node:create() end)
-
--- Monster data
-local monsterHP = 100
 
 function GameBattleLogic.create()
     local manager = GameBattleLogic.new()
@@ -16,13 +15,21 @@ end
 
 function GameBattleLogic:initNode()
     -- Initialization
-    monsterHP = 100
+    self.monsterHP = 100
 end
 
-function GameBattleLogic:cfDoDamage(damage)
+-- TODO:these callback function should be replaced by the 
+-- unified cfUseSkill(node, skillTable).
+
+function cfDoDamage(node, damageValue)
     -- Do the damage to the monster
-    monsterHP = monsterHP - damage
-    print("Current monster HP: "..mosterHP)
+    node.monsterHP = node.monsterHP - damageValue[1]
+    cclog("Monster HP: "..node.monsterHP)
 end 
+
+function cfDoHeal(node, healValue)
+    -- Do the healing to the player
+    
+end
 
 return GameBattleLogic
