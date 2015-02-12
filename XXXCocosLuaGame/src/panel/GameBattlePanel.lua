@@ -64,9 +64,9 @@ function GameBattlePanel:createForegroundLayer()
     foregroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2) -- 20% of the screen's height
     
     -- add all the child node
-    local fontInfo = {"fonts/Marker Felt.ttf", 16}
-    local hpNode = cc.Label:createWithTTF("Hello world")
-    foregroundLayer:addChild(hpNode)   
+    --local fontInfo = {"fonts/Marker Felt.ttf", 16}
+    local titleLabel = cc.LabelTTF:create("This is a game title", "Arial", 70)
+    --foregroundLayer:addChild(hpNode)   
     return 
 end
 
