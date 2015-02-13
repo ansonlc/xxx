@@ -16,9 +16,19 @@ BaseScene = class("BaseScene", function() return cc.Scene:create() end)
 -- @function [parent=#BaseScene] ctor
 -- @param self 
 function BaseScene:ctor()
+    -- Visible size of this scene
     self.visibleSize = cc.Director:getInstance():getVisibleSize();
+    
+    -- Visible origin of this scene
     self.origin = cc.Director:getInstance():getVisibleOrigin();
+    
+    -- Scene name
     self.sceneName = "BaseScene"
+    
+    -- Enable onUpdate function or not
+    self.enableUpdateFunc = true
+    
+    -- On update function entry
     self.onUpdateEntry = nil
 end
 
@@ -30,16 +40,6 @@ end
 function BaseScene.create()
     local scene = BaseScene.new()
     return scene;
-end
-
--- The method to call subscene's onUpdate method
-local function onUpdateGlobal(dt)
-    local runningScene = cc.Director:getInstance():getRunningScene()
-    if  runningScene 
-        and runningScene.onUpdate 
-        then
-        runningScene:onUpdate(dt)
-    end
 end
 
 --------------------------------
@@ -65,8 +65,20 @@ function BaseScene:onEnter() end
 
 function BaseScene:doEnter()
     self:onEnter()
-    if self.onUpdate then
-        self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(onUpdateGlobal, 0, false)
+    
+    -- The method to call subscene's onUpdate method
+    local function onUpdateCallFunc(dt)
+        if self then
+            if self.onUpdate then
+                self:onUpdate(dt)
+            end -- Ignore if there is no valid onUpdate function
+        else
+            cclog("Calling onUpdate in a nil scene!")
+        end
+    end
+    
+    if self.onUpdate and self.enableUpdateFunc then
+        self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(onUpdateCallFunc, 0, false)
     end
 end
 
@@ -77,9 +89,10 @@ end
 function BaseScene:onExit() end
 
 function BaseScene:doExit()
-    if self.onUpdate then
+    if self.onUpdate and self.enableUpdateFunc then
         cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.onUpdateEntry)
     end
+    
     self:onExit()
 end
 
