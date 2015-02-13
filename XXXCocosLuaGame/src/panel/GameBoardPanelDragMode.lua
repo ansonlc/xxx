@@ -35,10 +35,18 @@ local touchCell
 local touchType
 local touchOpacity = 150
 
-function GameBoardPanelDragMode.create()
-    local panel = GameBoardPanelDragMode.new()
-    panel:initPanel()
-    return panel
+local speedSwap = 10.0
+
+local State_Waiting = 1
+local State_Waiting_animation = 2
+local State_Delete_animation = 3
+local State_Falling = 4
+local State = State_Waiting
+
+local willDelete = {}
+
+local function fromTo(A, B)
+    return {x = B.x - A.x, y = B.y - A.y}
 end
 
 local function getCellCenter(i, j)
@@ -46,6 +54,110 @@ local function getCellCenter(i, j)
     local y = centerHeight - myHeight / 2 + (myHeight / nRow) * (j - 0.5) 
     return {x = x, y = y}
 end
+
+local function falling()
+    
+    --icons[i][j][GameBoard[i][j]]:setVisible(false)
+
+    for i = 1, nColumn do
+        local t_position = {}
+        local t_Type = {}
+        local now = 0
+        for j = 1, nRow do
+            icons[i][j][GameBoard[i][j]]:setVisible(false)
+            if willDelete[i][j] == false then
+                now = now + 1
+                t_position[now] = getCellCenter(i,j)
+                t_Type[now] = GameBoard[i][j]
+            end
+        end
+        while now < nRow do
+            now = now + 1
+            t_position[now] = getCellCenter(i,nRow + 1)
+            t_Type[now] = math.random(nType)
+        end
+        for j = 1, nRow do
+            GameBoard[i][j] = t_Type[j]
+            icons[i][j][GameBoard[i][j]]:setVisible(true)
+            iconsPosition[i][j].needChange = true
+            iconsPosition[i][j].current = fromTo(getCellCenter(i,j), t_position[j])
+            
+        end
+    end
+    
+    for i = 1, nColumn do
+        for j = 1, nRow do
+            local k = GameBoard[i][j]
+            icons[i][j][k].x:setOpacity(255)
+        end
+    end
+    
+    State = State_Waiting
+end
+
+local Skill_Three = function()
+    for i = 1, nColumn do
+        for j = 1, nRow - 2 do
+            if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i][j+2] then
+                willDelete[i][j] = true
+                willDelete[i][j+1] = true
+                willDelete[i][j+2] = true
+            end
+        end
+    end
+    for i = 1, nColumn - 2 do
+        for j = 1, nRow do
+            if GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+2][j] then
+                willDelete[i][j] = true
+                willDelete[i+1][j] = true
+                willDelete[i+2][j] = true
+            end
+        end
+    end
+end
+
+local Skill_2by2 = function()
+    for i = 1, nColumn - 1 do
+        for j = 1, nRow - 1 do
+            if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+1][j+1] then
+                willDelete[i][j] = true
+                willDelete[i][j+1] = true
+                willDelete[i+1][j] = true
+                willDelete[i+1][j+1] = true
+            end
+        end
+    end
+end
+
+local function haveDelete()
+    for i = 1, nColumn do
+        for j = 1, nRow do
+            willDelete[i][j] = false
+        end
+    end
+    
+    Skill_Three()
+    Skill_2by2()
+    
+    local ret = false
+    for i = 1, nColumn do
+        for j = 1, nRow do
+            if willDelete[i][j] then
+                ret = true
+            end
+        end
+    end
+    
+    return ret
+end
+
+function GameBoardPanelDragMode.create()
+    local panel = GameBoardPanelDragMode.new()
+    panel:initPanel()
+    return panel
+end
+
+
 
 local function positionToCell(x, y)
     if x < centerWidth - myWidth / 2 or x > centerWidth + myWidth / 2 or y < centerHeight - myHeight / 2 or y > centerHeight + myHeight / 2 then
@@ -57,22 +169,6 @@ local function positionToCell(x, y)
     i = math.max(1, math.min(i, nColumn))
     j = math.max(1, math.min(j, nRow))
     return {i = i, j = j}
-    --[[
-    for i = 1, nColumn do
-        for j = 1, nRow do
-            local cx = getCellCenter(i ,j).x
-            local cy = getCellCenter(i ,j).y
-            local xSize = (myWidth / nColumn) * 0.5
-            local ySize = (myHeight / nRow) * 0.5
-            if cx - xSize <= x and x <= cx + xSize then
-                if cy - ySize <= y and y <= cy + ySize then
-                    return {i=i, j=j}
-                end
-            end
-        end
-    end
-    return nil
-    ]]--
 end
 
 
@@ -118,36 +214,94 @@ end
 
 function GameBoardPanelDragMode.update(delta)
 
-    for i = 1, nColumn do
-        for j = 1, nRow do
-            local k = GameBoard[i][j]
-            
-            if iconsPosition[i][j].needChange then
-                if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 1e-3 then
-                    local factor = 0.5 ^ (delta * 5.0)
-                    iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * factor
-                    iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * factor
-                    icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
-                else
-                    iconsPosition[i][j].needChange = false
-                end
-            end
-            
-            if touchCell ~= nil and i == touchCell.i and j == touchCell.j and nowTouch then
-                icons[i][j][k].x:setOpacity(touchOpacity)
-            else
-                if icons[i][j][k].x ~= nil then
-                    icons[i][j][k].x:setOpacity(255)
+    if State == State_Waiting then
+        
+        for i = 1, nColumn do
+            for j = 1, nRow do
+                local k = GameBoard[i][j]
+                
+                if iconsPosition[i][j].needChange then
+    
+                    if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 3 then
+                        local factor = 0.5 ^ (delta * speedSwap)
+                        iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * factor
+                        iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * factor
+                        icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
+                    else
+                        iconsPosition[i][j].needChange = false
+                        icons[i][j][k].x:setPosition(0, 0)
+                    end
                 end
             end
         end
+        
+        if nowTouch then
+            local k = touchType
+            iconsTouch[k]:setVisible(true)
+            iconsTouch[k]:setPosition(touchPosition.x, touchPosition.y)
+        end
     end
     
-    if nowTouch then
-        local k = touchType
-        iconsTouch[k]:setVisible(true)
-        iconsTouch[k]:setPosition(touchPosition.x, touchPosition.y)
+    
+    if State == State_Waiting_animation then
+        local haveNotFinish = false
+        
+        for i = 1, nColumn do
+            for j = 1, nRow do
+                local k = GameBoard[i][j]
+
+                if iconsPosition[i][j].needChange then
+
+                    if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 3 then
+                        local factor = 0.5 ^ (delta * speedSwap)
+                        iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * factor
+                        iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * factor
+                        icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
+                    else
+                        iconsPosition[i][j].needChange = false
+                        icons[i][j][k].x:setPosition(0, 0)
+                    end
+                end
+                
+                if iconsPosition[i][j].needChange then
+                    haveNotFinish = true
+                end
+            end
+        end
+        
+        if haveNotFinish == false then
+            if haveDelete() then
+                State = State_Delete_animation
+                print "hi"
+            else
+                State = State_Waiting
+            end
+        end
+        
     end
+    
+    if State == State_Delete_animation then
+        local haveNotFinish = false
+        for i = 1, nColumn do
+            for j = 1, nRow do
+                local k = GameBoard[i][j]
+                if willDelete[i][j] then
+                    if(icons[i][j][k].x:getOpacity() > 0) then
+                        haveNotFinish = true
+                        icons[i][j][k].x:setOpacity(math.max(0, icons[i][j][k].x:getOpacity() - delta * 1000))
+                    end
+                end
+            end
+        end
+        if haveNotFinish == false then
+            falling()
+            State = State_Waiting_animation
+        end
+    end
+    
+    
+    
+    
 end
 
 function GameBoardPanelDragMode:initPanel()
@@ -158,7 +312,7 @@ function GameBoardPanelDragMode:initPanel()
     loadGameIcon()
     
     --self.scheduleUpdate()
-
+    
     -- Create the BackgroundLayer
     local backgroundLayer = self:createBackgroundLayer()
     self:addChild(backgroundLayer)
@@ -171,11 +325,12 @@ function GameBoardPanelDragMode:initPanel()
         GameBoard[i] = {}
         icons[i] = {}
         iconsPosition[i] = {}
+        willDelete[i] = {}
         for j = 1, nRow do
             math.randomseed(math.random(os.time()))
             GameBoard[i][j] = math.random(nType)
             icons[i][j] = {}
-            
+            willDelete[i][j] = false
             iconsPosition[i][j] = {}
             iconsPosition[i][j].current = {x = 0, y = 0}
             iconsPosition[i][j].needChange = false
@@ -218,9 +373,7 @@ function GameBoardPanelDragMode:createBackgroundLayer()
     return backgroundLayer
 end
 
-local function fromTo(A, B)
-    return {x = B.x - A.x, y = B.y - A.y}
-end
+
 
 -- Create the Touch Layer for this panel
 local function swapCell(cellA, cellB)
@@ -291,36 +444,66 @@ function GameBoardPanelDragMode:createTouchLayer()
     touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
 
     local function onTouchBegin(x, y)
-        local cell = positionToCell(x,y)
-        if cell ~= nil then
-            local i, j = cell.i, cell.j
-            
-            touchType = GameBoard[i][j]
-            nowTouch = true
-            touchPosition = {x = x, y = y}
-            touchCell = {i = i, j = j}
-            return true
+        if State == State_Waiting then
+            local cell = positionToCell(x,y)
+            if cell ~= nil then
+                local i, j = cell.i, cell.j
+                local k = GameBoard[i][j]
+                icons[i][j][k].x:setOpacity(touchOpacity)
+                
+                touchType = GameBoard[i][j]
+                nowTouch = true
+                touchPosition = {x = x, y = y}
+                touchCell = {i = i, j = j}
+                return true
+            end
         end
+        return false
+        
     end
     
     local function onTouchMove(x, y)
-        cell = getTargetCell(x, y)
-        if cell ~= nil then
-            swapCell(cell, touchCell)
-            local i, j = cell.i, cell.j
-            touchType = GameBoard[i][j]
+    
+        if State == State_Waiting then
+            cell = getTargetCell(x, y)
+            if cell ~= nil then
+                swapCell(cell, touchCell)
+                
+                local i, j = touchCell.i, touchCell.j
+                local k = GameBoard[i][j]
+                icons[i][j][k].x:setOpacity(255)
+                
+                local i, j = cell.i, cell.j
+                touchType = GameBoard[i][j]
+                touchPosition = {x = x, y = y}
+                touchCell = {i = i, j = j}
+                
+                local i, j = touchCell.i, touchCell.j
+                local k = GameBoard[i][j]
+                icons[i][j][k].x:setOpacity(255)
+
+            end
             touchPosition = {x = x, y = y}
-            touchCell = {i = i, j = j}
+            
+            return true
         end
-        touchPosition = {x = x, y = y}
-        
-        return true
+        return false
     end
     
     local function onTouchEnd(x, y)
-        nowTouch = false
-        iconsTouch[touchType]:setVisible(false)
-        return true
+        if State == State_Waiting then
+            local i, j = touchCell.i, touchCell.j
+            local k = GameBoard[i][j]
+            icons[i][j][k].x:setOpacity(255)
+            
+            nowTouch = false
+            iconsTouch[touchType]:setVisible(false)
+            State = State_Check
+            State = State_Waiting_animation
+            
+            return true
+        end
+        return false
     end
     
     -- Implementation of the Touch Event
