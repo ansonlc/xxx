@@ -49,7 +49,7 @@ local sceneInitCount = 0
 -- @param self
 function BaseScene:initScene()
     sceneInitCount = sceneInitCount + 1
-    cclog("No." .. sceneInitCount .. " Scene " .. self.sceneName .. " Initialized")
+    cclog("No." .. sceneInitCount .. " Scene " .. self.sceneName .. " Initialing")
     self:onInit()
 end
 

@@ -8,6 +8,7 @@ cc.FileUtils:getInstance():addSearchPath("res")
 -- CC_USE_DEPRECATED_API = true
 require "cocos.init"
 require "manager.SceneManager"
+require "utils.TimeUtil"
 
 -- cclog
 cclog = function(...)
