@@ -9,6 +9,7 @@ local GameScene = class("GameScene", function() return BaseScene.create() end)
 
 function GameScene:ctor()
     self.sceneName = "GameScene"
+    self.gameBoard = nil
 end
 
 function GameScene.create()
@@ -27,15 +28,14 @@ function GameScene:onInit()
     
     --[[
     local GameBoardPanelSwitchMode = require("panel.GameBoardPanelSwitchMode")
-    self.gameBaord = GameBoardPanelSwitchMode.create()
-    self:addChild(self.gameBaord)
+    self.gameBoard = GameBoardPanelSwitchMode.create()
     --]]
     
     ---[[
     local GameBoardPanelDragMode = require("panel.GameBoardPanelDragMode")
-    self.gameBaordDragMode = GameBoardPanelDragMode.create()
-    self:addChild(self.gameBaordDragMode)
+    self.gameBoard = GameBoardPanelDragMode.create()
     --]]
+    self:addChild(self.gameBoard)
     
     -- Add the SkillSlotPanel
     local GameSkillSlotPanel = require("panel.GameSkillSlotPanel")
@@ -56,6 +56,13 @@ function GameScene:onInit()
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     AudioEngine.playMusic(bgMusicPath, true)
+end
+
+function GameScene:onUpdate(dt)
+    if self.gameBoard and self.gameBoard.onUpdate then
+        self.gameBoard:onUpdate(dt)
+    end
+    cclog(dt)
 end
 
 return GameScene
