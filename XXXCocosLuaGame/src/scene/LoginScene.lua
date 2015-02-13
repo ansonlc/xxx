@@ -29,7 +29,7 @@ function LoginScene:onInit()
     self:addChild(self:createBtnLayer())
     
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
-    AudioEngine.playMusic(bgMusicPath, true)
+    --AudioEngine.playMusic(bgMusicPath, true)
 end
 
 function LoginScene:onEnter()

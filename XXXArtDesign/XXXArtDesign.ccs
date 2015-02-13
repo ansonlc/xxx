@@ -48,9 +48,12 @@
             <Image Name="main_menu_endlessBtn.png" />
             <Image Name="main_menu_storyBtn.png" />
             <Image Name="main_menu_vsBtn.png" />
+            <Image Name="main_menu_gearBtn.png" />
+            <Image Name="main_menu_monsterBtn.png" />
+            <Image Name="main_menu_skillBtn.png" />
+            <Image Name="main_menu_tutorialBtn.png" />
           </Folder>
         </Folder>
-        <Project Name="Scene.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>

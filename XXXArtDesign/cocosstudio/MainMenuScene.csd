@@ -71,6 +71,73 @@
             <PressedFileData Type="Default" Path="Default/Button_Press.png" />
             <NormalFileData Type="Normal" Path="imgs/btns/main_menu_vsBtn.png" />
           </NodeObjectData>
+          <NodeObjectData Name="panel_icon" ActionTag="-1925810113" FrameEvent="" Tag="10" ObjectIndex="1" TouchEnable="True" BackColorAlpha="102" ColorAngle="90.0000" ctype="PanelObjectData">
+            <Position X="540.0000" Y="250.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="800.0000" Y="200.0000" />
+            <PrePosition X="0.5000" Y="0.1302" />
+            <PreSize X="0.7407" Y="0.1042" />
+            <Children>
+              <NodeObjectData Name="btn_skill" ActionTag="-1720138617" FrameEvent="" Tag="11" ObjectIndex="5" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="201" Scale9Height="210" ctype="ButtonObjectData">
+                <Position X="102.0000" Y="86.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="201.0000" Y="210.0000" />
+                <PrePosition X="0.1275" Y="0.4300" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Normal" Path="imgs/btns/main_menu_skillBtn.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="btn_monster" ActionTag="725836217" FrameEvent="" Tag="12" ObjectIndex="6" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="213" Scale9Height="236" ctype="ButtonObjectData">
+                <Position X="412.0000" Y="84.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="213.0000" Y="236.0000" />
+                <PrePosition X="0.5150" Y="0.4200" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Normal" Path="imgs/btns/main_menu_monsterBtn.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="btn_tutorial" ActionTag="607439408" FrameEvent="" Tag="13" ObjectIndex="7" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="206" Scale9Height="230" ctype="ButtonObjectData">
+                <Position X="699.9999" Y="74.0002" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="206.0000" Y="230.0000" />
+                <PrePosition X="0.8750" Y="0.3700" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Normal" Path="imgs/btns/main_menu_tutorialBtn.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="btn_gear" ActionTag="-1815490726" FrameEvent="" Tag="9" ObjectIndex="4" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="123" Scale9Height="113" ctype="ButtonObjectData">
+                <Position X="750.0000" Y="1600.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="123.0000" Y="113.0000" />
+                <PrePosition X="0.9375" Y="8.0000" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Normal" Path="imgs/btns/main_menu_gearBtn.png" />
+              </NodeObjectData>
+            </Children>
+            <SingleColor A="255" R="150" G="200" B="255" />
+            <FirstColor A="255" R="150" G="200" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
+          </NodeObjectData>
         </Children>
       </ObjectData>
     </Content>
