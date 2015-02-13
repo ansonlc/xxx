@@ -29,8 +29,8 @@ function GameBattlePanel:initPanel()
     self:addChild(monster)
 
 -- Create the ForegroundLayer
--- local foregroundLayer = self:createForegroundLayer()
--- self:addChild(foregroundLayer)
+    local foregroundLayer = self:createForegroundLayer()
+    self:addChild(foregroundLayer)
 
 -- Create the TouchLayer
 -- local touchLayer = self:createTouchLayer()
@@ -54,7 +54,18 @@ function GameBattlePanel:createBackgroundLayer()
     return backgroundLayer
 end   
 
--- Merge Test
+-- Create the Foreground Layer for this panel
+function GameBattlePanel:createForegroundLayer()
+    --local foregroundLayer = cc.Layer:create()
+    --local foregroundLayer = cc.Layer:create()
+    local foregroundColor = cc.c4b(255, 255, 255, 0)
+    local foregroundLayer = cc.LayerColor:create(foregroundColor)
+    
+    foregroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2) -- 20% of the screen's height
+    
+    -- add all the child node 
+    return foregroundLayer
+end
 
 return GameBattlePanel
 

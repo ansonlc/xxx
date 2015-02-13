@@ -18,3 +18,5 @@ GGameIconCount = 7
 GBlinkIconIndex = 21
 
 GBackGroundMiddlePoint = {x = 356, y = 512}
+
+GMaxSkillsInSlot = 5
