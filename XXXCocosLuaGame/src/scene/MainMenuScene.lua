@@ -36,8 +36,9 @@ function MainMenuScene:onInit()
     self.panelIcon:setOpacity(0)
     
     local function onStoryPress(sender, eventType)
-        SceneManager.replaceSceneWithName("GameScene")
-        return true
+        if eventType == ccui.TouchEventType.ended then 
+            SceneManager.replaceSceneWithName("GameScene")
+        end
     end
     
     self.btnStory:addTouchEventListener(onStoryPress)
