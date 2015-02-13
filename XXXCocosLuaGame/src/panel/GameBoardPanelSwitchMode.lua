@@ -225,9 +225,7 @@ local function cfMatchAndFade(node)
 
         if matchSprite ~= nil then
             matchSprite:setVisible(true)
-
-
-
+            
             local fade = cc.FadeOut:create(0.2)
             local removeFunc = cc.CallFunc:create(cfRemoveSelf)         
 
