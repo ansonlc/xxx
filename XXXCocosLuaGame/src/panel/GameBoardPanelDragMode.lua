@@ -81,6 +81,7 @@ local function falling()
             icons[i][j][GameBoard[i][j]]:setVisible(true)
             iconsPosition[i][j].needChange = true
             iconsPosition[i][j].current = fromTo(getCellCenter(i,j), t_position[j])
+            icons[i][j][GameBoard[i][j]].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
             
         end
     end
@@ -272,7 +273,6 @@ function GameBoardPanelDragMode.update(delta)
         if haveNotFinish == false then
             if haveDelete() then
                 State = State_Delete_animation
-                print "hi"
             else
                 State = State_Waiting
             end
