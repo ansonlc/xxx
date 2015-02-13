@@ -42,12 +42,14 @@ function BaseScene.create()
     return scene;
 end
 
+local sceneInitCount = 0
 --------------------------------
 --  Initialize method of the class, will be execute when called
 -- @function [parent=#BaseScene] initScene
 -- @param self
 function BaseScene:initScene()
-    cclog("Scene " .. self.sceneName .. " Initialized")
+    sceneInitCount = sceneInitCount + 1
+    cclog("No." .. sceneInitCount .. " Scene " .. self.sceneName .. " Initialized")
     self:onInit()
 end
 
