@@ -62,7 +62,7 @@ function GameScene:onUpdate(dt)
     if self.gameBoard and self.gameBoard.onUpdate then
         self.gameBoard:onUpdate(dt)
     end
-    cclog(dt)
+--    cclog(dt)
 end
 
 return GameScene
