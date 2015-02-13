@@ -31,8 +31,10 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         -- ccRunning:dispose()
     end
     
+    local startTime = TimeUtil.getRunningTime()
     local sceneClass = require("scene." .. sceneName)
     local targetScene = sceneClass.create(params)
+    cclog("Initialized in " .. (TimeUtil.getRunningTime() - startTime) .. "s")
     
     if ccRunning then
         cc.Director:getInstance():replaceScene(targetScene)
