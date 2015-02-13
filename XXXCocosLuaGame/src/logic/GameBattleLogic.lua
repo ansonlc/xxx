@@ -16,20 +16,43 @@ end
 function GameBattleLogic:initNode()
     -- Initialization
     self.monsterHP = 100
+    self.runesTable = {["Water"] = 0, ["Wind"] = 0, ["Fire"] = 0, ["Earth"] = 0}
+    self.crystalNum = 0
 end
 
--- TODO:these callback function should be replaced by the 
--- unified cfUseSkill(node, skillTable).
-
-function cfDoDamage(node, damageValue)
-    -- Do the damage to the monster
-    node.monsterHP = node.monsterHP - damageValue[1]
-    cclog("Monster HP: "..node.monsterHP)
-end 
-
-function cfDoHeal(node, healValue)
-    -- Do the healing to the player
+-- Update the runes table in the GameBattleLogic
+-- Input: {["Water"] = num1, ["Fire"] = num2 ...}
+function GameBattleLogic:updateRunesTable(runesTable)
+    assert(runesTable, "Nil input in function: GameBattleLogic:updateRunesTable()")
     
+    for k, v in pairs(runesTable) do 
+        if self.runesTable[k] ~= nil then
+            self.runesTable[k] = self.runesTable[k] + v
+        end
+    end
+    
+    -- Debug output
+    for k, v in pairs(self.runesTable) do
+        print (k,v)
+    end
 end
+
+-- Get the runes table data
+-- Return the runes table
+function GameBattleLogic:getRunesTable()
+    return self.runesTable
+end
+
+-- Update the crystal number
+-- Input: num
+function GameBattleLogic:updateCrystalNum(num)
+    self.crystalNum = self.crystalNum + num
+end
+
+-- Get the crystal number
+function GameBattleLogic:getCrystalNum()
+    return self.crystalNum
+end
+
 
 return GameBattleLogic

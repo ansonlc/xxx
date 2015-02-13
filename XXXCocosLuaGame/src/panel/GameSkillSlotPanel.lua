@@ -96,18 +96,11 @@ function GameSkillSlotPanel:createTouchLayer()
         -- TODO To be Implemented
        if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
             cclog("Attack Skill Used")
-            local gameScene = touchLayer:getParent():getParent()
-            local nodeCount = gameScene:getChildrenCount()
-            
-            local battleLogic = gameScene:getChildByTag(123)
-            
-            local removeFunc = cc.CallFunc:create(cfDoDamage, {25})         
-
-            local arrayOfActions = {removeFunc}
-
-            local sequence = cc.Sequence:create(arrayOfActions)
-
-            battleLogic:runAction(sequence)
+            local gameScene = self:getParent()         
+            local battleLogic = gameScene:getChildByName("GameBattleLogic")
+            assert(battleLogic, "Nil child")
+            local testRunesTable = {["Water"] = 1}
+            battleLogic:updateRunesTable(testRunesTable)
             
        elseif x >= (520 - spriteSize.width / 2) and x <= (520 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
             cclog("Magic Skill Used")
