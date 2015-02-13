@@ -26,7 +26,7 @@ end
 function GameBattleLogic:doDamage(damage)
     assert(damage, "Nil input in function: GameBattleLogic:doDamage()")
     self.monsterHP = self.monsterHP - damage
-    cclog(self.monsterHP)
+    cclog("Monster HP:"..self.monsterHP)
 end
 
 -- Update the runes table in the GameBattleLogic
