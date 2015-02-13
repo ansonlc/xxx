@@ -100,7 +100,7 @@ function GameSkillSlotPanel:createTouchLayer()
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
-       if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
+       --[[if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
             cclog("Attack Skill Used")
             local gameScene = self:getParent()         
             local battleLogic = gameScene:getChildByName("GameBattleLogic")
@@ -115,7 +115,7 @@ function GameSkillSlotPanel:createTouchLayer()
             battleLogic:updateRunesTable(testRunesTable)
        elseif x >= (820 - spriteSize.width / 2) and x <= (820 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
             cclog("Shield Skill Used")
-       end
+       end--]]
        
     end
     -- Register the touch handler and enable touch
