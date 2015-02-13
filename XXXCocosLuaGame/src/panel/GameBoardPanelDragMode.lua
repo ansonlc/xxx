@@ -26,6 +26,7 @@ local MATCH_TAG = 30
 local SELECT_TAG = 40
 
 local icons = {}
+local iconsPosition = {}
 local iconsTouch = {}
 
 local nowTouch = false
@@ -82,6 +83,8 @@ local function createNodeByIndex(index, opacity)
     iconMatchSprite:setVisible(false)
     iconSelectSprite:setVisible(false)
 
+    
+
     local iconNode = cc.Node:create()
     iconNode:addChild(iconNormalSprite)
     iconNode:addChild(iconMatchSprite)
@@ -95,23 +98,38 @@ end
 local icon1
 local x = 0
 
+local function abs(x)
+    if x < 0 then
+        return -x
+    else
+        return x
+    end
+end
+
 function GameBoardPanelDragMode.update(delta)
+
     for i = 1, nColumn do
         for j = 1, nRow do
-            for k = 1, nType do
-                if k == GameBoard[i][j] then
-                    icons[i][j][k]:setVisible(true)
-                    if i == touchCell.i and j == touchCell.j and nowTouch then
-                        icons[i][j][k].x:setOpacity(touchOpacity)
-                    else
-                        icons[i][j][k].x:setOpacity(255)
-                    end
+            local k = GameBoard[i][j]
+            
+            if iconsPosition[i][j].needChange then
+                if abs(iconsPosition[i][j].current.x - iconsPosition[i][j].want.x) + abs(iconsPosition[i][j].current.y - iconsPosition[i][j].want.y) > 1e-6 then
+                    local factor = 0.1
+                    --iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * (1 - factor) + iconsPosition[i][j].want.x * factor;
+                    --iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * (1 - factor) + iconsPosition[i][j].want.y * factor;
+                    icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
+                    print(iconsPosition[i][j].current.x .. " " .. iconsPosition[i][j].current.y)
                 else
-                    icons[i][j][k]:setVisible(false)
+                    iconsPosition[i][j].needChange = false
                 end
-                
-                
-                
+            end
+            
+            if touchCell ~= nil and i == touchCell.i and j == touchCell.j and nowTouch then
+                icons[i][j][k].x:setOpacity(touchOpacity)
+            else
+                if icons[i][j][k].x ~= nil then
+                    icons[i][j][k].x:setOpacity(255)
+                end
             end
         end
     end
@@ -124,21 +142,15 @@ function GameBoardPanelDragMode.update(delta)
             iconsTouch[k]:setVisible(false)
         end
     end
-    
-    
-    
 end
 
 function GameBoardPanelDragMode:initPanel()
 
     --self:registerScriptUpdateHandler(update)
     --self:setUpdateEnabled(true)
-
-
+    
     loadGameIcon()
     
-    
-  
     --self.scheduleUpdate()
 
     -- Create the BackgroundLayer
@@ -152,10 +164,17 @@ function GameBoardPanelDragMode:initPanel()
     for i = 1, nColumn do
         GameBoard[i] = {}
         icons[i] = {}
+        iconsPosition[i] = {}
         for j = 1, nRow do
             math.randomseed(math.random(os.time()))
             GameBoard[i][j] = math.random(nType)
             icons[i][j] = {}
+            
+            iconsPosition[i][j] = {}
+            iconsPosition[i][j].current = getCellCenter(i, j)
+            iconsPosition[i][j].want = getCellCenter(i, j)
+            iconsPosition[i][j].needChange = false
+            
             for k = 1, nType do
                 icons[i][j][k] = createNodeByIndex(k, 255)
                 icons[i][j][k]:setPosition(getCellCenter(i,j).x, getCellCenter(i,j).y)
@@ -194,7 +213,31 @@ function GameBoardPanelDragMode:createBackgroundLayer()
     return backgroundLayer
 end
 
+local function fromTo(A, B)
+    return {x = B.x - A.x, y = B.y - A.y}
+end
+
 -- Create the Touch Layer for this panel
+local function swapCell(cellA, cellB)
+    print("swap: "..cellA.i..","..cellA.j.." "..cellB.i..","..cellB.j)
+    local i, j
+    i, j = cellA.i, cellA.j
+    print(i.." "..j.." "..GameBoard[i][j])
+    icons[i][j][GameBoard[i][j]]:setVisible(false)
+    i, j = cellB.i, cellB.j
+    print(i.." "..j.." "..GameBoard[i][j])
+    icons[i][j][GameBoard[i][j]]:setVisible(false)
+    GameBoard[cellA.i][cellA.j], GameBoard[cellB.i][cellB.j] = GameBoard[cellB.i][cellB.j], GameBoard[cellA.i][cellA.j]
+    i, j = cellA.i, cellA.j
+    print(i.." "..j.." "..GameBoard[i][j])
+    icons[i][j][GameBoard[i][j]]:setVisible(true)
+    i, j = cellB.i, cellB.j
+    print(i.." "..j.." "..GameBoard[i][j])
+    icons[i][j][GameBoard[i][j]]:setVisible(true)
+
+    iconsPosition[cellA.i][cellA.j].want = fromTo(getCellCenter(cellA.i,cellA.j), getCellCenter(cellB.i,cellB.j))
+    iconsPosition[cellB.i][cellB.j].want = fromTo(getCellCenter(cellB.i,cellB.j), getCellCenter(cellA.i,cellA.j))
+end
 
 function GameBoardPanelDragMode:createTouchLayer()
     local touchColor = cc.c4b(255, 255, 255, 0)
@@ -216,7 +259,18 @@ function GameBoardPanelDragMode:createTouchLayer()
     end
     
     local function onTouchMove(x, y)
+        local cell = positionToCell(x,y)
+        if cell ~= nil then
+            if abs(cell.i - touchCell.i) + abs(cell.j - touchCell.j) == 1 then
+                swapCell(cell, touchCell)
+                local i, j = cell.i, cell.j
+                touchType = GameBoard[i][j]
+                touchPosition = {x = x, y = y}
+                touchCell = {i = i, j = j}
+            end
+        end
         touchPosition = {x = x, y = y}
+        
         return true
     end
     
