@@ -123,10 +123,10 @@ function GameBoardPanelDragMode.update(delta)
             local k = GameBoard[i][j]
             
             if iconsPosition[i][j].needChange then
-                if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 1e-6 then
-                    local factor = 0.1
-                    iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * (1 - factor)
-                    iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * (1 - factor)
+                if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 1e-3 then
+                    local factor = 0.5 ^ (delta * 5.0)
+                    iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * factor
+                    iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * factor
                     icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
                 else
                     iconsPosition[i][j].needChange = false
