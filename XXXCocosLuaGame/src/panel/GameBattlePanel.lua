@@ -64,7 +64,7 @@ function GameBattlePanel:createForegroundLayer()
     foregroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2) -- 20% of the screen's height
     
     -- add all the child node 
-    return 
+    return foregroundLayer
 end
 
 return GameBattlePanel

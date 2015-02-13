@@ -20,6 +20,15 @@ function GameBattleLogic:initNode()
     self.crystalNum = 0
 end
 
+-- DoDamage function, should be later replaced by 
+-- useSkill function
+-- input: num
+function GameBattleLogic:doDamage(damage)
+    assert(damage, "Nil input in function: GameBattleLogic:doDamage()")
+    self.monsterHP = self.monsterHP - damage
+    cclog(self.monsterHP)
+end
+
 -- Update the runes table in the GameBattleLogic
 -- Input: {["Water"] = num1, ["Fire"] = num2 ...}
 function GameBattleLogic:updateRunesTable(runesTable)

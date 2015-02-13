@@ -101,7 +101,7 @@ function GameSkillSlotPanel:createTouchLayer()
             assert(battleLogic, "Nil child")
             local testRunesTable = {["Water"] = 1}
             battleLogic:updateRunesTable(testRunesTable)
-            
+            battleLogic:doDamage(25)
        elseif x >= (520 - spriteSize.width / 2) and x <= (520 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
             cclog("Magic Skill Used")
        elseif x >= (820 - spriteSize.width / 2) and x <= (820 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then

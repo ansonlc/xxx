@@ -45,13 +45,13 @@ function GameScene:onInit()
     -- Add the GameBattlePanel
     local GameBattlePanel = require("panel.GameBattlePanel")
     self.battlePanel = GameBattlePanel.create()
-    self:setName("GameBattlePanel")
+    self.battlePanel:setName("GameBattlePanel")
     self:addChild(self.battlePanel)
     
     -- Add the GameBattleLogic node here
     local GameBattelLogic = require("logic.GameBattleLogic")
     self.battleLogicNode = GameBattelLogic.create()
-    self:setName("GameBattleLogic")
+    self.battleLogicNode:setName("GameBattleLogic")
     self:addChild(self.battleLogicNode)
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
