@@ -52,8 +52,8 @@ local function positionToCell(x, y)
         return nil
     end
     
-    local i = math.floor((x - (centerWidth - myWidth / 2)) / (myWidth / nColumn))
-    local j = math.floor((y - (centerHeight - myHeight / 2)) / (myHeight / nRow))
+    local i = math.floor((x - (centerWidth - myWidth / 2)) / (myWidth / nColumn)) + 1
+    local j = math.floor((y - (centerHeight - myHeight / 2)) / (myHeight / nRow)) + 1
     i = math.max(1, math.min(i, nColumn))
     j = math.max(1, math.min(j, nRow))
     return {i = i, j = j}
@@ -322,7 +322,7 @@ function GameBoardPanelDragMode:createTouchLayer()
         iconsTouch[touchType]:setVisible(false)
         return true
     end
-
+    
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
