@@ -41,7 +41,6 @@ function GameBoardPanelDragMode.create()
     return panel
 end
 
-
 local function getCellCenter(i, j)
     local x = centerWidth - myWidth / 2 + (myWidth / nColumn) * (i - 0.5) 
     local y = centerHeight - myHeight / 2 + (myHeight / nRow) * (j - 0.5) 
@@ -49,6 +48,16 @@ local function getCellCenter(i, j)
 end
 
 local function positionToCell(x, y)
+    if x < centerWidth - myWidth / 2 or x > centerWidth + myWidth / 2 or y < centerHeight - myHeight / 2 or y > centerHeight + myHeight / 2 then
+        return nil
+    end
+    
+    local i = math.floor((x - (centerWidth - myWidth / 2)) / (myWidth / nColumn))
+    local j = math.floor((y - (centerHeight - myHeight / 2)) / (myHeight / nRow))
+    i = math.max(1, math.min(i, nColumn))
+    j = math.max(1, math.min(j, nRow))
+    return {i = i, j = j}
+    --[[
     for i = 1, nColumn do
         for j = 1, nRow do
             local cx = getCellCenter(i ,j).x
@@ -63,6 +72,7 @@ local function positionToCell(x, y)
         end
     end
     return nil
+    ]]--
 end
 
 
@@ -113,12 +123,11 @@ function GameBoardPanelDragMode.update(delta)
             local k = GameBoard[i][j]
             
             if iconsPosition[i][j].needChange then
-                if abs(iconsPosition[i][j].current.x - iconsPosition[i][j].want.x) + abs(iconsPosition[i][j].current.y - iconsPosition[i][j].want.y) > 1e-6 then
+                if abs(iconsPosition[i][j].current.x) + abs(iconsPosition[i][j].current.y) > 1e-6 then
                     local factor = 0.1
-                    --iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * (1 - factor) + iconsPosition[i][j].want.x * factor;
-                    --iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * (1 - factor) + iconsPosition[i][j].want.y * factor;
+                    iconsPosition[i][j].current.x = iconsPosition[i][j].current.x * (1 - factor)
+                    iconsPosition[i][j].current.y = iconsPosition[i][j].current.y * (1 - factor)
                     icons[i][j][k].x:setPosition(iconsPosition[i][j].current.x, iconsPosition[i][j].current.y)
-                    print(iconsPosition[i][j].current.x .. " " .. iconsPosition[i][j].current.y)
                 else
                     iconsPosition[i][j].needChange = false
                 end
@@ -134,13 +143,10 @@ function GameBoardPanelDragMode.update(delta)
         end
     end
     
-    for k = 1, nType do
-        if nowTouch and touchType == k then
-            iconsTouch[k]:setVisible(true)
-            iconsTouch[k]:setPosition(touchPosition.x, touchPosition.y)
-        else
-            iconsTouch[k]:setVisible(false)
-        end
+    if nowTouch then
+        local k = touchType
+        iconsTouch[k]:setVisible(true)
+        iconsTouch[k]:setPosition(touchPosition.x, touchPosition.y)
     end
 end
 
@@ -171,8 +177,7 @@ function GameBoardPanelDragMode:initPanel()
             icons[i][j] = {}
             
             iconsPosition[i][j] = {}
-            iconsPosition[i][j].current = getCellCenter(i, j)
-            iconsPosition[i][j].want = getCellCenter(i, j)
+            iconsPosition[i][j].current = {x = 0, y = 0}
             iconsPosition[i][j].needChange = false
             
             for k = 1, nType do
@@ -219,24 +224,64 @@ end
 
 -- Create the Touch Layer for this panel
 local function swapCell(cellA, cellB)
-    print("swap: "..cellA.i..","..cellA.j.." "..cellB.i..","..cellB.j)
+    --print("swap: "..cellA.i..","..cellA.j.." "..cellB.i..","..cellB.j)
     local i, j
     i, j = cellA.i, cellA.j
-    print(i.." "..j.." "..GameBoard[i][j])
     icons[i][j][GameBoard[i][j]]:setVisible(false)
     i, j = cellB.i, cellB.j
-    print(i.." "..j.." "..GameBoard[i][j])
     icons[i][j][GameBoard[i][j]]:setVisible(false)
     GameBoard[cellA.i][cellA.j], GameBoard[cellB.i][cellB.j] = GameBoard[cellB.i][cellB.j], GameBoard[cellA.i][cellA.j]
     i, j = cellA.i, cellA.j
-    print(i.." "..j.." "..GameBoard[i][j])
     icons[i][j][GameBoard[i][j]]:setVisible(true)
     i, j = cellB.i, cellB.j
-    print(i.." "..j.." "..GameBoard[i][j])
     icons[i][j][GameBoard[i][j]]:setVisible(true)
 
-    iconsPosition[cellA.i][cellA.j].want = fromTo(getCellCenter(cellA.i,cellA.j), getCellCenter(cellB.i,cellB.j))
-    iconsPosition[cellB.i][cellB.j].want = fromTo(getCellCenter(cellB.i,cellB.j), getCellCenter(cellA.i,cellA.j))
+    iconsPosition[cellA.i][cellA.j].current = fromTo(getCellCenter(cellA.i,cellA.j), getCellCenter(cellB.i,cellB.j))
+    iconsPosition[cellB.i][cellB.j].current = fromTo(getCellCenter(cellB.i,cellB.j), getCellCenter(cellA.i,cellA.j))
+    iconsPosition[cellA.i][cellA.j].needChange = true
+    iconsPosition[cellB.i][cellB.j].needChange = true
+    
+end
+
+local function getTargetCell(x, y)
+    if x < centerWidth - myWidth * 0.5 then
+        x = centerWidth - myWidth * 0.5
+    end
+    if x > centerWidth + myWidth * 0.5 then
+        x = centerWidth + myWidth
+    end
+    if y < centerHeight - myHeight * 0.5 then
+        y = centerHeight - myHeight * 0.5
+    end
+    if y > centerHeight + myHeight * 0.5 then
+        y = centerHeight + myHeight * 0.5
+    end
+
+    
+    local d = {x = x - getCellCenter(touchCell.i,touchCell.j).x, y = y - getCellCenter(touchCell.i,touchCell.j).y}
+    if abs(d.x) <= iconSize / 2 * 1.2 and abs(d.y) <= iconSize / 2 * 1.2 then
+        return nil
+    end
+    local dx = {-1, 0, 1, -1, 1, -1, 0, 1}
+    local dy = {-1, -1, -1, 0, 0, 1, 1, 1}
+    local maximalProd = -1
+    local which = 0
+    for i = 1,8 do
+       local prod = d.x * dx[i] + d.y * dy[i]
+       if abs(dx[i]) + abs(dy[i]) == 2 then
+            prod = prod / 2^0.5
+       end
+       if prod > maximalProd then
+            maximalProd = prod
+            which = i
+       end
+    end
+    local i = touchCell.i + dx[which]
+    local j = touchCell.j + dy[which]
+    if 1 <= i and i <= nColumn and 1 <= j and j <= nRow then
+        return {i = i, j = j}
+    end
+    return nil
 end
 
 function GameBoardPanelDragMode:createTouchLayer()
@@ -259,15 +304,13 @@ function GameBoardPanelDragMode:createTouchLayer()
     end
     
     local function onTouchMove(x, y)
-        local cell = positionToCell(x,y)
+        cell = getTargetCell(x, y)
         if cell ~= nil then
-            if abs(cell.i - touchCell.i) + abs(cell.j - touchCell.j) == 1 then
-                swapCell(cell, touchCell)
-                local i, j = cell.i, cell.j
-                touchType = GameBoard[i][j]
-                touchPosition = {x = x, y = y}
-                touchCell = {i = i, j = j}
-            end
+            swapCell(cell, touchCell)
+            local i, j = cell.i, cell.j
+            touchType = GameBoard[i][j]
+            touchPosition = {x = x, y = y}
+            touchCell = {i = i, j = j}
         end
         touchPosition = {x = x, y = y}
         
@@ -276,14 +319,13 @@ function GameBoardPanelDragMode:createTouchLayer()
     
     local function onTouchEnd(x, y)
         nowTouch = false
+        iconsTouch[touchType]:setVisible(false)
         return true
     end
 
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
-        -- print("x:"..x.." y:"..y)
-        --print (eventType.." "..x.." "..y)
         if eventType == "began" then   
             return onTouchBegin(x, y)
         elseif eventType == "moved" then
