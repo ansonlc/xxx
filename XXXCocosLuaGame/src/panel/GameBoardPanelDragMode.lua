@@ -30,8 +30,9 @@ local iconsTouch = {}
 
 local nowTouch = false
 local touchPosition = {}
+local touchCell
 local touchType
-local touchOpacity = 180
+local touchOpacity = 150
 
 function GameBoardPanelDragMode.create()
     local panel = GameBoardPanelDragMode.new()
@@ -85,6 +86,8 @@ local function createNodeByIndex(index, opacity)
     iconNode:addChild(iconNormalSprite)
     iconNode:addChild(iconMatchSprite)
     iconNode:addChild(iconSelectSprite)
+    
+    iconNode.x = iconNormalSprite
 
     return iconNode
 end
@@ -93,18 +96,22 @@ local icon1
 local x = 0
 
 function GameBoardPanelDragMode.update(delta)
-    if icons == nil then
-        return
-    end
-
     for i = 1, nColumn do
         for j = 1, nRow do
             for k = 1, nType do
                 if k == GameBoard[i][j] then
                     icons[i][j][k]:setVisible(true)
+                    if i == touchCell.i and j == touchCell.j and nowTouch then
+                        icons[i][j][k].x:setOpacity(touchOpacity)
+                    else
+                        icons[i][j][k].x:setOpacity(255)
+                    end
                 else
                     icons[i][j][k]:setVisible(false)
                 end
+                
+                
+                
             end
         end
     end
@@ -117,6 +124,8 @@ function GameBoardPanelDragMode.update(delta)
             iconsTouch[k]:setVisible(false)
         end
     end
+    
+    
     
 end
 
@@ -197,29 +206,30 @@ function GameBoardPanelDragMode:createTouchLayer()
         local cell = positionToCell(x,y)
         if cell ~= nil then
             local i, j = cell.i, cell.j
-            GameBoard[i][j] = GameBoard[i][j] + 1
-            if GameBoard[i][j] > nType then
-                GameBoard[i][j] = 1
-            end
+            
             touchType = GameBoard[i][j]
             nowTouch = true
             touchPosition = {x = x, y = y}
+            touchCell = {i = i, j = j}
+            return true
         end
     end
     
     local function onTouchMove(x, y)
         touchPosition = {x = x, y = y}
+        return true
     end
     
     local function onTouchEnd(x, y)
         nowTouch = false
+        return true
     end
 
     -- Implementation of the Touch Event
     local function onTouch(eventType, x, y)
         -- TODO To be Implemented
         -- print("x:"..x.." y:"..y)
-        print (eventType..x..y)
+        --print (eventType.." "..x.." "..y)
         if eventType == "began" then   
             return onTouchBegin(x, y)
         elseif eventType == "moved" then
