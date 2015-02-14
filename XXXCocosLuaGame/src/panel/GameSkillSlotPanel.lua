@@ -21,9 +21,9 @@ end
 
 function GameSkillSlotManagerLayer:initLayer()
     -- initialize the layer
-    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)
+    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)  -- currently 20% of the whole screen space
     -- initialize the constant
-    self.spriteSize = 64 * 3
+    self.spriteSize = 64 * 3    -- should be dynamic; currently hard coded
     self.slotsLeftNumber = GMaxSkillsInSlot    
     self.skillSlotTable = {}
     -- 1. Create all the slots for the skills
@@ -42,6 +42,21 @@ function GameSkillSlotManagerLayer:initLayer()
     self:insertSkillNode(1,skillSprite1)
     self:insertSkillNode(2,skillSprite2)
     self:insertSkillNode(3,skillSprite3)
+    
+    -- wrapper for the class touch event handler
+    local function onTouch(eventType, x, y)
+        self:touchEventHandler(eventType, x, y)
+    end
+    
+    self:registerScriptTouchHandler(onTouch)
+    self:setTouchEnabled(true)
+end
+
+function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
+    if y > self:getContentSize().height then
+        return
+    end
+    cclog("x: "..x.."y: "..y)
 end
 
 -- TODO: should also pass in Skill info
@@ -79,50 +94,11 @@ function GameSkillSlotPanel:initPanel()
    backgroundLayer:setName("BackgroundLayer")
    self:addChild(backgroundLayer)
    
-   -- Create the TouchLayer
-   local touchLayer = self:createTouchLayer()
-   self:addChild(touchLayer)
-   
    -- Add the GameSkillSlotMangaerNode (as a self member -> easy to access)
    self.skillSlotManagerLayer = GameSkillSlotManagerLayer:create()
    self.skillSlotManagerLayer:setName("SkillSlotManager")
    self:addChild(self.skillSlotManagerLayer)
-end
-
--- Create the Touch Layer for this panel
-
-function GameSkillSlotPanel:createTouchLayer()
-    local touchColor = cc.c4b(255, 255, 255, 0)
-    local touchLayer = cc.LayerColor:create(touchColor)
-    
-    touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)    -- 20% of the screen's height
    
-    -- Implementation of the Touch Event
-    local function onTouch(eventType, x, y)
-        -- TODO To be Implemented
-       --[[if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
-            cclog("Attack Skill Used")
-            local gameScene = self:getParent()         
-            local battleLogic = gameScene:getChildByName("GameBattleLogic")
-            assert(battleLogic, "Nil child")
-            battleLogic:doDamage(25)
-       elseif x >= (520 - spriteSize.width / 2) and x <= (520 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
-            cclog("Magic Skill Used")
-            local gameScene = self:getParent()         
-            local battleLogic = gameScene:getChildByName("GameBattleLogic")
-            assert(battleLogic, "Nil child")
-            local testRunesTable = {["Water"] = 1}
-            battleLogic:updateRunesTable(testRunesTable)
-       elseif x >= (820 - spriteSize.width / 2) and x <= (820 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
-            cclog("Shield Skill Used")
-       end--]]
-       
-    end
-    -- Register the touch handler and enable touch
-    touchLayer:registerScriptTouchHandler(onTouch)
-    touchLayer:setTouchEnabled(true)
-    
-    return touchLayer
 end
 
 return GameSkillSlotPanel
