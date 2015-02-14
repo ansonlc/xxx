@@ -243,7 +243,7 @@ function removeCellSet(cellSet)
     for i = 1, #cellSet do
         --cclog("remove.."..cellSet[i].x.."  "..cellSet[i].y)
         local tag = 10 * cellSet[i].x + cellSet[i].y
-        local board = cc.Director:getInstance():getRunningScene().gameBaord
+        local board = cc.Director:getInstance():getRunningScene().gameBoard
         local node = board:getChildByTag(NODE_TAG_START + tag)
 
         --此时直接清除数据
@@ -259,7 +259,7 @@ function cfRefreshBoard()
     local firstEmptyCell = nil
     local addCellList = nil
     local moveCellList = nil
-    local board = cc.Director:getInstance():getRunningScene().gameBaord
+    local board = cc.Director:getInstance():getRunningScene().gameBoard
 
     firstEmptyCell, addCellList, moveCellList = getRefreshBoardData()
 
@@ -451,7 +451,7 @@ function cfCheckSwitchCell()
         end
     end
 
-    if #succCellSet == -1 then
+    if #succCellSet == 0 then
         --匹配失败
         cclog("switch failed...")
 

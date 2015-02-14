@@ -498,7 +498,7 @@ function GameBoardPanelDragMode:createTouchLayer()
             
             nowTouch = false
             iconsTouch[touchType]:setVisible(false)
-            State = State_Check
+            
             State = State_Waiting_animation
             
             return true
