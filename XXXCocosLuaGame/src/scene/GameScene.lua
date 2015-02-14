@@ -26,12 +26,12 @@ function GameScene:onInit()
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
     
-    ---[[
+    --[[
     local GameBoardPanelSwitchMode = require("panel.GameBoardPanelSwitchMode")
     self.gameBoard = GameBoardPanelSwitchMode.create()
     --]]
     
-    --[[
+    ---[[
     local GameBoardPanelDragMode = require("panel.GameBoardPanelDragMode")
     self.gameBoard = GameBoardPanelDragMode.create()
     --]]

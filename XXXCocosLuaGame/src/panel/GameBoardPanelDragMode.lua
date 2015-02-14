@@ -35,7 +35,7 @@ local touchCell
 local touchType
 local touchOpacity = 150
 
-local speedSwap = 10.0
+local speedSwap = 20.0
 
 local State_Waiting = 1
 local State_Waiting_animation = 2
@@ -322,15 +322,32 @@ function GameBoardPanelDragMode:initPanel()
     self:addChild(touchLayer)
     
     for i = 1, nColumn do
-        GameBoard[i] = {}
-        icons[i] = {}
-        iconsPosition[i] = {}
         willDelete[i] = {}
         for j = 1, nRow do
-            math.randomseed(math.random(os.time()))
-            GameBoard[i][j] = math.random(nType)
-            icons[i][j] = {}
             willDelete[i][j] = false
+        end
+    end
+        
+    local ok = false
+    while ok == false do
+        for i = 1, nColumn do
+            GameBoard[i] = {}
+            for j = 1, nRow do
+                GameBoard[i][j] = math.random(nType)
+            end
+        end
+        if haveDelete() == false then
+            ok = true
+        end
+    end
+    
+    for i = 1, nColumn do
+        icons[i] = {}
+        iconsPosition[i] = {}
+        for j = 1, nRow do
+            math.randomseed(math.random(os.time()))
+            --
+            icons[i][j] = {}
             iconsPosition[i][j] = {}
             iconsPosition[i][j].current = {x = 0, y = 0}
             iconsPosition[i][j].needChange = false
