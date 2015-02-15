@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- GameScene.lua - 游戏场景
+-- GameScene.lua
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -12,10 +12,16 @@ function GameScene:ctor()
     self.gameBoard = nil
 end
 
-function GameScene.create()
+function GameScene.create(params)
     local scene = GameScene.new()
-    scene:initScene()
+    scene:initScene(params)
     return scene
+end
+
+function GameScene:onEnter()
+    cclog("Now level: " .. self.enterData.level)
+    cclog("Now mode: " .. self.enterData.mode)
+    cclog("Now difficulty: " .. self.enterData.difficulty)
 end
 
 -- create game scene

@@ -37,7 +37,7 @@ function MainMenuScene:onInit()
     
     local function onStoryPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
-            SceneManager.replaceSceneWithName("GameScene")
+            SceneManager.replaceSceneWithName("LevelSelectScene")
         end
     end
     
