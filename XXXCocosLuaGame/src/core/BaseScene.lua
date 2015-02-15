@@ -47,9 +47,16 @@ local sceneInitCount = 0
 --  Initialize method of the class, will be execute when called
 -- @function [parent=#BaseScene] initScene
 -- @param self
-function BaseScene:initScene()
+function BaseScene:initScene(params)
     sceneInitCount = sceneInitCount + 1
     cclog("No." .. sceneInitCount .. " Scene " .. self.sceneName .. " Initializing")
+    
+    if params then
+        self.enterScene = params.enterScene
+        self.returnScene = params.returnScene
+        self.enterData = params.data
+    end
+    
     self:onInit()
 end
 
