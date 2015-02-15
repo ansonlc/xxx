@@ -37,8 +37,13 @@ function GameScene:onInit()
     self.gameBoard = GameBoardPanelSwitchMode.create()
     --]]
     
-    ---[[
+    --[[
     local GameBoardPanelDragMode = require("panel.GameBoardPanelDragMode")
+    self.gameBoard = GameBoardPanelDragMode.create()
+    --]]
+    
+    ---[[
+    local GameBoardPanelDragMode = require("panel.GameBoardPanelCycle")
     self.gameBoard = GameBoardPanelDragMode.create()
     --]]
     self:addChild(self.gameBoard)

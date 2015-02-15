@@ -246,3 +246,12 @@ function checkBoardMovable()
 
     return ret, succList
 end
+
+-- Moving Vertically or Horizontally
+function isLinearMoved(cellA, cellB)
+    local ret = false;
+    if (cellA.x == cellB.x and cellA.y ~= cellB.y) or (cellA.y == cellB.y and cellA.x ~= cellB.x) then
+        ret = true;
+    end
+    return ret
+end
