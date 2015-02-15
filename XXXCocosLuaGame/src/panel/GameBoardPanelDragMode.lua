@@ -38,12 +38,24 @@ local touchOpacity = 150
 local speedSwap = 20.0
 
 local State_Waiting = 1
-local State_Waiting_animation = 2
-local State_Delete_animation = 3
-local State_Falling = 4
+local State_Waiting_Countdown = 2
+local State_Waiting_animation = 3
+local State_Delete_animation = 4
+local State_Falling = 5
 local State = State_Waiting
 
+local MP = 100
+local MP_Bar
+local CountDown = 100
+local CountDown_Bar
+local CountDownReduce = 100
+local MP_ReduceFirst = 10
+local MP_ReduceNext = 1
+local MP_ReducePerSecond = 10
+local MP_RecoverPerSecond = 150
+
 local willDelete = {}
+local noSwap = true
 
 local function fromTo(A, B)
     return {x = B.x - A.x, y = B.y - A.y}
@@ -58,7 +70,6 @@ end
 local function falling()
     
     --icons[i][j][GameBoard[i][j]]:setVisible(false)
-
     for i = 1, nColumn do
         local t_position = {}
         local t_Type = {}
@@ -159,7 +170,6 @@ function GameBoardPanelDragMode.create()
 end
 
 
-
 local function positionToCell(x, y)
     if x < centerWidth - myWidth / 2 or x > centerWidth + myWidth / 2 or y < centerHeight - myHeight / 2 or y > centerHeight + myHeight / 2 then
         return nil
@@ -213,9 +223,48 @@ local function abs(x)
     end
 end
 
-function GameBoardPanelDragMode.update(delta)
+local function touchEndFunction()
+    local i, j = touchCell.i, touchCell.j
+    icons[i][j][GameBoard[i][j]].x:setOpacity(255)
+    nowTouch = false
+    iconsTouch[touchType]:setVisible(false)
+    noSwap = true
+end
 
-    if State == State_Waiting then
+function GameBoardPanelDragMode.update(delta)
+    
+    if State == State_Waiting and nowTouch == false then
+        MP = MP + delta * MP_RecoverPerSecond
+        if MP > 100 then 
+            MP = 100
+        end
+    end
+
+    if nowTouch == true and (noSwap == false or State == State_Waiting_Countdown) then
+        MP = MP - delta * MP_ReducePerSecond
+        if MP < 0 then
+            MP = 0
+            touchEndFunction()
+            State = State_Waiting_animation
+        end
+    end
+    
+    if State == State_Waiting_Countdown and nowTouch == false then
+        CountDown = CountDown - delta * CountDownReduce
+        if CountDown < 0 then
+            CountDown = 0
+            State = State_Waiting_animation
+        end
+    else
+        CountDown = MP
+    end
+    
+    MP_Bar:changeWidthAndHeight(myWidth * MP / 100, 20)
+    CountDown_Bar:changeWidthAndHeight(myWidth * CountDown / 100, 20)
+    
+    
+    
+    if State == State_Waiting or State_Waiting_Countdown then
         
         for i = 1, nColumn do
             for j = 1, nRow do
@@ -320,6 +369,19 @@ function GameBoardPanelDragMode:initPanel()
     -- Create the TouchLayer
     local touchLayer = self:createTouchLayer()
     self:addChild(touchLayer)
+    
+    MP_Bar = cc.LayerColor:create(cc.c4b(0, 100, 255, 200))
+    MP_Bar:changeWidthAndHeight(myWidth, 20)
+    MP_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 20)
+    self:addChild(MP_Bar)
+    
+    CountDown_Bar = cc.LayerColor:create(cc.c4b(255, 255, 255, 200))
+    CountDown_Bar:changeWidthAndHeight(myWidth, 20)
+    CountDown_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 40)
+    self:addChild(CountDown_Bar)
+
+    
+    
     
     for i = 1, nColumn do
         willDelete[i] = {}
@@ -461,7 +523,8 @@ function GameBoardPanelDragMode:createTouchLayer()
     touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
 
     local function onTouchBegin(x, y)
-        if State == State_Waiting then
+    
+        if State == State_Waiting or State == State_Waiting_Countdown then
             local cell = positionToCell(x,y)
             if cell ~= nil then
                 local i, j = cell.i, cell.j
@@ -475,52 +538,58 @@ function GameBoardPanelDragMode:createTouchLayer()
                 return true
             end
         end
-        return false
+        
         
     end
     
     local function onTouchMove(x, y)
     
-        if State == State_Waiting then
+        if (State == State_Waiting or State == State_Waiting_Countdown) and nowTouch then
             cell = getTargetCell(x, y)
             if cell ~= nil then
-                swapCell(cell, touchCell)
-                
-                local i, j = touchCell.i, touchCell.j
-                local k = GameBoard[i][j]
-                icons[i][j][k].x:setOpacity(255)
-                
-                local i, j = cell.i, cell.j
-                touchType = GameBoard[i][j]
-                touchPosition = {x = x, y = y}
-                touchCell = {i = i, j = j}
-                
-                local i, j = touchCell.i, touchCell.j
-                local k = GameBoard[i][j]
-                icons[i][j][k].x:setOpacity(255)
+            
+                local cost = 0
+                if noSwap then
+                    cost = MP_ReduceFirst
+                else
+                    cost = MP_ReduceNext
+                end
+                if MP >= cost then
+                    MP = MP - cost
+                    noSwap = false
+                    swapCell(cell, touchCell)
+                    
+                    local i, j = touchCell.i, touchCell.j
+                    local k = GameBoard[i][j]
+                    icons[i][j][k].x:setOpacity(255)
+                    
+                    local i, j = cell.i, cell.j
+                    touchType = GameBoard[i][j]
+                    touchPosition = {x = x, y = y}
+                    touchCell = {i = i, j = j}
+                    
+                    local i, j = touchCell.i, touchCell.j
+                    local k = GameBoard[i][j]
+                    icons[i][j][k].x:setOpacity(255)
+                end
 
             end
             touchPosition = {x = x, y = y}
             
             return true
         end
-        return false
+        
     end
     
     local function onTouchEnd(x, y)
-        if State == State_Waiting then
-            local i, j = touchCell.i, touchCell.j
-            local k = GameBoard[i][j]
-            icons[i][j][k].x:setOpacity(255)
-            
-            nowTouch = false
-            iconsTouch[touchType]:setVisible(false)
-            
-            State = State_Waiting_animation
-            
+        if (State == State_Waiting or State == State_Waiting_Countdown) and nowTouch then
+            if State == State_Waiting and noSwap == false then
+                State = State_Waiting_Countdown
+            end
+            touchEndFunction()
             return true
         end
-        return false
+        
     end
     
     -- Implementation of the Touch Event
