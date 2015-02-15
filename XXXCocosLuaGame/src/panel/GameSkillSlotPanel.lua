@@ -21,27 +21,52 @@ end
 
 function GameSkillSlotManagerLayer:initLayer()
     -- initialize the layer
-    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)
+    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotLayerVerticalRatio)  -- currently 20% of the whole screen space
     -- initialize the constant
-    self.spriteSize = 64 * 3
-    self.slotsLeftNumber = GMaxSkillsInSlot    
+    self.spriteSize = visibleSize.width * GSkillSlotIdelSizeRatio    -- should be dynamic; currently hard coded
+    self.slotNumber = GSkillSLotStartIndex  -- indices of lua table start from 1
     self.skillSlotTable = {}
+    self.layerHorizontalStartOffset = visibleSize.width * GSkillSlotHorizontalStartOffsetRatio
+    self.layerHorizontalOffset = visibleSize.width * GSkillSlotHorizontalOffsetRatio
+    self.layerVerticalStartOffset = visibleSize.height * GSkillSlotVerticalStartOffsetRatio
     -- 1. Create all the slots for the skills
     -- 2. Determine the size and position for each slot
     -- 3. Create all the skill nodes and attach them to the manager
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/sword_1.png")
-    skillSprite1:setPosition(220, 200) -- currently hardcoded position
-    skillSprite1:setScale(3)
     local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png")
-    skillSprite2:setPosition(520, 200)
-    skillSprite2:setScale(3)
     local skillSprite3 = self:generateSkillNode("res/imgs/temp/shield_1.png")
-    skillSprite3:setPosition(820, 200)
-    skillSprite3:setScale(3)
     
     self:insertSkillNode(1,skillSprite1)
     self:insertSkillNode(2,skillSprite2)
     self:insertSkillNode(3,skillSprite3)
+    self:insertSkillNode(4,nil)
+    self:insertSkillNode(5,nil)
+    
+    -- wrapper for the class touch event handler
+    local function onTouch(eventType, x, y)
+        self:touchEventHandler(eventType, x, y)
+    end
+    
+    self:registerScriptTouchHandler(onTouch)
+    self:setTouchEnabled(true)
+end
+
+-- Activate the skill slot given the x and y coord
+-- nil if not available
+function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
+    if y > self:getContentSize().height then
+        return
+    end
+
+    for i = 1, 5, 1 do
+        if self.skillSlotTable[i] ~= nil then
+            if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
+                cclog("Skill: "..i.." activated")
+                -- TODO: the manager should check if the runes are enough to activate this skill
+                -- and then activate the skill
+            end
+        end
+    end
 end
 
 -- TODO: should also pass in Skill info
@@ -53,13 +78,38 @@ end
 
 -- Insert a certain node into the layer and automatically 
 -- adjust the position and size of it
--- TODO: Auto-adjustment
 function GameSkillSlotManagerLayer:insertSkillNode(index, node)
     assert(index, "Nil input in function: GameSkillSlotManagerLayer:insertSkillNode()")
-    assert(node, "Nil input in function: GameSkillSlotManagerLayer:insertSkillNode()")
-    self.skillSlotTable[index] = node 
-    self.slotsLeftNumber = self.slotsLeftNumber - 1
-    self:addChild(node)
+    assert(index < 6, "Index out of bound in SkillSlotLayer")
+    -- assert(node, "Nil input in function: GameSkillSlotManagerLayer:insertSkillNode()")
+    if node == nil then
+        -- this is an empty slot
+        local nullSprite = cc.Sprite:create("res/imgs/temp/null_1.png") 
+        local scale = GSkillSlotIdelSizeRatio * visibleSize.width / nullSprite:getContentSize().width
+        local scaledSize = nullSprite:getContentSize().width * scale
+        
+        nullSprite:setAnchorPoint(0,0)
+        nullSprite:setScale(scale)
+        nullSprite:setPosition(self.layerHorizontalStartOffset + (index - 1) * (scaledSize + self.layerHorizontalOffset), self.layerVerticalStartOffset)
+
+        self.skillSlotTable[index] = nil
+        self:addChild(nullSprite)
+    else
+        -- 
+        local scale = GSkillSlotIdelSizeRatio * visibleSize.width / node:getContentSize().width
+        local scaledSize = node:getContentSize().width * scale
+        
+        node.scaledSize = scaledSize
+        node.x = self.layerHorizontalStartOffset + (index - 1) * (scaledSize + self.layerHorizontalOffset)
+        node.y = self.layerVerticalStartOffset
+
+        node:setAnchorPoint(0,0)
+        node:setScale(scale)
+        node:setPosition(node.x, node.y)
+
+        self.skillSlotTable[index] = node 
+        self:addChild(node)
+    end
 end
 
 function GameSkillSlotPanel.create()
@@ -69,60 +119,20 @@ function GameSkillSlotPanel.create()
 end
 
 function GameSkillSlotPanel:initPanel()
-   
    -- Create the BackgroundLayer
    -- TODO: changed to sprite image
    local backgroundColor = cc.c4b(255, 255, 255, 180)
    local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
-   backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)   -- 20% of the screen's height
+   backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotLayerVerticalRatio) 
    backgroundLayer:setName("BackgroundLayer")
    self:addChild(backgroundLayer)
-   
-   -- Create the TouchLayer
-   local touchLayer = self:createTouchLayer()
-   self:addChild(touchLayer)
    
    -- Add the GameSkillSlotMangaerNode (as a self member -> easy to access)
    self.skillSlotManagerLayer = GameSkillSlotManagerLayer:create()
    self.skillSlotManagerLayer:setName("SkillSlotManager")
    self:addChild(self.skillSlotManagerLayer)
-end
-
--- Create the Touch Layer for this panel
-
-function GameSkillSlotPanel:createTouchLayer()
-    local touchColor = cc.c4b(255, 255, 255, 0)
-    local touchLayer = cc.LayerColor:create(touchColor)
-    
-    touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)    -- 20% of the screen's height
    
-    -- Implementation of the Touch Event
-    local function onTouch(eventType, x, y)
-        -- TODO To be Implemented
-       --[[if x >= (220 - spriteSize.width / 2) and x<= (220 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2)then
-            cclog("Attack Skill Used")
-            local gameScene = self:getParent()         
-            local battleLogic = gameScene:getChildByName("GameBattleLogic")
-            assert(battleLogic, "Nil child")
-            battleLogic:doDamage(25)
-       elseif x >= (520 - spriteSize.width / 2) and x <= (520 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
-            cclog("Magic Skill Used")
-            local gameScene = self:getParent()         
-            local battleLogic = gameScene:getChildByName("GameBattleLogic")
-            assert(battleLogic, "Nil child")
-            local testRunesTable = {["Water"] = 1}
-            battleLogic:updateRunesTable(testRunesTable)
-       elseif x >= (820 - spriteSize.width / 2) and x <= (820 + spriteSize.width / 2) and y >= (200 - spriteSize.height / 2) and y <= (200 + spriteSize.height / 2) then
-            cclog("Shield Skill Used")
-       end--]]
-       
-    end
-    -- Register the touch handler and enable touch
-    touchLayer:registerScriptTouchHandler(onTouch)
-    touchLayer:setTouchEnabled(true)
-    
-    return touchLayer
 end
 
 return GameSkillSlotPanel
