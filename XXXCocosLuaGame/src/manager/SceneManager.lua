@@ -46,3 +46,16 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         targetScene:doEnter()
     end
 end
+
+--------------------------------
+--  The method to generate a parameter table passed to next scene
+-- @function [parent=#SceneManager] generateParams
+-- @param #cc.Scene curScene Current scene, often "self"
+-- @param #string returnSceneName Tell next scene which scen should it go when pressed "Return" button
+-- @param #table dataTable The datas passed to next scene
+function SceneManager.generateParams(curScene, returnSceneName, dataTable)
+    return {
+        enterScene = curScene.sceneName,
+        returnScene = returnSceneName,
+        data = dataTable}
+end

@@ -19,4 +19,11 @@ GBlinkIconIndex = 21
 
 GBackGroundMiddlePoint = {x = 356, y = 512}
 
+-- Constant used by GameSkillSlotManagerLayer
 GMaxSkillsInSlot = 5
+GSkillSlotLayerVerticalRatio = 200 / 1920
+GSkillSlotHorizontalStartOffsetRatio = 90 / 1080
+GSkillSlotVerticalStartOffsetRatio = 15 / 1920
+GSkillSlotHorizontalOffsetRatio = 25 / 1080
+GSkillSlotIdelSizeRatio = 170 / 1080
+GSkillSlotStartIndex = 1
