@@ -9,8 +9,8 @@ local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return
 
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
-local myWidth = visibleSize.width * 0.88
-local myHeight = visibleSize.height * 0.45
+local myWidth = visibleSize.width * 0.96 * 0.9
+local myHeight = visibleSize.height * 0.45 * 0.9
 local centerWidth = visibleSize.width * 0.5
 local centerHeight = visibleSize.height * 0.5
 local iconSize = 150
@@ -61,6 +61,15 @@ local noSwap = true
 local mode1, mode2, mode3, mode4, mode5
 local modes
 local mode = 1
+
+local skillAnimation1Horz
+local skillAnimation1Vert
+local skillAnimation2
+local skillAnimation3
+
+local animationList = {}
+local animationTime = 0.1
+
 
 local function setMode(i)
     if i == 1 then
@@ -155,6 +164,13 @@ local Skill_Three = function()
     for i = 1, nColumn do
         for j = 1, nRow - 2 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i][j+2] then
+                
+                animationList.n = animationList.n + 1
+                animationList[animationList.n] = {}
+                animationList[animationList.n].animation = skillAnimation1Vert
+                animationList[animationList.n].x = getCellCenter(i,j).x
+                animationList[animationList.n].y = getCellCenter(i,j).y
+                
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i][j+2] = true
@@ -164,6 +180,13 @@ local Skill_Three = function()
     for i = 1, nColumn - 2 do
         for j = 1, nRow do
             if GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+2][j] then
+                
+                animationList.n = animationList.n + 1
+                animationList[animationList.n] = {}
+                animationList[animationList.n].animation = skillAnimation1Horz
+                animationList[animationList.n].x = getCellCenter(i,j).x
+                animationList[animationList.n].y = getCellCenter(i,j).y
+                
                 willDelete[i][j] = true
                 willDelete[i+1][j] = true
                 willDelete[i+2][j] = true
@@ -176,6 +199,13 @@ local Skill_2by2 = function()
     for i = 1, nColumn - 1 do
         for j = 1, nRow - 1 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+1][j+1] then
+            
+                animationList.n = animationList.n + 1
+                animationList[animationList.n] = {}
+                animationList[animationList.n].animation = skillAnimation2
+                animationList[animationList.n].x = getCellCenter(i,j).x
+                animationList[animationList.n].y = getCellCenter(i,j).y
+                
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i+1][j] = true
@@ -184,6 +214,31 @@ local Skill_2by2 = function()
         end
     end
 end
+
+
+
+local Skill_Cross = function()
+    for i = 1, nColumn - 2 do
+        for j = 1, nRow - 2 do
+            local t = GameBoard[i+1][j]
+            if t == GameBoard[i+0][j+1] and t == GameBoard[i+1][j+1] and t == GameBoard[i+2][j+1] and t == GameBoard[i+1][j+2] then
+
+                animationList.n = animationList.n + 1
+                animationList[animationList.n] = {}
+                animationList[animationList.n].animation = skillAnimation3
+                animationList[animationList.n].x = getCellCenter(i,j).x
+                animationList[animationList.n].y = getCellCenter(i,j).y
+
+                willDelete[i+1][j] = true
+                willDelete[i+0][j+1] = true
+                willDelete[i+1][j+1] = true
+                willDelete[i+2][j+1] = true
+                willDelete[i+1][j+2] = true
+            end
+        end
+    end
+end
+
 
 local function haveDelete()
     for i = 1, nColumn do
@@ -194,6 +249,7 @@ local function haveDelete()
     
     Skill_Three()
     Skill_2by2()
+    Skill_Cross()
     
     local ret = false
     for i = 1, nColumn do
@@ -245,7 +301,6 @@ local function createNodeByIndex(index, opacity)
     iconSelectSprite:setVisible(false)
 
     
-
     local iconNode = cc.Node:create()
     iconNode:addChild(iconNormalSprite)
     iconNode:addChild(iconMatchSprite)
@@ -366,6 +421,12 @@ function GameBoardPanelDragMode.update(delta)
         if haveNotFinish == false then
             if haveDelete() then
                 State = State_Delete_animation
+                animationList.current = 0
+                animationList.remain = 0
+                for i = 1, animationList.n do
+                    local j = math.random(i, animationList.n)
+                    animationList[i], animationList[j] = animationList[j], animationList[i] 
+                end
             else
                 State = State_Waiting
             end
@@ -374,22 +435,47 @@ function GameBoardPanelDragMode.update(delta)
     end
     
     if State == State_Delete_animation then
-        local haveNotFinish = false
-        for i = 1, nColumn do
-            for j = 1, nRow do
-                local k = GameBoard[i][j]
-                if willDelete[i][j] then
-                    if(icons[i][j][k].x:getOpacity() > 0) then
-                        haveNotFinish = true
-                        icons[i][j][k].x:setOpacity(math.max(0, icons[i][j][k].x:getOpacity() - delta * 1000))
-                    end
+        
+        if animationList.current <= animationList.n then
+            animationList.remain = animationList.remain - delta
+            if animationList.remain <= 0 then
+                if animationList.current > 0 then
+                    animationList[animationList.current].animation:setVisible(false)
+                end
+                animationList.remain = animationTime
+                animationList.current = animationList.current + 1
+                if animationList.current <= animationList.n then
+                    animationList[animationList.current].animation:setPosition(animationList[animationList.current].x, animationList[animationList.current].y)
+                    animationList[animationList.current].animation:setVisible(true)
                 end
             end
         end
-        if haveNotFinish == false then
-            falling()
-            State = State_Waiting_animation
+        
+        if animationList.current > animationList.n then
+            local haveNotFinish = false
+            
+            for i = 1, nColumn do
+                for j = 1, nRow do
+                    local k = GameBoard[i][j]
+                    if willDelete[i][j] then
+                        if(icons[i][j][k].x:getOpacity() > 0) then
+                            haveNotFinish = true
+                            icons[i][j][k].x:setOpacity(math.max(0, icons[i][j][k].x:getOpacity() - delta * 1000))
+                        end
+                    end
+                end
+            end
+            
+            if haveNotFinish == false then
+                falling()
+                State = State_Waiting_animation
+                animationList.n = 0
+            end
+            
+            
+            
         end
+        
     end
     
     
@@ -403,6 +489,8 @@ function GameBoardPanelDragMode:initPanel()
     --self:setUpdateEnabled(true)
     
     loadGameIcon()
+    
+    animationList.n = 0
     
     --self.scheduleUpdate()
     
@@ -423,7 +511,90 @@ function GameBoardPanelDragMode:initPanel()
     CountDown_Bar:changeWidthAndHeight(myWidth, 20)
     CountDown_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 40)
     self:addChild(CountDown_Bar)
+    
+    local t
+    skillAnimation1Horz = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
+    skillAnimation1Horz:setPosition(getCellCenter(2,1).x, getCellCenter(2,1).y)
+    skillAnimation1Horz:setVisible(false)
+    self:addChild(skillAnimation1Horz, 100)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation1Horz:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation1Horz:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation1Horz:addChild(t)
+    
+    
+    skillAnimation1Vert = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
+    skillAnimation1Vert:setPosition(getCellCenter(3,3).x, getCellCenter(3,3).y)
+    skillAnimation1Vert:setVisible(false)
+    self:addChild(skillAnimation1Vert, 100)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation1Vert:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation1Vert:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (2 - 0.5))
+    skillAnimation1Vert:addChild(t)
 
+    
+    skillAnimation2 = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
+    skillAnimation2:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
+    skillAnimation2:setVisible(false)
+    self:addChild(skillAnimation2, 100)
+    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation2:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation2:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation2:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation2:addChild(t)
+    
+    skillAnimation3 = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
+    skillAnimation3:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
+    skillAnimation3:setVisible(false)
+    self:addChild(skillAnimation3, 100)
+    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
+    skillAnimation3:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation3:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation3:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (1 - 0.5))
+    skillAnimation3:addChild(t)
+    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
+    t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (2 - 0.5))
+    skillAnimation3:addChild(t)
+    
     
     mode1 = cc.Sprite:create("res/imgs/temp/Easy.png")
     mode1:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 1, centerHeight - myHeight / 2 - 60)
