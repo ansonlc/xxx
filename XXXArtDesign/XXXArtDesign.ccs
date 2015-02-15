@@ -54,6 +54,10 @@
             <Image Name="main_menu_tutorialBtn.png" />
           </Folder>
         </Folder>
+        <Project Name="LevelSelectScene.csd" />
+        <Folder Name="fonts">
+          <File Name="ALGER.TTF" />
+        </Folder>
       </RootFolder>
     </Group>
   </SolutionFolder>
