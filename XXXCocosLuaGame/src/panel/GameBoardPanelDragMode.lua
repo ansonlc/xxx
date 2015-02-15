@@ -49,13 +49,57 @@ local MP_Bar
 local CountDown = 100
 local CountDown_Bar
 local CountDownReduce = 100
+local MP_RecoverPerSecond = 400
+
 local MP_ReduceFirst = 10
 local MP_ReduceNext = 1
 local MP_ReducePerSecond = 10
-local MP_RecoverPerSecond = 150
 
 local willDelete = {}
 local noSwap = true
+
+local mode1, mode2, mode3, mode4, mode5
+local modes
+local mode = 1
+
+local function setMode(i)
+    if i == 1 then
+        modes[mode]:setOpacity(100)
+        modes[1]:setOpacity(255)
+        MP_ReduceFirst = 10
+        MP_ReduceNext = 1
+        MP_ReducePerSecond = 10
+    end
+    if i == 2 then
+        modes[mode]:setOpacity(100)
+        modes[2]:setOpacity(255)
+        MP_ReduceFirst = 10
+        MP_ReduceNext = 10
+        MP_ReducePerSecond = 40
+    end
+    if i == 3 then
+        modes[mode]:setOpacity(100)
+        modes[3]:setOpacity(255)
+        MP_ReduceFirst = 0
+        MP_ReduceNext = 0
+        MP_ReducePerSecond = 0
+    end
+    if i == 4 then
+        modes[mode]:setOpacity(100)
+        modes[4]:setOpacity(255)
+        MP_ReduceFirst = 60
+        MP_ReduceNext = 0
+        MP_ReducePerSecond = 10
+    end
+    if i == 5 then
+        modes[mode]:setOpacity(100)
+        modes[5]:setOpacity(255)
+        MP_ReduceFirst = 100
+        MP_ReduceNext = 100
+        MP_ReducePerSecond = 100
+    end
+    mode = i
+end
 
 local function fromTo(A, B)
     return {x = B.x - A.x, y = B.y - A.y}
@@ -381,6 +425,31 @@ function GameBoardPanelDragMode:initPanel()
     self:addChild(CountDown_Bar)
 
     
+    mode1 = cc.Sprite:create("res/imgs/temp/Easy.png")
+    mode1:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 1, centerHeight - myHeight / 2 - 60)
+    self:addChild(mode1)
+
+    mode2 = cc.Sprite:create("res/imgs/temp/Hard.png")
+    mode2:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 2, centerHeight - myHeight / 2 - 60)
+    mode2:setOpacity(100)
+    self:addChild(mode2)
+
+    mode3 = cc.Sprite:create("res/imgs/temp/INF.png")
+    mode3:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 3, centerHeight - myHeight / 2 - 60)
+    mode3:setOpacity(100)
+    self:addChild(mode3)
+
+    mode4 = cc.Sprite:create("res/imgs/temp/PAD.png")
+    mode4:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 4, centerHeight - myHeight / 2 - 60)
+    mode4:setOpacity(100)
+    self:addChild(mode4)
+
+    mode5 = cc.Sprite:create("res/imgs/temp/Switch.png")
+    mode5:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 5, centerHeight - myHeight / 2 - 60)
+    mode5:setOpacity(100)
+    self:addChild(mode5)
+
+    modes = {mode1, mode2, mode3, mode4, mode5}
     
     
     for i = 1, nColumn do
@@ -523,8 +592,16 @@ function GameBoardPanelDragMode:createTouchLayer()
     touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
 
     local function onTouchBegin(x, y)
+        for i = 1, 5 do
+            local cx = centerWidth - myWidth / 2 - 60 + 110 * i
+            local cy = centerHeight - myHeight / 2 - 60
+            if cx - 50 < x and x < cx + 50 and cy - 50 < y and y < cy + 50 then
+                setMode(i)
+            end
+        end
     
-        if State == State_Waiting or State == State_Waiting_Countdown then
+    
+        if (State == State_Waiting or State == State_Waiting_Countdown) and MP >= MP_ReduceFirst then
             local cell = positionToCell(x,y)
             if cell ~= nil then
                 local i, j = cell.i, cell.j
@@ -538,12 +615,9 @@ function GameBoardPanelDragMode:createTouchLayer()
                 return true
             end
         end
-        
-        
     end
     
     local function onTouchMove(x, y)
-    
         if (State == State_Waiting or State == State_Waiting_Countdown) and nowTouch then
             cell = getTargetCell(x, y)
             if cell ~= nil then
