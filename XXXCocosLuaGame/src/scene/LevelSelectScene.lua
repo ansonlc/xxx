@@ -25,14 +25,18 @@ function LevelSelectScene:onInit()
     local function onTouch(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
             local params = SceneManager.generateParams(self, "MainMenuScene", {level = 0})
-            params.data.mode = "DragMode"
             params.data.difficulty = "Hard"
             
-            for i=1,LevelAmounts do
-                if sender:getName() == "btn_lvl_"..i then
-                    params.data.level = i
-                    break
-                end
+            if sender:getName() == "btn_lvl_1" then
+                params.data.mode = "SwitchMode"
+            end
+            
+            if sender:getName() == "btn_lvl_2" then
+                params.data.mode = "DragMode"
+            end
+            
+            if sender:getName() == "btn_lvl_3" then
+                params.data.mode = "SlideMode"
             end
             
             SceneManager.replaceSceneWithName("GameScene", params)
