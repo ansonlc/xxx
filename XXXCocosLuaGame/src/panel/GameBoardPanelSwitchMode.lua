@@ -428,7 +428,7 @@ end
 function cfCheckSwitchCell()
     --cclog("cfCheckSwitchCell...")
 
-    local board = cc.Director:getInstance():getRunningScene().gameBaord
+    local board = cc.Director:getInstance():getRunningScene().gameBoard
 
     --复制为局部变量
     local checkSet = {}
