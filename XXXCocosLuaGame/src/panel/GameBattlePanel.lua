@@ -35,6 +35,26 @@ function GameBattlePanel:initPanel()
 -- Create the TouchLayer
 -- local touchLayer = self:createTouchLayer()
 -- self:addChild(touchLayer)
+    local backButton = cc.LabelTTF:create("Back Button", "Arial", 70)
+    backButton:setAnchorPoint(0,0)
+    backButton:setPosition(700 , 250)
+    backButton:setName("BackButton")
+    self:addChild(backButton)
+    
+    -- test for the scene change
+    local function onTouch(eventType, x, y)
+        local bButton = self:getChildByName("BackButton")
+        cclog("x: "..x.."y: "..y)
+        assert(bButton, "Nil!")
+        if x >= 700 and x <= (700 + bButton:getContentSize().width) and y >= (250 + visibleSize.height * 0.8) and y <= (250 + bButton:getContentSize().height + visibleSize.height * 0.8) then
+            cclog("Back Button")
+            --SceneManager.replaceSceneWithName("MainMenuScene")b
+            SceneManager.replaceSceneWithName("LevelSelectScene","Test")
+        end
+    end
+    
+    self:registerScriptTouchHandler(onTouch)
+    self:setTouchEnabled(true)
 
 end
 
