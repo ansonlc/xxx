@@ -23,7 +23,7 @@ function GameSkillSlotManagerLayer:initLayer()
     -- initialize the layer
     self:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotLayerVerticalRatio)  -- currently 20% of the whole screen space
     -- initialize the constant
-    self.spriteSize = visibleSize.width * GSkillSlotIdelSizeRatio    -- should be dynamic; currently hard coded
+    self.spriteSize = visibleSize.width * GSkillSlotIdelSizeRatio    -- should be dynamic;
     self.slotNumber = GSkillSLotStartIndex  -- indices of lua table start from 1
     self.skillSlotTable = {}
     self.layerHorizontalStartOffset = visibleSize.width * GSkillSlotHorizontalStartOffsetRatio
@@ -32,9 +32,17 @@ function GameSkillSlotManagerLayer:initLayer()
     -- 1. Create all the slots for the skills
     -- 2. Determine the size and position for each slot
     -- 3. Create all the skill nodes and attach them to the manager
-    local skillSprite1 = self:generateSkillNode("res/imgs/temp/sword_1.png")
-    local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png")
-    local skillSprite3 = self:generateSkillNode("res/imgs/temp/shield_1.png")
+    
+    -- TODO: replace the skill below with the skill given by the manager
+    local testSkill1 = {}
+    testSkill1.name = "Strike"
+    testSkill1.runeCostTable = {["Water"] = 1, ["Wind"] = 1, ["Fire"] = 1, ["Earth"] = 1}
+    testSkill1.effectType = "Attack"
+    testSkill1.effectValue = 25
+    
+    local skillSprite1 = self:generateSkillNode("res/imgs/temp/sword_1.png", testSkill1)
+    local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png", nil)
+    local skillSprite3 = self:generateSkillNode("res/imgs/temp/shield_1.png", nil)
     
     self:insertSkillNode(1,skillSprite1)
     self:insertSkillNode(2,skillSprite2)
@@ -64,15 +72,22 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
                 cclog("Skill: "..i.." activated")
                 -- TODO: the manager should check if the runes are enough to activate this skill
                 -- and then activate the skill
+                if self.skillSlotTable[i].isActive then
+                    if self.gameLogicNode == nil then
+                        self.gameLogicNode = self:getParent():getParent():getChildByName("GameBattleLogic")
+                    end
+                    assert(self.gameLogicNode, "Nil gameLogicNode in touchEventHandler")
+                    self.gameLogicNode:playerUseSkill(self.skillSlotTable[i].skill)
+                end
             end
         end
     end
 end
 
--- TODO: should also pass in Skill info
-function GameSkillSlotManagerLayer:generateSkillNode(path)
+function GameSkillSlotManagerLayer:generateSkillNode(path, skill)
     assert(path, "Nil input in function: GameSkillSlotManagerLayer:generateSkillNode()")
     local skillSprite = cc.Sprite:create(path)
+    skillSprite.skill = skill
     return skillSprite
 end
 
@@ -99,6 +114,7 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         local scale = GSkillSlotIdelSizeRatio * visibleSize.width / node:getContentSize().width
         local scaledSize = node:getContentSize().width * scale
         
+        node.isActive = false
         node.scaledSize = scaledSize
         node.x = self.layerHorizontalStartOffset + (index - 1) * (scaledSize + self.layerHorizontalOffset)
         node.y = self.layerVerticalStartOffset
@@ -109,6 +125,25 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
 
         self.skillSlotTable[index] = node 
         self:addChild(node)
+    end
+end
+
+---
+-- Update the current skill status given the current runes tabler
+-- @function [parent=#panel.GameSkillSlotPanel] updateSkillStatus
+-- @param self 
+-- @param currentRunesTable table current runes table in the logic node
+function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
+    for i = 1, GMaxSkillsInSlot, 1 do
+        --if currentRunesTable["Water"] >= self.skillSlotTable[i].skill.runes
+        if self.skillSlotTable[i] ~= nil and self.skillSlotTable[i].skill ~= nil then
+            if currentRunesTable["Water"] >= self.skillSlotTable[i].skill.runeCostTable["Water"] and currentRunesTable["Wind"] >= self.skillSlotTable[i].skill.runeCostTable["Wind"] and currentRunesTable["Fire"] >= self.skillSlotTable[i].skill.runeCostTable["Fire"] and currentRunesTable["Earth"] >= self.skillSlotTable[i].skill.runeCostTable["Earth"] then
+                self.skillSlotTable[i].isActive = true 
+            else
+                self.skillSlotTable[i].isActive = false
+            end
+            cclog("Update the status for: "..self.skillSlotTable[i].skill.name..":"..tostring(self.skillSlotTable[i].isActive))
+        end
     end
 end
 
