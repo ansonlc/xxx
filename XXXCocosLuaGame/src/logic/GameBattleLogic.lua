@@ -43,6 +43,14 @@ function GameBattleLogic:playerUseSkill(skill)
     if skill.effectType == "Attack" then
         self.monsterHP = self.monsterHP - skill.effectValue
         cclog("Monster current HP: "..self.monsterHP)
+        self.runesTable["Water"] = self.runesTable["Water"] - skill.runeCostTable["Water"]
+        self.runesTable["Wind"] = self.runesTable["Wind"] - skill.runeCostTable["Wind"]
+        self.runesTable["Fire"] = self.runesTable["Fire"] - skill.runeCostTable["Fire"]
+        self.runesTable["Earth"] = self.runesTable["Earth"] - skill.runeCostTable["Earth"]
+        -- debug info for the current runes table
+        for k, v in pairs(self.runesTable) do
+            print (k,v)
+        end
     end
 end
 
@@ -57,7 +65,8 @@ function GameBattleLogic:monsterUseSkill(skill)
 end
 
 ---
--- Update the rune table in the Game BattleLogic
+-- Update the rune table in the Game BattleLogic; Add the a certain
+-- of new runes into the GameBattleLogic
 -- @function [parent=#logic.GameBattleLogic] updateRunesTable
 -- @param self 
 -- @param runesTable table Input: {["Water"] = num1, ["Fire"] = num2 ...}

@@ -69,7 +69,6 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
     for i = 1, 5, 1 do
         if self.skillSlotTable[i] ~= nil then
             if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
-                cclog("Skill: "..i.." activated")
                 -- TODO: the manager should check if the runes are enough to activate this skill
                 -- and then activate the skill
                 if self.skillSlotTable[i].isActive then
