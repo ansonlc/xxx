@@ -239,7 +239,7 @@ local function cfMatchAndFade(node)
 end
 
 --将某个集合的格子渐隐并移除
-function removeCellSet(cellSet)
+local function removeCellSet(cellSet)
     for i = 1, #cellSet do
         --cclog("remove.."..cellSet[i].x.."  "..cellSet[i].y)
         local tag = 10 * cellSet[i].x + cellSet[i].y
@@ -254,7 +254,7 @@ function removeCellSet(cellSet)
 end
 
 --匹配消除后刷新游戏面板
-function cfRefreshBoard()
+local function cfRefreshBoard()
     --cclog("cfRefreshBoard..")
     local firstEmptyCell = nil
     local addCellList = nil
@@ -425,7 +425,7 @@ function cfCheckFallCell()
 end
 
 --检测互相交换的两个格子是否命中
-function cfCheckSwitchCell()
+local function cfCheckSwitchCell()
     --cclog("cfCheckSwitchCell...")
 
     local board = cc.Director:getInstance():getRunningScene().gameBoard
