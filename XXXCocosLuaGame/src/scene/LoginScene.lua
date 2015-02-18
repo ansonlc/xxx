@@ -97,7 +97,7 @@ function LoginScene:createBtnLayer()
 
     local function onDebugBtnPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
-            SceneManager.replaceSceneWithName("ParticleTestScene", "Test parameter passed by LoginScene")
+            SceneManager.replaceSceneWithName("TestScene", "Test parameter passed by LoginScene")
             return true
         end
     end
