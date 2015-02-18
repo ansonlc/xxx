@@ -25,8 +25,7 @@ function GameBattleLogic:initNode()
     
     -- Initialization for the GameSkillSlotPanel
     if self.gameSkillSlotPanel == nil then
-        local panelNode = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
-        self.gameSkillSlotPanel = panelNode
+        self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
     end
     assert(self.gameSkillSlotPanel, "Nil !!!")
     self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
@@ -40,6 +39,11 @@ end
 function GameBattleLogic:playerUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:playerUseSkill")
     cclog(skill.name)
+    if self.isGameOver ~= nil and self.isGameOver then
+        cclog("The monster is already dead, please be a nice person!")
+        return
+    end
+    
     if skill.effectType == "Attack" then
         self.monsterHP = self.monsterHP - skill.effectValue
         cclog("Monster current HP: "..self.monsterHP)
@@ -51,6 +55,19 @@ function GameBattleLogic:playerUseSkill(skill)
         for k, v in pairs(self.runesTable) do
             print (k,v)
         end
+        
+        -- pass this hit event to the GameBattlePanel
+        if self.gameBattlePanel == nil then
+            self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
+        end
+        assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
+        self.gameBattlePanel:doDamageToMonster(skill.effectValue)
+        
+        if self.monsterHP <= 0 then
+            self.gameBattlePanel:monsterIsDefeated()
+            self.isGameOver = true
+        end
+        
     end
 end
 
