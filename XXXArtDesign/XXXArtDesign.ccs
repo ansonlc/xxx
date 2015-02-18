@@ -58,6 +58,7 @@
         <Folder Name="fonts">
           <File Name="ALGER.TTF" />
         </Folder>
+        <Project Name="GameSceneLayout.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>
