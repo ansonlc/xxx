@@ -6,7 +6,7 @@
 require "manager.GameIcon"
 
 local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return cc.Layer:create() end)
-
+local firstTime = true
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 local myWidth = visibleSize.width * 0.96 * 0.9
@@ -69,6 +69,8 @@ local skillAnimation3
 
 local animationList = {}
 local animationTime = 0.1
+
+local mySelf = {}
 
 
 local function setMode(i)
@@ -330,8 +332,20 @@ local function touchEndFunction()
     noSwap = true
 end
 
+local t = false;
+
 function GameBoardPanelDragMode.update(delta)
     
+    
+    local code = function()
+        MP_Bar:changeWidthAndHeight(myWidth * MP / 100, 20)
+    end
+    
+    if not pcall(code) then
+        t = true
+        return;
+    end
+       
     if State == State_Waiting and nowTouch == false then
         MP = MP + delta * MP_RecoverPerSecond
         if MP > 100 then 
@@ -480,6 +494,11 @@ function GameBoardPanelDragMode.update(delta)
     
     
     
+    
+end
+
+function GameBoardPanelDragMode:doExit()
+    --print("doExit!")
     
 end
 
@@ -673,7 +692,14 @@ function GameBoardPanelDragMode:initPanel()
         self.addChild(self,iconsTouch[k])
     end
     
-    self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(self.update, 0, false)
+    if firstTime == true then
+        print("REGupdate")
+        self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(self.update, 0, false)
+        firstTime = false
+    end
+    
+    mySelf = self
+    
 
 end
 
@@ -857,9 +883,7 @@ function GameBoardPanelDragMode:createTouchLayer()
 end
 
 
-function GameBoardPanelDragMode:doExit()
-    cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.onUpdateEntry)
-end
+
 
 
 return GameBoardPanelDragMode
