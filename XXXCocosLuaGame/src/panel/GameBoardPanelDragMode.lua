@@ -334,17 +334,13 @@ end
 
 local t = false;
 
-function GameBoardPanelDragMode.update(delta)
+function GameBoardPanelDragMode:onUpdate(delta)
     
-    
+    --print (delta)
     local code = function()
         MP_Bar:changeWidthAndHeight(myWidth * MP / 100, 20)
     end
     
-    if not pcall(code) then
-        t = true
-        return;
-    end
        
     if State == State_Waiting and nowTouch == false then
         MP = MP + delta * MP_RecoverPerSecond
@@ -694,7 +690,7 @@ function GameBoardPanelDragMode:initPanel()
     
     if firstTime == true then
         print("REGupdate")
-        self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(self.update, 0, false)
+        --self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(self.update, 0, false)
         firstTime = false
     end
     
