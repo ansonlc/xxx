@@ -25,7 +25,7 @@ function getGameIconSprite(type, index)
         return
     end
     local iconSprite = cc.Sprite:createWithSpriteFrame(iconFrame)
-    iconSprite:setScale(1.5)
+    iconSprite:setScale(150/88)
     return iconSprite
 end
 

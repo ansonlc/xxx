@@ -6,18 +6,18 @@
 GBackGroundWidth = 712
 GBackGroundHeight = 1024
 
-GLeftBottomOffsetX = 40
-GLeftBottomOffsetY = 440
+GCellWidth = 150
 
-GCellWidth = 1000 / 7
+GBoardSizeX = 6
+GBoardSizeY = 6
 
-GBoardSizeX = 7
-GBoardSizeY = 7
+GLeftBottomOffsetX = (1080 - GCellWidth * GBoardSizeX) / 2
+GLeftBottomOffsetY = (1200 - 240 - GCellWidth * GBoardSizeY)/2 + 240
 
 GGameIconCount = 7
 GBlinkIconIndex = 21
 
-GBackGroundMiddlePoint = {x = 356, y = 512}
+GBackGroundMiddlePoint = {x = 356, y = 540}
 
 -- Constant for the GUI layout
 GPanelGapRatio = 15 / 1920
