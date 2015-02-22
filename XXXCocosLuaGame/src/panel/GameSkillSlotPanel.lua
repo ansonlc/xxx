@@ -38,12 +38,20 @@ function GameSkillSlotManagerLayer:initLayer()
     -- TODO: replace the skill below with the skill given by the manager
     local testSkill1 = {}
     testSkill1.name = "Strike"
-    testSkill1.runeCostTable = {["Water"] = 1, ["Wind"] = 1, ["Fire"] = 1, ["Earth"] = 1}
+    testSkill1.runeCostTable = {["Water"] = 0, ["Wind"] = 0, ["Fire"] = 1, ["Earth"] = 0}
     testSkill1.effectType = "Attack"
-    testSkill1.effectValue = 25
+    testSkill1.effectValue = 1
+
+    local testSkill2 = {}
+    testSkill2.name = "Strike"
+    testSkill2.runeCostTable = {["Water"] = 3, ["Wind"] = 3, ["Fire"] = 3, ["Earth"] = 3}
+    testSkill2.effectType = "Attack"
+    testSkill2.effectValue = 20
+
+    
     
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/sword_1.png", testSkill1)
-    local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png", nil)
+    local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png", testSkill2)
     local skillSprite3 = self:generateSkillNode("res/imgs/temp/shield_1.png", nil)
     
     self:insertSkillNode(1,skillSprite1)
