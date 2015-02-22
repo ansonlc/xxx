@@ -6,6 +6,8 @@
 require "logic.GameBattleLogic.lua"
 require "config.CommonDefine.lua"
 
+local parentNode
+
 local GameSkillSlotPanel = class("GameSkillSlotPanel", function() return cc.Layer:create() end)
 --local GameSkillSlotManagerLayer = class("GameSkillSlotManagerLayer", function() return cc.Layer:create() end)
 local GameSkillSlotManagerLayer = class("GameSkillSlotManagerLayer", function() return cc.LayerColor:create(cc.c4b(255, 255, 255,0)) end)
@@ -141,12 +143,13 @@ function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
             else
                 self.skillSlotTable[i].isActive = false
             end
-            cclog("Update the status for: "..self.skillSlotTable[i].skill.name..":"..tostring(self.skillSlotTable[i].isActive))
+            --cclog("Update the status for: "..self.skillSlotTable[i].skill.name..":"..tostring(self.skillSlotTable[i].isActive))
         end
     end
 end
 
-function GameSkillSlotPanel.create()
+function GameSkillSlotPanel.create(parent)
+    parentNode = parent
     local panel = GameSkillSlotPanel.new()
     panel:initPanel()
     return panel
@@ -182,6 +185,12 @@ function GameSkillSlotPanel:initPanel()
    self:addChild(self.skillSlotManagerLayer)
    
    
+end
+
+function GameSkillSlotPanel:onUpdate(delta)
+    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+    self.skillSlotManagerLayer:updateSkillStatus(gameLogicNode.runesTable)
+
 end
 
 return GameSkillSlotPanel

@@ -50,7 +50,7 @@ function GameScene:onInit()
     
     -- Add the SkillSlotPanel
     local GameSkillSlotPanel = require("panel.GameSkillSlotPanel")
-    self.skillPanel = GameSkillSlotPanel.create()
+    self.skillPanel = GameSkillSlotPanel.create(self)
     self.skillPanel:setName("GameSkillSlotPanel")
     self:addChild(self.skillPanel)
     
