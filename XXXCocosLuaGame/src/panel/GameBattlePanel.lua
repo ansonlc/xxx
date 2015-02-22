@@ -13,9 +13,6 @@ local visibleSize = cc.Director:getInstance():getVisibleSize()
 -- @function [parent=#panel.GameBattlePanel] create
 function GameBattlePanel.create()
     local panel = GameBattlePanel.new()
-    -- set the panel position
-    panel:setAnchorPoint(0,0)
-    panel:setPosition(0, visibleSize.height * 0.8)
     -- initialize the panel
     panel:initPanel()
     return panel
@@ -26,14 +23,60 @@ end
 --@function [parent=#panel.GameBattlePanel] initPanel
 
 function GameBattlePanel:initPanel()
+    -- initialization of the panel position
+    self:setAnchorPoint(0,0)
+    self:setPosition(0, visibleSize.height * GBattlePanelVerticalStartOffsetRatio)
+
+    -- Debug layer
+    local debugColor = cc.c4b(255, 255, 255, 100)
+    local debugLayer = cc.LayerColor:create(debugColor)
+    
+    debugLayer:changeWidthAndHeight(visibleSize.width,visibleSize.height * GBattlePanelVerticalRatio)
+    debugLayer:setAnchorPoint(0,0)
+    debugLayer:setPosition(0,0)
+    
+    self:addChild(debugLayer)
 
     -- Create the BackgroundLayer
     -- TODO change the single color to the final sprite in te res file
-    local backgroundColor = cc.c4b(255, 255, 255, 180)
+    local backgroundColor = cc.c4b(255, 255, 255, 255)
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
     backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)   -- 20% of the screen's height
-    self:addChild(backgroundLayer)
+    --self:addChild(backgroundLayer)
+    
+    -- HP Bar
+    local hpBarSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
+    hpBarSprite:setAnchorPoint(0,0)
+    hpBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
+    hpBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
+    hpBarSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / hpBarSprite:getContentSize().height)
+    
+    self.hpBarSprite = hpBarSprite
+    self:addChild(self.hpBarSprite)
+    
+    -- Battle Field
+    local battleFieldColor = cc.c4b(0, 0, 255, 80)
+    local battleFieldLayer = cc.LayerColor:create(battleFieldColor)
+    
+    battleFieldLayer:changeWidthAndHeight(visibleSize.width * GBattleFieldHorizontalRatio, visibleSize.height * GBattleFieldVerticalRatio)
+    battleFieldLayer:setAnchorPoint(0,0)
+    battleFieldLayer:setPosition(visibleSize.width * GBattleFieldHorizontalStartOffsetRatio,visibleSize.height * GBattleFieldVerticalStartOffsetRatio)
+        
+    self:addChild(battleFieldLayer)
+    
+    -- Rune Block
+    local runeBlockColor = cc.c4b(100, 100, 0, 100)
+    local runeBlockLayer = cc.LayerColor:create(runeBlockColor)
+    
+    runeBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleRuneBlockHorizontalRatio, visibleSize.height * GBattleRuneBlockVerticalRatio)
+    runeBlockLayer:setAnchorPoint(0,0)
+    runeBlockLayer:setPosition(visibleSize.width * GBattleRuneBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleRuneBlockVerticalStartOffsetRatio)
+    
+    self:addChild(runeBlockLayer)
+    
+    -- Level Block
+    
     
     -- TODO: Delete the test monster in this panel
     local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")

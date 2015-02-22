@@ -21,7 +21,7 @@ end
 
 function GameSkillSlotManagerLayer:initLayer()
     -- initialize the layer
-    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotLayerVerticalRatio)  -- currently 20% of the whole screen space
+    self:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotPanelVerticalRatio)  
     -- initialize the constant
     self.spriteSize = visibleSize.width * GSkillSlotIdelSizeRatio    -- should be dynamic;
     self.slotNumber = GSkillSLotStartIndex  -- indices of lua table start from 1
@@ -153,19 +153,34 @@ function GameSkillSlotPanel.create()
 end
 
 function GameSkillSlotPanel:initPanel()
-   -- Create the BackgroundLayer
-   -- TODO: changed to sprite image
-   local backgroundColor = cc.c4b(255, 255, 255, 180)
-   local backgroundLayer = cc.LayerColor:create(backgroundColor)
-
-   backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotLayerVerticalRatio) 
-   backgroundLayer:setName("BackgroundLayer")
-   self:addChild(backgroundLayer)
    
+    -- Debug layer to show the panel size
+    local debugColor = cc.c4b(128, 0, 0, 100)
+    local debugLayer = cc.LayerColor:create(debugColor)
+    
+    debugLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotPanelVerticalRatio)
+    debugLayer:setAnchorPoint(0,0)
+    debugLayer:setPosition(0,0)
+    
+    self:addChild(debugLayer)
+    
+    -- Create the BackgroundLayer
+    -- TODO: changed to sprite image
+    local backgroundColor = cc.c4b(255, 255, 255, 180)
+    local backgroundLayer = cc.LayerColor:create(backgroundColor)
+
+    backgroundLayer:changeWidthAndHeight(visibleSize.width * GSkillSlotBGHorizontalRatio, visibleSize.height * GSkillSlotBGVerticalRatio)
+    backgroundLayer:setAnchorPoint(0,0)
+    backgroundLayer:setPosition(visibleSize.width * GSkillSlotBGHorizontalStartOffsetRatio,visibleSize.height * GSkillSlotBGVerticalStartOffsetRatio) 
+    backgroundLayer:setName("BackgroundLayer")
+    self:addChild(backgroundLayer)
+    
+    
    -- Add the GameSkillSlotMangaerNode (as a self member -> easy to access)
    self.skillSlotManagerLayer = GameSkillSlotManagerLayer:create()
    self.skillSlotManagerLayer:setName("SkillSlotManager")
    self:addChild(self.skillSlotManagerLayer)
+   
    
 end
 
