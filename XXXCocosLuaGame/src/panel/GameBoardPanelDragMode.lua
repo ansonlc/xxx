@@ -164,21 +164,22 @@ local function falling()
 end
 
 local function getRunes(type, howMuch)
-    
-    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    if gameLogicNode ~= nil then
-        if gameLogicNode.runesTable ~= nil then
-            if type == 1 then
-                gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
-            end
-            if type == 2 then
-                gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
-            end
-            if type == 4 then
-                gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
-            end
-            if type == 5 then
-                gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+    return function()
+        local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+        if gameLogicNode ~= nil then
+            if gameLogicNode.runesTable ~= nil then
+                if type == 1 then
+                    gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+                end
+                if type == 2 then
+                    gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+                end
+                if type == 4 then
+                    gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+                end
+                if type == 5 then
+                    gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+                end
             end
         end
     end
@@ -199,7 +200,7 @@ local Skill_Three = function()
                 animationList[animationList.n].animation = skillAnimation1Vert
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                getRunes(GameBoard[i][j], 1)
+                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i][j+2] = true
@@ -215,7 +216,7 @@ local Skill_Three = function()
                 animationList[animationList.n].animation = skillAnimation1Horz
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                getRunes(GameBoard[i][j], 1)
+                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
                 willDelete[i][j] = true
                 willDelete[i+1][j] = true
                 willDelete[i+2][j] = true
@@ -234,7 +235,7 @@ local Skill_2by2 = function()
                 animationList[animationList.n].animation = skillAnimation2
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                getRunes(GameBoard[i][j], 2)
+                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2)
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i+1][j] = true
@@ -257,7 +258,7 @@ local Skill_Cross = function()
                 animationList[animationList.n].animation = skillAnimation3
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                getRunes(GameBoard[i][j], 3)
+                animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3)
                 willDelete[i+1][j] = true
                 willDelete[i+0][j+1] = true
                 willDelete[i+1][j+1] = true
@@ -361,8 +362,16 @@ local function touchEndFunction()
 end
 
 local t = false;
+local rune1, rune2, rune3, rune4
 
 function GameBoardPanelDragMode:onUpdate(delta)
+    
+    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+    rune1:setString(gameLogicNode.runesTable['Fire'] .. '')
+    rune2:setString(gameLogicNode.runesTable['Earth'] .. '')
+    rune3:setString(gameLogicNode.runesTable['Wind'] .. '')
+    rune4:setString(gameLogicNode.runesTable['Water'] .. '')
+    
     
     --print (delta)
     local code = function()
@@ -478,6 +487,7 @@ function GameBoardPanelDragMode:onUpdate(delta)
             animationList.remain = animationList.remain - delta
             if animationList.remain <= 0 then
                 if animationList.current > 0 then
+                    animationList[animationList.current].effect()
                     animationList[animationList.current].animation:setVisible(false)
                 end
                 animationList.remain = animationTime
@@ -532,6 +542,42 @@ function GameBoardPanelDragMode:initPanel()
     --self:setUpdateEnabled(true)
     
     loadGameIcon()
+    
+    rune1 = cc.LabelTTF:create("99", "Arial", 70)
+    rune1:setPosition(280, 1680)
+    self:addChild(rune1)
+    
+    rune2 = cc.LabelTTF:create("99", "Arial", 70)
+    rune2:setPosition(280, 1570)
+    self:addChild(rune2)
+
+    rune3 = cc.LabelTTF:create("99", "Arial", 70)
+    rune3:setPosition(280, 1460)
+    self:addChild(rune3) 
+
+    rune4 = cc.LabelTTF:create("99", "Arial", 70)
+    rune4:setPosition(280, 1350)
+    self:addChild(rune4)
+    
+    local rune1Icon = createNodeByIndex(1, 255)
+    rune1Icon:setScale(0.75)
+    rune1Icon:setPosition(140, 1690)
+    self:addChild(rune1Icon)
+    
+    local rune2Icon = createNodeByIndex(2, 255)
+    rune2Icon:setScale(0.75)
+    rune2Icon:setPosition(140, 1580)
+    self:addChild(rune2Icon)
+
+    local rune3Icon = createNodeByIndex(4, 255)
+    rune3Icon:setScale(0.75)
+    rune3Icon:setPosition(140, 1470)
+    self:addChild(rune3Icon)
+    
+    local rune4Icon = createNodeByIndex(5, 255)
+    rune4Icon:setScale(0.75)
+    rune4Icon:setPosition(140, 1360)
+    self:addChild(rune4Icon)
     
     animationList.n = 0
     
