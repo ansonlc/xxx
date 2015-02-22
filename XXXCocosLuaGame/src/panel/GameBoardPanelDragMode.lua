@@ -182,6 +182,11 @@ local function getRunes(type, howMuch)
             end
         end
     end
+    
+    -- debug info
+    for k, v in pairs(gameLogicNode.runesTable) do
+        print (k,v)
+    end
 end
 
 local Skill_Three = function()
