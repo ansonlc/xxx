@@ -35,13 +35,18 @@ function GameScene:onInit()
     local GameBoardClass = nil
     if self.enterData.mode == "SwitchMode" then
         GameBoardClass = require("panel.GameBoardPanelSwitchMode")
+        self.gameBoard = GameBoardClass.create()
+        self:addChild(self.gameBoard)
     elseif self.enterData.mode == "DragMode" then
         GameBoardClass = require("panel.GameBoardPanelDragMode")
+        self.gameBoard = GameBoardClass.create(self)
+        self:addChild(self.gameBoard)
     elseif self.enterData.mode == "SlideMode" then
         GameBoardClass = require("panel.GameBoardPanelCycle")
+        self.gameBoard = GameBoardClass.create()
+        self:addChild(self.gameBoard)
     end
-    self.gameBoard = GameBoardClass.create()
-    self:addChild(self.gameBoard)
+
     
     -- Add the SkillSlotPanel
     local GameSkillSlotPanel = require("panel.GameSkillSlotPanel")

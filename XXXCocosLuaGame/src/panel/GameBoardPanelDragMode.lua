@@ -12,7 +12,7 @@ local visibleSize = cc.Director:getInstance():getVisibleSize()
 local myWidth = visibleSize.width * 0.96 * 0.9
 local myHeight = visibleSize.height * 0.45 * 0.9
 local centerWidth = visibleSize.width * 0.5
-local centerHeight = visibleSize.height * 0.5
+local centerHeight = visibleSize.height * 0.38
 local iconSize = 150
 
 local nColumn = 6
@@ -71,6 +71,7 @@ local animationList = {}
 local animationTime = 0.1
 
 local mySelf = {}
+local parentNode
 
 
 local function setMode(i)
@@ -162,6 +163,27 @@ local function falling()
     State = State_Waiting
 end
 
+local function getRunes(type, howMuch)
+    
+    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+    if gameLogicNode ~= nil then
+        if gameLogicNode.runesTable ~= nil then
+            if type == 1 then
+                gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+            end
+            if type == 2 then
+                gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+            end
+            if type == 4 then
+                gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+            end
+            if type == 5 then
+                gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+            end
+        end
+    end
+end
+
 local Skill_Three = function()
     for i = 1, nColumn do
         for j = 1, nRow - 2 do
@@ -172,7 +194,7 @@ local Skill_Three = function()
                 animationList[animationList.n].animation = skillAnimation1Vert
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                
+                getRunes(GameBoard[i][j], 1)
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i][j+2] = true
@@ -188,7 +210,7 @@ local Skill_Three = function()
                 animationList[animationList.n].animation = skillAnimation1Horz
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                
+                getRunes(GameBoard[i][j], 1)
                 willDelete[i][j] = true
                 willDelete[i+1][j] = true
                 willDelete[i+2][j] = true
@@ -207,7 +229,7 @@ local Skill_2by2 = function()
                 animationList[animationList.n].animation = skillAnimation2
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-                
+                getRunes(GameBoard[i][j], 2)
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i+1][j] = true
@@ -230,7 +252,7 @@ local Skill_Cross = function()
                 animationList[animationList.n].animation = skillAnimation3
                 animationList[animationList.n].x = getCellCenter(i,j).x
                 animationList[animationList.n].y = getCellCenter(i,j).y
-
+                getRunes(GameBoard[i][j], 3)
                 willDelete[i+1][j] = true
                 willDelete[i+0][j+1] = true
                 willDelete[i+1][j+1] = true
@@ -265,7 +287,8 @@ local function haveDelete()
     return ret
 end
 
-function GameBoardPanelDragMode.create()
+function GameBoardPanelDragMode.create(parent)
+    parentNode = parent
     local panel = GameBoardPanelDragMode.new()
     panel:initPanel()
     return panel
