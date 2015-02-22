@@ -19,6 +19,7 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
+    self.monsterMaxHP = 100
     self.monsterHP = 100
     self.runesTable = {["Water"] = 0, ["Wind"] = 0, ["Fire"] = 0, ["Earth"] = 0}    -- currently all the runes start from 50
     self.crystalNum = 0

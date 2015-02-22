@@ -3,6 +3,8 @@
 -- @author Chicheng Ren
 --------------------------------------------------------------------------------
 
+local parentNode
+
 local GameBattlePanel = class("GameBattlePanel", function() return cc.Layer:create() end)
 
 local visibleSize = cc.Director:getInstance():getVisibleSize()
@@ -11,7 +13,8 @@ local visibleSize = cc.Director:getInstance():getVisibleSize()
 -- Create the instance for the GameBattelPanel 
 -- and set the position of this panel
 -- @function [parent=#panel.GameBattlePanel] create
-function GameBattlePanel.create()
+function GameBattlePanel.create(parent)
+    parentNode = parent
     local panel = GameBattlePanel.new()
     -- initialize the panel
     panel:initPanel()
@@ -128,6 +131,12 @@ function GameBattlePanel:doDamageToMonster(damageValue)
     self.damageText:runAction(actionSeq)
 end
 
+
+function GameBattlePanel:onUpdate(delta)
+    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+    local x = gameLogicNode.monsterHP / gameLogicNode.monsterMaxHP  
+    self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
+end
 ---
 -- Change the sprite for the monster when the monster is dead
 -- @function [parent=#panel.GameBattlePanel] monsterIsDefeated

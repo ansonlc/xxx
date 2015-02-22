@@ -56,7 +56,7 @@ function GameScene:onInit()
     
     -- Add the GameBattlePanel
     local GameBattlePanel = require("panel.GameBattlePanel")
-    self.battlePanel = GameBattlePanel.create()
+    self.battlePanel = GameBattlePanel.create(self)
     self.battlePanel:setName("GameBattlePanel")
     self:addChild(self.battlePanel)
     
@@ -76,6 +76,15 @@ function GameScene:onUpdate(dt)
     if self.gameBoard and self.gameBoard.onUpdate then
         self.gameBoard:onUpdate(dt)
     end
+    
+    if self.battlePanel and self.battlePanel.onUpdate then
+        self.battlePanel:onUpdate(dt)
+    end
+    
+    if self.skillPanel and self.skillPanel.onUpdate then
+        self.skillPanel:onUpdate(dt)
+    end 
+    
 --    cclog(dt)
 end
 

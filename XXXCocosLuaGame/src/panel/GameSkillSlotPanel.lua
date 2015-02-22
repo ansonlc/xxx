@@ -133,7 +133,6 @@ end
 -- @param self 
 -- @param currentRunesTable table current runes table in the logic node
 function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
-    print '?'
     for i = 1, GMaxSkillsInSlot, 1 do
         --if currentRunesTable["Water"] >= self.skillSlotTable[i].skill.runes
         if self.skillSlotTable[i] ~= nil and self.skillSlotTable[i].skill ~= nil then
