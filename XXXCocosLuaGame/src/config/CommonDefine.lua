@@ -56,8 +56,8 @@ GBattleRuneBlockHorizontalRatio = 130 / 1080
 GBattleRuneBlockVerticalStartOffsetRatio = 80 / 1920
 GBattleRuneBlockHorizontalStartOffsetRatio = 80 / 1080
 
-GBattleLevelBlockVerticalRatio = 950 / 1080
-GBattleLevelBlockHorizontalRatio = 110 / 1920
+GBattleLevelBlockVerticalRatio = 110 / 1920
+GBattleLevelBlockHorizontalRatio = 950 / 1080
 GBattleLevelBlockVerticalStartOffsetRatio = 560 / 1920
-GBattleLevelBlockHorizontalStartOffsetRatio = 6 / 1080
+GBattleLevelBlockHorizontalStartOffsetRatio = 65 / 1080
 

@@ -43,7 +43,7 @@ function GameSkillSlotManagerLayer:initLayer()
     testSkill1.effectValue = 1
 
     local testSkill2 = {}
-    testSkill2.name = "Strike"
+    testSkill2.name = "Advanced Strike"
     testSkill2.runeCostTable = {["Water"] = 3, ["Wind"] = 3, ["Fire"] = 3, ["Earth"] = 3}
     testSkill2.effectType = "Attack"
     testSkill2.effectValue = 20
@@ -87,6 +87,8 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
                     end
                     assert(self.gameLogicNode, "Nil gameLogicNode in touchEventHandler")
                     self.gameLogicNode:playerUseSkill(self.skillSlotTable[i].skill)
+                else
+                    cclog("Not Enough Runes to use skill!")
                 end
             end
         end
@@ -195,6 +197,7 @@ function GameSkillSlotPanel:initPanel()
    
 end
 
+-- TODO: This function should not be called every frame
 function GameSkillSlotPanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     self.skillSlotManagerLayer:updateSkillStatus(gameLogicNode.runesTable)

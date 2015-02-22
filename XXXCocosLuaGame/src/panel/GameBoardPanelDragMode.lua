@@ -182,11 +182,11 @@ local function getRunes(type, howMuch)
                 end
             end
         end
-    end
-    
-    -- debug info
-    for k, v in pairs(gameLogicNode.runesTable) do
-        print (k,v)
+        
+        -- debug info
+        for k, v in pairs(gameLogicNode.runesTable) do
+            print (k,v)
+        end
     end
 end
 

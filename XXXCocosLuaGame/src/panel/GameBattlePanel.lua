@@ -79,7 +79,13 @@ function GameBattlePanel:initPanel()
     self:addChild(runeBlockLayer)
     
     -- Level Block
+    local levelSprite = cc.Sprite:create("imgs/temp/leveltitle_1.png")
+    levelSprite:setScaleX(visibleSize.width * GBattleLevelBlockHorizontalRatio / levelSprite:getContentSize().width)
+    levelSprite:setScaleY(visibleSize.height * GBattleLevelBlockVerticalRatio / levelSprite:getContentSize().height)
+    levelSprite:setAnchorPoint(0,0)
+    levelSprite:setPosition(visibleSize.width * GBattleLevelBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleLevelBlockVerticalStartOffsetRatio)
     
+    self:addChild(levelSprite)
     
     -- TODO: Delete the test monster in this panel
     local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")
@@ -90,7 +96,7 @@ function GameBattlePanel:initPanel()
     -- TODO: Delete the Back Button
     local backButton = cc.LabelTTF:create("Back Button", "Arial", 70)
     backButton:setAnchorPoint(0,0)
-    backButton:setPosition(700 , 250)
+    backButton:setPosition(700 , 400)
     backButton:setName("BackButton")
     self:addChild(backButton)
     
@@ -98,7 +104,7 @@ function GameBattlePanel:initPanel()
     local function onTouch(eventType, x, y)
         local bButton = self:getChildByName("BackButton")
         assert(bButton, "Nil!")
-        if x >= 700 and x <= (700 + bButton:getContentSize().width) and y >= (250 + visibleSize.height * 0.8) and y <= (250 + bButton:getContentSize().height + visibleSize.height * 0.8) then
+        if x >= 700 and x <= (700 + bButton:getContentSize().width) and y >= (400 + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (400 + bButton:getContentSize().height + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             SceneManager.replaceSceneWithName("LevelSelectScene","Test")
         end
     end
@@ -131,7 +137,7 @@ function GameBattlePanel:doDamageToMonster(damageValue)
     self.damageText:runAction(actionSeq)
 end
 
-
+-- TODO: This function should not be called every frame (only on demand)
 function GameBattlePanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
