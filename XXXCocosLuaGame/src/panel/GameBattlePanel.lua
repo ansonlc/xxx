@@ -134,7 +134,7 @@ end
 
 function GameBattlePanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    local x = gameLogicNode.monsterHP / gameLogicNode.monsterMaxHP  
+    local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
     self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
 end
 ---
