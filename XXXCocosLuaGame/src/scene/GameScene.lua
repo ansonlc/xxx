@@ -19,7 +19,7 @@ function GameScene.create(params)
 end
 
 function GameScene:onEnter()
-    cclog("Now level: " .. self.enterData.level)
+    cclog("Now mission id: " .. self.enterData.missionId)
     cclog("Now mode: " .. self.enterData.mode)
     cclog("Now difficulty: " .. self.enterData.difficulty)
 end
