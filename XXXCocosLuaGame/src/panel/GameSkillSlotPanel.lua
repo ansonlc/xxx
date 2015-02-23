@@ -59,7 +59,7 @@ function GameSkillSlotManagerLayer:initLayer()
     self:insertSkillNode(3,skillSprite3)
     self:insertSkillNode(4,nil)
     self:insertSkillNode(5,nil)
-    
+
     -- wrapper for the class touch event handler
     local function onTouch(eventType, x, y)
         self:touchEventHandler(eventType, x, y)
