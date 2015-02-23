@@ -135,6 +135,8 @@ function GameBoardPanelSwitchMode:onClickGameIcon(cell)
     self:resetSelectGameIcon()
 
     curSelectTag = 10 * cell.x + cell.y
+    
+    print("Cur select " .. curSelectTag)
 
     self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(NORMAL_TAG):setVisible(false)
     self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(SELECT_TAG):setVisible(true)
@@ -348,7 +350,7 @@ local function cfRefreshBoard()
 
     --下落后检查是否有新的命中
     local delay = cc.DelayTime:create(0.2)
-    local fallCheckFunc = cc.CallFunc:create(cfCheckFallCell)           
+    local fallCheckFunc = cc.CallFunc:create(cfSwitchCheckFallCell)           
 
     local arrayOfActions = {delay, fallCheckFunc}
 
@@ -363,7 +365,7 @@ local function onCheckSuccess(succCellSet)
     end
 
     --匹配成功
-    cclog("switch success!!!")
+    --cclog("switch success!!!")
     AudioEngine.playEffect("sound/A_combo1.wav")
 
     --获得邻近格子集合
@@ -394,11 +396,10 @@ local function onCheckSuccess(succCellSet)
     local sequence = cc.Sequence:create(arrayOfActions)
 
     RefreshBoardNode:runAction(sequence)
-
 end
 
 --检测落下的棋子是否命中
-function cfCheckFallCell()
+function cfSwitchCheckFallCell()
     cclog("cfCheckFallCell...")
     local boardMovable , succList= checkBoardMovable()
 
@@ -453,7 +454,7 @@ local function cfCheckSwitchCell()
 
     if #succCellSet == 0 then
         --匹配失败
-        cclog("switch failed...")
+        --cclog("switch failed...")
 
         --还原移动并清空交换区
         board:switchCell(switchCellPair[1], switchCellPair[2], nil)
