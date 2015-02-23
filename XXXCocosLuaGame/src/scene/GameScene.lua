@@ -50,7 +50,8 @@ function GameScene:onInit()
     
     -- Add the SkillSlotPanel
     local GameSkillSlotPanel = require("panel.GameSkillSlotPanel")
-    self.skillPanel = GameSkillSlotPanel.create(self)
+    -- TODO: Pass in the skill table chosen by the player   - self.enterData.skillTable
+    self.skillPanel = GameSkillSlotPanel.create(self, self.enterData.skillTable)
     self.skillPanel:setName("GameSkillSlotPanel")
     self:addChild(self.skillPanel)
     
@@ -65,7 +66,8 @@ function GameScene:onInit()
     self.battleLogicNode = GameBattelLogic.create()
     self.battleLogicNode:setName("GameBattleLogic")
     self:addChild(self.battleLogicNode)
-    -- directly call the init function of this node
+    -- Directly call the init function of for this node
+    -- TODO: Initialize the monster data based on the enter data - self.enterData.monsterID
     self.battleLogicNode:initNode()
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")

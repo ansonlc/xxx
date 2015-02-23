@@ -168,25 +168,27 @@ local function getRunes(type, howMuch)
         local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
         if gameLogicNode ~= nil then
             if gameLogicNode.runesTable ~= nil then
+                local updateTable = {}
                 if type == 1 then
-                    gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+                    --gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+                    updateTable.fire = howMuch
                 end
                 if type == 2 then
-                    gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+                    --gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+                    updateTable.earth = howMuch
                 end
                 if type == 4 then
-                    gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+                    --gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+                    updateTable.air = howMuch
                 end
                 if type == 5 then
-                    gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+                    --gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+                    updateTable.water = howMuch
                 end
+                gameLogicNode:updateRunesTable(updateTable)
             end
         end
         
-        -- debug info
-        for k, v in pairs(gameLogicNode.runesTable) do
-            print (k,v)
-        end
     end
 end
 
@@ -367,10 +369,10 @@ local rune1, rune2, rune3, rune4
 function GameBoardPanelDragMode:onUpdate(delta)
     
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    rune1:setString(gameLogicNode.runesTable['Fire'] .. '')
-    rune2:setString(gameLogicNode.runesTable['Earth'] .. '')
-    rune3:setString(gameLogicNode.runesTable['Wind'] .. '')
-    rune4:setString(gameLogicNode.runesTable['Water'] .. '')
+    rune1:setString(gameLogicNode.runesTable.fire .. '')
+    rune2:setString(gameLogicNode.runesTable.earth .. '')
+    rune3:setString(gameLogicNode.runesTable.air .. '')
+    rune4:setString(gameLogicNode.runesTable.water .. '')
     
     
     --print (delta)

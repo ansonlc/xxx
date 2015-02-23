@@ -4,12 +4,12 @@
 -- Description:@field [parent=#logic.GameBattleLogic] #type name description
 -- This GameBattleLogic Node manages all the game battle data (
 --------------------------------------------------------------------------------
+require "manager.EffectManager.lua"
 
 local GameBattleLogic = class("GameBattleLogic", function() return cc.Node:create() end)
 
 function GameBattleLogic.create()
     local manager = GameBattleLogic.new()
-    --manager:initNode()
     return manager
 end
 
@@ -21,7 +21,7 @@ function GameBattleLogic:initNode()
     -- Initialization
     self.monsterMaxHP = 100
     self.monsterHP = 100
-    self.runesTable = {["Water"] = 1, ["Wind"] = 1, ["Fire"] = 1, ["Earth"] = 1}    -- currently all the runes start from 50
+    self.runesTable = {water = 1, air = 1, fire = 1, earth = 1}    -- currently all the runes start from 50
     self.crystalNum = 0
     
     -- Initialization for the GameSkillSlotPanel
@@ -39,36 +39,44 @@ end
 -- @param skill type The skill activated by the player
 function GameBattleLogic:playerUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:playerUseSkill")
-    cclog(skill.name)
+    cclog(skill.skillName)
     if self.isGameOver ~= nil and self.isGameOver then
         cclog("The monster is already dead, please be a nice person!")
         return
     end
     
-    if skill.effectType == "Attack" then
-        self.monsterHP = self.monsterHP - skill.effectValue
-        cclog("Monster current HP: "..self.monsterHP)
-        self.runesTable["Water"] = self.runesTable["Water"] - skill.runeCostTable["Water"]
-        self.runesTable["Wind"] = self.runesTable["Wind"] - skill.runeCostTable["Wind"]
-        self.runesTable["Fire"] = self.runesTable["Fire"] - skill.runeCostTable["Fire"]
-        self.runesTable["Earth"] = self.runesTable["Earth"] - skill.runeCostTable["Earth"]
-        -- debug info for the current runes table
-        for k, v in pairs(self.runesTable) do
-            print (k,v)
+    if skill.effectTable ~= nil then
+        -- Go through all the three effects
+        if skill.effectTable.effectID1 ~= nil then
+            local effect1 = EffectManager.getEffect(skill.effectTable.effectID1)
+            assert(effect1, "Nil effect id")
+            -- TODO: take the property into account
+            if effect1.effectType == 'Attack' then
+                self.monsterHP = self.monsterHP - 10
+                self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
+                self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
+                self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
+                self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
+                -- pass this hit event to the GameBattlePanel
+                if self.gameBattlePanel == nil then
+                    self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
+                end
+                assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
+                self.gameBattlePanel:doDamageToMonster(10)
+            end
         end
-        
-        -- pass this hit event to the GameBattlePanel
-        if self.gameBattlePanel == nil then
-            self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
-        end
-        assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
-        self.gameBattlePanel:doDamageToMonster(skill.effectValue)
         
         if self.monsterHP <= 0 then
             self.gameBattlePanel:monsterIsDefeated()
             self.isGameOver = true
         end
         
+        -- nofity the GameSkillSlotPanel to update the skill status
+        if self.gameSkillSlotPanel == nil then
+            self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
+        end
+        assert(self.gameSkillSlotPanel, "No SkillSlotManager found")
+        self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
     end
 end
 
@@ -79,15 +87,16 @@ end
 -- @param skill The skill activated by the monster
 function GameBattleLogic:monsterUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:monsterUseSkill")
-    cclog(skill.name)
+    --cclog(skill.name)
 end
+
 
 ---
 -- Update the rune table in the Game BattleLogic; Add the a certain
 -- of new runes into the GameBattleLogic
 -- @function [parent=#logic.GameBattleLogic] updateRunesTable
 -- @param self 
--- @param runesTable table Input: {["Water"] = num1, ["Fire"] = num2 ...}
+-- @param runesTable table Input: {water = num1, fire = num2 ...}
 function GameBattleLogic:updateRunesTable(runesTable)
     assert(runesTable, "Nil input in function: GameBattleLogic:updateRunesTable()")
     

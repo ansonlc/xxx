@@ -5,6 +5,7 @@
 
 require "logic.GameBattleLogic.lua"
 require "config.CommonDefine.lua"
+require "manager.SkillManager.lua"
 
 local parentNode
 
@@ -35,8 +36,24 @@ function GameSkillSlotManagerLayer:initLayer()
     -- 2. Determine the size and position for each slot
     -- 3. Create all the skill nodes and attach them to the manager
     
+    -- wrapper for the class touch event handler
+    local function onTouch(eventType, x, y)
+        self:touchEventHandler(eventType, x, y)
+    end
+    
+    self:registerScriptTouchHandler(onTouch)
+    self:setTouchEnabled(true)
+end
+
+---
+-- Initialize for the skills
+-- @function [parent=#panel.GameSkillSlotPanel] initSkills
+-- @param self 
+-- @param skillTable table skills chosen by the player
+function GameSkillSlotManagerLayer:initSkills(skillTable)
+    cclog("Init for skills!")
     -- TODO: replace the skill below with the skill given by the manager
-    local testSkill1 = {}
+    --[[local testSkill1 = {}
     testSkill1.name = "Strike"
     testSkill1.runeCostTable = {["Water"] = 0, ["Wind"] = 0, ["Fire"] = 1, ["Earth"] = 0}
     testSkill1.effectType = "Attack"
@@ -59,14 +76,21 @@ function GameSkillSlotManagerLayer:initLayer()
     self:insertSkillNode(3,skillSprite3)
     self:insertSkillNode(4,nil)
     self:insertSkillNode(5,nil)
-
-    -- wrapper for the class touch event handler
-    local function onTouch(eventType, x, y)
-        self:touchEventHandler(eventType, x, y)
-    end
+    --]]
     
-    self:registerScriptTouchHandler(onTouch)
-    self:setTouchEnabled(true)
+    -- TODO: Delete the simulation for the skill table
+    skillTable = {1001, 1002, 1004, 1006, 1008}
+    local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), SkillManager.getSkill(skillTable[1]))
+    local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), SkillManager.getSkill(skillTable[2]))
+    local skillSprite3 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), SkillManager.getSkill(skillTable[3]))
+    local skillSprite4 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[4]..".png"), SkillManager.getSkill(skillTable[4]))
+    local skillSprite5 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[5]..".png"), SkillManager.getSkill(skillTable[5]))
+    
+    self:insertSkillNode(1,skillSprite1)
+    self:insertSkillNode(2,skillSprite2)
+    self:insertSkillNode(3,skillSprite3)
+    self:insertSkillNode(4,skillSprite4)
+    self:insertSkillNode(5,skillSprite5)
 end
 
 -- Activate the skill slot given the x and y coord
@@ -146,26 +170,25 @@ end
 -- @param currentRunesTable table current runes table in the logic node
 function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
     for i = 1, GMaxSkillsInSlot, 1 do
-        --if currentRunesTable["Water"] >= self.skillSlotTable[i].skill.runes
         if self.skillSlotTable[i] ~= nil and self.skillSlotTable[i].skill ~= nil then
-            if currentRunesTable["Water"] >= self.skillSlotTable[i].skill.runeCostTable["Water"] and currentRunesTable["Wind"] >= self.skillSlotTable[i].skill.runeCostTable["Wind"] and currentRunesTable["Fire"] >= self.skillSlotTable[i].skill.runeCostTable["Fire"] and currentRunesTable["Earth"] >= self.skillSlotTable[i].skill.runeCostTable["Earth"] then
+            local test = self.skillSlotTable[i].skill.runeCostTable
+            if currentRunesTable.water >= self.skillSlotTable[i].skill.runeCostTable.water and currentRunesTable.air >= self.skillSlotTable[i].skill.runeCostTable.air and currentRunesTable.fire >= self.skillSlotTable[i].skill.runeCostTable.fire and currentRunesTable.earth >= self.skillSlotTable[i].skill.runeCostTable.earth then
                 self.skillSlotTable[i].isActive = true 
             else
                 self.skillSlotTable[i].isActive = false
             end
-            --cclog("Update the status for: "..self.skillSlotTable[i].skill.name..":"..tostring(self.skillSlotTable[i].isActive))
         end
     end
 end
 
-function GameSkillSlotPanel.create(parent)
+function GameSkillSlotPanel.create(parent, skillTable)
     parentNode = parent
     local panel = GameSkillSlotPanel.new()
-    panel:initPanel()
+    panel:initPanel(skillTable)
     return panel
 end
 
-function GameSkillSlotPanel:initPanel()
+function GameSkillSlotPanel:initPanel(skillTable)
    
     -- Debug layer to show the panel size
     local debugColor = cc.c4b(128, 0, 0, 100)
@@ -191,6 +214,7 @@ function GameSkillSlotPanel:initPanel()
     
    -- Add the GameSkillSlotMangaerNode (as a self member -> easy to access)
    self.skillSlotManagerLayer = GameSkillSlotManagerLayer:create()
+   self.skillSlotManagerLayer:initSkills(skillTable)
    self.skillSlotManagerLayer:setName("SkillSlotManager")
    self:addChild(self.skillSlotManagerLayer)
    
@@ -198,10 +222,10 @@ function GameSkillSlotPanel:initPanel()
 end
 
 -- TODO: This function should not be called every frame
-function GameSkillSlotPanel:onUpdate(delta)
+--[[function GameSkillSlotPanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     self.skillSlotManagerLayer:updateSkillStatus(gameLogicNode.runesTable)
 
-end
+end--]]
 
 return GameSkillSlotPanel
