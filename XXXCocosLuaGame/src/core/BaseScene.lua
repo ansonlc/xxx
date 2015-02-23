@@ -30,6 +30,9 @@ function BaseScene:ctor()
     
     -- On update function entry
     self.onUpdateEntry = nil
+    
+    -- Record touch status
+    self.touchEnabled = false
 end
 
 --------------------------------
@@ -89,6 +92,8 @@ function BaseScene:doEnter()
     if self.onUpdate and self.enableUpdateFunc then
         self.onUpdateEntry = cc.Director:getInstance():getScheduler():scheduleScriptFunc(onUpdateCallFunc, 0, false)
     end
+    
+    self.touchEnabled = true
 end
 
 --------------------------------
@@ -98,6 +103,8 @@ end
 function BaseScene:onExit() end
 
 function BaseScene:doExit()
+    self.touchEnabled = false
+    
     if self.onUpdate and self.enableUpdateFunc then
         cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.onUpdateEntry)
     end
