@@ -12,12 +12,12 @@
         <PrePosition X="0.0000" Y="0.0000" />
         <PreSize X="0.0000" Y="0.0000" />
         <Children>
-          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="20" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
+          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
             <Position X="540.0000" Y="1728.0000" />
-            <Scale ScaleX="6.0000" ScaleY="6.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="120.0000" Y="20.0000" />
+            <Size X="600.0000" Y="100.0000" />
             <PrePosition X="0.5000" Y="0.9000" />
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
@@ -38,48 +38,6 @@
                 <Size X="504.0000" Y="72.0000" />
                 <PrePosition X="0.5000" Y="0.1000" />
                 <PreSize X="0.0000" Y="0.0000" />
-              </NodeObjectData>
-              <NodeObjectData Name="btn_lvl_1" ActionTag="2112080493" FrameEvent="" Tag="7" ObjectIndex="1" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Switch Mode" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-                <Position X="560.0000" Y="1701.5002" />
-                <Scale ScaleX="1.0000" ScaleY="1.0000" />
-                <AnchorPoint ScaleX="0.5730" ScaleY="0.2211" />
-                <CColor A="255" R="255" G="255" B="255" />
-                <Size X="454.0000" Y="95.0000" />
-                <PrePosition X="0.5185" Y="0.8862" />
-                <PreSize X="0.0000" Y="0.0000" />
-                <FontResource Type="Normal" Path="fonts/ALGER.TTF" />
-                <TextColor A="255" R="65" G="65" B="70" />
-                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
-              </NodeObjectData>
-              <NodeObjectData Name="btn_lvl_2" ActionTag="-429479773" FrameEvent="" Tag="9" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Drag Mode" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-                <Position X="540.0000" Y="1535.9999" />
-                <Scale ScaleX="1.0000" ScaleY="1.0000" />
-                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <CColor A="255" R="255" G="255" B="255" />
-                <Size X="399.0000" Y="95.0000" />
-                <PrePosition X="0.5000" Y="0.8000" />
-                <PreSize X="0.0000" Y="0.0000" />
-                <FontResource Type="Normal" Path="fonts/ALGER.TTF" />
-                <TextColor A="255" R="65" G="65" B="70" />
-                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
-              </NodeObjectData>
-              <NodeObjectData Name="btn_lvl_3" ActionTag="-1090748223" FrameEvent="" Tag="10" ObjectIndex="4" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="SLIDE MODE" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-                <Position X="540.0000" Y="1344.0000" />
-                <Scale ScaleX="1.0000" ScaleY="1.0000" />
-                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <CColor A="255" R="255" G="255" B="255" />
-                <Size X="395.0000" Y="95.0000" />
-                <PrePosition X="0.5000" Y="0.7000" />
-                <PreSize X="0.0000" Y="0.0000" />
-                <FontResource Type="Normal" Path="fonts/ALGER.TTF" />
-                <TextColor A="255" R="65" G="65" B="70" />
-                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
               </NodeObjectData>
             </Children>
             <SingleColor A="255" R="58" G="165" B="255" />
