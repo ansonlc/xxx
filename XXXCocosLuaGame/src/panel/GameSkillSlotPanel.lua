@@ -50,34 +50,7 @@ end
 -- @function [parent=#panel.GameSkillSlotPanel] initSkills
 -- @param self 
 -- @param skillTable table skills chosen by the player
-function GameSkillSlotManagerLayer:initSkills(skillTable)
-    cclog("Init for skills!")
-    -- TODO: replace the skill below with the skill given by the manager
-    --[[local testSkill1 = {}
-    testSkill1.name = "Strike"
-    testSkill1.runeCostTable = {["Water"] = 0, ["Wind"] = 0, ["Fire"] = 1, ["Earth"] = 0}
-    testSkill1.effectType = "Attack"
-    testSkill1.effectValue = 1
-
-    local testSkill2 = {}
-    testSkill2.name = "Advanced Strike"
-    testSkill2.runeCostTable = {["Water"] = 3, ["Wind"] = 3, ["Fire"] = 3, ["Earth"] = 3}
-    testSkill2.effectType = "Attack"
-    testSkill2.effectValue = 20
-
-    
-    
-    local skillSprite1 = self:generateSkillNode("res/imgs/temp/sword_1.png", testSkill1)
-    local skillSprite2 = self:generateSkillNode("res/imgs/temp/magic_1.png", testSkill2)
-    local skillSprite3 = self:generateSkillNode("res/imgs/temp/shield_1.png", nil)
-    
-    self:insertSkillNode(1,skillSprite1)
-    self:insertSkillNode(2,skillSprite2)
-    self:insertSkillNode(3,skillSprite3)
-    self:insertSkillNode(4,nil)
-    self:insertSkillNode(5,nil)
-    --]]
-    
+function GameSkillSlotManagerLayer:initSkills(skillTable)    
     -- TODO: Delete the simulation for the skill table
     skillTable = {1001, 1002, 1004, 1006, 1008}
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), SkillManager.getSkill(skillTable[1]))
@@ -112,7 +85,7 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
                     assert(self.gameLogicNode, "Nil gameLogicNode in touchEventHandler")
                     self.gameLogicNode:playerUseSkill(self.skillSlotTable[i].skill)
                 else
-                    cclog("Not Enough Runes to use skill!")
+                    cclog("Not Enough Runes to use skill: "..self.skillSlotTable[i].skill.skillName)
                 end
             end
         end
@@ -174,8 +147,27 @@ function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
             local test = self.skillSlotTable[i].skill.runeCostTable
             if currentRunesTable.water >= self.skillSlotTable[i].skill.runeCostTable.water and currentRunesTable.air >= self.skillSlotTable[i].skill.runeCostTable.air and currentRunesTable.fire >= self.skillSlotTable[i].skill.runeCostTable.fire and currentRunesTable.earth >= self.skillSlotTable[i].skill.runeCostTable.earth then
                 self.skillSlotTable[i].isActive = true 
+                
+                -- Cancel the Inactive layer
+                if self.skillSlotTable[i].inActiveLayer ~= nil then
+                    self:removeChild(self.skillSlotTable[i].inActiveLayer)
+                    self.skillSlotTable[i].inActiveLayer = nil
+                end
             else
                 self.skillSlotTable[i].isActive = false
+                -- Set the layer color to grey
+                if self.skillSlotTable[i].inActiveLayer == nil then
+                    local greyColor =cc.c4b(128, 128, 128, 200)
+                    local greyLayer = cc.LayerColor:create(greyColor)
+
+                    greyLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
+                    greyLayer:setAnchorPoint(0,0)
+                    greyLayer:setPosition(self.skillSlotTable[i].x, self.skillSlotTable[i].y)
+
+                    self.skillSlotTable[i].inActiveLayer = greyLayer
+                    self:addChild(greyLayer)
+                end
+ 
             end
         end
     end
@@ -220,12 +212,5 @@ function GameSkillSlotPanel:initPanel(skillTable)
    
    
 end
-
--- TODO: This function should not be called every frame
---[[function GameSkillSlotPanel:onUpdate(delta)
-    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    self.skillSlotManagerLayer:updateSkillStatus(gameLogicNode.runesTable)
-
-end--]]
 
 return GameSkillSlotPanel

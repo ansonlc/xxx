@@ -5,6 +5,7 @@
 -- This GameBattleLogic Node manages all the game battle data (
 --------------------------------------------------------------------------------
 require "manager.EffectManager.lua"
+require "manager.MonsterManager.lua"
 
 local GameBattleLogic = class("GameBattleLogic", function() return cc.Node:create() end)
 
@@ -19,9 +20,7 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.monsterMaxHP = 100
-    self.monsterHP = 100
-    self.runesTable = {water = 1, air = 1, fire = 1, earth = 1}    -- currently all the runes start from 50
+    self.runesTable = {water = 3, air = 3, fire = 3, earth = 3}    -- currently all the runes start from 50
     self.crystalNum = 0
     
     -- Initialization for the GameSkillSlotPanel
@@ -30,6 +29,18 @@ function GameBattleLogic:initNode()
     end
     assert(self.gameSkillSlotPanel, "Nil !!!")
     self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+end
+
+---
+-- Initialize the monster info
+-- @function [parent=#logic.GameBattleLogic] initMonster
+-- @param monsterID num ID of the monster
+function GameBattleLogic:initMonster(monsterID)
+    -- Get the monster from the manager and set the monster HP
+    self.monster = MonsterManager.getMonster(monsterID)
+    assert(self.monster, "Nil Monster !")
+    self.monsterMaxHP = self.monster.monsterHP
+    self.monsterHP = self.monster.monsterHP
 end
 
 --------------------------------

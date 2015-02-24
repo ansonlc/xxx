@@ -69,6 +69,8 @@ function GameScene:onInit()
     -- Directly call the init function of for this node
     -- TODO: Initialize the monster data based on the enter data - self.enterData.monsterID
     self.battleLogicNode:initNode()
+    -- TODO: Delete the monster simulation ID
+    self.battleLogicNode:initMonster(1001)
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     AudioEngine.playMusic(bgMusicPath, true)
@@ -87,7 +89,6 @@ function GameScene:onUpdate(dt)
         self.skillPanel:onUpdate(dt)
     end 
     
---    cclog(dt)
 end
 
 return GameScene

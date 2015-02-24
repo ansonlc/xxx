@@ -138,11 +138,12 @@ function GameBattlePanel:doDamageToMonster(damageValue)
 end
 
 -- TODO: This function should not be called every frame (only on demand)
-function GameBattlePanel:onUpdate(delta)
+--[[function GameBattlePanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
     self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
-end
+end--]]
+
 ---
 -- Change the sprite for the monster when the monster is dead
 -- @function [parent=#panel.GameBattlePanel] monsterIsDefeated
