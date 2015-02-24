@@ -120,13 +120,20 @@ end
 -- @param damageValue The damage hit on the monster
 function GameBattlePanel:doDamageToMonster(damageValue)
     assert(damageValue, "Nil input in function: GameBattlePanel:doDamageToMonster()")
-    cclog("Function called")
     if self.damageText == nil then
-        self.damageText = cc.LabelTTF:create("-"..damageValue, "Arial", 200)
+        if damageValue >= 0 then
+            self.damageText = cc.LabelTTF:create("-"..damageValue, "Arial", 200)
+        else
+            self.damageText = cc.LabelTTF:create("+"..math.abs(damageValue), "Arial", 200)
+        end
         self.damageText:setName("DamageTextNode") 
         self:addChild(self.damageText)
     else
-        self.damageText:setString("-"..damageValue)
+        if damageValue >= 0 then
+            self.damageText:setString("-"..damageValue)
+        else
+            self.damageText:setString("+"..math.abs(damageValue))
+        end
     end
     local fadeInAction = cc.FadeIn:create(0.3)
     local fadeOutAction = cc.FadeOut:create(0.3)

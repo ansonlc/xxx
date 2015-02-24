@@ -20,7 +20,7 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 3, air = 3, fire = 3, earth = 3}    -- currently all the runes start from 50
+    self.runesTable = {water = 5, air = 5, fire = 5, earth = 5}    -- currently all the runes start from 5
     self.crystalNum = 0
     
     -- Initialization for the GameSkillSlotPanel
@@ -63,7 +63,8 @@ function GameBattleLogic:playerUseSkill(skill)
             assert(effect1, "Nil effect id")
             -- TODO: take the property into account
             if effect1.effectType == 'Attack' then
-                self.monsterHP = self.monsterHP - 10
+                local damage = self:calculateAttackPoint(effect1.elementProperty,skill.effectTable.effectValue1,self.monster)
+                self.monsterHP = self.monsterHP - damage
                 self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
                 self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
                 self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
@@ -73,13 +74,17 @@ function GameBattleLogic:playerUseSkill(skill)
                     self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
                 end
                 assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
-                self.gameBattlePanel:doDamageToMonster(10)
+                self.gameBattlePanel:doDamageToMonster(damage)
             end
         end
         
         if self.monsterHP <= 0 then
             self.gameBattlePanel:monsterIsDefeated()
             self.isGameOver = true
+        end
+        
+        if self.monsterHP >= self.monsterMaxHP then
+            self.monsterHP = self.monsterMaxHP
         end
         
         -- nofity the GameSkillSlotPanel to update the skill status
@@ -155,6 +160,32 @@ end
 -- @return #number crystal number
 function GameBattleLogic:getCrystalNum()
     return self.crystalNum
+end
+
+---
+-- Calculate the final attack point based on the effect value and monster data
+-- @function [parent=#logic.GameBattleLogic] calculateAttackPoint
+function GameBattleLogic:calculateAttackPoint(elementProperty, effectValue, monster)
+    local attackPoint = 0
+    if elementProperty == "Physical" then
+        attackPoint = effectValue * monster.elementTable.physical
+    end
+    if elementProperty == "Water" then
+        attackPoint = effectValue * monster.elementTable.water
+    end
+    if elementProperty == "Earth" then
+        attackPoint = effectValue * monster.elementTable.earth
+    end
+    if elementProperty == "Fire" then
+        attackPoint = effectValue * monster.elementTable.fire
+    end
+    if elementProperty == "Air" then
+        attackPoint = effectValue * monster.elementTable.air
+    end
+    -- TODO: Replace skill level with the skill level system
+    local skillLevel = 1
+    --attackPoint = (1 + math.random(-0.05,0.05)) * skillLevel * attackPoint
+    return math.floor(attackPoint)
 end
 
 
