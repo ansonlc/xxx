@@ -12,6 +12,16 @@
         <PrePosition X="0.0000" Y="0.0000" />
         <PreSize X="0.0000" Y="0.0000" />
         <Children>
+          <NodeObjectData Name="main_menu_bg" ActionTag="240643451" FrameEvent="" Tag="37" ObjectIndex="1" PrePositionEnabled="True" ctype="SpriteObjectData">
+            <Position X="540.0000" Y="960.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="1080.0000" Y="1920.0000" />
+            <PrePosition X="0.5000" Y="0.5000" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
+          </NodeObjectData>
           <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
             <Position X="540.0000" Y="1728.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
@@ -22,7 +32,7 @@
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
           <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ComboBoxIndex="2" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
-            <Position X="0.0000" Y="1535.9999" />
+            <Position X="0.0000" Y="1536.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />

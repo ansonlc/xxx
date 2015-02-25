@@ -59,6 +59,8 @@
           <File Name="ALGER.TTF" />
         </Folder>
         <Project Name="GameSceneLayout.csd" />
+        <Project Name="ResultScene.csd" />
+        <Project Name="EndingScene.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>

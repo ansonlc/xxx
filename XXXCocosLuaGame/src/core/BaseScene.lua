@@ -33,6 +33,12 @@ function BaseScene:ctor()
     
     -- Record touch status
     self.touchEnabled = false
+    
+    -- Record previous scene, available after initScene(params)
+    self.enterScene = nil
+    
+    -- Record the scene need to return, available after initScene(params)
+    self.returnScene = nil
 end
 
 --------------------------------
