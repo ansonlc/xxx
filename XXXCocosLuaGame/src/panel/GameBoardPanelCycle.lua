@@ -519,7 +519,7 @@ function GameBoardPanel:createTouchLayer()
         --cclog("touchLayerMoved: %.2f, %.2f", x, y)
         local touchCurCell = touchPointToCell(x, y)
 
-        if not isAnimatingMove and touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching then
+        if touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching then
             if isLinearMoved(touchCurCell, touchStartCell) then
                 --switchCellSet = {}
                 --switchCellSet[#switchCellSet + 1] = touchCurCell
@@ -542,7 +542,6 @@ function GameBoardPanel:createTouchLayer()
         board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
         cfCheckSwitchCell()
         isTouching = false
-        isAnimatingMove = false
     end
 
 

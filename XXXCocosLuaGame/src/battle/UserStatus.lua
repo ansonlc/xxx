@@ -1,11 +1,12 @@
 local UserStatus = class();
 function UserStatus:ctor()
-    self.skillID = '';
-    self.skillName='';
-    self.runeCostTable='';
-    self.animationID = '';
-    self.growthRatio = '';
-    self.effectTable = '';    
+    self.userId = '';
+    self.userName='';
+    self.userLevel='';
+    self.userHP = '';
+    self.CrystalNum = '';
+    self.EndlessScore = '';    
+	self.ItemTable = '';
 end
 
 function UserStatus.create()
