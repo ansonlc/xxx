@@ -67,7 +67,7 @@ function LevelSelectScene:onInit()
         local lvName = value.missionName
         
         if unLockedStoryLevelNum<value.id then
-            lvName = "LEVEL LOCKED"
+            lvName = "-- LEVEL LOCKED --"
         end
         
         local lvlBtn = buildLevelButton(lvBossType, lvNum, lvName, nowPosY)

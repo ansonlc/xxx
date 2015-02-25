@@ -13,8 +13,7 @@ end
 
 function TestScene.create(params)
     local scene = TestScene.new()
-    scene.params = params
-    scene:initScene()
+    scene:initScene(params)
     return scene
 end
 
