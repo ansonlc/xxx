@@ -5,7 +5,4 @@ local EffectTable = {
     [1004] = {effectID =1004,effectType='Attack',elementProperty = 'Water'},
     [1005] = {effectID =1005,effectType='Attack',elementProperty = 'Fire'}
 }
-
-function getEffectTable()
-    return EffectTable
-end
+return EffectTable

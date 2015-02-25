@@ -5,7 +5,6 @@
 
 require "logic.GameBattleLogic.lua"
 require "config.CommonDefine.lua"
-require "manager.SkillManager.lua"
 
 local parentNode
 
@@ -53,11 +52,11 @@ end
 function GameSkillSlotManagerLayer:initSkills(skillTable)    
     -- TODO: Delete the simulation for the skill table
     skillTable = {1001, 1002, 1004, 1006, 1008}
-    local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), SkillManager.getSkill(skillTable[1]))
-    local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), SkillManager.getSkill(skillTable[2]))
-    local skillSprite3 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), SkillManager.getSkill(skillTable[3]))
-    local skillSprite4 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[4]..".png"), SkillManager.getSkill(skillTable[4]))
-    local skillSprite5 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[5]..".png"), SkillManager.getSkill(skillTable[5]))
+    local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
+    local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
+    local skillSprite3 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), MetaManager.getSkill(skillTable[3]))
+    local skillSprite4 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[4]..".png"), MetaManager.getSkill(skillTable[4]))
+    local skillSprite5 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[5]..".png"), MetaManager.getSkill(skillTable[5]))
     
     self:insertSkillNode(1,skillSprite1)
     self:insertSkillNode(2,skillSprite2)

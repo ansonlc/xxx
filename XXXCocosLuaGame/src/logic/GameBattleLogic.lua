@@ -4,8 +4,6 @@
 -- Description:@field [parent=#logic.GameBattleLogic] #type name description
 -- This GameBattleLogic Node manages all the game battle data (
 --------------------------------------------------------------------------------
-require "manager.EffectManager.lua"
-require "manager.MonsterManager.lua"
 
 local GameBattleLogic = class("GameBattleLogic", function() return cc.Node:create() end)
 
@@ -37,7 +35,7 @@ end
 -- @param monsterID num ID of the monster
 function GameBattleLogic:initMonster(monsterID)
     -- Get the monster from the manager and set the monster HP
-    self.monster = MonsterManager.getMonster(monsterID)
+    self.monster = MetaManager.getMonster(monsterID)
     assert(self.monster, "Nil Monster !")
     self.monsterMaxHP = self.monster.monsterHP
     self.monsterHP = self.monster.monsterHP
@@ -59,7 +57,7 @@ function GameBattleLogic:playerUseSkill(skill)
     if skill.effectTable ~= nil then
         -- Go through all the three effects
         if skill.effectTable.effectID1 ~= nil then
-            local effect1 = EffectManager.getEffect(skill.effectTable.effectID1)
+            local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
             assert(effect1, "Nil effect id")
             -- TODO: take the property into account
             if effect1.effectType == 'Attack' then

@@ -6,7 +6,10 @@
 cc.FileUtils:getInstance():addSearchPath("src")
 cc.FileUtils:getInstance():addSearchPath("res")
 -- CC_USE_DEPRECATED_API = true
+
 require "cocos.init"
+require "manager.DataManager"
+require "manager.MetaManager"
 require "manager.SceneManager"
 require "utils.TimeUtil"
 
@@ -50,18 +53,8 @@ local function main()
     -- run
     initGLView()
     
+    MetaManager.init()
     SceneManager.replaceSceneWithName("LoginScene")
-
-    --[[local scene = require("scene.LoginScene")
-    local splashScene = scene.create()
-
-
-    -- TODO User SceneManager to replace scene here
-    if cc.Director:getInstance():getRunningScene() then
-        cc.Director:getInstance():replaceScene(splashScene)
-    else
-        cc.Director:getInstance():runWithScene(splashScene)
-    end]]
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

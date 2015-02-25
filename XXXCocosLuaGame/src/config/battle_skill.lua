@@ -9,7 +9,4 @@ local SkillTable = {
    [1008] = {skillID=1008,skillName='Fire Sword',runeCostTable= {air=0,earth=0,water=0,fire=1},animationID = nil,growthRatio = nil,effectTable ={effectID1=1005,effectValue1=25,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil}},
    [1009] = {skillID=1009,skillName='Fire Arrow',runeCostTable= {air=0,earth=0,water=0,fire=2},animationID = nil,growthRatio = nil,effectTable ={effectID1=1005,effectValue1=50,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil}},
 }
-
-function getSkillTable()
-    return SkillTable
-end
+return SkillTable
