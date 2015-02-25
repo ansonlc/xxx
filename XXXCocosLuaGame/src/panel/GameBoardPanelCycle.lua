@@ -528,7 +528,7 @@ function GameBoardPanel:createTouchLayer()
                 --switchCellPair[1] = touchCurCell
                 --switchCellPair[2] = touchStartCell
 
-                --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+                board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
                 --sleep(1)
             end
         end     
@@ -538,8 +538,8 @@ function GameBoardPanel:createTouchLayer()
         --cclog("touchLayerEnded: %.2f, %.2f", x, y)
         --touchEndPoint = {x = x, y = y}
         --touchEndCell = touchPointToCell(x, y)
-        local touchCurCell = touchPointToCell(x, y)
-        board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+        --local touchCurCell = touchPointToCell(x, y)
+        --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
         cfCheckSwitchCell()
         isTouching = false
     end
@@ -563,7 +563,7 @@ end
 
 
 function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
-    --isTouching = false
+    isTouching = false
     self:resetSelectGameIcon()
     touchStartCell = cellA
     local diff = 0
@@ -575,7 +575,10 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
     nodesActions = {}
     local tags = {}
     local elem = {}
-    
+    local function resetIsTouchingCallback() 
+        isTouching = true
+    end
+
     local nodePnt = {}
     if cellA.y == cellB.y then
         diff = cellA.x - cellB.x
@@ -613,7 +616,16 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodesActions[destCell.x] = moveToDest
             switchCellSet[#switchCellSet + 1] = cell
         end
+        ---
+        local arrayOfActions = {}
+        table.insert(arrayOfActions, nodesActions[GBoardSizeX])
+
+        local callBack = cc.CallFunc:create(resetIsTouchingCallback)
+        table.insert(arrayOfActions, callBack)
         
+        local sequence = cc.Sequence:create(arrayOfActions)
+        nodesActions[GBoardSizeX] = sequence
+        ---
         for j = 1, #nodes do
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[j][cellA.y] = elem[j]
@@ -654,7 +666,14 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodesActions[destCell.y] = moveToDest
             switchCellSet[#switchCellSet + 1] = cell
         end
+        local arrayOfActions = {}
+        table.insert(arrayOfActions, nodesActions[GBoardSizeY])
+
+        local callBack = cc.CallFunc:create(resetIsTouchingCallback)
+        table.insert(arrayOfActions, callBack)
         
+        local sequence = cc.Sequence:create(arrayOfActions)
+        nodesActions[GBoardSizeX] = sequence
         for j = 1, #nodes do
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[cellA.x][j] = elem[j]
