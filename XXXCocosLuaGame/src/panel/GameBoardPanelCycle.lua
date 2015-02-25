@@ -514,7 +514,7 @@ function GameBoardPanel:createTouchLayer()
 
         return true
     end
-
+    
     local function onTouchMoved(x, y)
         --cclog("touchLayerMoved: %.2f, %.2f", x, y)
         local touchCurCell = touchPointToCell(x, y)
@@ -527,21 +527,21 @@ function GameBoardPanel:createTouchLayer()
 
                 --switchCellPair[1] = touchCurCell
                 --switchCellPair[2] = touchStartCell
-                
+
                 board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+                --sleep(1)
             end
         end     
     end
 
     local function onTouchEnded(x, y)
         --cclog("touchLayerEnded: %.2f, %.2f", x, y)
-        touchEndPoint = {x = x, y = y}
-        touchEndCell = touchPointToCell(x, y)
-        local touchCurCell = touchPointToCell(x, y)
+        --touchEndPoint = {x = x, y = y}
+        --touchEndCell = touchPointToCell(x, y)
+        --local touchCurCell = touchPointToCell(x, y)
         --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
         cfCheckSwitchCell()
         isTouching = false
-
     end
 
 
@@ -560,21 +560,25 @@ function GameBoardPanel:createTouchLayer()
 
     return touchLayer
 end
-local nodes = {}
-local nodesActions = {}
+
+
 function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
-    
+    isTouching = false
     self:resetSelectGameIcon()
     touchStartCell = cellA
     local diff = 0
-
+    local nodes = {}
+    local nodesActions = {}
     --local nodes = {}
     --local nodesActions = {}
     nodes = {}
     nodesActions = {}
     local tags = {}
     local elem = {}
-    
+    local function resetIsTouchingCallback() 
+        isTouching = true
+    end
+
     local nodePnt = {}
     if cellA.y == cellB.y then
         diff = cellA.x - cellB.x
@@ -603,7 +607,7 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
 
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
-            cclog("moveTo: "..destCellPoint.x.." "..destCellPoint.y)
+            cclog("moveTosameY: "..destCellPoint.x.." "..destCellPoint.y)
             --node:runAction(moveToDest)
             
             elem[destCell.x] = GameBoard[cell.x][cell.y]
@@ -612,7 +616,16 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodesActions[destCell.x] = moveToDest
             switchCellSet[#switchCellSet + 1] = cell
         end
+        ---
+        local arrayOfActions = {}
+        table.insert(arrayOfActions, nodesActions[GBoardSizeX])
+
+        local callBack = cc.CallFunc:create(resetIsTouchingCallback)
+        table.insert(arrayOfActions, callBack)
         
+        local sequence = cc.Sequence:create(arrayOfActions)
+        nodesActions[GBoardSizeX] = sequence
+        ---
         for j = 1, #nodes do
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[j][cellA.y] = elem[j]
@@ -644,7 +657,7 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
 
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
-            cclog("moveTo: "..destCellPoint.x.." "..destCellPoint.y)
+            cclog("moveTosameX: "..destCellPoint.x.." "..destCellPoint.y)
             --node:runAction(moveToDest)
             
             elem[destCell.y] = GameBoard[cell.x][cell.y]
@@ -653,14 +666,27 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodesActions[destCell.y] = moveToDest
             switchCellSet[#switchCellSet + 1] = cell
         end
+        local arrayOfActions = {}
+        table.insert(arrayOfActions, nodesActions[GBoardSizeY])
+
+        local callBack = cc.CallFunc:create(resetIsTouchingCallback)
+        table.insert(arrayOfActions, callBack)
         
+        local sequence = cc.Sequence:create(arrayOfActions)
+        nodesActions[GBoardSizeX] = sequence
         for j = 1, #nodes do
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[cellA.x][j] = elem[j]
             nodes[j]:runAction(nodesActions[j])
         end
     end
-    
+    local function sleep(n)
+        local t = os.clock()
+        while os.clock() - t <= n do
+        -- nothing
+        end
+    end
+    --sleep(1)
 end
 
 return GameBoardPanel
