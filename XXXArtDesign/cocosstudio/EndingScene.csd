@@ -22,44 +22,59 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="btn_retry" ActionTag="1492640191" FrameEvent="" Tag="71" ObjectIndex="1" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Retry" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-            <Position X="540.0000" Y="1151.9999" />
+          <NodeObjectData Name="panel_btn" ActionTag="-1184768899" FrameEvent="" Tag="23" ObjectIndex="1" TouchEnable="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" ctype="PanelObjectData">
+            <Position X="100.0000" Y="400.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <AnchorPoint />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="400.0000" Y="100.0000" />
-            <PrePosition X="0.5000" Y="0.6000" />
-            <PreSize X="0.3704" Y="0.0521" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
-          </NodeObjectData>
-          <NodeObjectData Name="btn_next" ActionTag="1163759281" FrameEvent="" Tag="72" ObjectIndex="2" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Next Level" Scale9Enable="True" Scale9Width="46" Scale9Height="36" DisplayState="False" ctype="ButtonObjectData">
-            <Position X="540.0000" Y="960.0000" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <Size X="400.0000" Y="100.0000" />
-            <PrePosition X="0.5000" Y="0.5000" />
-            <PreSize X="0.3704" Y="0.0521" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
-          </NodeObjectData>
-          <NodeObjectData Name="btn_return" ActionTag="1671152936" FrameEvent="" Tag="73" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Return" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-            <Position X="540.0000" Y="767.9999" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <Size X="400.0000" Y="100.0000" />
-            <PrePosition X="0.5000" Y="0.4000" />
-            <PreSize X="0.3704" Y="0.0521" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <Size X="880.0000" Y="600.0000" />
+            <PrePosition X="0.0926" Y="0.2083" />
+            <PreSize X="0.8148" Y="0.3125" />
+            <Children>
+              <NodeObjectData Name="btn_retry" ActionTag="1492640191" FrameEvent="" Tag="71" ObjectIndex="1" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Retry" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+                <Position X="440.0000" Y="450.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="400.0000" Y="100.0000" />
+                <PrePosition X="0.5000" Y="0.7500" />
+                <PreSize X="0.3704" Y="0.0521" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="btn_next" ActionTag="1163759281" FrameEvent="" Tag="72" ObjectIndex="2" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Continue" Scale9Enable="True" Scale9Width="46" Scale9Height="36" DisplayState="False" ctype="ButtonObjectData">
+                <Position X="440.0000" Y="300.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="400.0000" Y="100.0000" />
+                <PrePosition X="0.5000" Y="0.5000" />
+                <PreSize X="0.3704" Y="0.0521" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="btn_return" ActionTag="1671152936" FrameEvent="" Tag="73" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Return" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+                <Position X="440.0000" Y="150.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="400.0000" Y="100.0000" />
+                <PrePosition X="0.5000" Y="0.2500" />
+                <PreSize X="0.3704" Y="0.0521" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+                <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+              </NodeObjectData>
+            </Children>
+            <SingleColor A="255" R="150" G="200" B="255" />
+            <FirstColor A="255" R="150" G="200" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
           </NodeObjectData>
         </Children>
       </ObjectData>

@@ -22,12 +22,12 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="txt_result" ActionTag="-812326202" FrameEvent="" Tag="5" ObjectIndex="3" PrePositionEnabled="True" LabelText="Fnt Text Label" ctype="TextBMFontObjectData">
+          <NodeObjectData Name="txt_result" ActionTag="-812326202" FrameEvent="" Tag="5" ObjectIndex="3" PrePositionEnabled="True" LabelText="Battle Result" ctype="TextBMFontObjectData">
             <Position X="540.0000" Y="1824.0000" />
             <Scale ScaleX="5.0000" ScaleY="5.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="162.0000" Y="36.0000" />
+            <Size X="143.0000" Y="36.0000" />
             <PrePosition X="0.5000" Y="0.9500" />
             <PreSize X="0.0000" Y="0.0000" />
             <LabelBMFontFile_CNB Type="Default" Path="Default/defaultBMFont.fnt" />
