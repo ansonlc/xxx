@@ -514,12 +514,12 @@ function GameBoardPanel:createTouchLayer()
 
         return true
     end
-
+    
     local function onTouchMoved(x, y)
         --cclog("touchLayerMoved: %.2f, %.2f", x, y)
         local touchCurCell = touchPointToCell(x, y)
 
-        if touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching then
+        if not isAnimatingMove and touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching then
             if isLinearMoved(touchCurCell, touchStartCell) then
                 --switchCellSet = {}
                 --switchCellSet[#switchCellSet + 1] = touchCurCell
@@ -527,21 +527,22 @@ function GameBoardPanel:createTouchLayer()
 
                 --switchCellPair[1] = touchCurCell
                 --switchCellPair[2] = touchStartCell
-                
-                board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+
+                --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+                --sleep(1)
             end
         end     
     end
 
     local function onTouchEnded(x, y)
         --cclog("touchLayerEnded: %.2f, %.2f", x, y)
-        touchEndPoint = {x = x, y = y}
-        touchEndCell = touchPointToCell(x, y)
+        --touchEndPoint = {x = x, y = y}
+        --touchEndCell = touchPointToCell(x, y)
         local touchCurCell = touchPointToCell(x, y)
-        --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+        board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
         cfCheckSwitchCell()
         isTouching = false
-
+        isAnimatingMove = false
     end
 
 
@@ -560,14 +561,15 @@ function GameBoardPanel:createTouchLayer()
 
     return touchLayer
 end
-local nodes = {}
-local nodesActions = {}
+
+
 function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
-    
+    --isTouching = false
     self:resetSelectGameIcon()
     touchStartCell = cellA
     local diff = 0
-
+    local nodes = {}
+    local nodesActions = {}
     --local nodes = {}
     --local nodesActions = {}
     nodes = {}
@@ -603,7 +605,7 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
 
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
-            cclog("moveTo: "..destCellPoint.x.." "..destCellPoint.y)
+            cclog("moveTosameY: "..destCellPoint.x.." "..destCellPoint.y)
             --node:runAction(moveToDest)
             
             elem[destCell.x] = GameBoard[cell.x][cell.y]
@@ -644,7 +646,7 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
 
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
-            cclog("moveTo: "..destCellPoint.x.." "..destCellPoint.y)
+            cclog("moveTosameX: "..destCellPoint.x.." "..destCellPoint.y)
             --node:runAction(moveToDest)
             
             elem[destCell.y] = GameBoard[cell.x][cell.y]
@@ -660,7 +662,13 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodes[j]:runAction(nodesActions[j])
         end
     end
-    
+    local function sleep(n)
+        local t = os.clock()
+        while os.clock() - t <= n do
+        -- nothing
+        end
+    end
+    --sleep(1)
 end
 
 return GameBoardPanel
