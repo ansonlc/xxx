@@ -43,7 +43,7 @@ function GameScene:onInit()
         self:addChild(self.gameBoard)
     elseif self.enterData.mode == "SlideMode" then
         GameBoardClass = require("panel.GameBoardPanelCycle")
-        self.gameBoard = GameBoardClass.create()
+        self.gameBoard = GameBoardClass.create(self)
         self:addChild(self.gameBoard)
     end
 

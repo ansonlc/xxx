@@ -43,8 +43,10 @@ local FallEndCheckNode = nil
 
 local visibleSize = cc.Director:getInstance():getVisibleSize()
 
+local parentNode
 
-function GameBoardPanel.create()
+function GameBoardPanel.create(parent)
+    parentNode = parent
     local panel = GameBoardPanel.new()
     panel:initPanel()
     return panel
@@ -386,6 +388,35 @@ local function onCheckSuccess(succCellSet)
             end             
         end
     end
+    -- getRunes
+    
+    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
+    local updateTable = {fire = 0, earth = 0, air = 0, water = 0}
+    for i = 1, #matchCellSet do
+        if gameLogicNode ~= nil then
+            if gameLogicNode.runesTable ~= nil then
+                cell = matchCellSet[i]
+                if GameBoard[cell.x][cell.y] == 1 then
+                    --gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+                    updateTable.fire = updateTable.fire + 1
+                end
+                if GameBoard[cell.x][cell.y] == 2 then
+                    --gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+                    updateTable.earth = updateTable.earth + 1
+                end
+                if GameBoard[cell.x][cell.y] == 4 then
+                    --gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+                    updateTable.air = updateTable.air + 1
+                end
+                if GameBoard[cell.x][cell.y] == 5 then
+                    --gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+                    updateTable.water = updateTable.water + 1
+                end
+                gameLogicNode:updateRunesTable(updateTable)
+            end
+        end
+    end
+    
     removeCellSet(matchCellSet)
 
     --延迟一段时间后刷新棋盘
@@ -472,7 +503,6 @@ end
 --背景层
 function GameBoardPanel.createBackLayer()
     local backLayer = cc.Layer:create()
-
     local backSprite = cc.Sprite:create("imgs/game_bg.png")
     backSprite:setPosition(backSprite:getContentSize().width / 2, backSprite:getContentSize().height / 2)
 
