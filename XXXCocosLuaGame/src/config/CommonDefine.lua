@@ -46,18 +46,47 @@ GBattleFieldHorizontalRatio = 1000 / 1080
 GBattleFieldVerticalStartOffsetRatio = 65 / 1920
 GBattleFieldHorizontalStartOffsetRatio = 40 / 1080
 
-GBattleHPBarVerticalRatio = 50 / 1920
+GBattleHPBarVerticalRatio = 40 / 1920
 GBattleHPBarHorizontalRatio = 950 / 1080
 GBattleHPBarVerticalStartOffsetRatio = 0 / 1920
 GBattleHPBarHorizontalStartOffsetRatio = 65 / 1080
 
 GBattleRuneBlockVerticalRatio = 470 / 1920
-GBattleRuneBlockHorizontalRatio = 130 / 1080
+GBattleRuneBlockHorizontalRatio = 250 / 1080
 GBattleRuneBlockVerticalStartOffsetRatio = 80 / 1920
-GBattleRuneBlockHorizontalStartOffsetRatio = 80 / 1080
+GBattleRuneBlockHorizontalStartOffsetRatio = 65 / 1080
+
+GBattleRuneIdelWidthRatio = 110 / 1080
+GBattleRuneIdelHeightRatio = 110 / 1920
+GBattleRuneIdelHorizontalStartOffsetRatio = 15 / 1080
+GBattleRuneIdelVerticalStartOffsetRatio = 15 / 1920
+GBattleRuneFireVerticalStartOffsetRatio = 0 * GBattleRuneIdelHeightRatio + GBattleRuneIdelVerticalStartOffsetRatio
+GBattleRuneWaterVerticalStartOffsetRatio = 1 * GBattleRuneIdelHeightRatio + GBattleRuneIdelVerticalStartOffsetRatio
+GBattleRuneEarthVerticalStartOffsetRatio = 2 * GBattleRuneIdelHeightRatio + GBattleRuneIdelVerticalStartOffsetRatio
+GBattleRuneAirVerticalStartOffsetRatio = 3 * GBattleRuneIdelHeightRatio + GBattleRuneIdelVerticalStartOffsetRatio
+-- Temp Data for the test
+GBattleRuneTextLabelIdelWidthRatio = 110 / 1080
+GBattleRuneTextLabelIdelHeightRatio = 110 / 1920
+GBattleRuneTextLabelHorizontalStartOffsetRatio = 125 / 1080
+GBattleRuneTextLabelVerticalStartOffsetRatio = 15 / 1920
+GBattleRuneFireTextLabelVerticalStartOffsetRatio = 0 * GBattleRuneTextLabelIdelHeightRatio + GBattleRuneTextLabelVerticalStartOffsetRatio
+GBattleRuneWaterTextLabelVerticalStartOffsetRatio = 1 * GBattleRuneTextLabelIdelHeightRatio + GBattleRuneTextLabelVerticalStartOffsetRatio
+GBattleRuneEarthTextLabelVerticalStartOffsetRatio = 2 * GBattleRuneTextLabelIdelHeightRatio + GBattleRuneTextLabelVerticalStartOffsetRatio
+GBattleRuneAirTextLabelVerticalStartOffsetRatio = 3 * GBattleRuneTextLabelIdelHeightRatio + GBattleRuneTextLabelVerticalStartOffsetRatio
 
 GBattleLevelBlockVerticalRatio = 110 / 1920
-GBattleLevelBlockHorizontalRatio = 950 / 1080
+GBattleLevelBlockHorizontalRatio = 825 / 1080
 GBattleLevelBlockVerticalStartOffsetRatio = 560 / 1920
 GBattleLevelBlockHorizontalStartOffsetRatio = 65 / 1080
+
+GBattleMonsterBlockVerticalRatio = 470 / 1920
+GBattleMonsterBlockHorizontalRatio = 470 / 1080
+GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
+GBattleMonsterBlockHorizontalStartOffsetRatio = 330 / 1080
+
+GBattleOptionBlockVerticalRatio = 110 / 1920
+GBattleOptionBlockHorizontalRatio = 110 / 1080
+GBattleOptionBlockVerticalStartOffset = 560 / 1920
+GBattleOptionBlockHorizontalStartOffset = 900 / 1080
+
 

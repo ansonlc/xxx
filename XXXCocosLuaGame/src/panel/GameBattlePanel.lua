@@ -76,6 +76,7 @@ function GameBattlePanel:initPanel()
     runeBlockLayer:setAnchorPoint(0,0)
     runeBlockLayer:setPosition(visibleSize.width * GBattleRuneBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleRuneBlockVerticalStartOffsetRatio)
     
+    self.runeBlock = runeBlockLayer
     self:addChild(runeBlockLayer)
     
     -- Level Block
@@ -87,24 +88,46 @@ function GameBattlePanel:initPanel()
     
     self:addChild(levelSprite)
     
+    -- Option Block
+    local optionSprite = cc.Sprite:create("imgs/temp/pause_button.png")
+    
+    -- used for the touch event test
+    -- TODO: Find a better way for this purpose
+    optionSprite.onScreenWidth = visibleSize.width * GBattleOptionBlockHorizontalRatio
+    optionSprite.onScreenHeight = visibleSize.height * GBattleOptionBlockVerticalRatio
+    optionSprite.onScreenX = visibleSize.width * GBattleOptionBlockHorizontalStartOffset
+    optionSprite.onScreenY = visibleSize.height * GBattleOptionBlockVerticalStartOffset
+    
+    optionSprite:setScaleX(optionSprite.onScreenWidth / optionSprite:getContentSize().width)
+    optionSprite:setScaleY(optionSprite.onScreenHeight / optionSprite:getContentSize().height)
+    optionSprite:setAnchorPoint(0,0)
+    optionSprite:setPosition(optionSprite.onScreenX, optionSprite.onScreenY)
+    
+    self.optionButton = optionSprite
+    self:addChild(optionSprite)
+    
+    -- Monster Block
+    local monsterBlockColor = cc.c4b(100, 100, 0, 100)
+    local monsterBlockLayer = cc.LayerColor:create(monsterBlockColor)
+
+    monsterBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleMonsterBlockHorizontalRatio, visibleSize.height * GBattleMonsterBlockVerticalRatio)
+    monsterBlockLayer:setAnchorPoint(0,0)
+    monsterBlockLayer:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio)
+
+    self:addChild(monsterBlockLayer)
+    
+    -- Initialization for the Rune Block
+    self:initRuneBlock()
+    
     -- TODO: Delete the test monster in this panel
     local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")
     monster:setPosition(550, 200)
     monster:setName("MonsterNode")
     self:addChild(monster)
 
-    -- TODO: Delete the Back Button
-    local backButton = cc.LabelTTF:create("Back Button", "Arial", 70)
-    backButton:setAnchorPoint(0,0)
-    backButton:setPosition(700 , 400)
-    backButton:setName("BackButton")
-    self:addChild(backButton)
-    
     -- test for the scene change
     local function onTouch(eventType, x, y)
-        local bButton = self:getChildByName("BackButton")
-        assert(bButton, "Nil!")
-        if x >= 700 and x <= (700 + bButton:getContentSize().width) and y >= (400 + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (400 + bButton:getContentSize().height + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
+        if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             SceneManager.replaceSceneWithName("LevelSelectScene","Test")
         end
     end
@@ -112,6 +135,83 @@ function GameBattlePanel:initPanel()
     self:registerScriptTouchHandler(onTouch)
     self:setTouchEnabled(true)
 
+end
+
+---
+-- Initialization for the rune block (Create the icon and text for this block)
+-- @function [parent=#panel.GameBattlePanel] initRuneBlock
+function GameBattlePanel:initRuneBlock()
+    -- Rune Icons
+    -- Current all the Runes Sprites are the children of the RuneBlock in this panel
+    -- Fire Rune
+    local fireRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon11.png"))
+    fireRuneSprite:setAnchorPoint(0,0)
+    fireRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
+    fireRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneFireVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock:addChild(fireRuneSprite)
+
+    -- Water Rune
+    local waterRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon15.png"))
+    waterRuneSprite:setAnchorPoint(0,0)
+    waterRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
+    waterRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneWaterVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock:addChild(waterRuneSprite)
+
+    -- Earth Rune
+    local earthRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon12.png"))
+    earthRuneSprite:setAnchorPoint(0,0)
+    earthRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
+    earthRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock:addChild(earthRuneSprite)
+
+    -- Air Rune
+    local airRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon17.png"))
+    airRuneSprite:setAnchorPoint(0,0)
+    airRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
+    airRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock:addChild(airRuneSprite)
+    
+    -- Rune Text
+    -- Fire Rune Text
+    local fireRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    fireRuneText:setAnchorPoint(0,0)
+    fireRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / fireRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / fireRuneText:getContentSize().height)
+    fireRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneFireTextLabelVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock.fireRune = fireRuneText
+    self.runeBlock:addChild(fireRuneText)
+    
+    -- Water Rune Text
+    local waterRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    waterRuneText:setAnchorPoint(0,0)
+    waterRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / waterRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / waterRuneText:getContentSize().height)
+    waterRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneWaterTextLabelVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock.waterRune = waterRuneText
+    self.runeBlock:addChild(waterRuneText)
+    
+    -- Earth Rune Text
+    local earthRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    earthRuneText:setAnchorPoint(0,0)
+    earthRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / earthRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / earthRuneText:getContentSize().height)
+    earthRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthTextLabelVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock.earthrRune = earthRuneText
+    self.runeBlock:addChild(earthRuneText)
+    
+    -- Air Rune Text
+    local airRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    airRuneText:setAnchorPoint(0,0)
+    airRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / airRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / airRuneText:getContentSize().height)
+    airRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirTextLabelVerticalStartOffsetRatio * visibleSize.height)
+    self.runeBlock.airRune = airRuneText
+    self.runeBlock:addChild(airRuneText)
+    
+end
+
+---
+-- Update the rune number according to the current runes table
+-- @function [parent=#panel.GameBattlePanel] updateRuneNum
+-- @param runesTable table runes table passed from the logic node
+function GameBattlePanel:updateRuneNum(runesTable)
+    assert(runesTable, "Nil input in the function: GameBattlePanel:updateRuneNum")
 end
 
 ---
@@ -144,7 +244,6 @@ function GameBattlePanel:doDamageToMonster(damageValue)
     self.damageText:runAction(actionSeq)
 end
 
--- TODO: This function should not be called every frame (only on demand)
 --[[function GameBattlePanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
