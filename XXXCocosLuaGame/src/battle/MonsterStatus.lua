@@ -1,9 +1,10 @@
 local MonsterStatus = class();
 function MonsterStatus:ctor()
+    self.userID = '';
     self.monsterID = '';
-    self.isGained='';
+    self.isTamed='';
     self.dropRate='';
-    self.defeatNum='';
+    self.killedCount='';
 end
 
 function MonsterStatus.create()
