@@ -25,8 +25,16 @@ function GameBattleLogic:initNode()
     if self.gameSkillSlotPanel == nil then
         self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
     end
-    assert(self.gameSkillSlotPanel, "Nil !!!")
+    assert(self.gameSkillSlotPanel, "Nil in function GameBattleLogic:initNode()")
     self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+    
+    -- Initialization for the GameBattlePanel
+    if self.gameBattlePanel == nil then
+        self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
+    end
+    assert(self.gameBattlePanel, "Nil in function GameBattleLogic:initNode()")
+    self.gameBattlePanel:updateRuneNum(self.runesTable)
+    
 end
 
 ---
@@ -60,6 +68,7 @@ function GameBattleLogic:playerUseSkill(skill)
             local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
             assert(effect1, "Nil effect id")
             -- TODO: take the property into account
+            -- TODO: implement all the three effects
             if effect1.effectType == 'Attack' then
                 local damage = self:calculateAttackPoint(effect1.elementProperty,skill.effectTable.effectValue1,self.monster)
                 self.monsterHP = self.monsterHP - damage
@@ -86,11 +95,12 @@ function GameBattleLogic:playerUseSkill(skill)
         end
         
         -- nofity the GameSkillSlotPanel to update the skill status
-        if self.gameSkillSlotPanel == nil then
-            self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
-        end
         assert(self.gameSkillSlotPanel, "No SkillSlotManager found")
         self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+        
+        -- notify the GameBattlePanel to update the rune text
+        assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
+        self.gameBattlePanel:updateRuneNum(self.runesTable)
     end
 end
 
@@ -125,12 +135,13 @@ function GameBattleLogic:updateRunesTable(runesTable)
         print (k,v)
     end
     
-    -- nofity the GameSkillSlotPanel to update the skill status
-    if self.gameSkillSlotPanel == nil then
-        self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
-    end
-    assert(self.gameSkillSlotPanel, "No SkillSlotManager found")
+    -- notifythe GameSkillSlotPanel to update the skill status
+    assert(self.gameSkillSlotPanel, "Nil GameSkillSlotPanel in function: GameBattleLogic:updateRunesTable()")
     self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+    
+    -- notify the GameBattlePanel to update the rune text
+    assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
+    self.gameBattlePanel:updateRuneNum(self.runesTable)
 end
 
 ---

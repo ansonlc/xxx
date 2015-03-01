@@ -193,7 +193,7 @@ function GameBattlePanel:initRuneBlock()
     earthRuneText:setAnchorPoint(0,0)
     earthRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / earthRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / earthRuneText:getContentSize().height)
     earthRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthTextLabelVerticalStartOffsetRatio * visibleSize.height)
-    self.runeBlock.earthrRune = earthRuneText
+    self.runeBlock.earthRune = earthRuneText
     self.runeBlock:addChild(earthRuneText)
     
     -- Air Rune Text
@@ -212,6 +212,10 @@ end
 -- @param runesTable table runes table passed from the logic node
 function GameBattlePanel:updateRuneNum(runesTable)
     assert(runesTable, "Nil input in the function: GameBattlePanel:updateRuneNum")
+    self.runeBlock.airRune:setString(runesTable.air)
+    self.runeBlock.earthRune:setString(runesTable.earth)
+    self.runeBlock.waterRune:setString(runesTable.water)
+    self.runeBlock.fireRune:setString(runesTable.fire)
 end
 
 ---
