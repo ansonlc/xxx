@@ -111,7 +111,7 @@ end
 -- @param skill The skill activated by the monster
 function GameBattleLogic:monsterUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:monsterUseSkill")
-    --cclog(skill.name)
+    cclog(skill.skillName)
 end
 
 
