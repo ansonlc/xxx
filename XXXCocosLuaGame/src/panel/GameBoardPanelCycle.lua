@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
--- GameBoardPanel.lua - 游戏棋盘面板
--- @author fangzhou.long
+-- GameBoardPanelCycle.lua - 游戏棋盘面板
+-- @author chaomin.zhong
 --------------------------------------------------------------------------------
 
 require "logic.GameBoardLogic"
@@ -412,10 +412,11 @@ local function onCheckSuccess(succCellSet)
                     --gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
                     updateTable.water = updateTable.water + 1
                 end
-                gameLogicNode:updateRunesTable(updateTable)
+                
             end
         end
     end
+    gameLogicNode:updateRunesTable(updateTable)
     
     removeCellSet(matchCellSet)
 
