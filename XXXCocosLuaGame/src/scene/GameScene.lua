@@ -79,6 +79,9 @@ function GameScene:onInit()
     self:addChild(self.monsterAI)
     self.monsterAI:initAI()
     self.monsterAI:initMonster(1003)
+    
+    --local rootNode = cc.CSLoader:createNode("GameScene.csb")
+    --self:addChild(rootNode)
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     AudioEngine.playMusic(bgMusicPath, true)

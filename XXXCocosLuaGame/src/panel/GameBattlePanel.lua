@@ -248,11 +248,25 @@ function GameBattlePanel:doDamageToMonster(damageValue)
     self.damageText:runAction(actionSeq)
 end
 
+---
+--  Show the damage info for the player
+--  @function [parent=#panel.GameBattlePanel] doDamageToPlayer
+--  @param self
+--  @param currentPlayerHP num current player HP
+--  @param playerMaxHP num player's max HP
+--  @param damage num damage caused by the monster
+function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
+    local scaleRatio =  ((currentPlayerHP / playerMaxHP) / ((currentPlayerHP + damage) / playerMaxHP))
+    local scaleAction = cc.ScaleBy:create(0.5,scaleRatio,1)   
+    self.hpBarSprite:runAction(scaleAction) 
+end
+
 --[[function GameBattlePanel:onUpdate(delta)
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
     local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
     self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
 end--]]
+
 
 ---
 -- Change the sprite for the monster when the monster is dead
