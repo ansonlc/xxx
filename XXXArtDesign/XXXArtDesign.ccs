@@ -53,6 +53,17 @@
             <Image Name="main_menu_skillBtn.png" />
             <Image Name="main_menu_tutorialBtn.png" />
           </Folder>
+          <Folder Name="game_scene_contents">
+            <Image Name="BattlePanel.png" />
+            <Image Name="LevelInfo.png" />
+            <Image Name="OptionIcon.png" />
+            <Image Name="RuneTable.png" />
+            <Image Name="MonsterTest.png" />
+            <Image Name="PlayerHP_Down.png" />
+            <Image Name="PlayerHP_Up.png" />
+            <Image Name="TileMatchingPanel.png" />
+            <Image Name="SkillSlots.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" />
         <Folder Name="fonts">
@@ -61,6 +72,8 @@
         <Project Name="GameSceneLayout.csd" />
         <Project Name="ResultScene.csd" />
         <Project Name="EndingScene.csd" />
+        <Project Name="SkillSelectScene.csd" />
+        <Project Name="GameScene.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>
