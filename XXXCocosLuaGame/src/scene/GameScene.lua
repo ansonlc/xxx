@@ -32,6 +32,7 @@ function GameScene:onInit()
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
     
+    GameIconManager.loadTileIcons()
     local GameBoardClass = nil
     if self.enterData.mode == "SwitchMode" then
         GameBoardClass = require("panel.GameBoardPanelSwitchMode")
