@@ -49,7 +49,7 @@ function GameBoardPanelSwitchMode.create()
 end
 
 function GameBoardPanelSwitchMode:initPanel()    
-    loadGameIcon()
+    --loadGameIcon()
     initGameBoard()
     self:initGameBoardIcon()
 

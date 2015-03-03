@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------------
 
 require "core.BaseScene"
+require "manager.GameIcon"
 
 local GameScene = class("GameScene", function() return BaseScene.create() end)
 
@@ -32,6 +33,7 @@ function GameScene:onInit()
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
     
+    loadGameIcon()
     local GameBoardClass = nil
     if self.enterData.mode == "SwitchMode" then
         GameBoardClass = require("panel.GameBoardPanelSwitchMode")

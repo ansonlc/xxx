@@ -53,7 +53,7 @@ function GameBoardPanel.create(parent)
 end
 
 function GameBoardPanel:initPanel()    
-    loadGameIcon()
+    --loadGameIcon()
     initGameBoard()
     self:initGameBoardIcon()
 

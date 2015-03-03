@@ -543,7 +543,7 @@ function GameBoardPanelDragMode:initPanel()
     --self:registerScriptUpdateHandler(update)
     --self:setUpdateEnabled(true)
     
-    loadGameIcon()
+    --loadGameIcon()
     
     rune1 = cc.LabelTTF:create("99", "Arial", 70)
     rune1:setPosition(280, 1680)
