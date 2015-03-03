@@ -18,7 +18,8 @@ GGameIconCount = 7
 GBlinkIconIndex = 21
 
 GBackGroundMiddlePoint = {x = 356, y = 540}
-
+-- Contang for battle logic
+GMaxRuneNumber = 99
 -- Constant for the GUI layout
 GPanelGapRatio = 15 / 1920
 -- Constant used by GameSkillSlotManagerLayer
@@ -88,5 +89,7 @@ GBattleOptionBlockVerticalRatio = 110 / 1920
 GBattleOptionBlockHorizontalRatio = 110 / 1080
 GBattleOptionBlockVerticalStartOffset = 560 / 1920
 GBattleOptionBlockHorizontalStartOffset = 900 / 1080
+
+GMonsterAIInterval = 3.5
 
 

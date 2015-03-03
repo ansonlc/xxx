@@ -3,8 +3,6 @@
 -- @author Gaoyuan Chen
 --------------------------------------------------------------------------------
 
-require "manager.GameIcon"
-
 local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return cc.Layer:create() end)
 local firstTime = true
 -- local variables
@@ -318,9 +316,9 @@ end
 
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index, opacity)
-    local iconNormalSprite = getGameIconSprite(GIconNormalType, index)
-    local iconMatchSprite = getGameIconSprite(GIconMatchType, index)
-    local iconSelectSprite = getGameIconSprite(GIconSelectType, index)
+    local iconNormalSprite = GameIconManager.getTileIconSprite(GIconNormalType, index)
+    local iconMatchSprite = GameIconManager.getTileIconSprite(GIconMatchType, index)
+    local iconSelectSprite = GameIconManager.getTileIconSprite(GIconSelectType, index)
 
     iconNormalSprite:setTag(NORMAL_TAG)
     iconMatchSprite:setTag(MATCH_TAG)
@@ -543,7 +541,7 @@ function GameBoardPanelDragMode:initPanel()
     --self:registerScriptUpdateHandler(update)
     --self:setUpdateEnabled(true)
     
-    loadGameIcon()
+    --loadGameIcon()
     
     rune1 = cc.LabelTTF:create("99", "Arial", 70)
     rune1:setPosition(280, 1680)

@@ -32,6 +32,7 @@ function GameScene:onInit()
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
     
+    GameIconManager.loadTileIcons()
     local GameBoardClass = nil
     if self.enterData.mode == "SwitchMode" then
         GameBoardClass = require("panel.GameBoardPanelSwitchMode")
@@ -71,6 +72,17 @@ function GameScene:onInit()
     self.battleLogicNode:initNode()
     -- TODO: Delete the monster simulation ID
     self.battleLogicNode:initMonster(1003)
+    
+    -- Add the MonsterAILogic
+    local MonsterAIlogic = require("logic.MonsterAILogic")
+    self.monsterAI = MonsterAIlogic.create(self)
+    self.monsterAI:setName("MonsterAILogic")
+    self:addChild(self.monsterAI)
+    self.monsterAI:initAI()
+    self.monsterAI:initMonster(1003)
+    
+    --local rootNode = cc.CSLoader:createNode("GameScene.csb")
+    --self:addChild(rootNode)
 
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     AudioEngine.playMusic(bgMusicPath, true)
@@ -89,6 +101,9 @@ function GameScene:onUpdate(dt)
         self.skillPanel:onUpdate(dt)
     end 
     
+    if self.monsterAI and self.monsterAI.onUpdate then
+        self.monsterAI:onUpdate(dt)
+    end
 end
 
 return GameScene

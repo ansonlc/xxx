@@ -11,6 +11,7 @@ require "cocos.init"
 require "manager.DataManager"
 require "manager.MetaManager"
 require "manager.SceneManager"
+require "manager.GameIconManager"
 require "utils.TimeUtil"
 
 -- cclog
