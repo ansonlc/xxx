@@ -1,6 +1,6 @@
 local UserLevelStatus = class();
 function UserLevelStatus:ctor()
-    self.userId = '';
+    self.userID = '';
     self.levelNum='';
     self.score = '';
 end

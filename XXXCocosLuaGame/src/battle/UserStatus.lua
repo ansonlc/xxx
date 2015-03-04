@@ -1,6 +1,6 @@
 local UserStatus = class();
 function UserStatus:ctor()
-    self.userId = '';
+    self.userID = '';
     self.userName='';
     self.userLevel='';
     self.userHP = '';

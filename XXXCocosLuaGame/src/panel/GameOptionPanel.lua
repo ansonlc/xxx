@@ -57,12 +57,12 @@ function LoginScene:createBackLayer()
     local bgSprite = cc.Sprite:create("imgs/main_menu_bg.png")
     bgSprite:setPosition(self.visibleSize.width / 2, self.visibleSize.height / 2)
     backLayer:addChild(bgSprite)
-    
+    --[[
     self.logoSprite = cc.Sprite:create("imgs/main_menu_logo.png")
     self.logoSprite:setPosition(self.visibleSize.width / 2, self.visibleSize.height / 3)
     backLayer:addChild(self.logoSprite)
     self.logoSprite:setOpacity(0)
-
+    --]]
 	return backLayer
 end
 

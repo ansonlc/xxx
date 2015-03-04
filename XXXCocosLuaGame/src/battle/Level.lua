@@ -1,7 +1,7 @@
 local Level = class();
 function Level:ctor()
     self.levelNum = '';
-    self.monsterId='';
+    self.monsterID='';
     self.Description='';
 end
 

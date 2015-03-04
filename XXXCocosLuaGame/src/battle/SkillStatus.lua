@@ -1,5 +1,6 @@
 local SkillStatus = class();
 function SkillStatus:ctor()
+    self.userID = '';
     self.skillID = '';
     self.isLearned='';
     self.experience='';
