@@ -104,6 +104,10 @@ function GameScene:onUpdate(dt)
     if self.monsterAI and self.monsterAI.onUpdate then
         self.monsterAI:onUpdate(dt)
     end
+    
+    if self.battleLogicNode and self.battleLogicNode.onUpdate then
+        self.battleLogicNode:onUpdate(dt)
+    end
 end
 
 return GameScene
