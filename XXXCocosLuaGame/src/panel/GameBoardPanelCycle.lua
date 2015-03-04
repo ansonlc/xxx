@@ -411,9 +411,12 @@ local function onCheckSuccess(succCellSet)
                     --gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
                     updateTable.water = updateTable.water + 1
                 end
-                
+                cclog(GameBoard[cell.x][cell.y])
             end
         end
+    end
+    for k, v in pairs(updateTable) do
+        updateTable[k] = math.floor(updateTable[k] / 2)
     end
     gameLogicNode:updateRunesTable(updateTable)
     

@@ -14,7 +14,7 @@ GBoardSizeY = 6
 GLeftBottomOffsetX = (1080 - GCellWidth * GBoardSizeX) / 2
 GLeftBottomOffsetY = (1200 - 240 - GCellWidth * GBoardSizeY)/2 + 240
 
-GGameIconCount = 7
+GGameIconCount = 5
 GBlinkIconIndex = 21
 
 GBackGroundMiddlePoint = {x = 356, y = 540}

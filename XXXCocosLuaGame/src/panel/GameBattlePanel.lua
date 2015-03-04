@@ -165,7 +165,7 @@ function GameBattlePanel:initRuneBlock()
     self.runeBlock:addChild(earthRuneSprite)
 
     -- Air Rune
-    local airRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon17.png"))
+    local airRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon14.png"))
     airRuneSprite:setAnchorPoint(0,0)
     airRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     airRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirVerticalStartOffsetRatio * visibleSize.height)
