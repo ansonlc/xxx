@@ -54,10 +54,10 @@
             <Size X="46.0000" Y="36.0000" />
             <PrePosition X="0.1489" Y="0.1167" />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
             <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
           </NodeObjectData>
           <NodeObjectData Name="Button_Cancel" ActionTag="1660194804" FrameEvent="" Tag="7" ObjectIndex="2" TouchEnable="True" FontSize="14" ButtonText="Cancel" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
             <Position X="590.1497" Y="230.0011" />
@@ -67,10 +67,75 @@
             <Size X="46.0000" Y="36.0000" />
             <PrePosition X="0.5464" Y="0.1198" />
             <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
             <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
+          </NodeObjectData>
+          <NodeObjectData Name="Button_Skill1" ActionTag="132889404" FrameEvent="" Tag="8" ObjectIndex="3" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="75.1653" Y="1733.8228" />
+            <Scale ScaleX="3.3043" ScaleY="4.4444" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="46.0000" Y="36.0000" />
+            <PrePosition X="0.0696" Y="0.9030" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
+          </NodeObjectData>
+          <NodeObjectData Name="Button_Skill2" ActionTag="172380319" FrameEvent="" Tag="9" ObjectIndex="4" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="271.1653" Y="1731.8192" />
+            <Scale ScaleX="3.3478" ScaleY="4.3889" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="46.0000" Y="36.0000" />
+            <PrePosition X="0.2511" Y="0.9020" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
+          </NodeObjectData>
+          <NodeObjectData Name="Button_Skill3" ActionTag="82591050" FrameEvent="" Tag="10" ObjectIndex="5" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="467.1667" Y="1729.8223" />
+            <Scale ScaleX="3.3043" ScaleY="4.2222" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="46.0000" Y="36.0000" />
+            <PrePosition X="0.4326" Y="0.9009" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
+          </NodeObjectData>
+          <NodeObjectData Name="Button_Skill4" ActionTag="1543723005" FrameEvent="" Tag="11" ObjectIndex="6" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="663.1696" Y="1729.8228" />
+            <Scale ScaleX="3.2174" ScaleY="4.2222" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="46.0000" Y="36.0000" />
+            <PrePosition X="0.6140" Y="0.9009" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
+          </NodeObjectData>
+          <NodeObjectData Name="Button_Skill5" ActionTag="-1579383830" FrameEvent="" Tag="12" ObjectIndex="7" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="858.1711" Y="1727.8225" />
+            <Scale ScaleX="3.2174" ScaleY="4.0000" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="46.0000" Y="36.0000" />
+            <PrePosition X="0.7946" Y="0.8999" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <TextColor A="255" R="65" G="65" B="70" />
           </NodeObjectData>
         </Children>
       </ObjectData>
