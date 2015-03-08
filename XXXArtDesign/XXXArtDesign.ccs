@@ -72,8 +72,8 @@
         <Project Name="GameSceneLayout.csd" />
         <Project Name="ResultScene.csd" />
         <Project Name="EndingScene.csd" />
-        <Project Name="SkillSelectScene.csd" />
         <Project Name="GameScene.csd" />
+        <Project Name="SkillSelectScene.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>

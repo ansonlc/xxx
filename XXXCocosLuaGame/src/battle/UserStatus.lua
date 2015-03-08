@@ -1,4 +1,5 @@
 local UserStatus = class();
+
 function UserStatus:ctor()
     self.userID = '';
     self.userName='';

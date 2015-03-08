@@ -1,3 +1,5 @@
+require("utils.GeneralUtil")
+
 DataManager = {
     userInfo = {},
     
@@ -6,7 +8,15 @@ DataManager = {
         ["battle_mission"] = 1,
         ["battle_monster"] = 1,
     },
+    
 }
+
+function DataManager.loadUserInfo()
+    print ("load userInfo")
+    DataManager.userInfo.availableSkills = allSkill()
+    DataManager.userInfo.availableSkills[1006] = nil
+    DataManager.userInfo.availableSkills[1007] = nil
+end
 
 function DataManager.getLevel(userID)
 	return nil

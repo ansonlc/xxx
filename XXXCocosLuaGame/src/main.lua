@@ -56,6 +56,7 @@ local function main()
     
     MetaManager.init()
     SceneManager.replaceSceneWithName("LoginScene")
+    --SceneManager.replaceSceneWithName("SkillSelectScene")
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

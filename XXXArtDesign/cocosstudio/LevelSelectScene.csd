@@ -27,7 +27,7 @@
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="600.0000" Y="100.0000" />
+            <Size X="546.0000" Y="112.0000" />
             <PrePosition X="0.5000" Y="0.9000" />
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
@@ -41,11 +41,11 @@
             <PreSize X="1.0000" Y="0.8000" />
             <Children>
               <NodeObjectData Name="txt_hidden" ActionTag="-503738617" FrameEvent="" CallBackType="Touch" Tag="6" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" LabelText="A Hidden Level" ctype="TextObjectData">
-                <Position X="539.9988" Y="192.0000" />
+                <Position X="540.0000" Y="192.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <Size X="504.0000" Y="72.0000" />
+                <Size X="485.0000" Y="81.0000" />
                 <PrePosition X="0.5000" Y="0.1000" />
                 <PreSize X="0.0000" Y="0.0000" />
               </NodeObjectData>

@@ -6,6 +6,7 @@
 
 require("core.BaseScene")
 require("config.CommonDefine")
+require("manager.DataManager")
 
 local LoginScene = class("LoginScene", function() return BaseScene.create() end)
 
@@ -28,6 +29,7 @@ function LoginScene:onInit()
     self:addChild(self:createBackLayer())
     self:addChild(self:createBtnLayer())
     
+    DataManager.loadUserInfo()
     local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
 end

@@ -33,6 +33,11 @@ function MetaManager.getMonster(monsterID)
     return monster
 end
 
+function MetaManager.getSkillTable()
+    MetaManager.checkMetaVersion("battle_skill")
+    return MetaManager["battle_skill"]
+end
+
 function MetaManager.getMissionTable()
     MetaManager.checkMetaVersion("battle_mission")
     return MetaManager["battle_mission"]
