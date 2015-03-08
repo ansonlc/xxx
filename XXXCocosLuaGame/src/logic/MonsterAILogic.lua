@@ -1,5 +1,6 @@
 local MonsterAILogic = class("MonsterAILogic", function() return cc.Node:create() end)
 
+
 function MonsterAILogic.create()
     local monsterAI = MonsterAILogic.new()
     --monsterAI:initAI()
@@ -7,8 +8,8 @@ function MonsterAILogic.create()
 end
 
 function MonsterAILogic:initAI()
-   self.interval = 0
-   self.useSkillTimes = 0
+    self.interval = 0
+    self.useSkillTimes = 0
     self.battleLogic = self:getParent():getChildByName("GameBattleLogic")
     print(self.battleLogic)
 end
@@ -21,8 +22,12 @@ function MonsterAILogic:initMonster(monsterID)
 end
 
 function MonsterAILogic:getSkill()
-    --todo:use random function to get one skill to use
-    local skill = MetaManager.getSkill(self.monster.skillTable['SkillID1'])
+    --use random function to get one skill to use
+    math.randomseed(os.time())
+    local skillID = "SkillID"
+    skillID = skillID..math.random(3)
+    --cclog(skillID)
+    local skill = MetaManager.getSkill(self.monster.skillTable[skillID])
     return skill
 end
 
@@ -37,7 +42,7 @@ function MonsterAILogic:onUpdate(delta)
         self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
         self.battleLogic:monsterUseSkill(skill)
-        cclog("useSkillTimes:"..self.useSkillTimes.." ,skillName:"..skill.skillName)   
+        cclog("Monster use skill times:"..self.useSkillTimes.." ,skillName:"..skill.skillName)   
     end    
 end
 
