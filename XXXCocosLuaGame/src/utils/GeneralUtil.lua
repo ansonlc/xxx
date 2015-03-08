@@ -14,5 +14,7 @@ local function getAllKeys(t)
 end
 
 function allSkill()
-    return getAllKeys(MetaManager.getSkillTable())
+    ret = getAllKeys(MetaManager.getSkillTable())
+    table.sort(ret)
+    return ret
 end
