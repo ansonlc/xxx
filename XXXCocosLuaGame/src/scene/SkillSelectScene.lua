@@ -54,16 +54,39 @@ local function currentNotContain(id)
     return true
 end
 
+local SkillListSize = 200
+local SkillListSizePlus = 210
+
+local skillListIcons = {}
+
+local function updateInvalidSkills()
+    for _, id in pairs(allSkill()) do
+        if currentNotContain(id) then
+            skillListIcons[id]:setOpacity(255)
+        else
+            skillListIcons[id]:setOpacity(50)
+        end
+    end
+end
+
 local function buildSkillButton(id, skill, posY)
     local skillButton = ccui.Button:create()
+    
+    skillListIcons[id] = skillButton
 
-    skillButton:setTitleText(skill.skillName)-- ? - 0.lvlName
-    skillButton:setTitleFontName("fonts/ALGER.TTF")
-    skillButton:setTitleFontSize(72)
-
-    --skillButton:setPositionType(cc.POSITION_TYPE_RELATIVE)
-    --skillButton:setPositionPercent(cc.p(.5, posY))
-    skillButton:setPosition(cc.p(450, posY))
+    --skillButton:setTitleText(skill.skillName)-- ? - 0.lvlName
+    --skillButton:setTitleFontName("fonts/ALGER.TTF")
+    --skillButton:setTitleFontSize(72)
+    
+    skillButton:loadTextures("res/imgs/temp/white.png", "res/imgs/temp/white.png")
+    skillButton:setScale(800, SkillListSize)
+    skillButton:setPosition(cc.p(430, posY))
+    
+    local pic = cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
+    pic:setScale(2.0 / 800, 2.0 / SkillListSize)
+    pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
+    skillButton:addChild(pic)
+    
     
     local function onBtnPress(sender, eventType)
         if eventType == 0 then
@@ -72,10 +95,12 @@ local function buildSkillButton(id, skill, posY)
                 DataManager.userInfo.currentSkills[currentSelect] = id
                 currentSelect = 0
                 drawCurrentSkill()
+                updateInvalidSkills()
             end
         end
     end
     skillButton:addTouchEventListener(onBtnPress)
+    
     --TODO Add level button background
     return skillButton
 end
@@ -136,6 +161,7 @@ function SkillSelectScene:onInit()
                         currentSelect = i
                     end
                     drawCurrentSkill(rootNode)
+                    updateInvalidSkills()
                 end
             end
             
@@ -166,14 +192,18 @@ function SkillSelectScene:onInit()
     end
     
     --TODO Adjust scroll view size here
-    local yOffset = 100
-    local nowPosY = 1000
+    local totalY = 0
+    local yOffset = SkillListSizePlus
+    local nowPosY = 1850
     for id, key in pairs(allSkill()) do
         
         local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
         self.skillScroll:addChild(skillButton)
         nowPosY = nowPosY - yOffset
+        totalY = totalY + SkillListSizePlus
     end
+    
+    updateInvalidSkills()
 
 
 end

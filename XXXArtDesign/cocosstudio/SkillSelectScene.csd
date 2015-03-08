@@ -34,7 +34,7 @@
             <FirstColor A="255" R="255" G="150" B="100" />
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
-            <InnerNodeSize Width="864" Height="1152" />
+            <InnerNodeSize Width="864" Height="2000" />
           </NodeObjectData>
           <NodeObjectData Name="Image_SkillSlots" ActionTag="1959469483" FrameEvent="" Tag="42" ObjectIndex="2" Scale9Width="1000" Scale9Height="200" ctype="ImageViewObjectData">
             <Position X="542.4991" Y="1652.4724" />
