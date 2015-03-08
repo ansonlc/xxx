@@ -21,7 +21,7 @@ function ResultScene:onInit()
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
-    rootNode:getChildByName("txt_result"):setString("You WIN")
+    --[[rootNode:getChildByName("txt_result"):setString("You WIN")
     local continueBtn = ccui.Button:create()
     continueBtn:setTitleText("Press here to continue")
     continueBtn:setTitleFontSize(50)
@@ -43,6 +43,7 @@ function ResultScene:onInit()
     end
     
     continueBtn:addTouchEventListener(onPress)
+    --]]
 end
 
 return ResultScene
