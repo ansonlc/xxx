@@ -1,21 +1,25 @@
 require("utils.GeneralUtil")
 
-DataManager = {
-    userInfo = {},
+if _G.dataManagerInit == nil then
+    print("require manager.DataManager")
     
-    metaDataVersion = {
-        ["battle_effect"] = 1,
-        ["battle_mission"] = 1,
-        ["battle_monster"] = 1,
-    },
-    
-}
+    DataManager = {
+        userInfo = {},
+        
+        metaDataVersion = {
+            ["battle_effect"] = 1,
+            ["battle_mission"] = 1,
+            ["battle_monster"] = 1,
+        },
+        
+    }
+    _G.dataManagerInit = true
+end
 
 function DataManager.loadUserInfo()
     print ("load userInfo")
     DataManager.userInfo.availableSkills = allSkill()
-    DataManager.userInfo.availableSkills[1006] = nil
-    DataManager.userInfo.availableSkills[1007] = nil
+    DataManager.userInfo.currentSkills = {1001, 1002, 1003, 1004, 1005}
 end
 
 function DataManager.getLevel(userID)

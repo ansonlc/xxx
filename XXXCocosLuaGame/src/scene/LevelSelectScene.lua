@@ -53,7 +53,7 @@ function LevelSelectScene:onInit()
             params.data.mode = "SlideMode"
             params.data.difficulty = "Hard"
             
-            SceneManager.replaceSceneWithName("GameScene", params)
+            SceneManager.replaceSceneWithName("SkillSelectScene", params)
         end
     end
     

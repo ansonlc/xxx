@@ -5,6 +5,7 @@
 
 require "logic.GameBattleLogic.lua"
 require "config.CommonDefine.lua"
+require "manager.DataManager.lua"
 
 local parentNode
 
@@ -51,7 +52,10 @@ end
 -- @param skillTable table skills chosen by the player
 function GameSkillSlotManagerLayer:initSkills(skillTable)    
     -- TODO: Delete the simulation for the skill table
-    skillTable = {1001, 1002, 1004, 1006, 1008}
+    --skillTable = {1001, 1002, 1003, 1004, 1005}
+    --DataManager.loadUserInfo()
+    skillTable = DataManager.userInfo.currentSkills
+    
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
     local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
     local skillSprite3 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), MetaManager.getSkill(skillTable[3]))

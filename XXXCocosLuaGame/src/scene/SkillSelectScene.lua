@@ -16,9 +16,9 @@ function SkillSelectScene:ctor()
     self.sceneName = "SkillSelectScene"
 end
 
-function SkillSelectScene.create()
+function SkillSelectScene.create(params)
     local scene = SkillSelectScene.new()
-    scene:initScene()
+    scene:initScene(params)
     return scene
 end
 
@@ -38,8 +38,20 @@ local function buildSkillButton(skill, posY)
     return skillButton
 end
 
+local function drawCurrentSkill(root)
+    local skills = DataManager.userInfo.currentSkills
+    for i = 1,5 do
+        local skillSprite = cc.Sprite:create("res/imgs/temp/skill_" .. skills[i] .. ".png")
+        skillSprite:setPosition(i * 196 - 45 , 1654)
+        skillSprite:setScale(2.6)
+        root:addChild(skillSprite)
+    end
+end
+
 
 function SkillSelectScene:onInit()
+    
+    
     local rootNode = cc.CSLoader:createNode("SkillSelectScene.csb")
 
     self:addChild(rootNode)
@@ -47,6 +59,39 @@ function SkillSelectScene:onInit()
     
     print("self.skillScroll = ")
     print(self.skillScroll)
+    
+    drawCurrentSkill(rootNode)
+    
+    local btn2scene = {
+        ["Button_Ok"] = "GameScene",
+        ["Button_Cancel"] = "LevelSelectScene",
+    }
+
+    local function onBtnPress(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then
+            if sender:getName() == "Button_Ok" then
+                --print ("ok!")
+                local params = {}
+                params.enterScene = self.enterScene
+                params.returnScene = self.returnScene
+                params.data = self.enterData
+                SceneManager.replaceSceneWithName("GameScene", params)
+                
+            end
+            if sender:getName() == "Button_Cancel" then
+                --print ("cancel!")
+                SceneManager.replaceSceneWithName("LevelSelectScene")
+            end
+            --SceneManager.replaceSceneWithName(btn2scene[sender:getName()], params)
+            return true
+        end
+    end
+
+    for key,_ in pairs(btn2scene) do
+        rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
+    end
+    
+    
     --[[
     -- Level buttons touching event
     local function onTouch(sender, eventType)
