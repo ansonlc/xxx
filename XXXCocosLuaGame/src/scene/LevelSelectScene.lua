@@ -40,6 +40,13 @@ function LevelSelectScene:onInit()
     self:addChild(rootNode)
     self.lvlScroll = rootNode:getChildByName("LevelScroll")
     
+    local function onRtnTouch(sender, eventType)
+        local params = SceneManager.generateParams(self, "MainMenuScene", nil)
+        SceneManager.replaceSceneWithName("MainMenuScene", params)
+    end
+    local rtnBtn = rootNode:getChildByName("btn_return");
+    rtnBtn:addTouchEventListener(onRtnTouch)
+    
     -- Level buttons touching event
     local function onTouch(sender, eventType)
         --While exiting this scene, ignore touch events

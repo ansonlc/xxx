@@ -64,6 +64,9 @@
             <Image Name="TileMatchingPanel.png" />
             <Image Name="SkillSlots.png" />
           </Folder>
+          <Folder Name="ResultScene">
+            <Image Name="battle_result_panel.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" />
         <Folder Name="fonts">
