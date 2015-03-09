@@ -256,6 +256,9 @@ end
 --  @param playerMaxHP num player's max HP
 --  @param damage num damage caused by the monster
 function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
+    local scale1 = cc.ScaleBy:create(0.2, 0.8, 1)
+    local sacle2 = cc.ScaleBy:create(0.2, 1.25, 1)
+    
     local scaleRatio =  ((currentPlayerHP / playerMaxHP) / ((currentPlayerHP + damage) / playerMaxHP))
     local scaleAction = cc.ScaleBy:create(0.5,scaleRatio,1)   
     self.hpBarSprite:runAction(scaleAction) 
