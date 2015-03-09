@@ -9,7 +9,8 @@ end
 
 function MonsterAILogic:initAI()
     self.interval = 0
-    self.useSkillTimes = 0
+    -- useSkillTimes[i] means the i skill's use times 
+    self.useSkillTimes = {0,0,0,0} 
     self.battleLogic = self:getParent():getChildByName("GameBattleLogic")
     print(self.battleLogic)
 end
@@ -25,8 +26,12 @@ function MonsterAILogic:getSkill()
     --use random function to get one skill to use
     math.randomseed(os.time())
     local skillID = "SkillID"
-    skillID = skillID..math.random(3)
+    local ID = math.random(3)
+    skillID = skillID..ID
     --cclog(skillID)
+    self.useSkillTimes[ID] = self.useSkillTimes[ID]+1
+    self.useSkillTimes[4] = self.useSkillTimes[4] + 1 
+    
     local skill = MetaManager.getSkill(self.monster.skillTable[skillID])
     return skill
 end
@@ -39,10 +44,11 @@ function MonsterAILogic:onUpdate(delta)
         math.randomseed(os.time())
         actualInterval = GMonsterAIInterval+2*(math.random()-0.5) 
         self.interval = 0
-        self.useSkillTimes = self.useSkillTimes+1
+        --self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
         self.battleLogic:monsterUseSkill(skill)
-        cclog("Monster use skill times:"..self.useSkillTimes.." ,skillName:"..skill.skillName)   
+        cclog("Monster use skill times:"..self.useSkillTimes[4].." ,skillName:"..skill.skillName)
+        cclog("stat: skill1:"..self.useSkillTimes[1]..",skill2:"..self.useSkillTimes[2]..",skill3:"..self.useSkillTimes[3])   
     end    
 end
 
