@@ -36,7 +36,7 @@ function EndingScene:onInit()
     end
     
     for key,_ in pairs(btn2scene) do
-        rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
+        rootNode:getChildByName("panel_btn"):getChildByName(key):addTouchEventListener(onBtnPress)
     end
 end
 

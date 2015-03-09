@@ -21,11 +21,13 @@ function ResultScene:onInit()
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
-    --[[rootNode:getChildByName("txt_result"):setString("You WIN")
+    --rootNode:getChildByName("txt_result"):setString("You WIN")
     local continueBtn = ccui.Button:create()
     continueBtn:setTitleText("Press here to continue")
     continueBtn:setTitleFontSize(50)
-    rootNode:getChildByName("node_continue"):addChild(continueBtn)
+    continueBtn:setPosition(cc.p(540,960))
+    continueBtn:setOpacity(100)
+    rootNode:addChild(continueBtn)
     
     local scale1 = cc.ScaleTo:create(2, 1.2)
     local scale2 = cc.ScaleTo:create(1.5, 1)          
@@ -43,7 +45,6 @@ function ResultScene:onInit()
     end
     
     continueBtn:addTouchEventListener(onPress)
-    --]]
 end
 
 return ResultScene
