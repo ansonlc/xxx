@@ -27,7 +27,7 @@
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="546.0000" Y="112.0000" />
+            <Size X="600.0000" Y="100.0000" />
             <PrePosition X="0.5000" Y="0.9000" />
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
@@ -45,7 +45,7 @@
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <Size X="485.0000" Y="81.0000" />
+                <Size X="504.0000" Y="72.0000" />
                 <PrePosition X="0.5000" Y="0.1000" />
                 <PreSize X="0.0000" Y="0.0000" />
               </NodeObjectData>
@@ -55,6 +55,19 @@
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
             <InnerNodeSize Width="1080" Height="1920" />
+          </NodeObjectData>
+          <NodeObjectData Name="btn_return" ActionTag="1674605402" FrameEvent="" Tag="115" ObjectIndex="1" TouchEnable="True" FontSize="72" ButtonText="Return" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
+            <Position X="938.9967" Y="1822.4991" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="216.0000" Y="72.0000" />
+            <PrePosition X="0.8694" Y="0.9492" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
           </NodeObjectData>
         </Children>
       </ObjectData>
