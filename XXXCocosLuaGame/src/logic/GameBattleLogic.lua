@@ -146,7 +146,7 @@ function GameBattleLogic:playerUseSkill(skill)
             end
         end
         
-        self.monsterHP = self.monsterHP - damage * 10
+        self.monsterHP = self.monsterHP - damage
         
         -- For statistics
         self.damageCausedByPlayer = self.damageCausedByPlayer + damage
