@@ -22,13 +22,34 @@ function MonsterAILogic:initMonster(monsterID)
     --print(self.monster)
 end
 
+local times = 0
+function MonsterAILogic:getMonsterStatus()
+    local HP = self.battleLogic.monsterHP/self.battleLogic.monsterMaxHP
+    cclog("HP:"..HP)
+    if((0 == times) and (HP<=0.75)) then
+        times = times+1
+        return true    
+    elseif (1==times and HP<=0.5) then
+        times = times+1
+        return true   
+    elseif (2==times and HP<=0.25) then
+        return true
+    else
+        return false
+    end
+        
+end
+
 function MonsterAILogic:getSkill()
     --use random function to get one skill to use
     math.randomseed(os.time())
     local skillID = "SkillID"
-    local ID = math.random(3)
+    local ID = math.random(2)
+    if(self:getMonsterStatus())then
+        ID = 3
+    end
     skillID = skillID..ID
-    --cclog(skillID)
+    --cclog(skillID)    
     self.useSkillTimes[ID] = self.useSkillTimes[ID]+1
     self.useSkillTimes[4] = self.useSkillTimes[4] + 1 
     
