@@ -243,7 +243,7 @@ function GameBattleLogic:monsterUseSkill(skill)
         if self.playerWins ~= nil and not self.playerWins then
             -- TODO: Pass the correct params to the ending scene
             self:outputBattleStats()
-            SceneManager.replaceSceneWithName("EndingScene","Test")
+            self:getParent():onGameOver()
             return
         end
     end

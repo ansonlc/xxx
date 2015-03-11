@@ -110,4 +110,9 @@ function GameScene:onUpdate(dt)
     end
 end
 
+function GameScene:onGameOver( param )
+    local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
+    SceneManager.replaceSceneWithName("ResultScene",params)
+end
+
 return GameScene
