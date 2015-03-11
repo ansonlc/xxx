@@ -145,62 +145,6 @@ function GameBoardPanel:onClickGameIcon(cell)
     AudioEngine.playEffect("sound/A_select.wav")
 end
 
-
---交换相邻棋子，并执行回调函数(一般为检测是否命中)
-function GameBoardPanel:switchCell(cellA, cellB, cfCallBack)
-    --cclog("switchCell...")
-    --cclog("cellA.."..cellA.x.." "..cellA.y)
-    --cclog("cellB.."..cellB.x.." "..cellB.y)
-    isTouching = false
-
-    self:resetSelectGameIcon()
-
-    local tagA = 10 * cellA.x + cellA.y
-    local tagB = 10 * cellB.x + cellB.y
-
-    local cellPointA = getCellCenterPoint(cellA)
-    local cellPointB = getCellCenterPoint(cellB)
-
-    local nodeA = self:getChildByTag(NODE_TAG_START + tagA)
-    local nodeB = self:getChildByTag(NODE_TAG_START + tagB)
-
-    if nodeA == nil or nodeB == nil then
-        cclog("can't find node!!")
-        return
-    end
-
-    local moveToA = cc.MoveTo:create(0.1, cc.p(cellPointA.x, cellPointA.y)) 
-
-    --将检测的回调函数绑定在A cell上
-    local function moveAWithCallBack()
-
-        local arrayOfActions = {}
-
-        local moveToB = cc.MoveTo:create(0.1, cc.p(cellPointB.x, cellPointB.y))
-        table.insert(arrayOfActions, moveToB)
-
-        if cfCallBack ~= nil then
-            --cclog("move with call back..")
-            local callBack = cc.CallFunc:create(cfCallBack)
-
-            table.insert(arrayOfActions, callBack)
-        end
-
-        local sequence = cc.Sequence:create(arrayOfActions)
-        nodeA:runAction(sequence)
-    end
-
-    moveAWithCallBack()
-    nodeB:runAction(moveToA)
-
-    --swap tag
-    nodeA:setTag(NODE_TAG_START + tagB)
-    nodeB:setTag(NODE_TAG_START + tagA)
-
-    --swap index
-    GameBoard[cellA.x][cellA.y], GameBoard[cellB.x][cellB.y] = GameBoard[cellB.x][cellB.y], GameBoard[cellA.x][cellA.y]
-end
-
 --移除格子回调函数
 local function cfRemoveSelf(matchSprite)
     --cclog("cf remove self")
@@ -363,10 +307,7 @@ local function cfRefreshBoard()
 end
 
 local function onCheckSuccess(succCellSet)
-    if #succCellSet == 0 then
-        return
-    end
-
+    isRefreshing = true
     --匹配成功
     cclog("switch success!!!")
     AudioEngine.playEffect("sound/A_combo1.wav")
@@ -459,6 +400,8 @@ function cfCheckFallCell()
 
     if #succCellSet ~= 0 then
         onCheckSuccess(succCellSet)
+    else
+        isRefreshing = false
     end 
 end
 
@@ -495,8 +438,7 @@ local function cfCheckSwitchCell()
 
         --还原移动并清空交换区
         --board:switchCell(switchCellPair[1], switchCellPair[2], nil)
-        switchCellPair = {}
-
+        --switchCellPair = {}
         AudioEngine.playEffect("sound/A_falsemove.wav")
     else
         onCheckSuccess(succCellSet)
@@ -523,56 +465,32 @@ function GameBoardPanel:createTouchLayer()
     touchLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height)
 
     local board = self
-
+    isRefreshing = false
     local function onTouchBegan(x, y)
         --cclog("touchLayerBegan: %.2f, %.2f", x, y)
         isTouching = true
         touchStartPoint = {x = x, y = y}
         touchStartCell = touchPointToCell(x, y)
-        if curSelectTag ~= nil then
-            local curSelectCell = {x = math.modf(curSelectTag / 10), y = curSelectTag % 10}
-            if isLinearMoved(curSelectCell, touchStartCell) then
-                --switchCellSet = {}
-                --switchCellSet[#switchCellSet + 1] = curSelectCell
-                --switchCellSet[#switchCellSet + 1] = touchStartCell
-
-                --switchCellPair[1] = curSelectCell
-                --switchCellPair[2] = touchStartCell
-                board:movingCells(touchStartCell, curSelectCell, cfCheckSwitchCell)
-                return true
-            end
-        end
-
         board:onClickGameIcon(touchStartCell)
-
         return true
     end
     
     local function onTouchMoved(x, y)
         --cclog("touchLayerMoved: %.2f, %.2f", x, y)
+        if isRefreshing then
+            return
+        end
         local touchCurCell = touchPointToCell(x, y)
 
-        if touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching then
-            if isLinearMoved(touchCurCell, touchStartCell) then
-                --switchCellSet = {}
-                --switchCellSet[#switchCellSet + 1] = touchCurCell
-                --switchCellSet[#switchCellSet + 1] = touchStartCell
-
-                --switchCellPair[1] = touchCurCell
-                --switchCellPair[2] = touchStartCell
-
-                board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
-                --sleep(1)
-            end
-        end     
+        if touchCurCell.x ~= 0 and touchCurCell.y ~= 0 and isTouching 
+                and isLinearMoved(touchCurCell, touchStartCell) then
+            isTouching = false
+            board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+        end
+        return true
     end
 
-    local function onTouchEnded(x, y)
-        --cclog("touchLayerEnded: %.2f, %.2f", x, y)
-        --touchEndPoint = {x = x, y = y}
-        --touchEndCell = touchPointToCell(x, y)
-        --local touchCurCell = touchPointToCell(x, y)
-        --board:movingCells(touchCurCell, touchStartCell, cfCheckSwitchCell)
+    local function onTouchEnded(x, y)   
         cfCheckSwitchCell()
         isTouching = false
     end
@@ -596,7 +514,10 @@ end
 
 
 function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
-    isTouching = false
+    if isRefreshing then
+        return
+    end
+    isRefreshing = true
     self:resetSelectGameIcon()
     touchStartCell = cellA
     local diff = 0
@@ -610,12 +531,13 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
     local elem = {}
     local function resetIsTouchingCallback() 
         isTouching = true
+        isRefreshing = false
     end
 
     local nodePnt = {}
     if cellA.y == cellB.y then
         diff = cellA.x - cellB.x
-        switchCellSet = {}
+        --switchCellSet = {}
         for i = 1, GBoardSizeX do
             local cell = {}
             cell.x = i
@@ -641,8 +563,9 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
             cclog("moveTosameY: "..destCellPoint.x.." "..destCellPoint.y)
-            --node:runAction(moveToDest)
             
+            --node:runAction(moveToDest)
+            --node:setPosition(destCellPoint)
             elem[destCell.x] = GameBoard[cell.x][cell.y]
             table.insert(tags, tag) 
             nodes[destCell.x] = node
@@ -663,6 +586,7 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[j][cellA.y] = elem[j]
             nodes[j]:runAction(nodesActions[j])
+            --resetIsTouchingCallback()
         end
     elseif cellA.x == cellB.x then
         diff = cellA.y - cellB.y
@@ -691,8 +615,9 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             destCellPoint = getCellCenterPoint(destCell)
             local moveToDest = cc.MoveTo:create(0.1, destCellPoint)
             cclog("moveTosameX: "..destCellPoint.x.." "..destCellPoint.y)
-            --node:runAction(moveToDest)
             
+            --node:runAction(moveToDest)
+            --node:setPosition(destCellPoint)
             elem[destCell.y] = GameBoard[cell.x][cell.y]
             table.insert(tags, tag) 
             nodes[destCell.y] = node
@@ -711,15 +636,9 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[cellA.x][j] = elem[j]
             nodes[j]:runAction(nodesActions[j])
+            --resetIsTouchingCallback()
         end
     end
-    local function sleep(n)
-        local t = os.clock()
-        while os.clock() - t <= n do
-        -- nothing
-        end
-    end
-    --sleep(1)
 end
 
 return GameBoardPanel
