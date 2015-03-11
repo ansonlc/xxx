@@ -22,6 +22,7 @@ function GameScene:onEnter()
     cclog("Now mission id: " .. self.enterData.missionId)
     cclog("Now mode: " .. self.enterData.mode)
     cclog("Now difficulty: " .. self.enterData.difficulty)
+    --self:onGameOver()
 end
 
 -- create game scene
@@ -111,8 +112,36 @@ function GameScene:onUpdate(dt)
 end
 
 function GameScene:onGameOver( param )
-    local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
-    SceneManager.replaceSceneWithName("ResultScene",params)
+    local AINode = self:getChildByName("MonsterAILogic")
+    AINode.isAIOn = false
+    
+    local blackLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), self.visibleSize.width, self.visibleSize.height)
+    local label = cc.Label:create()
+    label:setString("Game Over!\nPress to continue")
+    label:setPosition(self.visibleSize.width/2 , self.visibleSize.height/2)
+    label:setAlignment(cc.TEXT_ALIGNMENT_CENTER)
+    label:setScale(7)
+    blackLayer:addChild(label)
+    
+    local function onTouch(touch, event)
+        if event:getEventCode() == 0 then
+            local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
+            SceneManager.replaceSceneWithName("ResultScene",params)
+            return true
+        end
+        return true
+    end
+    
+    blackLayer:setTouchEnabled(true)
+    
+    self:addChild(blackLayer)
+    
+    local dispatcher = cc.Director:getInstance():getEventDispatcher()
+    local listener = cc.EventListenerTouchOneByOne:create()
+    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
+    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
+    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_ENDED)
+    dispatcher:addEventListenerWithSceneGraphPriority(listener, blackLayer)
 end
 
 return GameScene
