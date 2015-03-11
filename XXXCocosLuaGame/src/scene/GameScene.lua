@@ -25,6 +25,12 @@ function GameScene:onEnter()
     --self:onGameOver()
 end
 
+function GameScene:setGameTouch(flag)
+    self.gameBoard:setTouch(flag)
+    self.battlePanel:setTouchEnabled(flag)
+    self.skillPanel:setTouchEnabled(flag)
+end
+
 -- create game scene
 function GameScene:onInit()
     AudioEngine.stopMusic(true)
@@ -115,6 +121,8 @@ function GameScene:onGameOver( param )
     local AINode = self:getChildByName("MonsterAILogic")
     AINode.isAIOn = false
     
+    self:setGameTouch(false)
+    
     local blackLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), self.visibleSize.width, self.visibleSize.height)
     local label = cc.Label:create()
     label:setString("Game Over!\nPress to continue")
@@ -124,15 +132,16 @@ function GameScene:onGameOver( param )
     blackLayer:addChild(label)
     
     local function onTouch(touch, event)
-        if event:getEventCode() == 0 then
+        if event:getEventCode() == 2 then
             local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
             SceneManager.replaceSceneWithName("ResultScene",params)
             return true
         end
-        return true
+        return false
     end
     
     blackLayer:setTouchEnabled(true)
+    blackLayer:setSwallowsTouches(true)
     
     self:addChild(blackLayer)
     

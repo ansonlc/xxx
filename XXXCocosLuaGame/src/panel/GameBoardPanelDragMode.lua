@@ -536,6 +536,10 @@ function GameBoardPanelDragMode:doExit()
     
 end
 
+function GameBoardPanelDragMode:setTouch(flag)
+    self.touchLayer:setTouchEnabled(flag)
+end
+
 function GameBoardPanelDragMode:initPanel()
 
     --self:registerScriptUpdateHandler(update)
@@ -588,8 +592,8 @@ function GameBoardPanelDragMode:initPanel()
     self:addChild(backgroundLayer)
 
     -- Create the TouchLayer
-    local touchLayer = self:createTouchLayer()
-    self:addChild(touchLayer)
+    self.touchLayer = self:createTouchLayer()
+    self:addChild(self.touchLayer)
     
     MP_Bar = cc.LayerColor:create(cc.c4b(0, 100, 255, 200))
     MP_Bar:changeWidthAndHeight(myWidth, 20)

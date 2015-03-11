@@ -47,12 +47,17 @@ function GameBoardPanelSwitchMode.create()
     return panel
 end
 
+function GameBoardPanel:setTouch(flag)
+    self.touchLayer:setTouchEnabled(flag)
+end
+
 function GameBoardPanelSwitchMode:initPanel()    
     --loadGameIcon()
     initGameBoard()
     self:initGameBoardIcon()
 
-    self:addChild(self:createTouchLayer(), 1000)
+    self.touchLayer = self:createTouchLayer()
+    self:addChild(self.touchLayer, 1000)
 
     --创建用于延迟执行刷新棋盘函数的节点
     RefreshBoardNode = cc.Node:create()
