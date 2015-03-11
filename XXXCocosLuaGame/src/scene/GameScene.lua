@@ -132,12 +132,13 @@ function GameScene:onGameOver( param )
     blackLayer:addChild(label)
     
     local function onTouch(touch, event)
+        --print(event:getEventCode())
         if event:getEventCode() == 2 then
             local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
             SceneManager.replaceSceneWithName("ResultScene",params)
             return true
         end
-        return false
+        return true
     end
     
     blackLayer:setTouchEnabled(true)

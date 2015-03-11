@@ -107,7 +107,7 @@ function LoginScene:createBtnLayer()
     local debugBtn = self.createTextBtn("Debug Particular Scene");
     debugBtn:addTouchEventListener(onDebugBtnPress)
     debugBtn:setPosition(cc.p(self.visibleSize.width / 2, self.visibleSize.height * 0.22))
-    btnLayer:addChild(debugBtn)
+    --btnLayer:addChild(debugBtn)
     
     return btnLayer
 end
