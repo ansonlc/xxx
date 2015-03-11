@@ -90,6 +90,11 @@ GBattleOptionBlockHorizontalRatio = 110 / 1080
 GBattleOptionBlockVerticalStartOffset = 560 / 1920
 GBattleOptionBlockHorizontalStartOffset = 900 / 1080
 
+GBattleToggleBlockVerticalRatio = 110 / 1920
+GBattleToggleBlockHorizontalRatio = 110 / 1080
+GBattleToggleBlockVerticalStartOffset = 350 / 1920
+GBattleToggleBlockHorizontalStartOffset = 900 / 1080
+
 GMonsterAIInterval = 3.5
 
 

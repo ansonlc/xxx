@@ -12,6 +12,7 @@ function MonsterAILogic:initAI()
     -- useSkillTimes[i] means the i skill's use times 
     self.useSkillTimes = {0,0,0,0} 
     self.battleLogic = self:getParent():getChildByName("GameBattleLogic")
+    self.isAIOn = true
     print(self.battleLogic)
 end
 
@@ -60,6 +61,9 @@ end
 local actualInterval = GMonsterAIInterval
 function MonsterAILogic:onUpdate(delta)  
     --cclog(delta)  
+    if not self.isAIOn then
+        return
+    end
     self.interval=self.interval+delta
     if self.interval > actualInterval then
         math.randomseed(os.time())

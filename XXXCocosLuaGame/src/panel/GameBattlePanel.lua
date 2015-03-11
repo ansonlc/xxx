@@ -106,6 +106,21 @@ function GameBattlePanel:initPanel()
     self.optionButton = optionSprite
     self:addChild(optionSprite)
     
+    local toggleSprite = cc.Sprite:create("imgs/temp/toggle_button.png")
+    
+    toggleSprite.onScreenWidth = visibleSize.width * GBattleToggleBlockHorizontalRatio 
+    toggleSprite.onScreenHeight = visibleSize.height * GBattleToggleBlockVerticalRatio
+    toggleSprite.onScreenX = visibleSize.width * GBattleToggleBlockHorizontalStartOffset
+    toggleSprite.onScreenY = visibleSize.height * GBattleToggleBlockVerticalStartOffset
+    
+    toggleSprite:setScaleX(toggleSprite.onScreenWidth / toggleSprite:getContentSize().width)
+    toggleSprite:setScaleY(toggleSprite.onScreenHeight / toggleSprite:getContentSize().height)
+    toggleSprite:setAnchorPoint(0,0)
+    toggleSprite:setPosition(toggleSprite.onScreenX, toggleSprite.onScreenY) 
+    
+    self.toggleButton = toggleSprite
+    self:addChild(toggleSprite)
+    
     -- Monster Block
     local monsterBlockColor = cc.c4b(100, 100, 0, 100)
     local monsterBlockLayer = cc.LayerColor:create(monsterBlockColor)
@@ -129,6 +144,17 @@ function GameBattlePanel:initPanel()
     local function onTouch(eventType, x, y)
         if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             SceneManager.replaceSceneWithName("LevelSelectScene","Test")
+        end
+        
+        if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
+            -- For Test Purpose
+            local AINode = self:getParent():getChildByName("MonsterAILogic")
+            AINode.isAIOn = not AINode.isAIOn
+            if AINode.isAIOn then
+                cclog("Current AI Status: On")
+            else
+                cclog("Current AI Status: Off")
+            end
         end
     end
     
