@@ -115,6 +115,10 @@ function GameScene:onUpdate(dt)
     if self.battleLogicNode and self.battleLogicNode.onUpdate then
         self.battleLogicNode:onUpdate(dt)
     end
+    
+    if self.skillPanel and self.skillPanel.onUpdate then
+        self.skillPanel:onUpdate(dt)
+    end
 end
 
 function GameScene:onGameOver( param )

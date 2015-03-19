@@ -95,6 +95,8 @@ GBattleToggleBlockHorizontalRatio = 110 / 1080
 GBattleToggleBlockVerticalStartOffset = 350 / 1920
 GBattleToggleBlockHorizontalStartOffset = 900 / 1080
 
+GSkillPublicCD = 3
+
 GMonsterAIInterval = 3.5
 
 

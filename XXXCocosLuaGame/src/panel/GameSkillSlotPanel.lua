@@ -79,16 +79,15 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
     for i = 1, 5, 1 do
         if self.skillSlotTable[i] ~= nil then
             if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
-                -- TODO: the manager should check if the runes are enough to activate this skill
-                -- and then activate the skill
-                if self.skillSlotTable[i].isActive then
+                if self.skillSlotTable[i].isActive and not self.skillSlotTable[i].isCoolingDown then
                     if self.gameLogicNode == nil then
                         self.gameLogicNode = self:getParent():getParent():getChildByName("GameBattleLogic")
                     end
                     assert(self.gameLogicNode, "Nil gameLogicNode in touchEventHandler")
                     self.gameLogicNode:playerUseSkill(self.skillSlotTable[i].skill)
-                else
-                    cclog("Not Enough Runes to use skill: "..self.skillSlotTable[i].skill.skillName)
+                    -- CD this skill
+                    self.skillSlotTable[i].isCoolingDown = true          
+                    self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)         
                 end
             end
         end
@@ -121,21 +120,46 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         self.skillSlotTable[index] = nil
         self:addChild(nullSprite)
     else
-        -- 
         local scale = GSkillSlotIdelSizeRatio * visibleSize.width / node:getContentSize().width
         local scaledSize = node:getContentSize().width * scale
         
+        -- Initialize for the skills
         node.isActive = false
+        node.isCoolingDown = false
+        node.CDCounting = 0
         node.scaledSize = scaledSize
         node.x = self.layerHorizontalStartOffset + (index - 1) * (scaledSize + self.layerHorizontalOffset)
         node.y = self.layerVerticalStartOffset
-
+        
+        -- set the node
         node:setAnchorPoint(0,0)
         node:setScale(scale)
         node:setPosition(node.x, node.y)
-
+   
         self.skillSlotTable[index] = node 
         self:addChild(node)
+        
+        -- Add the inActiveLayer
+        local inActiveColor = cc.c4b(0, 0, 128, 200)
+        local inActiveLayer = cc.LayerColor:create(inActiveColor)
+
+        inActiveLayer:setAnchorPoint(0,0)
+        inActiveLayer:setPosition(node.x, node.y)
+
+        node.inActiveLayer = inActiveLayer
+        self:addChild(inActiveLayer)
+        
+        -- Add the CD Layer
+        local CDColor = cc.c4b(128, 128, 128, 150)
+        local CDLayer = cc.LayerColor:create(CDColor)
+
+        CDLayer:setAnchorPoint(0,0)
+        CDLayer:setPosition(node.x, node.y)
+        CDLayer:changeWidthAndHeight(0,0)
+
+        node.CDLayer = CDLayer
+        self:addChild(CDLayer)
+       
     end
 end
 
@@ -147,33 +171,37 @@ end
 function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
     for i = 1, GMaxSkillsInSlot, 1 do
         if self.skillSlotTable[i] ~= nil and self.skillSlotTable[i].skill ~= nil then
-            local test = self.skillSlotTable[i].skill.runeCostTable
+            -- judge if the skill is active
             if currentRunesTable.water >= self.skillSlotTable[i].skill.runeCostTable.water and currentRunesTable.air >= self.skillSlotTable[i].skill.runeCostTable.air and currentRunesTable.fire >= self.skillSlotTable[i].skill.runeCostTable.fire and currentRunesTable.earth >= self.skillSlotTable[i].skill.runeCostTable.earth then
                 self.skillSlotTable[i].isActive = true 
                 
                 -- Cancel the Inactive layer
-                if self.skillSlotTable[i].inActiveLayer ~= nil then
-                    self:removeChild(self.skillSlotTable[i].inActiveLayer)
-                    self.skillSlotTable[i].inActiveLayer = nil
-                end
+                self.skillSlotTable[i].inActiveLayer:changeWidthAndHeight(0, 0) -- make it invisible
             else
-                self.skillSlotTable[i].isActive = false
-                -- Set the layer color to grey
-                if self.skillSlotTable[i].inActiveLayer == nil then
-                    local greyColor =cc.c4b(128, 128, 128, 200)
-                    local greyLayer = cc.LayerColor:create(greyColor)
-
-                    greyLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
-                    greyLayer:setAnchorPoint(0,0)
-                    greyLayer:setPosition(self.skillSlotTable[i].x, self.skillSlotTable[i].y)
-
-                    self.skillSlotTable[i].inActiveLayer = greyLayer
-                    self:addChild(greyLayer)
-                end
- 
+                self.skillSlotTable[i].isActive = false      
+                         
+                self.skillSlotTable[i].inActiveLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
             end
         end
     end
+end
+
+function GameSkillSlotManagerLayer:onUpdate(dt)
+    for i = 1, 5, 1 do
+        if self.skillSlotTable[i].isCoolingDown then
+            self.skillSlotTable[i].CDCounting = self.skillSlotTable[i].CDCounting + dt
+            if self.skillSlotTable[i].CDCounting >= GSkillPublicCD then
+                -- disable the covering layer and set the skill to idle status
+                self.skillSlotTable[i].isCoolingDown = false
+                self.skillSlotTable[i].CDCounting = 0
+                self.skillSlotTable[i].CDLayer:changeWidthAndHeight(0, 0)
+            else
+                -- refresh the covering layer
+                self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, (GSkillPublicCD - self.skillSlotTable[i].CDCounting) * self.skillSlotTable[i].scaledSize / GSkillPublicCD)
+            end
+        end
+    end
+    
 end
 
 function GameSkillSlotPanel.create(parent, skillTable)
@@ -214,6 +242,11 @@ function GameSkillSlotPanel:initPanel(skillTable)
    self:addChild(self.skillSlotManagerLayer)
    
    
+end
+
+function GameSkillSlotPanel:onUpdate(dt)
+    assert(self.skillSlotManagerLayer, "Nil SkillSlotManagerLayer in GameSkillSlotPanel")
+    self.skillSlotManagerLayer:onUpdate(dt)
 end
 
 return GameSkillSlotPanel
