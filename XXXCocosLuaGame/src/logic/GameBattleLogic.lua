@@ -30,14 +30,10 @@ function GameBattleLogic:initNode()
     self.damageCausedByMonster = 0
     self.damageCausedByPlayer = 0
     -- Buff/Debuff Table
-    self.effectTable = {
-        silence = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
-        heal = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
-        bless = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
-        curse = {effectValue = 0, effectTimeCount = 0, effecTimeToLive = 0},
-        bravery = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
-        fear = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
-        bleed = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0}}
+    --[[self.effectTable = {
+        silence = {effectType = 'Silence', effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        --]]
+    self.effectTable = {}
     -- Shield Ability
     self.shieldEnergy = nil
     -- Initialization for the GameSkillSlotPanel
@@ -338,6 +334,19 @@ end
 -- @param delta num delta time
 function GameBattleLogic:onUpdate(delta)
     self.battleDuration = self.battleDuration + delta
+    -- refresh the effect table
+    for k, v in pairs(self.effectTable) do
+        if v ~= nil then
+            v.effectTimeCount = v.effectTimeCount + delta
+            if v.effectTimeCount > GEffectPublicCD then
+                -- activate this effect
+            end
+            v.effectTimeToLive = v.effectTimeToLive - delta
+            if v.effectTimeToLive < 0 then
+                self.effectTable[k] = nil
+            end
+        end
+    end
 end
 
 
