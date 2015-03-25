@@ -22,16 +22,17 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
-            <Position X="540.0000" Y="1728.0000" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+          <NodeObjectData Name="node_bg" ActionTag="-833504512" FrameEvent="" Tag="1632" ObjectIndex="3" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
+            <Position X="0.0000" Y="0.0000" />
+            <Scale ScaleX="1.7000" ScaleY="1.7000" />
+            <AnchorPoint />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="600.0000" Y="100.0000" />
-            <PrePosition X="0.5000" Y="0.9000" />
+            <Size X="0.0000" Y="0.0000" />
+            <PrePosition X="0.0000" Y="0.0000" />
             <PreSize X="0.0000" Y="0.0000" />
+            <FileData Type="Normal" Path="level_select/MissionSandBackground.csd" />
           </NodeObjectData>
-          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ComboBoxIndex="2" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
             <Position X="0.0000" Y="1536.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleY="1.0000" />
@@ -49,12 +50,41 @@
                 <PrePosition X="0.5000" Y="0.1000" />
                 <PreSize X="0.0000" Y="0.0000" />
               </NodeObjectData>
+              <NodeObjectData Name="node_point" ActionTag="-2025717906" FrameEvent="" Tag="447" ObjectIndex="1" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
+                <Position X="0.0000" Y="0.0000" />
+                <Scale ScaleX="1.5000" ScaleY="1.5000" />
+                <AnchorPoint />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="0.0000" Y="0.0000" />
+                <PrePosition X="0.0000" Y="0.0000" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <FileData Type="Normal" Path="level_select/MissionPoint.csd" />
+              </NodeObjectData>
+              <NodeObjectData Name="node_bgdec" ActionTag="-225313238" FrameEvent="" Tag="501" ObjectIndex="2" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
+                <Position X="0.0000" Y="0.0000" />
+                <Scale ScaleX="1.5000" ScaleY="1.5000" />
+                <AnchorPoint />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="0.0000" Y="0.0000" />
+                <PrePosition X="0.0000" Y="0.0000" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <FileData Type="Normal" Path="level_select/MissionSelectBackground.csd" />
+              </NodeObjectData>
             </Children>
             <SingleColor A="255" R="58" G="165" B="255" />
             <FirstColor A="255" R="58" G="165" B="255" />
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
             <InnerNodeSize Width="1080" Height="1920" />
+          </NodeObjectData>
+          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
+            <Position X="540.0000" Y="1728.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="600.0000" Y="100.0000" />
+            <PrePosition X="0.5000" Y="0.9000" />
+            <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
           <NodeObjectData Name="btn_return" ActionTag="1674605402" FrameEvent="" Tag="115" ObjectIndex="1" TouchEnable="True" FontSize="72" ButtonText="Return" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
             <Position X="938.9967" Y="1822.4991" />
