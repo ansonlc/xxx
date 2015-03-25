@@ -29,6 +29,17 @@ function GameBattleLogic:initNode()
     self.battleDuration = 0
     self.damageCausedByMonster = 0
     self.damageCausedByPlayer = 0
+    -- Buff/Debuff Table
+    self.effectTable = {
+        silence = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        heal = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        bless = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        curse = {effectValue = 0, effectTimeCount = 0, effecTimeToLive = 0},
+        bravery = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        fear = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0},
+        bleed = {effectValue = 0, effectTimeCount = 0, effectTimeToLive = 0}}
+    -- Shield Ability
+    self.shieldEnergy = nil
     -- Initialization for the GameSkillSlotPanel
     if self.gameSkillSlotPanel == nil then
         self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
@@ -65,25 +76,19 @@ end
 function GameBattleLogic:playerUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:playerUseSkill")
     cclog(skill.skillName)
-    --[[-- If the player wins the game
-    -- TODO: should change to the result scene
-    if self.playerWins ~= nil and self.playerWins then
-        cclog("The monster is already dead, please be a nice person!")
-        return
-    end
-    -- If the player lost the game
-    -- TODO: should change to other scene
-    if self.playerWins ~= nil and not self.playerWins then
-        cclog("You lose the game! What a shame!")
-        return
-    end--]]
-    
+        
     -- For statistics
     if self.skillUsedCount[skill.skillID] == nil then
         self.skillUsedCount[skill.skillID] = 0
     else
         self.skillUsedCount[skill.skillID] = self.skillUsedCount[skill.skillID] + 1
     end
+    
+    -- Decrease the rune number
+    self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
+    self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
+    self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
+    self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
     
     if skill.effectTable ~= nil then
         -- Go through all the three effects
@@ -92,65 +97,35 @@ function GameBattleLogic:playerUseSkill(skill)
         if skill.effectTable.effectID1 ~= nil then
             local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
             assert(effect1, "Nil effect id")
+            local effect1Result = self:playerApplyEffect(effect1, skill.effectTable.effectValue1)
             if effect1.effectType == 'Attack' then
-                damage = damage + self:calculatePlayerAttackPoint(effect1.elementProperty,skill.effectTable.effectValue1,self.monster)
-                --self.monsterHP = self.monsterHP - damage
-                self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
-                self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
-                self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
-                self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
-                -- pass this hit event to the GameBattlePanel
-                if self.gameBattlePanel == nil then
-                    self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
-                end
-                assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
-                self.gameBattlePanel:doDamageToMonster(damage)
+                damage = damage + effect1Result
             end
         end
         -- Skill Effect 2
         if skill.effectTable.effectID2 ~= nil then
             local effect2 = MetaManager.getEffect(skill.effectTable.effectID2)
             assert(effect2, "Nil effect id")
-            if effect1.effectType == 'Attack' then
-                damage = damage + self:calculatePlayerAttackPoint(effect2.elementProperty,skill.effectTable.effectValue2,self.monster)
-                --self.monsterHP = self.monsterHP - damage
-                self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
-                self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
-                self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
-                self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
-                -- pass this hit event to the GameBattlePanel
-                if self.gameBattlePanel == nil then
-                    self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
-                end
-                assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
-                self.gameBattlePanel:doDamageToMonster(damage)
+            local effect2Result = self:playerApplyEffect(effect2, skill.effectTable.effectValue2) 
+            if effect2.effectType == 'Attack' then
+                damage = damage + effect2Result
             end
         end       
         -- Skill Effect 3
         if skill.effectTable.effectID3 ~= nil then
             local effect3 = MetaManager.getEffect(skill.effectTable.effectID3)
             assert(effect3, "Nil effect id")
-            if effect1.effectType == 'Attack' then
-                damage = damage + self:calculatePlayerAttackPoint(effect3.elementProperty,skill.effectTable.effectValue3,self.monster)
-                --self.monsterHP = self.monsterHP - damage
-                self.runesTable.water = self.runesTable.water - skill.runeCostTable.water
-                self.runesTable.air= self.runesTable.air - skill.runeCostTable.air
-                self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
-                self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
-                -- pass this hit event to the GameBattlePanel
-                if self.gameBattlePanel == nil then
-                    self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
-                end
-                assert(self.gameBattlePanel, "Nil in self.gameBattlePanel")
-                self.gameBattlePanel:doDamageToMonster(damage)
+            local effect3Result = self:playerApplyEffect(effect3, skill.effectTable.effectValue3) 
+            if effect3.effectType == 'Attack' then
+                damage = damage + effect3Result
             end
         end
-        
-        self.monsterHP = self.monsterHP - damage
-        
+                  
         -- For statistics
         self.damageCausedByPlayer = self.damageCausedByPlayer + damage
         
+        -- decrease the monster HP
+        self.monsterHP = self.monsterHP - damage
         if self.monsterHP <= 0 then
             self.gameBattlePanel:monsterIsDefeated()
             self.playerWins = true
@@ -167,6 +142,7 @@ function GameBattleLogic:playerUseSkill(skill)
         -- notify the GameBattlePanel to update the rune text
         assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
         self.gameBattlePanel:updateRuneNum(self.runesTable)
+        self.gameBattlePanel:doDamageToMonster(damage)
         
         if self.playerWins ~= nil and self.playerWins then
             self:outputBattleStats()
@@ -176,6 +152,14 @@ function GameBattleLogic:playerUseSkill(skill)
         end
     end
 end
+
+function GameBattleLogic:playerApplyEffect(effect, effectValue)
+    local result = 0
+    if effect.effectType == 'Attack' then
+        result = self:calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)
+    end
+    return result
+end    
 
 ---
 -- Skill used by the monster AI
@@ -200,7 +184,6 @@ function GameBattleLogic:monsterUseSkill(skill)
             local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
             assert(effect1, "Nil effect id")
             if effect1.effectType == 'Attack' then
-                --damage = damage + self:calculatePlayerAttackPoint(effect1.elementProperty,skill.effectTable.effectValue1,self.monster)
                 damage = damage + skill.effectTable.effectValue1
             end
         end
@@ -209,7 +192,6 @@ function GameBattleLogic:monsterUseSkill(skill)
             local effect2 = MetaManager.getEffect(skill.effectTable.effectID2)
             assert(effect2, "Nil effect id")
             if effect1.effectType == 'Attack' then
-                --damage = damage + self:calculatePlayerAttackPoint(effect2.elementProperty,skill.effectTable.effectValue2,self.monster)
                 damage = damage + skill.effectTable.effectValue2
             end
         end       
@@ -218,7 +200,6 @@ function GameBattleLogic:monsterUseSkill(skill)
             local effect3 = MetaManager.getEffect(skill.effectTable.effectID3)
             assert(effect3, "Nil effect id")
             if effect1.effectType == 'Attack' then
-                --damage = damage + self:calculatePlayerAttackPoint(effect3.elementProperty,skill.effectTable.effectValue3,self.monster)
                 damage = damage + skill.effectTable.effectValue3
             end
         end
