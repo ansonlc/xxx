@@ -289,9 +289,17 @@ function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
     local monsterNode = self:getChildByName("MonsterNode")
     assert(monsterNode)
     monsterNode:runAction(actionSeq)
-    local scaleRatio =  ((currentPlayerHP / playerMaxHP) / ((currentPlayerHP + damage) / playerMaxHP))
+    local scaleRatio =  (currentPlayerHP / (currentPlayerHP + damage))
     local scaleAction = cc.ScaleBy:create(0.5,scaleRatio,1)   
     self.hpBarSprite:runAction(scaleAction) 
+end
+
+---
+-- 
+function GameBattlePanel:healPlayer(currentPlayerHP, playerMaxHP, heal)
+    local scaleRatio = (currentPlayerHP / (currentPlayerHP - heal))
+    local scaleAction = cc.ScaleBy:create(0.5, scaleRatio, 1)
+    self.hpBarSprite:runAction(scaleAction)
 end
 
 --[[function GameBattlePanel:onUpdate(delta)

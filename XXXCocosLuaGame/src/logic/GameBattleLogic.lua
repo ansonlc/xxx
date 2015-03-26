@@ -86,49 +86,107 @@ function GameBattleLogic:playerUseSkill(skill)
     self.runesTable.fire = self.runesTable.fire - skill.runeCostTable.fire
     self.runesTable.earth = self.runesTable.earth - skill.runeCostTable.earth
     
-    if skill.effectTable ~= nil then
-        -- Go through all the three effects
-        -- Skill Effect 1
-        local damage = 0
-        if skill.effectTable.effectID1 ~= nil then
+    local effectToApply = {}
+    
+    local damage = 0
+    local heal = 0
+    local isContinuousSkill = false
+    local causeDamage = false
+    local causeHealing = false
+    
+    local function calculatePlayerAttackPoint(elementProperty, effectValue, monster)
+        local attackPoint = 0
+        if elementProperty == "Physical" then
+            attackPoint = effectValue * monster.elementTable.physical
+        end
+        if elementProperty == "Water" then
+            attackPoint = effectValue * monster.elementTable.water
+        end
+        if elementProperty == "Earth" then
+            attackPoint = effectValue * monster.elementTable.earth
+        end
+        if elementProperty == "Fire" then
+            attackPoint = effectValue * monster.elementTable.fire
+        end
+        if elementProperty == "Air" then
+            attackPoint = effectValue * monster.elementTable.air
+        end
+        -- TODO: Replace skill level with the skill level system
+        local skillLevel = 1
+        --attackPoint = (1 + math.random(-0.05,0.05)) * skillLevel * attackPoint
+        return math.floor(attackPoint)
+    end
+    
+    local function playerApplyEffect(effect, effectValue)
+        if effect.effectType == 'Attack' then
+            damage = damage + calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)
+            causeDamage = true
+        elseif effect.effectType == 'Heal' then
+            heal = heal + effectValue
+            causeHealing = true
+        end
+    end
+    
+    if skill.effectTable ~= nil then        
+        if skill.effectTable.effectID1 == skill.effectTable.effectID2 and skill.effectTable.effectID1 ~= nil then
+            isContinuousSkill = true
+        end
+        
+        if isContinuousSkill then
+            local effectValue = {}
+            local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
+            effectValue[1] = skill.effectTable.effectValue1
+            effectValue[2] = skill.effectTable.effectValue2
+            self:playerApplyEffect(effect1, effectValue)    -- we don't expect a return value for continuous effect
+        else
+            -- First effect always exists for the skill
             local effect1 = MetaManager.getEffect(skill.effectTable.effectID1)
             assert(effect1, "Nil effect id")
-            local effect1Result = self:playerApplyEffect(effect1, skill.effectTable.effectValue1)
-            if effect1.effectType == 'Attack' then
-                damage = damage + effect1Result
+            playerApplyEffect(effect1, skill.effectTable.effectValue1)
+            
+            if skill.effectTable.effectID2 ~= nil then
+                local effect2 = MetaManager.getEffect(skill.effectTable.effectID2)
+                assert(effect2, "Nil effect id")
+                playerApplyEffect(effect2, skill.effectTable.effectValue2)
             end
+            
         end
-        -- Skill Effect 2
-        if skill.effectTable.effectID2 ~= nil then
-            local effect2 = MetaManager.getEffect(skill.effectTable.effectID2)
-            assert(effect2, "Nil effect id")
-            local effect2Result = self:playerApplyEffect(effect2, skill.effectTable.effectValue2) 
-            if effect2.effectType == 'Attack' then
-                damage = damage + effect2Result
-            end
-        end       
-        -- Skill Effect 3
+        
         if skill.effectTable.effectID3 ~= nil then
             local effect3 = MetaManager.getEffect(skill.effectTable.effectID3)
             assert(effect3, "Nil effect id")
-            local effect3Result = self:playerApplyEffect(effect3, skill.effectTable.effectValue3) 
-            if effect3.effectType == 'Attack' then
-                damage = damage + effect3Result
-            end
+            playerApplyEffect(effect3, skill.effectTable.effectValue3)
         end
                   
         -- For statistics
         self.damageCausedByPlayer = self.damageCausedByPlayer + damage
         
-        -- decrease the monster HP
+        -- do damage to the monster
         self.monsterHP = self.monsterHP - damage
-        if self.monsterHP <= 0 then
-            self.gameBattlePanel:monsterIsDefeated()
-            self.playerWins = true
+        
+        if causeDamage then
+            self.gameBattlePanel:doDamageToMonster(damage)
         end
         
-        if self.monsterHP >= self.monsterMaxHP then
+        if self.monsterHP <= 0 then
+            -- Display the related animation
+            self.gameBattlePanel:monsterIsDefeated()
+            self.playerWins = true
+        elseif self.monsterHP >= self.monsterMaxHP then
             self.monsterHP = self.monsterMaxHP
+        end
+        
+        -- heal the player
+        self.playerHP = self.playerHP + heal
+        
+        if self.playerHP > self.playerMaxHP then
+            heal = heal - (self.playerHP - self.playerMaxHP)
+            self.playerHP = self.playerMaxHP
+        end
+        
+        if causeHealing then
+            -- Display the related animation
+            self.gameBattlePanel:healPlayer(self.playerHP, self.playerMaxHP, heal)
         end
         
         -- nofity the GameSkillSlotPanel to update the skill status
@@ -138,7 +196,6 @@ function GameBattleLogic:playerUseSkill(skill)
         -- notify the GameBattlePanel to update the rune text
         assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
         self.gameBattlePanel:updateRuneNum(self.runesTable)
-        self.gameBattlePanel:doDamageToMonster(damage)
         
         if self.playerWins ~= nil and self.playerWins then
             self:outputBattleStats()
@@ -147,15 +204,7 @@ function GameBattleLogic:playerUseSkill(skill)
             return
         end
     end
-end
-
-function GameBattleLogic:playerApplyEffect(effect, effectValue)
-    local result = 0
-    if effect.effectType == 'Attack' then
-        result = self:calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)
-    end
-    return result
-end    
+end  
 
 ---
 -- Skill used by the monster AI
@@ -199,12 +248,7 @@ function GameBattleLogic:monsterUseSkill(skill)
                 damage = damage + skill.effectTable.effectValue3
             end
         end
-        
-        -- pass this hit event to the GameBattlePanel
-        if self.gameBattlePanel == nil then
-            self.gameBattlePanel = self:getParent():getChildByName("GameBattlePanel")
-        end
-        
+                
         -- For statistics
         self.damageCausedByMonster = self.damageCausedByMonster + damage
         
@@ -285,34 +329,6 @@ end
 function GameBattleLogic:getCrystalNum()
     return self.crystalNum
 end
-
----
--- Calculate the final attack point based on the effect value and monster data
--- @function [parent=#logic.GameBattleLogic] calculatePlayerAttackPoint
-function GameBattleLogic:calculatePlayerAttackPoint(elementProperty, effectValue, monster)
-    local attackPoint = 0
-    if elementProperty == "Physical" then
-        attackPoint = effectValue * monster.elementTable.physical
-    end
-    if elementProperty == "Water" then
-        attackPoint = effectValue * monster.elementTable.water
-    end
-    if elementProperty == "Earth" then
-        attackPoint = effectValue * monster.elementTable.earth
-    end
-    if elementProperty == "Fire" then
-        attackPoint = effectValue * monster.elementTable.fire
-    end
-    if elementProperty == "Air" then
-        attackPoint = effectValue * monster.elementTable.air
-    end
-    -- TODO: Replace skill level with the skill level system
-    local skillLevel = 1
-    --attackPoint = (1 + math.random(-0.05,0.05)) * skillLevel * attackPoint
-    return math.floor(attackPoint)
-end
-
---function GameBattleLogic:calculateMonsterAttackPoint(element)
 
 function GameBattleLogic:outputBattleStats()
     cclog("Battle Duration: "..self.battleDuration)
