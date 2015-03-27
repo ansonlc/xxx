@@ -37,6 +37,7 @@ function GameSkillSlotManagerLayer:initLayer()
     -- 3. Create all the skill nodes and attach them to the manager
     
     -- CD Counter for the slots
+    self.isSilenced = false
     self.isCoolingDown = false
     self.coolDownTimer = 0
     
@@ -58,7 +59,7 @@ function GameSkillSlotManagerLayer:initSkills(skillTable)
     -- TODO: Delete the simulation for the skill table
     --DataManager.loadUserInfo()
     skillTable = DataManager.userInfo.currentSkills
-    skillTable = {1005, 1200, 1300, 1100, 1400}
+    skillTable = {1005, 1200, 1300, 1100, 1500}
     
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
     local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
@@ -99,7 +100,7 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
     for i = 1, 5, 1 do
         if self.skillSlotTable[i] ~= nil then
             if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
-                if self.skillSlotTable[i].isActive and not self.isCoolingDown then
+                if self.skillSlotTable[i].isActive and not self.isCoolingDown  and not self.isSilenced then
                     if self.gameLogicNode == nil then
                         self.gameLogicNode = self:getParent():getParent():getChildByName("GameBattleLogic")
                     end
@@ -183,6 +184,16 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         node.CDLayer = CDLayer
         self:addChild(CDLayer)
        
+        -- Add the lock Layer
+        local LockColor = cc.c4b(200, 0, 0, 100)
+        local LockLayer = cc.LayerColor:create(LockColor)
+        
+        LockLayer:setAnchorPoint(0,0)
+        LockLayer:setPosition(node.x, node.y)
+        LockLayer:changeWidthAndHeight(0,0)
+        
+        node.LockLayer = LockLayer
+        self:addChild(LockLayer)
     end
 end
 
@@ -205,6 +216,30 @@ function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
                          
                 self.skillSlotTable[i].inActiveLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
             end
+        end
+    end
+end
+
+---
+--  Disable the skill slots
+--  @function [parent=#panel.GameSkillSlotPanel] disableSkillSlots
+function GameSkillSlotManagerLayer:disableSkillSlots()
+    self.isSilenced = true
+    for i = 1, GMaxSkillsInSlot, 1 do
+        if self.skillSlotTable[i] ~= nil then
+            self.skillSlotTable[i].LockLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
+        end
+    end
+end
+
+---
+--  Enable the skill slots
+--  @function [parent=#panel.GameSkillSlotPanel] enableSkillSlots
+function GameSkillSlotManagerLayer:enableSkillSlots()
+    self.isSilenced = false
+    for i = 1, GMaxSkillsInSlot, 1 do
+        if self.skillSlotTable[i] ~= nil then
+            self.skillSlotTable[i].LockLayer:changeWidthAndHeight(0, 0)
         end
     end
 end
@@ -276,8 +311,6 @@ function GameSkillSlotPanel:initPanel(skillTable)
    self.skillSlotManagerLayer:initSkills(skillTable)
    self.skillSlotManagerLayer:setName("SkillSlotManager")
    self:addChild(self.skillSlotManagerLayer)
-   
-   
 end
 
 function GameSkillSlotPanel:onUpdate(dt)

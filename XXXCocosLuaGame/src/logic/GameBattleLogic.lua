@@ -32,15 +32,18 @@ function GameBattleLogic:initNode()
     -- Buff/Debuff Table
     self.playerEffectTable = {}
     self.monsterEffectTable = {}
+    -- Silence status track
+    self.isPlayerSilenced = false
+    self.isMonsterSilenced = false
     -- Shield Ability
     self.playerShellEnergy = 0
     self.monsterShellEnergy = 100
     -- Initialization for the GameSkillSlotPanel
-    if self.gameSkillSlotPanel == nil then
-        self.gameSkillSlotPanel = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")
+    if self.gameSkillSlotMgr == nil then
+        self.gameSkillSlotMgr = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")  -- Actually it's the manager
     end
-    assert(self.gameSkillSlotPanel, "Nil in function GameBattleLogic:initNode()")
-    self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+    assert(self.gameSkillSlotMgr, "Nil in function GameBattleLogic:initNode()")
+    self.gameSkillSlotMgr:updateSkillStatus(self.runesTable)
     
     -- Initialization for the GameBattlePanel
     if self.gameBattlePanel == nil then
@@ -69,6 +72,10 @@ end
 -- @param self 
 -- @param skill type The skill activated by the player
 function GameBattleLogic:playerUseSkill(skill)
+    if self.isPlayerSilenced then
+        cclog("Player is being silenced and cannot use skills!")
+        return
+    end
     assert(skill, "Nil input in function GameBattleLogic:playerUseSkill")
     cclog(skill.skillName)
         
@@ -141,6 +148,9 @@ function GameBattleLogic:playerUseSkill(skill)
             effectToAdd.effectTimeToLive = effectValue[2]
             if effect.effectType == 'Bleed' or effect.effectType == 'Curse' or effect.effectType == 'Fear' or effect.effectType == 'Silence' then
                 self.monsterEffectTable[effect.effectType] = effectToAdd
+                if effect.effectType == 'Silence' then
+                    self.isMonsterSilenced = true
+                end
             else
                 self.playerEffectTable[effect.effectType] = effectToAdd
             end
@@ -241,8 +251,8 @@ function GameBattleLogic:playerUseSkill(skill)
         end
         
         -- nofity the GameSkillSlotPanel to update the skill status
-        assert(self.gameSkillSlotPanel, "No SkillSlotManager found")
-        self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+        assert(self.gameSkillSlotMgr, "No SkillSlotManager found")
+        self.gameSkillSlotMgr:updateSkillStatus(self.runesTable)
         
         -- notify the GameBattlePanel to update the rune text
         assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
@@ -265,6 +275,10 @@ end
 function GameBattleLogic:monsterUseSkill(skill)
     assert(skill, "Nil input in function GameBattleLogic:monsterUseSkill")
     --cclog(skill.skillName)
+    if self.isMonsterSilenced then
+        cclog("Monster is being silenced and cannot use skills!")
+        return
+    end
     -- If the player lost the game
     -- TODO: should change to other scene
     if self.playerWins ~= nil and not self.playerWins then
@@ -308,6 +322,10 @@ function GameBattleLogic:monsterUseSkill(skill)
             effectToAdd.effectTimeToLive = effectValue[2]
             if effect.effectType == 'Bleed' or effect.effectType == 'Curse' or effect.effectType == 'Fear' or effect.effectType == 'Silence' then
                 self.playerEffectTable[effect.effectType] = effectToAdd
+                if effect.effectType == 'Silence' then
+                    self.isPlayerSilenced = true
+                    self.gameSkillSlotMgr:disableSkillSlots() -- Disable the skill slot so that the player cannot use skills
+                end
             else
                 self.monsterEffectTable[effect.effectType] = effectToAdd
             end
@@ -551,8 +569,8 @@ function GameBattleLogic:updateRunesTable(runesTable)
     end
     
     -- notifythe GameSkillSlotPanel to update the skill status
-    assert(self.gameSkillSlotPanel, "Nil GameSkillSlotPanel in function: GameBattleLogic:updateRunesTable()")
-    self.gameSkillSlotPanel:updateSkillStatus(self.runesTable)
+    assert(self.gameSkillSlotMgr, "Nil GameSkillSlotPanel in function: GameBattleLogic:updateRunesTable()")
+    self.gameSkillSlotMgr:updateSkillStatus(self.runesTable)
     
     -- notify the GameBattlePanel to update the rune text
     assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
@@ -607,10 +625,10 @@ end
 function GameBattleLogic:onUpdate(delta)
     -- Test purpose:
     if self.test == nil then
-        self:monsterUseSkill(MetaManager.getSkill(1400))
+        self:monsterUseSkill(MetaManager.getSkill(1500))
         self.test = 0
     end
-    
+   
     self.battleDuration = self.battleDuration + delta
     -- refresh the effect table for the player
     for k, v in pairs(self.playerEffectTable) do
@@ -621,8 +639,13 @@ function GameBattleLogic:onUpdate(delta)
                 self:playerUseEffect(v)
                 v.effectTimeCount = 0
             end
+            
             v.effectTimeToLive = v.effectTimeToLive - delta
             if v.effectTimeToLive < 0 then
+                if v.effectType == 'Silence' then
+                    self.isPlayerSilenced = false
+                    self.gameSkillSlotMgr:enableSkillSlots()
+                end
                 cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped") 
                 self.playerEffectTable[k] = nil
             end
@@ -639,6 +662,9 @@ function GameBattleLogic:onUpdate(delta)
             end
             v.effectTimeToLive = v.effectTimeToLive - delta
             if v.effectTimeToLive < 0 then
+                if v.effectType == 'Silence' then
+                    self.isMonsterSilenced = false
+                end
                 cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped") 
                 self.monsterEffectTable[k] = nil
             end

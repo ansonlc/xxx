@@ -12,6 +12,7 @@ local SkillTable = {
    [1200] = {skillID=1200,skillName='Minor Shell',skillSum='',skillDesc='Minor Shell', runeCostTable = {air=0,earth=1,water=0,fire=0},animationID = nil,growthRatio = nil,effectTable={effectID1=1020,effectValue1=100,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil}},
    [1300] = {skillID=1300,skillName='Minor Recovery',skillSum='',skillDesc='Minor Recovery', runeCostTable = {air=2,earth=0,water=2,fire=0},animationID = nil,growthRatio = nil,effectTable={effectID1=1030,effectValue1=100,effectID2=1030,effectValue2=9,effectID3=nil,effectValue3=nil}},
    [1400] = {skillID=1400,skillName='Minor Bleed',skillSum='',skillDesc='Minor Bleed', runeCostTable = {air=0,earth=0,water=0,fire=3},animationID = nil,growthRatio = nil,effectTable={effectID1=1040,effectValue1=100,effectID2=1040,effectValue2=10,effectID3=nil,effectValue3=nil}},
+   [1500] = {skillID=1500,skillName='Minor Silence',skillSum='',skillDesc='Minor Silence', runeCostTable = {air=1,earth=1,water=1,fire=1},animationID = nil,growthRatio = nil, effectTable={effectID1=1050,effectValue1=0,effectID2=1050,effectValue2=20,effectID3=nil,effectValue3=nil}}
 }
 
 
