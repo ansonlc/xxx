@@ -56,9 +56,9 @@ end
 -- @param skillTable table skills chosen by the player
 function GameSkillSlotManagerLayer:initSkills(skillTable)    
     -- TODO: Delete the simulation for the skill table
-    --skillTable = {1001, 1002, 1003, 1004, 1005}
     --DataManager.loadUserInfo()
     skillTable = DataManager.userInfo.currentSkills
+    skillTable = {1005, 1200, 1300, 1100, 1400}
     
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
     local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))

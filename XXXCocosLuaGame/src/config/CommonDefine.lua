@@ -96,7 +96,7 @@ GBattleToggleBlockVerticalStartOffset = 350 / 1920
 GBattleToggleBlockHorizontalStartOffset = 900 / 1080
 
 GSkillPublicCD = 3
-GEffectPublicCD = 2
+GEffectPublicCD = 3
 
 GMonsterAIInterval = 3.5
 

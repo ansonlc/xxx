@@ -55,8 +55,20 @@ function GameBattlePanel:initPanel()
     hpBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
     hpBarSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / hpBarSprite:getContentSize().height)
     
+    self.hpBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width
     self.hpBarSprite = hpBarSprite
     self:addChild(self.hpBarSprite)
+    
+    -- Shell Bar
+    local shellBarSprite = cc.Sprite:create("imgs/temp/shellbar_1.png")
+    shellBarSprite:setAnchorPoint(0,0)
+    shellBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
+    shellBarSprite:setScaleX(0)
+    shellBarSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / shellBarSprite:getContentSize().height)
+    
+    self.shellBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / shellBarSprite:getContentSize().width
+    self.shellBarSprite = shellBarSprite
+    self:addChild(self.shellBarSprite)
     
     -- Battle Field
     local battleFieldColor = cc.c4b(0, 0, 255, 80)
@@ -244,6 +256,49 @@ function GameBattlePanel:updateRuneNum(runesTable)
     self.runeBlock.fireRune:setString(runesTable.fire)
 end
 
+function GameBattlePanel:playerShellActivated(ratio)
+    --self.shellBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio * ratio / self.shellBarSprite:getContentSize().width)
+    -- Animation
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.shellBarSpriteFullRatio, self.shellBarSprite:getScaleY())
+    self.shellBarSprite:runAction(scaleAction)
+end
+
+---
+--  The shell of the monster absorb the damage from the player
+--  @function [parent=#panel.GameBattlePanel] monsterShellAbsorbed
+function GameBattlePanel:monsterShellAbsorbed()
+    -- TODO: animation needs to be modified
+    if self.shieldText == nil then
+        self.shieldText = cc.LabelTTF:create("Absorbed", "Arial", 80)
+        self:addChild(self.shieldText)
+    end
+    
+    -- Animation
+    local fadeInAction = cc.FadeIn:create(0.3)
+    local fadeOutAction = cc.FadeOut:create(0.3)
+    local actionSeqTable = {fadeInAction, fadeOutAction}
+    local actionSeq = cc.Sequence:create(actionSeqTable)
+    self.shieldText:setAnchorPoint(0,0)
+    self.shieldText:setPosition(400, 150)
+    self.shieldText:runAction(actionSeq)
+end
+
+---
+--  Show the Animaiton of the decrease of the player shell
+--  @function [parent=#panel.GameBattlePanel] playerShellAbsorbed
+--  @param currentShellEnergy num current Shell Energy
+--  @param absorbedDamage num absorbed damage
+function GameBattlePanel:playerShellAbsorbed(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.shellBarSpriteFullRatio, self.shellBarSprite:getScaleY())
+    --[[if currentShellEnergy == 0 then
+        scaleAction = cc.ScaleTo:create(0.5, 0, self.shellBarSprite:getScaleY())
+    else
+        local scaleRatio = currentShellEnergy / (currentShellEnergy + absorbedDamage)
+        scaleAction = cc.ScaleBy:create(0.5, scaleRatio, 1)
+    end--]]
+    self.shellBarSprite:runAction(scaleAction)
+end
+
 ---
 -- Show the damage info for the monster
 -- @function [parent=#panel.GameBattlePanel] doDamageToMonster
@@ -278,10 +333,28 @@ end
 --  Show the damage info for the player
 --  @function [parent=#panel.GameBattlePanel] doDamageToPlayer
 --  @param self
---  @param currentPlayerHP num current player HP
---  @param playerMaxHP num player's max HP
---  @param damage num damage caused by the monster
-function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
+--  @param ratio
+function GameBattlePanel:doDamageToPlayer(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5,ratio * self.hpBarSpriteFullRatio,self.hpBarSprite:getScaleY())   
+    self.hpBarSprite:runAction(scaleAction) 
+end
+
+---
+-- Display the animation to heal the player
+-- @function [parent=#panel.GameBattlePanel] healPlayer
+-- @param currentPlayerHP num current player HP
+-- @param heal num heal value
+function GameBattlePanel:healPlayer(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.hpBarSpriteFullRatio, self.hpBarSprite:getScaleY())
+    self.hpBarSprite:runAction(scaleAction)
+end
+
+function GameBattlePanel:healMonster(value)
+
+end
+
+function GameBattlePanel:monsterUseSkill(skill)
+    -- TODO: apply the skill effect
     local scale1 = cc.ScaleBy:create(0.2, 1.25, 1.25, 1.25)
     local scale2 = cc.ScaleBy:create(0.2, 0.8, 0.8, 0.8)
     local actionSeqTable = {scale1, scale2}
@@ -289,17 +362,6 @@ function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
     local monsterNode = self:getChildByName("MonsterNode")
     assert(monsterNode)
     monsterNode:runAction(actionSeq)
-    local scaleRatio =  (currentPlayerHP / (currentPlayerHP + damage))
-    local scaleAction = cc.ScaleBy:create(0.5,scaleRatio,1)   
-    self.hpBarSprite:runAction(scaleAction) 
-end
-
----
--- 
-function GameBattlePanel:healPlayer(currentPlayerHP, playerMaxHP, heal)
-    local scaleRatio = (currentPlayerHP / (currentPlayerHP - heal))
-    local scaleAction = cc.ScaleBy:create(0.5, scaleRatio, 1)
-    self.hpBarSprite:runAction(scaleAction)
 end
 
 --[[function GameBattlePanel:onUpdate(delta)
