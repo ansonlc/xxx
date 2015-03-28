@@ -452,6 +452,7 @@ end
 -- @param delta num delta time
 function GameBattlePanel:onUpdate(delta)
     -- Player effect
+    local playerEffectToRemove = false
     --for k,v in pairs(self.playerEffectTable) do
     for i = 1, GBattleMaxEffectNumber, 1 do
         if self.playerEffectTable[i] ~= nil then
@@ -462,36 +463,45 @@ function GameBattlePanel:onUpdate(delta)
                 self.playerEffectBlockLayer:removeChild(self.playerEffectTable[i])
                 self.playerEffectTable[i] = nil
                 cclog("Index: "..i..' to be deleted')
+                playerEffectToRemove = true
             end
         end
     end
     
-    local reachEnd = false
-    -- Readjust all nodes position
-    for i = 1, GBattleMaxEffectNumber, 1 do
-        if self.playerEffectTable[i] == nil then
-            for j = i, GBattleMaxEffectNumber, 1 do
-                if self.playerEffectTable[j] ~= nil then
-                    self.playerEffectTable[i] = self.playerEffectTable[j]   -- swap the effect element
-                    self.playerEffectTable[i].index = i
-                    self.playerEffectTable[j] = nil
-                    if self.playerEffectTable[i].index <= 3 then
-                        self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
-                        self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
-                    else
-                        self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
-                        self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+    if playerEffectToRemove then
+        local reachEnd = false
+        -- Readjust all nodes position
+        for i = 1, GBattleMaxEffectNumber, 1 do
+            if self.playerEffectTable[i] == nil then
+                for j = i + 1, GBattleMaxEffectNumber, 1 do
+                    if self.playerEffectTable[j] ~= nil then
+                        self.playerEffectTable[i] = self.playerEffectTable[j]   -- swap the effect element
+                        self.playerEffectTable[i].index = i
+                        self.playerEffectTable[j] = nil
+                        if self.playerEffectTable[i].index <= 3 then
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                        else
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                        end
+                        self.playerEffectTable[i]:setPosition(self.playerEffectTable[i].onScreenX, self.playerEffectTable[i].onScreenY) 
+                        self.playerEffectBlockIndex = i + 1
+                        break
+                    elseif self.playerEffectTable[j] == nil and j == GBattleMaxEffectNumber then
+                        reachEnd = true          
                     end
-                    self.playerEffectTable[i]:setPosition(self.playerEffectTable[i].onScreenX, self.playerEffectTable[i].onScreenY) 
-                elseif self.playerEffectTable[j] == nil and j == GBattleMaxEffectNumber then
-                    reachEnd = true          
                 end
             end
+            -- If the remaining element is all nil ,jump out of the loop
+            if reachEnd then
+                if i == 1 then
+                    self.playerEffectBlockIndex = 1
+                end
+                break
+            end
         end
-        -- If the remaining element is all nil ,jump out of the loop
-        if reachEnd then
-            break
-        end
+        cclog("Current index: "..self.playerEffectBlockIndex)
     end
 end
 

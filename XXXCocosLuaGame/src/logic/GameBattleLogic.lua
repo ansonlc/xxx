@@ -647,7 +647,11 @@ end
 function GameBattleLogic:onUpdate(delta)
     -- Test purpose:
     if self.test == nil then
-        self:monsterUseSkill(MetaManager.getSkill(1700))
+        --[[self:playerUseSkill(MetaManager.getSkill(1300))
+        self:playerUseSkill(MetaManager.getSkill(1600))
+        self:monsterUseSkill(MetaManager.getSkill(1400))
+        self:monsterUseSkill(MetaManager.getSkill(1500))--]]
+        self:monsterUseSkill(MetaManager.getSkill(1400))
         self.test = 0
     end
    
