@@ -59,7 +59,7 @@ function GameSkillSlotManagerLayer:initSkills(skillTable)
     -- TODO: Delete the simulation for the skill table
     --DataManager.loadUserInfo()
     skillTable = DataManager.userInfo.currentSkills
-    skillTable = {1005, 1200, 1300, 1100, 1500}
+    skillTable = {1005, 1200, 1300, 1600, 1500}
     
     local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
     local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
@@ -72,6 +72,7 @@ function GameSkillSlotManagerLayer:initSkills(skillTable)
     self:insertSkillNode(3,skillSprite3)
     self:insertSkillNode(4,skillSprite4)
     self:insertSkillNode(5,skillSprite5)
+    
 end
 
 -- Activate the skill slot given the x and y coord

@@ -9,5 +9,7 @@ local EffectTable = {
     [1030] = {effectID =1030,effectType='Recovery',elementProperty = nil},
     [1040] = {effectID =1040,effectType='Bleed',elementProperty = nil},
     [1050] = {effectID =1050,effectType='Silence',elementProperty = nil},
+    [1060] = {effectID =1060,effectType='Bless',elementProperty = nil},
+    [1070] = {effectID =1070,effectType='Curse',elementProperty = nil},  
 }
 return EffectTable

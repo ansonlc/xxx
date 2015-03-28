@@ -143,14 +143,38 @@ function GameBattlePanel:initPanel()
 
     self:addChild(monsterBlockLayer)
     
+    -- TODO: Delete the test monster in this panel
+    local monsterSprite = cc.Sprite:create("res/imgs/monster/Pikachu.png")
+    monsterSprite:setAnchorPoint(0,0)
+    monsterSprite:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio)
+    monsterSprite:setScale(visibleSize.width * GBattleMonsterBlockHorizontalRatio / monsterSprite:getContentSize().width, visibleSize.height * GBattleMonsterBlockVerticalRatio / monsterSprite:getContentSize().height)
+    monsterSprite:setName("MonsterNode")
+    self:addChild(monsterSprite)
+    
+    -- Player Effect Block
+    local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    playerEffectBlockLayer:setAnchorPoint(0,0)
+    playerEffectBlockLayer:setPosition(visibleSize.width * GBattlePlayerEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattlePlayerEffectBlockVerticalStartOffsetRatio)
+    playerEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio,visibleSize.height * GBattlePlayerEffectBlockVerticalRatio)
+    self.playerEffectBlockLayer = playerEffectBlockLayer
+    self:addChild(playerEffectBlockLayer)
+    
+    self.playerEffectBlockIndex = 1     -- this index points to the current location where the effect should be added
+    self.playerEffectTable = {}
+    
+    -- Monster Effect Block
+    local monsterEffectBlock = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    monsterEffectBlock:setAnchorPoint(0,0)
+    monsterEffectBlock:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
+    monsterEffectBlock:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
+    self.monsterEffectBlockLayer = monsterEffectBlockLayer
+    self:addChild(monsterEffectBlock)
+    
+    self.monsterEffectBlockIndex = 1
+    self.monsterEffectTable = {}
+    
     -- Initialization for the Rune Block
     self:initRuneBlock()
-    
-    -- TODO: Delete the test monster in this panel
-    local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")
-    monster:setPosition(550, 200)
-    monster:setName("MonsterNode")
-    self:addChild(monster)
 
     -- test for the scene change
     local function onTouch(eventType, x, y)
@@ -350,9 +374,13 @@ function GameBattlePanel:healPlayer(ratio)
 end
 
 function GameBattlePanel:healMonster(value)
-
+    
 end
 
+---
+-- Show the animation when the mosnter use the skill
+-- @function [parent=#panel.GameBattlePanel] monsterUseSkill
+-- @param skill
 function GameBattlePanel:monsterUseSkill(skill)
     -- TODO: apply the skill effect
     local scale1 = cc.ScaleBy:create(0.2, 1.25, 1.25, 1.25)
@@ -364,11 +392,108 @@ function GameBattlePanel:monsterUseSkill(skill)
     monsterNode:runAction(actionSeq)
 end
 
---[[function GameBattlePanel:onUpdate(delta)
-    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
-    self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
-end--]]
+function GameBattlePanel:playerAddEffect(effect)
+    -- First detect if this effect has existed in the table
+    local index = nil
+    for k,v in pairs(self.playerEffectTable) do
+       cclog("Type: "..v.effectType)
+       if v.effectType == effect.effectType then
+            index = v.index
+       end
+    end
+    
+    if index == nil then
+        -- This effect has not been added to the table
+        local effectSprite = cc.Sprite:create("imgs/temp/effect_"..effect.effectType:lower()..'.png')
+        effectSprite.index = self.playerEffectBlockIndex
+        effectSprite.effectType = effect.effectType
+        effectSprite.effectTimeCount = 0
+        effectSprite.effectTimeToLive = effect.effectTimeToLive
+        effectSprite:setAnchorPoint(0,0)
+        -- Adjust the position
+        if self.playerEffectBlockIndex <= 3 then
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+        else
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1 - GBattleMaxEffectInRow)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+        end
+        effectSprite:setPosition(effectSprite.onScreenX, effectSprite.onScreenY)
+        -- Adjust the size
+        effectSprite.onScreenWidth = visibleSize.width * GBattleEffectIconHorizontalRatio 
+        effectSprite.onScreenHeight = visibleSize.height * GBattleEffectIconVerticalRatio 
+        effectSprite:setScale(effectSprite.onScreenWidth / effectSprite:getContentSize().width, effectSprite.onScreenHeight / effectSprite:getContentSize().height)
+
+        -- Add the timer layer
+        local timerLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+        timerLayer:changeWidthAndHeight(effectSprite.onScreenWidth, effectSprite.onScreenHeight)
+        timerLayer:setAnchorPoint(0,0)
+        timerLayer:setPosition(0,0)
+        effectSprite.timerLayer = timerLayer
+        effectSprite:addChild(timerLayer)
+        -- Add to the table
+        self.playerEffectTable[self.playerEffectBlockIndex] = effectSprite
+        -- Add as a child
+        self.playerEffectBlockLayer:addChild(effectSprite)
+        self.playerEffectBlockIndex = self.playerEffectBlockIndex + 1
+    else
+        -- This effect has been added to the table
+        self.playerEffectTable[index].effectTimeCount = 0
+        self.playerEffectTable[index].effectTimeToLive = effect.effectTimeToLive
+        -- Update the timer layer
+        self.playerEffectTable[index].timerLayer:changeWidthAndHeight(self.playerEffectTable[index].onScreenWidth, self.playerEffectTable[index].onScreenHeight)
+    end
+    
+end
+
+---
+-- Update event
+-- @function [parent=#panel.GameBattlePanel] onUpdate
+-- @param delta num delta time
+function GameBattlePanel:onUpdate(delta)
+    -- Player effect
+    --for k,v in pairs(self.playerEffectTable) do
+    for i = 1, GBattleMaxEffectNumber, 1 do
+        if self.playerEffectTable[i] ~= nil then
+            self.playerEffectTable[i].effectTimeCount = self.playerEffectTable[i].effectTimeCount + delta
+            self.playerEffectTable[i].timerLayer:changeWidthAndHeight(self.playerEffectTable[i].onScreenWidth, self.playerEffectTable[i].onScreenHeight * (1 - self.playerEffectTable[i].effectTimeCount / self.playerEffectTable[i].effectTimeToLive)) 
+            if self.playerEffectTable[i].effectTimeCount > self.playerEffectTable[i].effectTimeToLive then
+                -- time out and remove this effect
+                self.playerEffectBlockLayer:removeChild(self.playerEffectTable[i])
+                self.playerEffectTable[i] = nil
+                cclog("Index: "..i..' to be deleted')
+            end
+        end
+    end
+    
+    local reachEnd = false
+    -- Readjust all nodes position
+    for i = 1, GBattleMaxEffectNumber, 1 do
+        if self.playerEffectTable[i] == nil then
+            for j = i, GBattleMaxEffectNumber, 1 do
+                if self.playerEffectTable[j] ~= nil then
+                    self.playerEffectTable[i] = self.playerEffectTable[j]   -- swap the effect element
+                    self.playerEffectTable[i].index = i
+                    self.playerEffectTable[j] = nil
+                    if self.playerEffectTable[i].index <= 3 then
+                        self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
+                        self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                    else
+                        self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                        self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                    end
+                    self.playerEffectTable[i]:setPosition(self.playerEffectTable[i].onScreenX, self.playerEffectTable[i].onScreenY) 
+                elseif self.playerEffectTable[j] == nil and j == GBattleMaxEffectNumber then
+                    reachEnd = true          
+                end
+            end
+        end
+        -- If the remaining element is all nil ,jump out of the loop
+        if reachEnd then
+            break
+        end
+    end
+end
 
 
 ---

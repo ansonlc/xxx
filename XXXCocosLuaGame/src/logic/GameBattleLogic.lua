@@ -35,9 +35,14 @@ function GameBattleLogic:initNode()
     -- Silence status track
     self.isPlayerSilenced = false
     self.isMonsterSilenced = false
+    -- Rune Collect Bonus
+    self.runeCollectingBonus = 0
     -- Shield Ability
     self.playerShellEnergy = 0
     self.monsterShellEnergy = 100
+    -- Curse Status
+    self.isPlayerCursed = false
+    self.runeCollectBound = 0
     -- Initialization for the GameSkillSlotPanel
     if self.gameSkillSlotMgr == nil then
         self.gameSkillSlotMgr = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")  -- Actually it's the manager
@@ -150,9 +155,15 @@ function GameBattleLogic:playerUseSkill(skill)
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Silence' then
                     self.isMonsterSilenced = true
+                elseif effect.effectType == 'Fear' then
+                    
                 end
-            else
+            else    -- Positive effect here
                 self.playerEffectTable[effect.effectType] = effectToAdd
+                if effect.effectType == 'Bless' then
+                    self.runeCollectingBonus = effectToAdd.effectValue
+                end
+                self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
             cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive.." by player") 
         end
@@ -325,7 +336,12 @@ function GameBattleLogic:monsterUseSkill(skill)
                 if effect.effectType == 'Silence' then
                     self.isPlayerSilenced = true
                     self.gameSkillSlotMgr:disableSkillSlots() -- Disable the skill slot so that the player cannot use skills
+                elseif effect.effectType == 'Curse' then
+                    --self.runeCollectingBonus = effectToAdd.effectValue
+                    self.runeCollectBound = effectToAdd.effectValue
+                    self.isPlayerCursed = true
                 end
+                self.gameBattlePanel:playerAddEffect(effectToAdd)
             else
                 self.monsterEffectTable[effect.effectType] = effectToAdd
             end
@@ -425,7 +441,7 @@ end
 ---
 --  Called for the player's buff and debuff
 function GameBattleLogic:playerUseEffect(effect)
-    cclog("Effect type: "..effect.effectType.."; value: "..effect.effectValue.."; TTL: "..effect.effectTimeToLive.." activated by player") 
+    --cclog("Effect type: "..effect.effectType.."; value: "..effect.effectValue.."; TTL: "..effect.effectTimeToLive.." activated by player") 
     
     if effect.effectType == 'Recovery' then
         local heal = effect.effectValue
@@ -486,7 +502,7 @@ function GameBattleLogic:playerUseEffect(effect)
 end
 
 function GameBattleLogic:monsterUseEffect(effect)
-    cclog("Effect type: "..effect.effectType.."; value: "..effect.effectValue.."; TTL: "..effect.effectTimeToLive.." activated by monster") 
+    --cclog("Effect type: "..effect.effectType.."; value: "..effect.effectValue.."; TTL: "..effect.effectTimeToLive.." activated by monster") 
 
     if effect.effectType == 'Recovery' then
         local heal = effect.effectValue
@@ -557,8 +573,14 @@ function GameBattleLogic:updateRunesTable(runesTable)
     
     for k, v in pairs(runesTable) do 
         if self.runesTable[k] ~= nil then
-            self.runesTable[k] = self.runesTable[k] + v
-            self.runeCollectStat[k] = self.runeCollectStat[k] + v
+            local addedRunes = v + self.runeCollectingBonus
+            if self.isPlayerCursed then
+                addedRunes = math.min(addedRunes, self.runeCollectBound)
+            end
+            self.runesTable[k] = self.runesTable[k] + addedRunes
+            -- for statistics
+            self.runeCollectStat[k] = self.runeCollectStat[k] + v + self.runeCollectingBonus
+            
             self.runesTable[k] = math.min(GMaxRuneNumber, self.runesTable[k])   -- clamp the rune number to GMaxRuneNumber
         end
     end
@@ -625,7 +647,7 @@ end
 function GameBattleLogic:onUpdate(delta)
     -- Test purpose:
     if self.test == nil then
-        self:monsterUseSkill(MetaManager.getSkill(1500))
+        self:monsterUseSkill(MetaManager.getSkill(1700))
         self.test = 0
     end
    
@@ -645,8 +667,13 @@ function GameBattleLogic:onUpdate(delta)
                 if v.effectType == 'Silence' then
                     self.isPlayerSilenced = false
                     self.gameSkillSlotMgr:enableSkillSlots()
+                elseif v.effectType == 'Bless' then
+                    self.runeCollectingBonus = 0
+                elseif v.effectType == 'Curse' then
+                    self.isPlayerCursed = false
+                    self.runeCollectBound = 0
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped") 
+                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
                 self.playerEffectTable[k] = nil
             end
         end
@@ -665,7 +692,7 @@ function GameBattleLogic:onUpdate(delta)
                 if v.effectType == 'Silence' then
                     self.isMonsterSilenced = false
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped") 
+                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
                 self.monsterEffectTable[k] = nil
             end
         end
