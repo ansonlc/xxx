@@ -204,7 +204,7 @@ function SkillSelectScene:onInit()
     for i = 1,5 do
         rootNode:getChildByName("Button_Skill" .. i):setOpacity(0)
     end
-
+    
     for key,_ in pairs(btn2scene) do
         rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
     end
@@ -212,7 +212,7 @@ function SkillSelectScene:onInit()
     --TODO Adjust scroll view size here
     local totalY = 0
     local yOffset = SkillListSizePlus
-    local nowPosY = 1850
+    local nowPosY = 3350
     for id, key in pairs(allSkill()) do
         
         local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
