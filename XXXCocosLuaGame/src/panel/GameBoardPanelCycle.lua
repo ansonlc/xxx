@@ -223,23 +223,24 @@ local function cfRefreshBoard()
         if firstEmptyCell[i] ~= nil then
             --cclog("firstEmptyCell.."..i..".."..firstEmptyCell[i].x..firstEmptyCell[i].y)
             local nextDesCell = {x = firstEmptyCell[i].x, y = firstEmptyCell[i].y}
-            for j = 1, #(moveCellList[i]) do
+            if moveCellList[i] ~= nil then
+                for j = 1, #(moveCellList[i]) do
 
-                local cell = {x = moveCellList[i][j].x, y = moveCellList[i][j].y}
-                --cclog("moveCellList"..i..".."..cell.x..cell.y)
-                local tag = 10 * cell.x + cell.y
-                local node = board:getChildByTag(NODE_TAG_START + tag)
+                    local cell = {x = moveCellList[i][j].x, y = moveCellList[i][j].y}
+                    --cclog("moveCellList"..i..".."..cell.x..cell.y)
+                    local tag = 10 * cell.x + cell.y
+                    local node = board:getChildByTag(NODE_TAG_START + tag)
 
-                local desTag = 100 * GameBoard[cell.x][cell.y] + 10 * nextDesCell.x + nextDesCell.y
-                node:setTag(FALLING_TAG + desTag)
+                    local desTag = 100 * GameBoard[cell.x][cell.y] + 10 * nextDesCell.x + nextDesCell.y
+                    node:setTag(FALLING_TAG + desTag)
 
-                actionNodeList[#actionNodeList + 1] = {}
-                actionNodeList[#actionNodeList][1] = node
-                actionNodeList[#actionNodeList][2] = nextDesCell
-                nextDesCell = {x = nextDesCell.x, y = nextDesCell.y + 1}
-                --local desCell = 
+                    actionNodeList[#actionNodeList + 1] = {}
+                    actionNodeList[#actionNodeList][1] = node
+                    actionNodeList[#actionNodeList][2] = nextDesCell
+                    nextDesCell = {x = nextDesCell.x, y = nextDesCell.y + 1}
+                    --local desCell = 
+                end
             end
-
             for j = 1, #(addCellList[i]) do
                 --cclog("addCellList"..i..".."..addCellList[i][j])
 
