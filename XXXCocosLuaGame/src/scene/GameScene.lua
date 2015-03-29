@@ -121,8 +121,15 @@ function GameScene:onUpdate(dt)
     end
 end
 
-function GameScene:onGameOver( param )
-    local AINode = self:getChildByName("MonsterAILogic")
+function GameScene:onGameOver(playerWins, gameData)
+    
+    if playerWins then
+        SceneManager.replaceSceneWithName("ResultScene", "Test")
+    else
+        SceneManager.replaceSceneWithName("EndingScene", "Test")
+    end
+    
+    --[[local AINode = self:getChildByName("MonsterAILogic")
     AINode.isAIOn = false
     
     self:setGameTouch(false)
@@ -155,7 +162,7 @@ function GameScene:onGameOver( param )
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_ENDED)
-    dispatcher:addEventListenerWithSceneGraphPriority(listener, blackLayer)
+    dispatcher:addEventListenerWithSceneGraphPriority(listener, blackLayer)--]]
 end
 
 return GameScene
