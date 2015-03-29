@@ -22,7 +22,7 @@ function GameIconManager.loadTileIcons()
 end
 
 --------------------------------
---  Create method of the scene, will be execute when called
+--  Create method of tile icon
 --  @function [parent=#GameIconManager] getTileIconSprite
 --  @param #int type Tile icon type(GIconNormalType, GIconCryType, GIconMatchType or GIconSelectType)
 --  @param #int index Tile icon index
@@ -38,6 +38,34 @@ function GameIconManager.getTileIconSprite(type, index)
     local iconSprite = cc.Sprite:createWithSpriteFrame(iconFrame)
     iconSprite:setScale(150/88)
     return iconSprite
+end
+
+--------------------------------
+--  Create method of skill sprite
+--  @function [parent=#GameIconManager] getSkillSprite
+--  @param #int skillId The skill id
+--  @param #float scale Sprite scale
+--  @param #bool border Skill sprite border
+--  @return #cc.Sprite Created skill sprite
+function GameIconManager.getSkillSprite(skillId, scale, border)
+    local cacheInst = cc.SpriteFrameCache:getInstance()
+    local skillSprite = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
+    skillSprite:setScale(scale)
+    return skillSprite
+end
+
+--------------------------------
+--  Create method of monster sprite
+--  @function [parent=#GameIconManager] getMonsterSprite
+--  @param #int monsterId The monster id
+--  @param #float scale Sprite scale
+--  @param #bool border Monster sprite border
+--  @return #cc.Sprite Created monster sprite
+function GameIconManager.getMonsterSprite(monsterId, scale, border)
+    local cacheInst = cc.SpriteFrameCache:getInstance()
+    local monsterSprite = cc.Sprite:create("res/imgs/monster/" .. monsterId .. ".png")
+    monsterSprite:setScale(scale)
+    return monsterSprite
 end
 
 --创建随机变换的棋子

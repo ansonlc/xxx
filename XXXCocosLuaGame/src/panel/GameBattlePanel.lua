@@ -135,7 +135,8 @@ function GameBattlePanel:initPanel()
     self:initRuneBlock()
     
     -- TODO: Delete the test monster in this panel
-    local monster = cc.Sprite:create("res/imgs/monster/Pikachu.png")
+    local monster = GameIconManager.getMonsterSprite("Pikachu", 1, false)
+    --cc.Sprite:create("res/imgs/monster/Pikachu.png")
     monster:setPosition(550, 200)
     monster:setName("MonsterNode")
     self:addChild(monster)
