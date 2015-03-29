@@ -82,7 +82,6 @@ function GameBattleLogic:playerUseSkill(skill)
         return
     end
     assert(skill, "Nil input in function GameBattleLogic:playerUseSkill")
-    cclog(skill.skillName)
         
     -- For statistics
     if self.skillUsedCount[skill.skillID] == nil then
@@ -158,6 +157,7 @@ function GameBattleLogic:playerUseSkill(skill)
                 elseif effect.effectType == 'Fear' then
                     
                 end
+                self.gameBattlePanel:monsterAddEffect(effectToAdd)
             else    -- Positive effect here
                 self.playerEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Bless' then
@@ -271,8 +271,7 @@ function GameBattleLogic:playerUseSkill(skill)
         
         if self.playerWins ~= nil and self.playerWins then
             self:outputBattleStats()
-            -- TODO: Pass the correct params to the result scene
-            SceneManager.replaceSceneWithName("ResultScene","Test")
+            self:endGame()
             return
         end
     end
@@ -288,12 +287,6 @@ function GameBattleLogic:monsterUseSkill(skill)
     --cclog(skill.skillName)
     if self.isMonsterSilenced then
         cclog("Monster is being silenced and cannot use skills!")
-        return
-    end
-    -- If the player lost the game
-    -- TODO: should change to other scene
-    if self.playerWins ~= nil and not self.playerWins then
-        -- TODO: Pass the correct params to the ending scene
         return
     end
     
@@ -344,6 +337,7 @@ function GameBattleLogic:monsterUseSkill(skill)
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             else
                 self.monsterEffectTable[effect.effectType] = effectToAdd
+                self.gameBattlePanel:monsterAddEffect(effectToAdd)
             end
             cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive..' by monster') 
         end
@@ -429,9 +423,8 @@ function GameBattleLogic:monsterUseSkill(skill)
         self.gameBattlePanel:monsterUseSkill(nil)
         
         if self.playerWins ~= nil and not self.playerWins then
-            -- TODO: Pass the correct params to the ending scene
             self:outputBattleStats()
-            self:getParent():onGameOver()
+            self:endGame()
             return
         end
     end
@@ -493,9 +486,8 @@ function GameBattleLogic:playerUseEffect(effect)
 
         -- GameOver Condition
         if self.playerWins ~= nil and not self.playerWins then
-            -- TODO: Pass the correct params to the ending scene
             self:outputBattleStats()
-            self:getParent():onGameOver()
+            self:endGame()
             return
         end 
     end
@@ -554,8 +546,7 @@ function GameBattleLogic:monsterUseEffect(effect)
 
         if self.playerWins ~= nil and self.playerWins then
             self:outputBattleStats()
-            -- TODO: Pass the correct params to the result scene
-            SceneManager.replaceSceneWithName("ResultScene","Test")
+            self:endGame()
             return
         end
     end
@@ -638,6 +629,14 @@ function GameBattleLogic:outputBattleStats()
     for k, v in pairs(self.runeCollectStat) do
         cclog(k..": "..v)
     end
+end
+
+function GameBattleLogic:endGame()
+    local gameResultTable = {}
+    gameResultTable[1] = self.skillUsedCount
+    gameResultTable[2] = self.battleDuration
+    
+    self:getParent():onGameOver(self.playerWins, gameResultTable)
 end
 
 ---

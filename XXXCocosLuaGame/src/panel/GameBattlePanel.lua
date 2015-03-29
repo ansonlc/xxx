@@ -163,12 +163,12 @@ function GameBattlePanel:initPanel()
     self.playerEffectTable = {}
     
     -- Monster Effect Block
-    local monsterEffectBlock = cc.LayerColor:create(cc.c4b(100,100,0,100))
-    monsterEffectBlock:setAnchorPoint(0,0)
-    monsterEffectBlock:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
-    monsterEffectBlock:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
+    local monsterEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    monsterEffectBlockLayer:setAnchorPoint(0,0)
+    monsterEffectBlockLayer:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
+    monsterEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
     self.monsterEffectBlockLayer = monsterEffectBlockLayer
-    self:addChild(monsterEffectBlock)
+    self:addChild(monsterEffectBlockLayer)
     
     self.monsterEffectBlockIndex = 1
     self.monsterEffectTable = {}
@@ -447,6 +447,64 @@ function GameBattlePanel:playerAddEffect(effect)
 end
 
 ---
+--  Add the effect to the monster slot
+--  @function [parent=#panel.GameBattlePanel] mosnterAddEffect
+--  @param effect 
+function GameBattlePanel:monsterAddEffect(effect)
+    -- First detect if this effect has existed in the table
+    local index = nil
+    for k,v in pairs(self.monsterEffectTable) do
+       cclog("Type: "..v.effectType)
+       if v.effectType == effect.effectType then
+            index = v.index
+       end
+    end
+    
+    if index == nil then
+        -- This effect has not been added to the table
+        local effectSprite = cc.Sprite:create("imgs/temp/effect_"..effect.effectType:lower()..'.png')
+        effectSprite.index = self.monsterEffectBlockIndex
+        effectSprite.effectType = effect.effectType
+        effectSprite.effectTimeCount = 0
+        effectSprite.effectTimeToLive = effect.effectTimeToLive
+        effectSprite:setAnchorPoint(0,0)
+        -- Adjust the position
+        if self.monsterEffectBlockIndex <= 3 then
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+        else
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1 - GBattleMaxEffectInRow)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+        end
+        effectSprite:setPosition(effectSprite.onScreenX, effectSprite.onScreenY)
+        -- Adjust the size
+        effectSprite.onScreenWidth = visibleSize.width * GBattleEffectIconHorizontalRatio 
+        effectSprite.onScreenHeight = visibleSize.height * GBattleEffectIconVerticalRatio 
+        effectSprite:setScale(effectSprite.onScreenWidth / effectSprite:getContentSize().width, effectSprite.onScreenHeight / effectSprite:getContentSize().height)
+
+        -- Add the timer layer
+        local timerLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+        timerLayer:changeWidthAndHeight(effectSprite.onScreenWidth, effectSprite.onScreenHeight)
+        timerLayer:setAnchorPoint(0,0)
+        timerLayer:setPosition(0,0)
+        effectSprite.timerLayer = timerLayer
+        effectSprite:addChild(timerLayer)
+        -- Add to the table
+        self.monsterEffectTable[self.monsterEffectBlockIndex] = effectSprite
+        -- Add as a child
+        self.monsterEffectBlockLayer:addChild(effectSprite)
+        self.monsterEffectBlockIndex = self.monsterEffectBlockIndex + 1
+    else
+        -- This effect has been added to the table
+        self.monsterEffectTable[index].effectTimeCount = 0
+        self.monsterEffectTable[index].effectTimeToLive = effect.effectTimeToLive
+        -- Update the timer layer
+        self.monsterEffectTable[index].timerLayer:changeWidthAndHeight(self.monsterEffectTable[index].onScreenWidth, self.monsterEffectTable[index].onScreenHeight)
+    end
+    
+end
+
+---
 -- Update event
 -- @function [parent=#panel.GameBattlePanel] onUpdate
 -- @param delta num delta time
@@ -501,7 +559,60 @@ function GameBattlePanel:onUpdate(delta)
                 break
             end
         end
-        cclog("Current index: "..self.playerEffectBlockIndex)
+        --cclog("Current index: "..self.playerEffectBlockIndex)
+    end
+    
+    -- Monster effect
+    local monsterEffectToRemove = false
+    for i = 1, GBattleMaxEffectNumber, 1 do
+        local effect = self.monsterEffectTable[i]
+        if self.monsterEffectTable[i] ~= nil then
+            self.monsterEffectTable[i].effectTimeCount = self.monsterEffectTable[i].effectTimeCount + delta
+            self.monsterEffectTable[i].timerLayer:changeWidthAndHeight(self.monsterEffectTable[i].onScreenWidth, self.monsterEffectTable[i].onScreenHeight * (1 - self.monsterEffectTable[i].effectTimeCount / self.monsterEffectTable[i].effectTimeToLive)) 
+            if self.monsterEffectTable[i].effectTimeCount > self.monsterEffectTable[i].effectTimeToLive then
+                -- time out and remove this effect
+                self.monsterEffectBlockLayer:removeChild(self.monsterEffectTable[i])
+                self.monsterEffectTable[i] = nil
+                cclog("Index: "..i..' to be deleted')
+                monsterEffectToRemove = true
+            end
+        end
+    end
+
+    if monsterEffectToRemove then
+        local reachEnd = false
+        -- Readjust all nodes position
+        for i = 1, GBattleMaxEffectNumber, 1 do
+            if self.monsterEffectTable[i] == nil then
+                for j = i + 1, GBattleMaxEffectNumber, 1 do
+                    if self.monsterEffectTable[j] ~= nil then
+                        self.monsterEffectTable[i] = self.monsterEffectTable[j]   -- swap the effect element
+                        self.monsterEffectTable[i].index = i
+                        self.monsterEffectTable[j] = nil
+                        if self.monsterEffectTable[i].index <= 3 then
+                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1)
+                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                        else
+                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                        end
+                        self.monsterEffectTable[i]:setPosition(self.monsterEffectTable[i].onScreenX, self.monsterEffectTable[i].onScreenY) 
+                        self.monsterEffectBlockIndex = i + 1
+                        break
+                    elseif self.monsterEffectTable[j] == nil and j == GBattleMaxEffectNumber then
+                        reachEnd = true          
+                    end
+                end
+            end
+            -- If the remaining element is all nil ,jump out of the loop
+            if reachEnd then
+                if i == 1 then
+                    self.monsterEffectBlockIndex = 1
+                end
+                break
+            end
+        end
+        --cclog("Current index: "..self.monsterEffectBlockIndex)
     end
 end
 
