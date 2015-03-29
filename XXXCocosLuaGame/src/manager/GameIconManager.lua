@@ -46,11 +46,16 @@ end
 --  @param #int skillId The skill id
 --  @param #float scale Sprite scale
 --  @param #bool border Skill sprite border
---  @return #cc.Sprite Created skill sprite
+--  @return #cc.Sprite Created skill sprite, the skill information is in skillSprite.skill
 function GameIconManager.getSkillSprite(skillId, scale, border)
+    assert(skillId, "Nil skill id for getSkillSprite")
+    
     local cacheInst = cc.SpriteFrameCache:getInstance()
     local skillSprite = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
-    skillSprite:setScale(scale)
+    if (scale) then
+        skillSprite:setScale(scale)
+    end
+    skillSprite.skill = MetaManager.getSkill(skillId)
     return skillSprite
 end
 
@@ -60,11 +65,16 @@ end
 --  @param #int monsterId The monster id
 --  @param #float scale Sprite scale
 --  @param #bool border Monster sprite border
---  @return #cc.Sprite Created monster sprite
+--  @return #cc.Sprite Created monster sprite, the monster information is in monsterSprite.monster
 function GameIconManager.getMonsterSprite(monsterId, scale, border)
+    assert(monsterId, "Nil monster id for getMonsterSpirte")
+    
     local cacheInst = cc.SpriteFrameCache:getInstance()
     local monsterSprite = cc.Sprite:create("res/imgs/monster/" .. monsterId .. ".png")
-    monsterSprite:setScale(scale)
+    if (scale) then
+        monsterSprite:setScale(scale)
+    end
+    monsterSprite.monster = MetaManager.getSkill(skillId)
     return monsterSprite
 end
 

@@ -61,11 +61,16 @@ function GameSkillSlotManagerLayer:initSkills(skillTable)
     skillTable = DataManager.userInfo.currentSkills
     skillTable = {1005, 1200, 1300, 1600, 1500}
     
-    local skillSprite1 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
-    local skillSprite2 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
-    local skillSprite3 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), MetaManager.getSkill(skillTable[3]))
-    local skillSprite4 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[4]..".png"), MetaManager.getSkill(skillTable[4]))
-    local skillSprite5 = self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[5]..".png"), MetaManager.getSkill(skillTable[5]))
+    local skillSprite1 = GameIconManager.getSkillSprite(skillTable[1], nil , true)
+        --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
+    local skillSprite2 = GameIconManager.getSkillSprite(skillTable[2], nil , true)
+        --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[2]..".png"), MetaManager.getSkill(skillTable[2]))
+    local skillSprite3 = GameIconManager.getSkillSprite(skillTable[3], nil , true)
+        --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[3]..".png"), MetaManager.getSkill(skillTable[3]))
+    local skillSprite4 = GameIconManager.getSkillSprite(skillTable[4], nil , true)
+        --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[4]..".png"), MetaManager.getSkill(skillTable[4]))
+    local skillSprite5 = GameIconManager.getSkillSprite(skillTable[5], nil , true)
+        --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[5]..".png"), MetaManager.getSkill(skillTable[5]))
     
     self:insertSkillNode(1,skillSprite1)
     self:insertSkillNode(2,skillSprite2)
