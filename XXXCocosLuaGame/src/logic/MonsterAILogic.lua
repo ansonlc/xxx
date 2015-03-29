@@ -72,8 +72,8 @@ function MonsterAILogic:onUpdate(delta)
         --self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
         self.battleLogic:monsterUseSkill(skill)
-        cclog("Monster use skill times:"..self.useSkillTimes[4].." ,skillName:"..skill.skillName)
-        cclog("stat: skill1:"..self.useSkillTimes[1]..",skill2:"..self.useSkillTimes[2]..",skill3:"..self.useSkillTimes[3])   
+        --cclog("Monster use skill times:"..self.useSkillTimes[4].." ,skillName:"..skill.skillName)
+        --cclog("stat: skill1:"..self.useSkillTimes[1]..",skill2:"..self.useSkillTimes[2]..",skill3:"..self.useSkillTimes[3])   
     end    
 end
 

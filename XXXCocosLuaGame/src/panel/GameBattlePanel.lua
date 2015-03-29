@@ -33,11 +33,11 @@ function GameBattlePanel:initPanel()
     -- Debug layer
     local debugColor = cc.c4b(255, 255, 255, 100)
     local debugLayer = cc.LayerColor:create(debugColor)
-    
+
     debugLayer:changeWidthAndHeight(visibleSize.width,visibleSize.height * GBattlePanelVerticalRatio)
     debugLayer:setAnchorPoint(0,0)
     debugLayer:setPosition(0,0)
-    
+
     self:addChild(debugLayer)
 
     -- Create the BackgroundLayer
@@ -47,80 +47,92 @@ function GameBattlePanel:initPanel()
 
     backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)   -- 20% of the screen's height
     --self:addChild(backgroundLayer)
-    
+
     -- HP Bar
     local hpBarSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
     hpBarSprite:setAnchorPoint(0,0)
     hpBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
     hpBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
     hpBarSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / hpBarSprite:getContentSize().height)
-    
+
+    self.hpBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width
     self.hpBarSprite = hpBarSprite
     self:addChild(self.hpBarSprite)
-    
+
+    -- Shell Bar
+    local shellBarSprite = cc.Sprite:create("imgs/temp/shellbar_1.png")
+    shellBarSprite:setAnchorPoint(0,0)
+    shellBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
+    shellBarSprite:setScaleX(0)
+    shellBarSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / shellBarSprite:getContentSize().height)
+
+    self.shellBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / shellBarSprite:getContentSize().width
+    self.shellBarSprite = shellBarSprite
+    self:addChild(self.shellBarSprite)
+
     -- Battle Field
     local battleFieldColor = cc.c4b(0, 0, 255, 80)
     local battleFieldLayer = cc.LayerColor:create(battleFieldColor)
-    
+
     battleFieldLayer:changeWidthAndHeight(visibleSize.width * GBattleFieldHorizontalRatio, visibleSize.height * GBattleFieldVerticalRatio)
     battleFieldLayer:setAnchorPoint(0,0)
     battleFieldLayer:setPosition(visibleSize.width * GBattleFieldHorizontalStartOffsetRatio,visibleSize.height * GBattleFieldVerticalStartOffsetRatio)
-        
+
     self:addChild(battleFieldLayer)
-    
+
     -- Rune Block
     local runeBlockColor = cc.c4b(100, 100, 0, 100)
     local runeBlockLayer = cc.LayerColor:create(runeBlockColor)
-    
+
     runeBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleRuneBlockHorizontalRatio, visibleSize.height * GBattleRuneBlockVerticalRatio)
     runeBlockLayer:setAnchorPoint(0,0)
     runeBlockLayer:setPosition(visibleSize.width * GBattleRuneBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleRuneBlockVerticalStartOffsetRatio)
-    
+
     self.runeBlock = runeBlockLayer
     self:addChild(runeBlockLayer)
-    
+
     -- Level Block
     local levelSprite = cc.Sprite:create("imgs/temp/leveltitle_1.png")
     levelSprite:setScaleX(visibleSize.width * GBattleLevelBlockHorizontalRatio / levelSprite:getContentSize().width)
     levelSprite:setScaleY(visibleSize.height * GBattleLevelBlockVerticalRatio / levelSprite:getContentSize().height)
     levelSprite:setAnchorPoint(0,0)
     levelSprite:setPosition(visibleSize.width * GBattleLevelBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleLevelBlockVerticalStartOffsetRatio)
-    
+
     self:addChild(levelSprite)
-    
+
     -- Option Block
     local optionSprite = cc.Sprite:create("imgs/temp/pause_button.png")
-    
+
     -- used for the touch event test
     -- TODO: Find a better way for this purpose
     optionSprite.onScreenWidth = visibleSize.width * GBattleOptionBlockHorizontalRatio
     optionSprite.onScreenHeight = visibleSize.height * GBattleOptionBlockVerticalRatio
     optionSprite.onScreenX = visibleSize.width * GBattleOptionBlockHorizontalStartOffset
     optionSprite.onScreenY = visibleSize.height * GBattleOptionBlockVerticalStartOffset
-    
+
     optionSprite:setScaleX(optionSprite.onScreenWidth / optionSprite:getContentSize().width)
     optionSprite:setScaleY(optionSprite.onScreenHeight / optionSprite:getContentSize().height)
     optionSprite:setAnchorPoint(0,0)
     optionSprite:setPosition(optionSprite.onScreenX, optionSprite.onScreenY)
-    
+
     self.optionButton = optionSprite
     self:addChild(optionSprite)
-    
+
     local toggleSprite = cc.Sprite:create("imgs/temp/toggle_button.png")
-    
+
     toggleSprite.onScreenWidth = visibleSize.width * GBattleToggleBlockHorizontalRatio 
     toggleSprite.onScreenHeight = visibleSize.height * GBattleToggleBlockVerticalRatio
     toggleSprite.onScreenX = visibleSize.width * GBattleToggleBlockHorizontalStartOffset
     toggleSprite.onScreenY = visibleSize.height * GBattleToggleBlockVerticalStartOffset
-    
+
     toggleSprite:setScaleX(toggleSprite.onScreenWidth / toggleSprite:getContentSize().width)
     toggleSprite:setScaleY(toggleSprite.onScreenHeight / toggleSprite:getContentSize().height)
     toggleSprite:setAnchorPoint(0,0)
     toggleSprite:setPosition(toggleSprite.onScreenX, toggleSprite.onScreenY) 
-    
+
     self.toggleButton = toggleSprite
     self:addChild(toggleSprite)
-    
+
     -- Monster Block
     local monsterBlockColor = cc.c4b(100, 100, 0, 100)
     local monsterBlockLayer = cc.LayerColor:create(monsterBlockColor)
@@ -130,23 +142,46 @@ function GameBattlePanel:initPanel()
     monsterBlockLayer:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio)
 
     self:addChild(monsterBlockLayer)
-    
+
+    -- TODO: Delete the test monster in this panel
+    local monsterSprite = GameIconManager.getMonsterSprite("Pikachu", 1, false)
+    monsterSprite:setAnchorPoint(0,0)
+    monsterSprite:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio)
+    monsterSprite:setScale(visibleSize.width * GBattleMonsterBlockHorizontalRatio / monsterSprite:getContentSize().width, visibleSize.height * GBattleMonsterBlockVerticalRatio / monsterSprite:getContentSize().height)
+    monsterSprite:setName("MonsterNode")
+    self:addChild(monsterSprite)
+
+    -- Player Effect Block
+    local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    playerEffectBlockLayer:setAnchorPoint(0,0)
+    playerEffectBlockLayer:setPosition(visibleSize.width * GBattlePlayerEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattlePlayerEffectBlockVerticalStartOffsetRatio)
+    playerEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio,visibleSize.height * GBattlePlayerEffectBlockVerticalRatio)
+    self.playerEffectBlockLayer = playerEffectBlockLayer
+    self:addChild(playerEffectBlockLayer)
+
+    self.playerEffectBlockIndex = 1     -- this index points to the current location where the effect should be added
+    self.playerEffectTable = {}
+
+    -- Monster Effect Block
+    local monsterEffectBlock = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    monsterEffectBlock:setAnchorPoint(0,0)
+    monsterEffectBlock:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
+    monsterEffectBlock:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
+    self.monsterEffectBlockLayer = monsterEffectBlockLayer
+    self:addChild(monsterEffectBlock)
+
+    self.monsterEffectBlockIndex = 1
+    self.monsterEffectTable = {}
+
     -- Initialization for the Rune Block
     self:initRuneBlock()
-    
-    -- TODO: Delete the test monster in this panel
-    local monster = GameIconManager.getMonsterSprite("Pikachu", 1, false)
-    --cc.Sprite:create("res/imgs/monster/Pikachu.png")
-    monster:setPosition(550, 200)
-    monster:setName("MonsterNode")
-    self:addChild(monster)
 
     -- test for the scene change
     local function onTouch(eventType, x, y)
         if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             SceneManager.replaceSceneWithName("LevelSelectScene","Test")
         end
-        
+
         if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             -- For Test Purpose
             local AINode = self:getParent():getChildByName("MonsterAILogic")
@@ -158,7 +193,7 @@ function GameBattlePanel:initPanel()
             end
         end
     end
-    
+
     self:registerScriptTouchHandler(onTouch)
     self:setTouchEnabled(true)
 
@@ -197,7 +232,7 @@ function GameBattlePanel:initRuneBlock()
     airRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     airRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock:addChild(airRuneSprite)
-    
+
     -- Rune Text
     -- Fire Rune Text
     local fireRuneText = cc.LabelTTF:create("10", "Arial", 100)
@@ -206,7 +241,7 @@ function GameBattlePanel:initRuneBlock()
     fireRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneFireTextLabelVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock.fireRune = fireRuneText
     self.runeBlock:addChild(fireRuneText)
-    
+
     -- Water Rune Text
     local waterRuneText = cc.LabelTTF:create("10", "Arial", 100)
     waterRuneText:setAnchorPoint(0,0)
@@ -214,7 +249,7 @@ function GameBattlePanel:initRuneBlock()
     waterRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneWaterTextLabelVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock.waterRune = waterRuneText
     self.runeBlock:addChild(waterRuneText)
-    
+
     -- Earth Rune Text
     local earthRuneText = cc.LabelTTF:create("10", "Arial", 100)
     earthRuneText:setAnchorPoint(0,0)
@@ -222,7 +257,7 @@ function GameBattlePanel:initRuneBlock()
     earthRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthTextLabelVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock.earthRune = earthRuneText
     self.runeBlock:addChild(earthRuneText)
-    
+
     -- Air Rune Text
     local airRuneText = cc.LabelTTF:create("10", "Arial", 100)
     airRuneText:setAnchorPoint(0,0)
@@ -230,7 +265,7 @@ function GameBattlePanel:initRuneBlock()
     airRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirTextLabelVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock.airRune = airRuneText
     self.runeBlock:addChild(airRuneText)
-    
+
 end
 
 ---
@@ -243,6 +278,49 @@ function GameBattlePanel:updateRuneNum(runesTable)
     self.runeBlock.earthRune:setString(runesTable.earth)
     self.runeBlock.waterRune:setString(runesTable.water)
     self.runeBlock.fireRune:setString(runesTable.fire)
+end
+
+function GameBattlePanel:playerShellActivated(ratio)
+    --self.shellBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio * ratio / self.shellBarSprite:getContentSize().width)
+    -- Animation
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.shellBarSpriteFullRatio, self.shellBarSprite:getScaleY())
+    self.shellBarSprite:runAction(scaleAction)
+end
+
+---
+--  The shell of the monster absorb the damage from the player
+--  @function [parent=#panel.GameBattlePanel] monsterShellAbsorbed
+function GameBattlePanel:monsterShellAbsorbed()
+    -- TODO: animation needs to be modified
+    if self.shieldText == nil then
+        self.shieldText = cc.LabelTTF:create("Absorbed", "Arial", 80)
+        self:addChild(self.shieldText)
+    end
+
+    -- Animation
+    local fadeInAction = cc.FadeIn:create(0.3)
+    local fadeOutAction = cc.FadeOut:create(0.3)
+    local actionSeqTable = {fadeInAction, fadeOutAction}
+    local actionSeq = cc.Sequence:create(actionSeqTable)
+    self.shieldText:setAnchorPoint(0,0)
+    self.shieldText:setPosition(400, 150)
+    self.shieldText:runAction(actionSeq)
+end
+
+---
+--  Show the Animaiton of the decrease of the player shell
+--  @function [parent=#panel.GameBattlePanel] playerShellAbsorbed
+--  @param currentShellEnergy num current Shell Energy
+--  @param absorbedDamage num absorbed damage
+function GameBattlePanel:playerShellAbsorbed(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.shellBarSpriteFullRatio, self.shellBarSprite:getScaleY())
+    --[[if currentShellEnergy == 0 then
+    scaleAction = cc.ScaleTo:create(0.5, 0, self.shellBarSprite:getScaleY())
+    else
+    local scaleRatio = currentShellEnergy / (currentShellEnergy + absorbedDamage)
+    scaleAction = cc.ScaleBy:create(0.5, scaleRatio, 1)
+    end--]]
+    self.shellBarSprite:runAction(scaleAction)
 end
 
 ---
@@ -279,10 +357,32 @@ end
 --  Show the damage info for the player
 --  @function [parent=#panel.GameBattlePanel] doDamageToPlayer
 --  @param self
---  @param currentPlayerHP num current player HP
---  @param playerMaxHP num player's max HP
---  @param damage num damage caused by the monster
-function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
+--  @param ratio
+function GameBattlePanel:doDamageToPlayer(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5,ratio * self.hpBarSpriteFullRatio,self.hpBarSprite:getScaleY())   
+    self.hpBarSprite:runAction(scaleAction) 
+end
+
+---
+-- Display the animation to heal the player
+-- @function [parent=#panel.GameBattlePanel] healPlayer
+-- @param currentPlayerHP num current player HP
+-- @param heal num heal value
+function GameBattlePanel:healPlayer(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.hpBarSpriteFullRatio, self.hpBarSprite:getScaleY())
+    self.hpBarSprite:runAction(scaleAction)
+end
+
+function GameBattlePanel:healMonster(value)
+
+end
+
+---
+-- Show the animation when the mosnter use the skill
+-- @function [parent=#panel.GameBattlePanel] monsterUseSkill
+-- @param skill
+function GameBattlePanel:monsterUseSkill(skill)
+    -- TODO: apply the skill effect
     local scale1 = cc.ScaleBy:create(0.2, 1.25, 1.25, 1.25)
     local scale2 = cc.ScaleBy:create(0.2, 0.8, 0.8, 0.8)
     local actionSeqTable = {scale1, scale2}
@@ -290,16 +390,120 @@ function GameBattlePanel:doDamageToPlayer(currentPlayerHP, playerMaxHP, damage)
     local monsterNode = self:getChildByName("MonsterNode")
     assert(monsterNode)
     monsterNode:runAction(actionSeq)
-    local scaleRatio =  ((currentPlayerHP / playerMaxHP) / ((currentPlayerHP + damage) / playerMaxHP))
-    local scaleAction = cc.ScaleBy:create(0.5,scaleRatio,1)   
-    self.hpBarSprite:runAction(scaleAction) 
 end
 
---[[function GameBattlePanel:onUpdate(delta)
-    local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    local x = math.max(0, gameLogicNode.monsterHP) / gameLogicNode.monsterMaxHP  
-    self.hpBarSprite:setScaleX(x * visibleSize.width * GBattleHPBarHorizontalRatio / self.hpBarSprite:getContentSize().width)
-end--]]
+function GameBattlePanel:playerAddEffect(effect)
+    -- First detect if this effect has existed in the table
+    local index = nil
+    for k,v in pairs(self.playerEffectTable) do
+        cclog("Type: "..v.effectType)
+        if v.effectType == effect.effectType then
+            index = v.index
+        end
+    end
+
+    if index == nil then
+        -- This effect has not been added to the table
+        local effectSprite = cc.Sprite:create("imgs/temp/effect_"..effect.effectType:lower()..'.png')
+        effectSprite.index = self.playerEffectBlockIndex
+        effectSprite.effectType = effect.effectType
+        effectSprite.effectTimeCount = 0
+        effectSprite.effectTimeToLive = effect.effectTimeToLive
+        effectSprite:setAnchorPoint(0,0)
+        -- Adjust the position
+        if self.playerEffectBlockIndex <= 3 then
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+        else
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1 - GBattleMaxEffectInRow)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+        end
+        effectSprite:setPosition(effectSprite.onScreenX, effectSprite.onScreenY)
+        -- Adjust the size
+        effectSprite.onScreenWidth = visibleSize.width * GBattleEffectIconHorizontalRatio 
+        effectSprite.onScreenHeight = visibleSize.height * GBattleEffectIconVerticalRatio 
+        effectSprite:setScale(effectSprite.onScreenWidth / effectSprite:getContentSize().width, effectSprite.onScreenHeight / effectSprite:getContentSize().height)
+
+        -- Add the timer layer
+        local timerLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+        timerLayer:changeWidthAndHeight(effectSprite.onScreenWidth, effectSprite.onScreenHeight)
+        timerLayer:setAnchorPoint(0,0)
+        timerLayer:setPosition(0,0)
+        effectSprite.timerLayer = timerLayer
+        effectSprite:addChild(timerLayer)
+        -- Add to the table
+        self.playerEffectTable[self.playerEffectBlockIndex] = effectSprite
+        -- Add as a child
+        self.playerEffectBlockLayer:addChild(effectSprite)
+        self.playerEffectBlockIndex = self.playerEffectBlockIndex + 1
+    else
+        -- This effect has been added to the table
+        self.playerEffectTable[index].effectTimeCount = 0
+        self.playerEffectTable[index].effectTimeToLive = effect.effectTimeToLive
+        -- Update the timer layer
+        self.playerEffectTable[index].timerLayer:changeWidthAndHeight(self.playerEffectTable[index].onScreenWidth, self.playerEffectTable[index].onScreenHeight)
+    end
+
+end
+
+---
+-- Update event
+-- @function [parent=#panel.GameBattlePanel] onUpdate
+-- @param delta num delta time
+function GameBattlePanel:onUpdate(delta)
+    -- Player effect
+    local playerEffectToRemove = false
+    --for k,v in pairs(self.playerEffectTable) do
+    for i = 1, GBattleMaxEffectNumber, 1 do
+        if self.playerEffectTable[i] ~= nil then
+            self.playerEffectTable[i].effectTimeCount = self.playerEffectTable[i].effectTimeCount + delta
+            self.playerEffectTable[i].timerLayer:changeWidthAndHeight(self.playerEffectTable[i].onScreenWidth, self.playerEffectTable[i].onScreenHeight * (1 - self.playerEffectTable[i].effectTimeCount / self.playerEffectTable[i].effectTimeToLive)) 
+            if self.playerEffectTable[i].effectTimeCount > self.playerEffectTable[i].effectTimeToLive then
+                -- time out and remove this effect
+                self.playerEffectBlockLayer:removeChild(self.playerEffectTable[i])
+                self.playerEffectTable[i] = nil
+                cclog("Index: "..i..' to be deleted')
+                playerEffectToRemove = true
+            end
+        end
+    end
+
+    if playerEffectToRemove then
+        local reachEnd = false
+        -- Readjust all nodes position
+        for i = 1, GBattleMaxEffectNumber, 1 do
+            if self.playerEffectTable[i] == nil then
+                for j = i + 1, GBattleMaxEffectNumber, 1 do
+                    if self.playerEffectTable[j] ~= nil then
+                        self.playerEffectTable[i] = self.playerEffectTable[j]   -- swap the effect element
+                        self.playerEffectTable[i].index = i
+                        self.playerEffectTable[j] = nil
+                        if self.playerEffectTable[i].index <= 3 then
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                        else
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                        end
+                        self.playerEffectTable[i]:setPosition(self.playerEffectTable[i].onScreenX, self.playerEffectTable[i].onScreenY) 
+                        self.playerEffectBlockIndex = i + 1
+                        break
+                    elseif self.playerEffectTable[j] == nil and j == GBattleMaxEffectNumber then
+                        reachEnd = true          
+                    end
+                end
+            end
+            -- If the remaining element is all nil ,jump out of the loop
+            if reachEnd then
+                if i == 1 then
+                    self.playerEffectBlockIndex = 1
+                end
+                break
+            end
+        end
+        cclog("Current index: "..self.playerEffectBlockIndex)
+    end
+end
 
 
 ---
