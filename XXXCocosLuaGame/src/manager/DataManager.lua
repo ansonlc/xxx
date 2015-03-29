@@ -22,6 +22,19 @@ function DataManager.loadUserInfo()
     DataManager.userInfo.currentSkills = {1001, 1002, 1003, 1004, 1005}
 end
 
+--[[
+DataManager = {}
+]]--
+local function loadData(dataName)
+    DataManager[dataName] = require("config." .. dataName)
+end
+
+--[[
+function DataManager.init()
+    loadData("user_level_status")
+    loadData("user_status")
+end
+]]--
 function DataManager.getLevel(userID)
 	return nil
 end
@@ -39,7 +52,7 @@ function DataManager.getSkillStatus(userID, skillID)
 end
 
 function DataManager.getUserStatus(userID)
-	return nil
+	return DataManager[userID]
 end
 
 

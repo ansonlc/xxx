@@ -100,7 +100,7 @@ local function buildSkillButton(id, skill, posY)
     skillButton:setScale(800, SkillListSize)
     skillButton:setPosition(cc.p(430, posY))
     
-    local pic = cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
+    local pic = GameIconManager.getSkillSprite(id, 1, false)
     pic:setScale(2.0 / 800, 2.0 / SkillListSize)
     pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
     skillButton:addChild(pic)
