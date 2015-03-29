@@ -168,13 +168,8 @@ function GameBattlePanel:initPanel()
     monsterEffectBlockLayer:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
     monsterEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
     self.monsterEffectBlockLayer = monsterEffectBlockLayer
-<<<<<<< HEAD
-    self:addChild(monsterEffectBlockLayer)
-    
-=======
-    self:addChild(monsterEffectBlock)
 
->>>>>>> 3723142e5b8402a3b5d81ec95dfbabd2b0b082cc
+    self:addChild(monsterEffectBlockLayer)
     self.monsterEffectBlockIndex = 1
     self.monsterEffectTable = {}
 
