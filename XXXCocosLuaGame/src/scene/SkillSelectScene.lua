@@ -111,6 +111,7 @@ local function buildSkillButton(id, skill, posY)
             if currentSelect > 0 and currentNotContain(id) then
                 print ("x[" .. currentSelect .. "] = " .. id)
                 DataManager.userInfo.currentSkills[currentSelect] = id
+                DataManager.setCurrentSkill(1001, DataManager.userInfo.currentSkills)
                 currentSelect = 0
                 drawCurrentSkill()
                 updateInvalidSkills()
@@ -204,7 +205,7 @@ function SkillSelectScene:onInit()
     for i = 1,5 do
         rootNode:getChildByName("Button_Skill" .. i):setOpacity(0)
     end
-
+    
     for key,_ in pairs(btn2scene) do
         rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
     end
@@ -212,7 +213,7 @@ function SkillSelectScene:onInit()
     --TODO Adjust scroll view size here
     local totalY = 0
     local yOffset = SkillListSizePlus
-    local nowPosY = 1850
+    local nowPosY = 3350
     for id, key in pairs(allSkill()) do
         
         local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)

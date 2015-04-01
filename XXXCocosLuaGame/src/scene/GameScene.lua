@@ -29,6 +29,7 @@ function GameScene:setGameTouch(flag)
     self.gameBoard:setTouch(flag)
     self.battlePanel:setTouchEnabled(flag)
     self.skillPanel:setTouchEnabled(flag)
+    self.skillPanel.skillSlotManagerLayer:setTouchEnabled(flag)
 end
 
 -- create game scene
@@ -122,21 +123,21 @@ function GameScene:onUpdate(dt)
 end
 
 function GameScene:onGameOver(playerWins, gameData)
-    
-    if playerWins then
-        SceneManager.replaceSceneWithName("ResultScene", "Test")
-    else
-        SceneManager.replaceSceneWithName("EndingScene", "Test")
-    end
-    
-    --[[local AINode = self:getChildByName("MonsterAILogic")
+      
+    local AINode = self:getChildByName("MonsterAILogic")
     AINode.isAIOn = false
     
     self:setGameTouch(false)
     
     local blackLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), self.visibleSize.width, self.visibleSize.height)
     local label = cc.Label:create()
-    label:setString("Game Over!\nPress to continue")
+    if playerWins then
+        label:setString("You win!\nPress to continue")
+        --SceneManager.replaceSceneWithName("ResultScene", "Test")
+    else
+        label:setString("Game Over!\nPress to continue")
+        --SceneManager.replaceSceneWithName("EndingScene", "Test")
+    end
     label:setPosition(self.visibleSize.width/2 , self.visibleSize.height/2)
     label:setAlignment(cc.TEXT_ALIGNMENT_CENTER)
     label:setScale(7)
@@ -144,9 +145,13 @@ function GameScene:onGameOver(playerWins, gameData)
     
     local function onTouch(touch, event)
         --print(event:getEventCode())
+        local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
         if event:getEventCode() == 2 then
-            local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
-            SceneManager.replaceSceneWithName("ResultScene",params)
+            if playerWins then
+                SceneManager.replaceSceneWithName("ResultScene", params)
+            else
+                SceneManager.replaceSceneWithName("EndingScene", params)
+            end
             return true
         end
         return true
@@ -162,7 +167,7 @@ function GameScene:onGameOver(playerWins, gameData)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_ENDED)
-    dispatcher:addEventListenerWithSceneGraphPriority(listener, blackLayer)--]]
+    dispatcher:addEventListenerWithSceneGraphPriority(listener, blackLayer)
 end
 
 return GameScene

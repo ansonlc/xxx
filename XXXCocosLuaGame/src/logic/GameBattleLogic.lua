@@ -39,7 +39,7 @@ function GameBattleLogic:initNode()
     self.runeCollectingBonus = 0
     -- Shield Ability
     self.playerShellEnergy = 0
-    self.monsterShellEnergy = 100
+    self.monsterShellEnergy = 0
     -- Curse Status
     self.isPlayerCursed = false
     self.runeCollectBound = 0

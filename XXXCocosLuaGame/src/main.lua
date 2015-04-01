@@ -12,6 +12,7 @@ require "manager.DataManager"
 require "manager.MetaManager"
 require "manager.SceneManager"
 require "manager.GameIconManager"
+require "manager.ParticleManager"
 require "utils.TimeUtil"
 
 -- cclog

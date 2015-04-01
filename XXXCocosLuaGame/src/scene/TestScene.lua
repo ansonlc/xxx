@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------------
 
 require("core.BaseScene")
+require("manager.ParticleManager")
 
 local TestScene = class("LoginScene", function() return BaseScene.create() end)
 
@@ -18,9 +19,21 @@ function TestScene.create(params)
 end
 
 function TestScene:onInit()
-    cclog("Parameter: " .. self.params)
+    --cclog("Parameter: " .. self.params)
     
-    local rootNode = cc.CSLoader:createNode("GameSceneLayout.csb")
+    local rootNode = cc.CSLoader:createNode("ParticleTestScene.csb")
+    
+    -- test for the particle effect
+    particleDisplay(cc.p(100,100),cc.p(1000,1000),rootNode,0.5,"effects/fx_fire.plist")
+    
+    --local particle = cc.ParticleSystemQuad:create("effects/fx_fire.plist")
+    --particle:setPosition(100,100)
+    --n:addChild(particle)
+    
+    --local moveToAction = cc.MoveTo:create(0.5, cc.p(1000, 1000))
+    --particle:runAction(moveToAction)
+    
+    
     
     --[[local backBtn = rootNode:getChildByName("Button_Home")
     backBtn:setTitleText("Back")
