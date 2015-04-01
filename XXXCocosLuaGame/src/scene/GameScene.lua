@@ -145,14 +145,13 @@ function GameScene:onGameOver(playerWins, gameData)
     
     local function onTouch(touch, event)
         --print(event:getEventCode())
+        local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
         if event:getEventCode() == 2 then
             if playerWins then
-                SceneManager.replaceSceneWithName("ResultScene", "Test")
+                SceneManager.replaceSceneWithName("ResultScene", params)
             else
-                SceneManager.replaceSceneWithName("EndingScene", "Test")
+                SceneManager.replaceSceneWithName("EndingScene", params)
             end
-            --local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
-            --SceneManager.replaceSceneWithName("ResultScene",params)
             return true
         end
         return true
