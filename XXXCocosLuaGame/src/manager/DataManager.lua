@@ -1,5 +1,7 @@
 require("utils.GeneralUtil")
 
+require("utils.StringUtil")
+
 if _G.dataManagerInit == nil then
     print("require manager.DataManager")
     
@@ -16,17 +18,22 @@ if _G.dataManagerInit == nil then
     _G.dataManagerInit = true
 end
 
-function DataManager.loadUserInfo()
-    print ("load userInfo")
-    DataManager.userInfo.availableSkills = allSkill()
-    DataManager.userInfo.currentSkills = {1001, 1002, 1003, 1004, 1005}
-end
+
 
 --[[
 DataManager = {}
 ]]--
 local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
+end
+
+function DataManager.loadUserInfo()
+    
+    print ("load userInfo!!")
+    userData = table.load("../../data/UserData.txt")
+    DataManager.userInfo.availableSkills = userData[1001].availableSkills
+    DataManager.userInfo.currentSkills = userData[1001].currentSkills
+    
 end
 
 --[[
