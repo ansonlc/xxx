@@ -43,6 +43,9 @@ function GameBattleLogic:initNode()
     -- Curse Status
     self.isPlayerCursed = false
     self.runeCollectBound = 0
+    -- Attack Bonux
+    self.playerDamageBonus = 1.0
+    self.monsterDamageBonus = 1.0
     -- Initialization for the GameSkillSlotPanel
     if self.gameSkillSlotMgr == nil then
         self.gameSkillSlotMgr = self:getParent():getChildByName("GameSkillSlotPanel"):getChildByName("SkillSlotManager")  -- Actually it's the manager
@@ -69,6 +72,7 @@ function GameBattleLogic:initMonster(monsterID)
     assert(self.monster, "Nil Monster !")
     self.monsterMaxHP = self.monster.monsterHP
     self.monsterHP = self.monster.monsterHP
+    self.monsterID = monsterID
 end
 
 --------------------------------
@@ -155,13 +159,15 @@ function GameBattleLogic:playerUseSkill(skill)
                 if effect.effectType == 'Silence' then
                     self.isMonsterSilenced = true
                 elseif effect.effectType == 'Fear' then
-                    
+                    self.monsterDamageBonus = effect.effectValue
                 end
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             else    -- Positive effect here
                 self.playerEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Bless' then
                     self.runeCollectingBonus = effectToAdd.effectValue
+                elseif effect.effectType == 'Bravery' then
+                    self.playerDamageBonus = effect.effectValue
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
@@ -199,6 +205,9 @@ function GameBattleLogic:playerUseSkill(skill)
             assert(effect3, "Nil effect id")
             playerApplyEffect(effect3, skill.effectTable.effectValue3)
         end
+        
+        -- First apply the damage bonus
+        damage = damage * self.playerDamageBonus
                   
         -- For statistics
         self.damageCausedByPlayer = self.damageCausedByPlayer + damage
@@ -333,9 +342,14 @@ function GameBattleLogic:monsterUseSkill(skill)
                     --self.runeCollectingBonus = effectToAdd.effectValue
                     self.runeCollectBound = effectToAdd.effectValue
                     self.isPlayerCursed = true
+                elseif effect.effectType == 'Fear' then
+                    self.playerDamageBonus = effect.effectValue
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
-            else
+            else -- Positive buff for the monster
+                if effect.effectType == 'Bravery' then
+                    self.monsterDamageBonus = effect.effectValue
+                end
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             end
@@ -373,6 +387,9 @@ function GameBattleLogic:monsterUseSkill(skill)
             assert(effect3, "Nil effect id")
             monsterApplyEffect(effect3, skill.effectTable.effectValue3)
         end
+        
+        -- First apply the damage bonus
+        damage = damage * self.monsterDamageBonus
                 
         -- For statistics
         self.damageCausedByMonster = self.damageCausedByMonster + damage
@@ -675,6 +692,8 @@ function GameBattleLogic:onUpdate(delta)
                 elseif v.effectType == 'Curse' then
                     self.isPlayerCursed = false
                     self.runeCollectBound = 0
+                elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
+                    self.playerDamageBonus = 1.0
                 end
                 cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
                 self.playerEffectTable[k] = nil
@@ -694,6 +713,8 @@ function GameBattleLogic:onUpdate(delta)
             if v.effectTimeToLive < 0 then
                 if v.effectType == 'Silence' then
                     self.isMonsterSilenced = false
+                elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
+                    self.monsterDamageBonus = 1.0
                 end
                 cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
                 self.monsterEffectTable[k] = nil

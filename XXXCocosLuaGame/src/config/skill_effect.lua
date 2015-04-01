@@ -11,5 +11,7 @@ local EffectTable = {
     [1050] = {effectID =1050,effectType='Silence',elementProperty = nil},
     [1060] = {effectID =1060,effectType='Bless',elementProperty = nil},
     [1070] = {effectID =1070,effectType='Curse',elementProperty = nil},  
+    [1080] = {effectID =1080,effectType='Bravery',elementProperty = nil},
+    [1090] = {effectID =1090,effectType='Fear',elementProperty = nil},
 }
 return EffectTable

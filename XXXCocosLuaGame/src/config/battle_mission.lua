@@ -4,6 +4,8 @@
 --A : World number
 --B : Chapter number
 --C : Level number
+-- monster id
+-- skill acquired
 local battle_mission = {
     [1]={id=101101,missionName="Blessing Wind",levelMin=1,preMissionId=0,missionType=0,missionBossType=0},
     [2]={id=101102,missionName="Middle Earth",levelMin=1,preMissionId=101101,missionType=0,missionBossType=0},
