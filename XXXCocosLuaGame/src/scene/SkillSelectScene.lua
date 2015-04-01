@@ -111,6 +111,7 @@ local function buildSkillButton(id, skill, posY)
             if currentSelect > 0 and currentNotContain(id) then
                 print ("x[" .. currentSelect .. "] = " .. id)
                 DataManager.userInfo.currentSkills[currentSelect] = id
+                DataManager.setCurrentSkill(1001, DataManager.userInfo.currentSkills)
                 currentSelect = 0
                 drawCurrentSkill()
                 updateInvalidSkills()

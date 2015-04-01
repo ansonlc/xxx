@@ -7,7 +7,7 @@ if _G.dataManagerInit == nil then
     
     DataManager = {
         userInfo = {},
-        
+        userData = {},
         metaDataVersion = {
             ["battle_effect"] = 1,
             ["battle_mission"] = 1,
@@ -30,9 +30,9 @@ end
 function DataManager.loadUserInfo()
     
     print ("load userInfo!!")
-    userData = table.load("../../data/UserData.txt")
-    DataManager.userInfo.availableSkills = userData[1001].availableSkills
-    DataManager.userInfo.currentSkills = userData[1001].currentSkills
+    DataManager.userData = table.load("../../data/UserData.txt")
+    DataManager.userInfo.availableSkills = DataManager.userData[1001].availableSkills
+    DataManager.userInfo.currentSkills = DataManager.userData[1001].currentSkills
     
 end
 
@@ -42,6 +42,12 @@ function DataManager.init()
     loadData("user_status")
 end
 ]]--
+
+function DataManager.setCurrentSkill(userID, toSkills)
+    DataManager.userData[userID].currentSkills = toSkills
+    table.save(DataManager.userData, "../../data/UserData.txt")
+end
+
 function DataManager.getLevel(userID)
 	return nil
 end
