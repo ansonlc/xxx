@@ -59,7 +59,7 @@ function GameSkillSlotManagerLayer:initSkills(skillTable)
     -- TODO: Delete the simulation for the skill table
     --DataManager.loadUserInfo()
     skillTable = DataManager.userInfo.currentSkills
-    --skillTable = {1005, 1200, 1300, 1600, 1500}
+    --skillTable = {1005, 1800, 1300, 1600, 1500}
     
     local skillSprite1 = GameIconManager.getSkillSprite(skillTable[1], nil , true)
         --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))
@@ -87,23 +87,25 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
         return
     end
 
-    --[[for i = 1, 5, 1 do
+    for i = 1, 5, 1 do
         if self.skillSlotTable[i] ~= nil then
             if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
-                if self.skillSlotTable[i].isActive and not self.skillSlotTable[i].isCoolingDown then
+                if self.skillSlotTable[i].isActive and not self.skillSlotTable[i].isCoolingDown and not self.isSilenced then
                     if self.gameLogicNode == nil then
                         self.gameLogicNode = self:getParent():getParent():getChildByName("GameBattleLogic")
                     end
                     assert(self.gameLogicNode, "Nil gameLogicNode in touchEventHandler")
                     self.gameLogicNode:playerUseSkill(self.skillSlotTable[i].skill)
                     -- CD this skill
-                    self.skillSlotTable[i].isCoolingDown = true          
-                    self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)         
+                    self.skillSlotTable[i].isCoolingDown = true   
+                           
+                    self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize) 
+                    break        
                 end
             end
         end
-    end--]]
-    for i = 1, 5, 1 do
+    end
+    --[[for i = 1, 5, 1 do
         if self.skillSlotTable[i] ~= nil then
             if x >= self.skillSlotTable[i].x and x <= (self.skillSlotTable[i].x + self.skillSlotTable[i].scaledSize) and y >= self.skillSlotTable[i].y and y <= (self.skillSlotTable[i].y + self.skillSlotTable[i].scaledSize) then
                 if self.skillSlotTable[i].isActive and not self.isCoolingDown  and not self.isSilenced then
@@ -121,7 +123,7 @@ function GameSkillSlotManagerLayer:touchEventHandler(eventType, x, y)
                 end
             end
         end
-    end
+    end--]]
 end
 
 function GameSkillSlotManagerLayer:generateSkillNode(path, skill)
@@ -156,7 +158,8 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         -- Initialize for the skills
         node.isActive = false
         --node.isCoolingDown = false
-        --node.CDCounting = 0
+        node.CDCounting = 0
+        node.CD = node.skill.CD
         node.scaledSize = scaledSize
         node.x = self.layerHorizontalStartOffset + (index - 1) * (scaledSize + self.layerHorizontalOffset)
         node.y = self.layerVerticalStartOffset
@@ -251,21 +254,21 @@ function GameSkillSlotManagerLayer:enableSkillSlots()
 end
 
 function GameSkillSlotManagerLayer:onUpdate(dt)
-    --[[for i = 1, 5, 1 do
+    for i = 1, 5, 1 do
         if self.skillSlotTable[i].isCoolingDown then
             self.skillSlotTable[i].CDCounting = self.skillSlotTable[i].CDCounting + dt
-            if self.skillSlotTable[i].CDCounting >= GSkillPublicCD then
+            if self.skillSlotTable[i].CDCounting >= self.skillSlotTable[i].CD then
                 -- disable the covering layer and set the skill to idle status
                 self.skillSlotTable[i].isCoolingDown = false
                 self.skillSlotTable[i].CDCounting = 0
                 self.skillSlotTable[i].CDLayer:changeWidthAndHeight(0, 0)
             else
                 -- refresh the covering layer
-                self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, (GSkillPublicCD - self.skillSlotTable[i].CDCounting) * self.skillSlotTable[i].scaledSize / GSkillPublicCD)
+                self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, (self.skillSlotTable[i].CD - self.skillSlotTable[i].CDCounting) * self.skillSlotTable[i].scaledSize / self.skillSlotTable[i].CD)
             end
         end
-    end--]]
-    if self.isCoolingDown then
+    end
+    --[[if self.isCoolingDown then
         self.coolDownTimer = self.coolDownTimer + dt
         if self.coolDownTimer >= GSkillPublicCD then
             self.isCoolingDown = false
@@ -278,7 +281,7 @@ function GameSkillSlotManagerLayer:onUpdate(dt)
                 self.skillSlotTable[i].CDLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, (GSkillPublicCD - self.coolDownTimer) * self.skillSlotTable[i].scaledSize / GSkillPublicCD)
             end
         end
-    end
+    end--]]
 end
 
 function GameSkillSlotPanel.create(parent, skillTable)

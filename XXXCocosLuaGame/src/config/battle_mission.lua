@@ -1,4 +1,4 @@
---Level id explaination:
+----Level id explaination:
 --1AABCC
 --10 : Fixed level id header
 --A : World number

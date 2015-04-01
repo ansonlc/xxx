@@ -159,7 +159,7 @@ function GameBattleLogic:playerUseSkill(skill)
                 if effect.effectType == 'Silence' then
                     self.isMonsterSilenced = true
                 elseif effect.effectType == 'Fear' then
-                    self.monsterDamageBonus = effect.effectValue
+                    self.monsterDamageBonus = effectToAdd.effectValue
                 end
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             else    -- Positive effect here
@@ -167,7 +167,7 @@ function GameBattleLogic:playerUseSkill(skill)
                 if effect.effectType == 'Bless' then
                     self.runeCollectingBonus = effectToAdd.effectValue
                 elseif effect.effectType == 'Bravery' then
-                    self.playerDamageBonus = effect.effectValue
+                    self.playerDamageBonus = effectToAdd.effectValue
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
@@ -206,6 +206,7 @@ function GameBattleLogic:playerUseSkill(skill)
             playerApplyEffect(effect3, skill.effectTable.effectValue3)
         end
         
+        local test = self.playerDamageBonus
         -- First apply the damage bonus
         damage = damage * self.playerDamageBonus
                   
@@ -343,12 +344,12 @@ function GameBattleLogic:monsterUseSkill(skill)
                     self.runeCollectBound = effectToAdd.effectValue
                     self.isPlayerCursed = true
                 elseif effect.effectType == 'Fear' then
-                    self.playerDamageBonus = effect.effectValue
+                    self.playerDamageBonus = effectToAdd.effectValue
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             else -- Positive buff for the monster
                 if effect.effectType == 'Bravery' then
-                    self.monsterDamageBonus = effect.effectValue
+                    self.monsterDamageBonus = effectToAdd.effectValue
                 end
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
