@@ -21,6 +21,11 @@ function ResultScene:onInit()
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
+    local monsterNode = rootNode:getChildByName("panel_result"):getChildByName("node_monster")
+    local monsterSprite = GameIconManager.getMonsterSprite("Pikachu", 1, false)
+    monsterSprite:setAnchorPoint(0, 0)
+    monsterNode:addChild(monsterSprite)
+    
     --rootNode:getChildByName("txt_result"):setString("You WIN")
     local continueBtn = ccui.Button:create()
     continueBtn:setTitleText("Press here to continue")

@@ -1,11 +1,13 @@
 require("utils.GeneralUtil")
 
+require("utils.StringUtil")
+
 if _G.dataManagerInit == nil then
     print("require manager.DataManager")
     
     DataManager = {
         userInfo = {},
-        
+        userData = {},
         metaDataVersion = {
             ["battle_effect"] = 1,
             ["battle_mission"] = 1,
@@ -16,11 +18,7 @@ if _G.dataManagerInit == nil then
     _G.dataManagerInit = true
 end
 
-function DataManager.loadUserInfo()
-    print ("load userInfo")
-    DataManager.userInfo.availableSkills = allSkill()
-    DataManager.userInfo.currentSkills = {1001, 1002, 1003, 1004, 1005}
-end
+
 
 --[[
 DataManager = {}
@@ -29,12 +27,27 @@ local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
 end
 
+function DataManager.loadUserInfo()
+    
+    print ("load userInfo!!")
+    DataManager.userData = table.load("../../data/UserData.txt")
+    DataManager.userInfo.availableSkills = DataManager.userData[1001].availableSkills
+    DataManager.userInfo.currentSkills = DataManager.userData[1001].currentSkills
+    
+end
+
 --[[
 function DataManager.init()
     loadData("user_level_status")
     loadData("user_status")
 end
 ]]--
+
+function DataManager.setCurrentSkill(userID, toSkills)
+    DataManager.userData[userID].currentSkills = toSkills
+    table.save(DataManager.userData, "../../data/UserData.txt")
+end
+
 function DataManager.getLevel(userID)
 	return nil
 end
