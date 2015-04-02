@@ -6,7 +6,7 @@
 require("manager.MetaManager")
 
 local function getAllKeys(t)
-    ret = {}
+    local ret = {}
     for key in pairs(t) do
         table.insert(ret, key)
     end
@@ -14,7 +14,8 @@ local function getAllKeys(t)
 end
 
 function allSkill()
-    ret = getAllKeys(MetaManager.getSkillTable())
+    --ret = getAllKeys(MetaManager.getSkillTable())
+    local ret = getAllKeys(DataManager.getAvailableSkill(DataManager.userInfo.currentUser))
     table.sort(ret)
     return ret
 end

@@ -7,7 +7,7 @@ do
    end
 
    --// The Save Function
-   function table.save(  tbl,filename )
+   function table.save(tbl,filename )
       local charS,charE = "   ","\n"
       local file,err = io.open( filename, "wb" )
       if err then return err end
@@ -102,5 +102,5 @@ do
       end
       return tables[1]
    end
--- close do
+-- close do 
 end

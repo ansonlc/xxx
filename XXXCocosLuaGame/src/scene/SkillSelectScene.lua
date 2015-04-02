@@ -147,8 +147,8 @@ function SkillSelectScene:onInit()
     self:addChild(rootNode)
     self.skillScroll = rootNode:getChildByName("SkillScroll")
     
-    print("self.skillScroll = ")
-    print(self.skillScroll)
+    --print("self.skillScroll = ")
+    --print(self.skillScroll)
     
     drawCurrentSkill(rootNode)
     

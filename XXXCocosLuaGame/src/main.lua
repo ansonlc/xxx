@@ -55,6 +55,8 @@ local function main()
     -- run
     initGLView()
     
+    DataManager.loadUserInfo()
+    DataManager.saveData()
     MetaManager.init()
     SceneManager.replaceSceneWithName("LoginScene")
     --SceneManager.replaceSceneWithName("SkillSelectScene", {})

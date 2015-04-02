@@ -1,6 +1,6 @@
 require("utils.GeneralUtil")
-
 require("utils.StringUtil")
+require("config.user_skill_status")
 
 if _G.dataManagerInit == nil then
     print("require manager.DataManager")
@@ -29,18 +29,20 @@ end
 
 function DataManager.loadUserInfo()
     
-    print ("load userInfo!!")
-    --cclog("Loading the user information")
-    loadData("user_skill_status")
-    local userData = table.load("../../data/UserData.txt")
+    --loadData("user_skill_status")
+    --loadData("user_status")
+    --local userData = table.load("../../data/UserData.txt")
     -- TODO: replace here with the data read in
     if userData == nil then
-        DataManager.userData = {}
+        --DataManager.userData = {}
     else
-        DataManager.userData = userData
+        --DataManager.userData = userData
     end
-    DataManager.userSkillStatus = UserSkillStatusTable
+    DataManager.userData = require("config.user_status")
+    DataManager.userSkillStatus = require("config.user_skill_status")
+    -- TODO: Delete the predefined table
     DataManager.userInfo = {}
+    DataManager.userInfo.currentUser = 1001
     DataManager.userInfo.currentSkills = {1001, 1100, 1200, 1300, 1400}
 end
 
@@ -53,6 +55,10 @@ end
 
 function DataManager.setCurrentSkill(userID, toSkills)
     --self.userData[userID].currentSkills = toSkills
+end
+
+function DataManager.getAvailableSkill(userID)
+    return DataManager.userSkillStatus[userID].availableSkills
 end
 
 function DataManager.saveData()
