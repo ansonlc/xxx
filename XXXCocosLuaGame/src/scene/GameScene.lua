@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------------
 
 require "core.BaseScene"
+require ("manager/DataManager")
 
 local GameScene = class("GameScene", function() return BaseScene.create() end)
 
@@ -142,6 +143,9 @@ function GameScene:onGameOver(playerWins, gameData)
     label:setAlignment(cc.TEXT_ALIGNMENT_CENTER)
     label:setScale(7)
     blackLayer:addChild(label)
+    
+    -- Save the data
+    DataManager.saveData()
     
     local function onTouch(touch, event)
         --print(event:getEventCode())

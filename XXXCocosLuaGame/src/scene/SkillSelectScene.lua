@@ -45,6 +45,7 @@ local function drawCurrentSkill(root)
     end
 end
 
+
 local function currentNotContain(id)
     for i = 1,5 do
         if DataManager.userInfo.currentSkills[i] == id then

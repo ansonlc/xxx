@@ -12,13 +12,13 @@ function MetaManager.init()
 end
 
 function MetaManager.checkMetaVersion(metaName)
-    if (DataManager.metaDataVersion[metaName] and
+    --[[if (DataManager.metaDataVersion[metaName] and
         DataManager.metaDataVersion[metaName]==1) then
         return
-    end
+    end--]]
     
     -- TODO Pull new meta data from server
-    loadMetaData(metaName)
+    --loadMetaData(metaName)
 end
 
 function MetaManager.getEffect(effectID)

@@ -20,9 +20,9 @@ end
 
 
 
---[[
+
 DataManager = {}
-]]--
+
 local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
 end
@@ -30,10 +30,18 @@ end
 function DataManager.loadUserInfo()
     
     print ("load userInfo!!")
-    DataManager.userData = table.load("../../data/UserData.txt")
-    DataManager.userInfo.availableSkills = DataManager.userData[1001].availableSkills
-    DataManager.userInfo.currentSkills = DataManager.userData[1001].currentSkills
-    
+    --cclog("Loading the user information")
+    loadData("user_skill_status")
+    local userData = table.load("../../data/UserData.txt")
+    -- TODO: replace here with the data read in
+    if userData == nil then
+        DataManager.userData = {}
+    else
+        DataManager.userData = userData
+    end
+    DataManager.userSkillStatus = UserSkillStatusTable
+    DataManager.userInfo = {}
+    DataManager.userInfo.currentSkills = {1001, 1100, 1200, 1300, 1400}
 end
 
 --[[
@@ -44,8 +52,12 @@ end
 ]]--
 
 function DataManager.setCurrentSkill(userID, toSkills)
-    DataManager.userData[userID].currentSkills = toSkills
-    table.save(DataManager.userData, "../../data/UserData.txt")
+    --self.userData[userID].currentSkills = toSkills
+end
+
+function DataManager.saveData()
+    --table.save(DataManager.userData, "../../data/UserData.txt")
+    --table.save(DataManager.userSkillStatus, "../../data/UserSkillStatus.txt")
 end
 
 function DataManager.getLevel(userID)
