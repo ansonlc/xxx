@@ -149,11 +149,38 @@ function GameScene:onGameOver(playerWins, gameData)
     
     local function onTouch(touch, event)
         --print(event:getEventCode())
-        local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
+        local params
         if event:getEventCode() == 2 then
             if playerWins then
+                -- TODO Results needed to calculate by Ren
+                local upgradeSkillIds = {
+                    {
+                        skillId = 0,
+                        lvlBefore = 0,
+                        lvlAfter = 0,
+                    },
+                    {
+                        skillId = 0,
+                        lvlBefore = 0,
+                        lvlAfter = 0,
+                    },
+                }
+                local battleResult = {
+                    unlockMonsterId = 0,
+                    learnSkillId = 0,
+                    upgradeSkillIds = upgradeSkillIds,
+                    gotCrystal = 0,
+                }
+                -- Modify codes before here
+                
+                local resultData = {
+                    levelData = self.enterData,
+                    battleResult = battleResult,
+                }
+                params = SceneManager.generateParams(self, "MainMenuScene", resultData)
                 SceneManager.replaceSceneWithName("ResultScene", params)
             else
+                params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
                 SceneManager.replaceSceneWithName("EndingScene", params)
             end
             return true
