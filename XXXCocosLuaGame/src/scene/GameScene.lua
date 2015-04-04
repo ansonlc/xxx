@@ -169,7 +169,7 @@ function GameScene:onGameOver(playerWins, gameData)
                     unlockMonsterId = 0,
                     learnSkillId = 0,
                     upgradeSkillIds = upgradeSkillIds,
-                    gotCrystal = 0,
+                    crystal = 0,
                 }
                 -- Modify codes before here
                 
