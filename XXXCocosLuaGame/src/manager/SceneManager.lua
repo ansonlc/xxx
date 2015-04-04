@@ -16,7 +16,7 @@ SceneManager = {}
 -- @param #table params Parameters passed to create target scene
 function SceneManager.replaceScene(scene, params)
     --TODO Is this function really needed?
-    cclog("Warning! Uncompleted function called:" .. "SceneManager.replaceScene")
+    assert("Error! Uncompleted function called:" .. "SceneManager.replaceScene(scene, params) use sceneName instead!")
 end
 
 --------------------------------
