@@ -46,16 +46,20 @@ end
 --  @param #int skillId The skill id
 --  @param #float scale Sprite scale
 --  @param #bool borderAndBg Skill sprite border and background
+--  @papram #int skillLvl Skill level number. Will not show when set nil
 --  @return #cc.Sprite Created skill sprite, the skill information is in skillSprite.skill. The
 --  size of skill sprite would be 128x128 with a 64x64 icon.
-function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
+function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     assert(skillId, "Nil skill id for getSkillSprite")
     
+    --Read skill data from MetaManager
     local skillData = MetaManager.getSkill(skillId)
+    --Construct skill sprite
     local skillSprite = cc.Sprite:create()
     skillSprite:setContentSize(128, 128)
     skillSprite:setAnchorPoint(0, 0)
     
+    --Add border and background to sprite
     if (borderAndBg) then
         local bg = cc.Sprite:create("res/imgs/item/border/bg" .. skillData.skillQuality .. ".png")
         bg:setScale(128/130)
@@ -63,7 +67,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
         skillSprite:addChild(bg)
     end
     
-    local cacheInst = cc.SpriteFrameCache:getInstance()
+    --Add icon to sprite
     local skillIcon = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
     skillIcon:setPosition(64, 64)
     if (not borderAndBg) then
@@ -71,6 +75,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
     end
     skillSprite:addChild(skillIcon)
     
+    --Add border to sprite
     if (borderAndBg) then
         local border = cc.Sprite:create("res/imgs/item/border/border" .. skillData.skillQuality .. ".png")
         border:setScale(128/130)
@@ -78,11 +83,13 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
         skillSprite:addChild(border)
     end
     
-    if (scale) then
-        skillSprite:setScale(scale)
+    --Add skill level label
+    if (skillLvl) then
+        local lvlLbl = cc.LabelTTF:create("Lv. " .. skillLvl, "Arial", 30)
+        lvlLbl:setPosition(80, 20)
+        skillSprite.skillLevelLabel = lvlLbl
+        skillSprite:addChild(lvlLbl)
     end
-    
-    skillSprite.skill = skillData
     
     --Provide a disabled cover for the pic
     local disableCover = cc.Sprite:create("res/imgs/item/border/black.png")
@@ -93,6 +100,14 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
     skillSprite.setDisabled = function(self, flag)
         disableCover:setVisible(flag)
     end
+    
+    --Scale the sprite
+    if (scale) then
+        skillSprite:setScale(scale)
+    end
+    
+    --Add skill meta data to skill sprite
+    skillSprite.skill = skillData
     return skillSprite
 end
 
