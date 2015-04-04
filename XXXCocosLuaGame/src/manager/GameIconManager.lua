@@ -45,17 +45,54 @@ end
 --  @function [parent=#GameIconManager] getSkillSprite
 --  @param #int skillId The skill id
 --  @param #float scale Sprite scale
---  @param #bool border Skill sprite border
---  @return #cc.Sprite Created skill sprite, the skill information is in skillSprite.skill
-function GameIconManager.getSkillSprite(skillId, scale, border)
+--  @param #bool borderAndBg Skill sprite border and background
+--  @return #cc.Sprite Created skill sprite, the skill information is in skillSprite.skill. The
+--  size of skill sprite would be 128x128 with a 64x64 icon.
+function GameIconManager.getSkillSprite(skillId, scale, borderAndBg)
     assert(skillId, "Nil skill id for getSkillSprite")
     
+    local skillData = MetaManager.getSkill(skillId)
+    local skillSprite = cc.Sprite:create()
+    skillSprite:setContentSize(128, 128)
+    skillSprite:setAnchorPoint(0, 0)
+    
+    if (borderAndBg) then
+        local bg = cc.Sprite:create("res/imgs/item/border/bg" .. skillData.skillQuality .. ".png")
+        bg:setScale(128/130)
+        bg:setPosition(64, 64)
+        skillSprite:addChild(bg)
+    end
+    
     local cacheInst = cc.SpriteFrameCache:getInstance()
-    local skillSprite = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
+    local skillIcon = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
+    skillIcon:setPosition(64, 64)
+    if (not borderAndBg) then
+        skillIcon:setScale(2)
+    end
+    skillSprite:addChild(skillIcon)
+    
+    if (borderAndBg) then
+        local border = cc.Sprite:create("res/imgs/item/border/border" .. skillData.skillQuality .. ".png")
+        border:setScale(128/130)
+        border:setPosition(64, 64)
+        skillSprite:addChild(border)
+    end
+    
     if (scale) then
         skillSprite:setScale(scale)
     end
-    skillSprite.skill = MetaManager.getSkill(skillId)
+    
+    skillSprite.skill = skillData
+    
+    --Provide a disabled cover for the pic
+    local disableCover = cc.Sprite:create("res/imgs/item/border/black.png")
+    disableCover:setPosition(64, 64)
+    disableCover:setOpacity(128)
+    skillSprite:addChild(disableCover)
+    disableCover:setVisible(false)
+    skillSprite.setDisabled = function(self, flag)
+        disableCover:setVisible(flag)
+    end
     return skillSprite
 end
 

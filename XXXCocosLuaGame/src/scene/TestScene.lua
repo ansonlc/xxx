@@ -35,13 +35,23 @@ function TestScene:onInit()
     
     
     
-    --[[local backBtn = rootNode:getChildByName("Button_Home")
+    ---[[
+    local backBtn = rootNode:getChildByName("Button_Home")
     backBtn:setTitleText("Back")
     backBtn:addTouchEventListener(function(sender, eventType)
         SceneManager.replaceSceneWithName("LoginScene")
-    return true end)--]]
+    return true end)
+    --]]
     
     self:addChild(rootNode)
+    
+    local monster = GameIconManager.getMonsterSprite("Pikachu", 1, true)
+    monster:setPosition(500, 500)
+    rootNode:addChild(monster)
+    
+    local skill = GameIconManager.getSkillSprite(1002, 1, false)
+    --skill:setPosition(500, 1000)
+    rootNode:addChild(skill)
 end
 
 function TestScene:onUpdate()
