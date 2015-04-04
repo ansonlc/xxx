@@ -46,9 +46,9 @@ end
 --  @param #int skillId The skill id
 --  @param #float scale Sprite scale
 --  @param #bool borderAndBg Skill sprite border and background
---  @papram #int skillLvl Skill level number. Will not show when set nil
+--  @param #int skillLvl Skill level number. Will not show when set nil
 --  @return #cc.Sprite Created skill sprite, the skill information is in skillSprite.skill. The
---  size of skill sprite would be 128x128 with a 64x64 icon.
+--  size of skill sprite would be 128x128 with a 64x64 icon. The anchor point is 0,0
 function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     assert(skillId, "Nil skill id for getSkillSprite")
     
