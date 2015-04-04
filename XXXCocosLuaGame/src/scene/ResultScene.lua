@@ -3,6 +3,28 @@
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
+--[[
+Battle result example:
+local upgradeSkillIds = {
+{
+    skillId = 0,
+    lvlBefore = 0,
+    lvlAfter = 0,
+},
+{
+    skillId = 0,
+    lvlBefore = 0,
+    lvlAfter = 0,
+},
+}
+local battleResult = {
+    unlockMonsterId = 0,
+    learnSkillId = 0,
+    upgradeSkillIds = upgradeSkillIds,
+    crystal = 0,
+}
+--]]
+
 require("core.BaseScene")
 
 local ResultScene = class("LoginScene", function() return BaseScene.create() end)
@@ -11,6 +33,10 @@ function ResultScene:ctor()
     self.sceneName = "ResultScene"
 end
 
+--------------------------------
+--  Create method of the scene, will be execute when called
+-- @function [parent=#ResultScene] create
+-- @param #talbe params  
 function ResultScene.create(params)
     local scene = ResultScene.new()
     scene:initScene(params)
@@ -18,6 +44,8 @@ function ResultScene.create(params)
 end
 
 function ResultScene:onInit()
+    local battleResult = self.enterData.battleResult
+
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
@@ -43,7 +71,7 @@ function ResultScene:onInit()
     
     local function onPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
-            local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
+            local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData.levelData)
             SceneManager.replaceSceneWithName("EndingScene", params)
             return true
         end
