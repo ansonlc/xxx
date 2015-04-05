@@ -4,7 +4,6 @@
 --------------------------------------------------------------------------------
 
 require "core.BaseScene"
-require ("manager/DataManager")
 
 local GameScene = class("GameScene", function() return BaseScene.create() end)
 

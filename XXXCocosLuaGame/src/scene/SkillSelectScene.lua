@@ -4,8 +4,6 @@
 --------------------------------
 
 require("utils.GeneralUtil")
-require("manager.DataManager")
-require("manager.MetaManager")
 
 local battle_mission_cfg = require("config.battle_mission")
 local SkillTagHeader = 10000

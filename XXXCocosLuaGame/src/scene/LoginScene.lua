@@ -6,7 +6,6 @@
 
 require("core.BaseScene")
 require("config.CommonDefine")
-require("manager.DataManager")
 
 local LoginScene = class("LoginScene", function() return BaseScene.create() end)
 
