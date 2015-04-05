@@ -1,3 +1,5 @@
+ParticleManager = {}
+
 --------------------------------
 --  display particle from one point to another in some duration
 --  @param #cc.p from the start point
@@ -6,7 +8,7 @@
 --  @param #float duration the particle effect duration
 --  @param #string plist the filename of the particle
 --  @param #int actionType 0 means use straight line, 1 means use arc
-function particleDisplay(from,to,parentNode,duration,plist)
+function ParticleManager.particleDisplay(from,to,parentNode,duration,plist)
     local particle = cc.ParticleSystemQuad:create(plist)
     particle:setPosition(from)
     particle:setDuration(duration+0.1)
@@ -16,7 +18,7 @@ function particleDisplay(from,to,parentNode,duration,plist)
     particle:runAction(moveToAction)
 end
 
-function particleDisplay(from,to,parentNode,duration,plist,actionType)
+function ParticleManager.particleDisplay(from,to,parentNode,duration,plist,actionType)
     local particle = cc.ParticleSystemQuad:create(plist)
     particle:setPosition(from)
     particle:setDuration(duration+0.1)

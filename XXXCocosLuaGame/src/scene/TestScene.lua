@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- TestScene.lua - 绮掑瓙鏁堟灉娴嬭瘯鍦烘櫙
+-- TestScene.lua - 粒子效果测试场景
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -24,8 +24,13 @@ function TestScene:onInit()
     local rootNode = cc.CSLoader:createNode("ParticleTestScene.csb")
     
     -- test for the particle effect
-    particleDisplay(cc.p(100,100),cc.p(1000,1000),rootNode,0.5,"effects/fx_fire.plist")
+    local particle1  = MetaManager.getParticle(1001)
+    local particle2  = MetaManager.getParticle(1002)
+    local particle3  = MetaManager.getParticle(1003)
     
+    particleDisplay(cc.p(100,100),cc.p(1000,1000),rootNode,0.5,particle1.path)
+    particleDisplay(cc.p(100,100),cc.p(1000,1500),rootNode,0.5,particle1.path)
+    particleDisplay(cc.p(100,100),cc.p(1000,500),rootNode,0.5,particle1.path)
     --local particle = cc.ParticleSystemQuad:create("effects/fx_fire.plist")
     --particle:setPosition(100,100)
     --n:addChild(particle)
