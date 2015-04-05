@@ -58,8 +58,8 @@ end
 function GameSkillSlotManagerLayer:initSkills(skillTable)    
     -- TODO: Delete the simulation for the skill table
     --DataManager.loadUserInfo()
-    --skillTable = DataManager.userInfo.currentSkills
-    skillTable = {1005, 1800, 1300, 1600, 1500}
+    skillTable = DataManager.userInfo.currentSkills
+    --skillTable = {1005, 1800, 1300, 2000, 2100}
     
     local skillSprite1 = GameIconManager.getSkillSprite(skillTable[1], nil , true)
         --self:generateSkillNode("res/imgs/temp/skill_"..tostring(skillTable[1]..".png"), MetaManager.getSkill(skillTable[1]))

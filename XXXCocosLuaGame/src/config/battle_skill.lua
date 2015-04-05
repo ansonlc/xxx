@@ -17,6 +17,8 @@ local SkillTable = {
     [1700] = {skillID=1700,skillQuality=4,skillName='Minor Curse',runeCostTable = {air=0,earth=1,water=0,fire=1},animationID = nil,growthRatio = nil,CD = 5,effectTable={effectID1=1070,effectValue1=1,effectID2=1070,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Curse'},
     [1800] = {skillID=1800,skillQuality=7,skillName='Minor Bravery',runeCostTable = {air=5,earth=0,water=0,fire=0},animationID = nil,growthRatio = nil,CD = 10,effectTable={effectID1=1080,effectValue1=1.5,effectID2=1080,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bravery'},
     [1900] = {skillID=1900,skillQuality=7,skillName='Minor Fear',runeCostTable = {air=0,earth=5,water=0,fire=0},animationID = nil,growthRatio = nil,CD = 10,effectTable={effectID1=1090,effectValue1=0.5,effectID2=1090,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},   
+    [2000] = {skillID=2000,skillQuality=1,skillName='Minor Purify',runeCostTable = {air=2,earth=2,water=2,fire=2},animationID = nil,growthRatio = nil, CD = 10, effectTable={effectID1=1100,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
+    [2100] = {skillID=2100,skillQuality=1,skillName='Minor Disperse',runeCostTable = {air=2,earth=2,water=2,fire=2},animationID = nil,growthRatio = nil, CD = 10, effectTable={effectID1=1110,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
 }
 
 

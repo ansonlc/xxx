@@ -184,14 +184,14 @@ function GameBattlePanel:initPanel()
 
         if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             -- For Test Purpose
-            --[[local AINode = self:getParent():getChildByName("MonsterAILogic")
+            local AINode = self:getParent():getChildByName("MonsterAILogic")
             AINode.isAIOn = not AINode.isAIOn
             if AINode.isAIOn then
                 cclog("Current AI Status: On")
             else
                 cclog("Current AI Status: Off")
-            end--]]
-            self:getParent():onGameOver(true, nil)
+            end
+            --self:getParent():onGameOver(true, nil)
         end
     end
 
@@ -365,6 +365,31 @@ function GameBattlePanel:doDamageToPlayer(ratio)
 end
 
 ---
+-- Remove the buff or debuff on the player
+-- @function [parent=#panel.GameBattlePanel] removeEffectOnPlayer
+-- @param effect 
+function GameBattlePanel:removeEffectOnPlayer(effect)
+    if effect.effectType == 'Purify' then
+        for i = 1, GBattleMaxEffectNumber, 1 do
+            if self.playerEffectTable[i] ~= nil then
+                local test = self.playerEffectTable[i].effectType
+                if self.playerEffectTable[i].effectType == 'Bleed' or self.playerEffectTable[i].effectType == 'Fear' or self.playerEffectTable[i].effectType == 'Curse' then
+                    self.playerEffectTable[i].effectTimeCount = self.playerEffectTable[i].effectTimeToLive   -- waiting for the next update to remove this effect
+                end
+            end
+        end
+    elseif effect.effectType == 'Disperse' then
+        for i = 1, GBattleMaxEffectNumber, 1 do
+            if self.monsterEffectTable[i] ~= nil then
+                if self.monsterEffectTable[i].effectType == 'Bravery' or self.monsterEffectTable[i].effectType == 'Recovery' then
+                    self.monsterEffectTable[i].effectTimeCount = self.monsterEffectTable[i].effectTimeToLive   -- waiting for the next update to remove this effect
+                end              
+            end
+        end
+    end
+end
+
+---
 -- Display the animation to heal the player
 -- @function [parent=#panel.GameBattlePanel] healPlayer
 -- @param currentPlayerHP num current player HP
@@ -516,13 +541,15 @@ function GameBattlePanel:onUpdate(delta)
     for i = 1, GBattleMaxEffectNumber, 1 do
         if self.playerEffectTable[i] ~= nil then
             self.playerEffectTable[i].effectTimeCount = self.playerEffectTable[i].effectTimeCount + delta
-            self.playerEffectTable[i].timerLayer:changeWidthAndHeight(self.playerEffectTable[i].onScreenWidth, self.playerEffectTable[i].onScreenHeight * (1 - self.playerEffectTable[i].effectTimeCount / self.playerEffectTable[i].effectTimeToLive)) 
             if self.playerEffectTable[i].effectTimeCount > self.playerEffectTable[i].effectTimeToLive then
                 -- time out and remove this effect
                 self.playerEffectBlockLayer:removeChild(self.playerEffectTable[i])
                 self.playerEffectTable[i] = nil
                 cclog("Index: "..i..' to be deleted')
                 playerEffectToRemove = true
+            else
+                -- update the icon
+                self.playerEffectTable[i].timerLayer:changeWidthAndHeight(self.playerEffectTable[i].onScreenWidth, self.playerEffectTable[i].onScreenHeight * (1 - self.playerEffectTable[i].effectTimeCount / self.playerEffectTable[i].effectTimeToLive))    
             end
         end
     end
@@ -569,13 +596,14 @@ function GameBattlePanel:onUpdate(delta)
         local effect = self.monsterEffectTable[i]
         if self.monsterEffectTable[i] ~= nil then
             self.monsterEffectTable[i].effectTimeCount = self.monsterEffectTable[i].effectTimeCount + delta
-            self.monsterEffectTable[i].timerLayer:changeWidthAndHeight(self.monsterEffectTable[i].onScreenWidth, self.monsterEffectTable[i].onScreenHeight * (1 - self.monsterEffectTable[i].effectTimeCount / self.monsterEffectTable[i].effectTimeToLive)) 
             if self.monsterEffectTable[i].effectTimeCount > self.monsterEffectTable[i].effectTimeToLive then
                 -- time out and remove this effect
                 self.monsterEffectBlockLayer:removeChild(self.monsterEffectTable[i])
                 self.monsterEffectTable[i] = nil
                 cclog("Index: "..i..' to be deleted')
                 monsterEffectToRemove = true
+            else 
+                self.monsterEffectTable[i].timerLayer:changeWidthAndHeight(self.monsterEffectTable[i].onScreenWidth, self.monsterEffectTable[i].onScreenHeight * (1 - self.monsterEffectTable[i].effectTimeCount / self.monsterEffectTable[i].effectTimeToLive)) 
             end
         end
     end

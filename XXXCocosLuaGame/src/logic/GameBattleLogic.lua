@@ -145,9 +145,23 @@ function GameBattleLogic:playerUseSkill(skill)
             self.playerShellEnergy = effectValue
             causeShieldActivated = true
         elseif effect.effectType == 'Purify' then
-        
+            -- delete all the debuff on the player
+            for k, v in pairs(self.playerEffectTable) do
+                if v.effectType == 'Curse' or v.effectType == 'Fear' or v.effectType == 'Bleed' then
+                    v.effectTimeToLive = 0
+                    cclog(v.effectType.." effect removed on player")
+                end
+                self.gameBattlePanel:removeEffectOnPlayer(effect)
+            end
         elseif effect.effectType == 'Disperse' then
-        
+            -- delete all the buff on the monster
+            for k, v in pairs(self.monsterEffectTable) do
+                if v.effectType == 'Recovery' or v.effectType == 'Bravery' then
+                    v.effectTimeToLive = 0
+                    cclog(v.effectType.." effect removed on monster")
+                end
+                self.gameBattlePanel:removeEffectOnPlayer(effect)
+            end
         else    -- Deal with the effect: Recovery, Bless, Silence, Curse, Bravery, Fear, Bleed
             local effectToAdd = {}
             effectToAdd.effectType = effect.effectType
@@ -668,6 +682,7 @@ function GameBattleLogic:onUpdate(delta)
         self:playerUseSkill(MetaManager.getSkill(1600))
         self:monsterUseSkill(MetaManager.getSkill(1400))
         self:monsterUseSkill(MetaManager.getSkill(1500))--]]
+        self:monsterUseSkill(MetaManager.getSkill(1800))
         self:monsterUseSkill(MetaManager.getSkill(1400))
         self.test = 0
     end
