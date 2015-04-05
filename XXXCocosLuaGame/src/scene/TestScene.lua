@@ -49,7 +49,7 @@ function TestScene:onInit()
     monster:setPosition(500, 500)
     rootNode:addChild(monster)
     
-    local skill = GameIconManager.getSkillSprite(1002, 1, true, 1)
+    local skill = GameIconManager.getSkillSprite(1002, 1, true, 0)
     skill:setPosition(500, 1000)
     rootNode:addChild(skill)
     

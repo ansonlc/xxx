@@ -49,10 +49,46 @@ function ResultScene:onInit()
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
-    local monsterNode = rootNode:getChildByName("panel_result"):getChildByName("node_monster")
-    local monsterSprite = GameIconManager.getMonsterSprite("Pikachu", 1, false)
-    monsterSprite:setAnchorPoint(0, 0)
-    monsterNode:addChild(monsterSprite)
+    --Add monster sprite
+    if (battleResult.unlockMonsterId) then
+        local monsterNode = rootNode:getChildByName("panel_result"):getChildByName("node_monster")
+        local monsterSprite = GameIconManager.getMonsterSprite("Pikachu", 1, false)
+        monsterSprite:setAnchorPoint(0, 0)
+        monsterNode:addChild(monsterSprite)
+    end
+    
+    --Add skill sprites
+    local skills = {}
+    if (battleResult.learnSkillId) then
+        local skill = GameIconManager.getSkillSprite(battleResult.learnSkillId, 1, true, 0)
+        skill:setAnchorPoint(0.5, 0.5)
+        skills[1] = skill
+    end
+    
+    if (battleResult.upgradeSkillIds) then
+        for key, value in pairs(battleResult.upgradeSkillIds) do
+            local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)
+            skill:setAnchorPoint(0.5, 0.5)
+            skills[table.getn(skills)+1] = skill
+        end
+    end
+    
+    for key, value in pairs(skills) do
+        rootNode:getChildByName("panel_result"):getChildByName("node_skill_" .. key):addChild(skills[key])
+    end
+    
+    --Add item sprites
+    local items = {}
+    assert(battleResult.crystal, "Crystal number in battle result is nil!")
+    if (battleResult.crystal > 0) then
+        local item = GameIconManager.getItemSprite(0, 1, true, battleResult.crystal)
+        item:setAnchorPoint(0.5, 0.5)
+        items[1] = item
+    end
+    
+    for key, value in pairs(items) do
+        rootNode:getChildByName("panel_result"):getChildByName("node_item_" .. key):addChild(items[key])
+    end
     
     --rootNode:getChildByName("txt_result"):setString("You WIN")
     local continueBtn = ccui.Button:create()

@@ -155,21 +155,21 @@ function GameScene:onGameOver(playerWins, gameData)
                 -- TODO Results needed to calculate by Ren
                 local upgradeSkillIds = {
                     {
-                        skillId = 0,
-                        lvlBefore = 0,
-                        lvlAfter = 0,
+                        skillId = 1001,
+                        lvlBefore = 1,
+                        lvlAfter = 99,
                     },
                     {
-                        skillId = 0,
-                        lvlBefore = 0,
-                        lvlAfter = 0,
+                        skillId = 1002,
+                        lvlBefore = 1,
+                        lvlAfter = 99,
                     },
                 }
                 local battleResult = {
-                    unlockMonsterId = 0,
-                    learnSkillId = 0,
+                    unlockMonsterId = "Pikachu",
+                    learnSkillId = 1800,
                     upgradeSkillIds = upgradeSkillIds,
-                    crystal = 0,
+                    crystal = 123,
                 }
                 -- Modify codes before here
                 

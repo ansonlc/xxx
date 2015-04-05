@@ -84,11 +84,17 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     end
     
     --Add skill level label
-    if (skillLvl) then
+    if (skillLvl and skillLvl>0) then
         local lvlLbl = cc.LabelTTF:create("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl, "Arial", 30)
         lvlLbl:setPosition(80, 20)
         skillSprite.skillLevelLabel = lvlLbl
         skillSprite:addChild(lvlLbl)
+    else
+        if (skillLvl and skillLvl==0) then
+            local newIcon = cc.Sprite:create("res/imgs/icon_new.png")
+            newIcon:setPosition(128, 0)
+            skillSprite:addChild(newIcon)
+        end
     end
     
     --Provide a disabled cover for the pic
