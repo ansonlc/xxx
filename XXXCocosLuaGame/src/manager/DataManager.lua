@@ -21,7 +21,7 @@ end
 
 
 
-DataManager = {}
+--DataManager = {}
 
 local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
