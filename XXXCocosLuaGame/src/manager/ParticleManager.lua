@@ -1,5 +1,9 @@
 ParticleManager = {}
 
+local monsterXY = cc.p(1500,1500)
+local runeXY = cc.p(100,1500)
+local playerXY = cc.p(1500,500)
+
 --------------------------------
 --  display particle from one point to another in some duration
 --  @param #cc.p from the start point
@@ -28,4 +32,15 @@ function ParticleManager.particleDisplay(from,to,parentNode,duration,plist,actio
     if 1==actionType then
     end    
     particle:runAction(moveAction)
+end
+
+function ParticleManager.monsterUseSkillParticle(parentNode,skill)
+    local particle  = MetaManager.getParticle(skill.particleID)
+    ParticleManager.particleDisplay(monsterXY,playerXY,parentNode,0.5,particle.path)
+    
+end
+
+function ParticleManager.playerUseSkillParticle(parentNode,skill)
+    local particle  = MetaManager.getParticle(skill.particleID)
+    ParticleManager.particleDisplay(runeXY,monsterXY,parentNode,0.5,particle.path)
 end
