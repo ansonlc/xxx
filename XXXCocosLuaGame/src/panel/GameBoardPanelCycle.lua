@@ -329,8 +329,9 @@ local function onCheckSuccess(succCellSet)
         local succCell = succCellSet[i]
         
         local fromCellPoint = getCellCenterPoint(succCell)
-        local toCellPoint = {100, 900}
-        particleDisplay(fromCellPoint, toCellPoint, parentNode, particleTable[1001].path)
+        local toCellPoint = cc.p(165,1350)
+
+        ParticleManager.particleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1001)
         
         local nearbySet = getNearbyCellSet(succCell)
         for i = 1, #nearbySet do
