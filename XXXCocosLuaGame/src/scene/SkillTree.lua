@@ -1,5 +1,5 @@
 --------------------------------
--- SkillSelectScene.lua
+-- SkillTree.lua
 -- @author Gaoyuan Chen
 --------------------------------
 
@@ -8,14 +8,14 @@ require("utils.GeneralUtil")
 local battle_mission_cfg = require("config.battle_mission")
 local SkillTagHeader = 10000
 local currentSelect = 0
-local SkillSelectScene = class("SkillSelectScene", function() return BaseScene.create() end)
+local SkillTree = class("SkillTree", function() return BaseScene.create() end)
 
-function SkillSelectScene:ctor()
-    self.sceneName = "SkillSelectScene"
+function SkillTree:ctor()
+    self.sceneName = "SkillTree"
 end
 
-function SkillSelectScene.create(params)
-    local scene = SkillSelectScene.new()
+function SkillTree.create(params)
+    local scene = SkillTree.new()
     scene:initScene(params)
     return scene
 end
@@ -135,22 +135,23 @@ end
 
 
 
-function SkillSelectScene:onInit()
+function SkillTree:onInit()
 
 
-    local rootNode = cc.CSLoader:createNode("SkillSelectScene.csb")
+    local rootNode = cc.CSLoader:createNode("SkillTree.csb")
 
 
-    drawIcons(rootNode)
+    --drawIcons(rootNode)
 
     self:addChild(rootNode)
-    self.skillScroll = rootNode:getChildByName("SkillScroll")
+    --self.skillScroll = rootNode:getChildByName("SkillScroll")
 
     --print("self.skillScroll = ")
     --print(self.skillScroll)
 
-    drawCurrentSkill(rootNode)
-
+    --drawCurrentSkill(rootNode)
+    
+    --[[
     local btn2scene = {
         ["Button_Ok"] = "GameScene",
         ["Button_Cancel"] = "LevelSelectScene",
@@ -223,8 +224,9 @@ function SkillSelectScene:onInit()
     end
 
     updateInvalidSkills()
+    ]]--
 
 
 end
 
-return SkillSelectScene
+return SkillTree
