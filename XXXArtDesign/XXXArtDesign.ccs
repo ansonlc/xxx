@@ -173,6 +173,12 @@
               <PlistImageFile Name="Qintomb_map_bg_r.png" Key="Qintomb_map_bg_r.png" />
             </PlistImageFolder>
           </Folder>
+          <Folder Name="SkillTree">
+            <Image Name="Header.png" />
+            <Image Name="Foot.png" />
+            <Image Name="Btn_Upgrade.png" />
+            <Image Name="Btn_Upgrade_press.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" />
         <Folder Name="fonts">
