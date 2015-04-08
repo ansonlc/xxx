@@ -144,6 +144,15 @@ function SkillTree:onInit()
     --drawIcons(rootNode)
 
     self:addChild(rootNode)
+    
+    rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            SceneManager.replaceSceneWithName("MainMenuScene")
+        end
+
+    end
+    )
+    
     --self.skillScroll = rootNode:getChildByName("SkillScroll")
 
     --print("self.skillScroll = ")

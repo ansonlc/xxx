@@ -69,6 +69,19 @@
             <PressedFileData Type="Normal" Path="imgs/SkillTree/Btn_Upgrade_press.png" />
             <NormalFileData Type="Normal" Path="imgs/SkillTree/Btn_Upgrade.png" />
           </NodeObjectData>
+          <NodeObjectData Name="ButtonReturn" ActionTag="500458427" FrameEvent="" Tag="19" ObjectIndex="2" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Width="110" Scale9Height="110" ctype="ButtonObjectData">
+            <Position X="1022.9952" Y="1745.1658" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint ScaleX="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="110.0000" Y="110.0000" />
+            <PrePosition X="0.9472" Y="0.9089" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+            <PressedFileData Type="Normal" Path="imgs/btns/icon/icon_Close_press.png" />
+            <NormalFileData Type="Normal" Path="imgs/btns/icon/icon_Close.png" />
+          </NodeObjectData>
         </Children>
       </ObjectData>
     </Content>
