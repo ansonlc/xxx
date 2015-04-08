@@ -53,6 +53,14 @@ function DataManager.init()
 end
 ]]--
 
+function DataManager.getCrystalNum()
+    return DataManager.userData[DataManager.userInfo.currentUser].CrystalNum;
+end
+
+function DataManager.setCrystalNum(toValue)
+    DataManager.userData[DataManager.userInfo.currentUser].CrystalNum = toValue;
+end
+
 function DataManager.setCurrentSkill(userID, toSkills)
     --self.userData[userID].currentSkills = toSkills
 end

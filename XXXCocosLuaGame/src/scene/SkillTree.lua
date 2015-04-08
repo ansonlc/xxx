@@ -10,6 +10,8 @@ local SkillTagHeader = 10000
 local currentSelect = 0
 local SkillTree = class("SkillTree", function() return BaseScene.create() end)
 
+local currentCrystalNumDisplay = 0001000;
+
 function SkillTree:ctor()
     self.sceneName = "SkillTree"
 end
@@ -133,7 +135,13 @@ local function drawIcons(root)
     end
 end
 
-
+function toString6(x)
+    local ret = x .. ""
+    while string.len(ret) < 6 do
+        ret = '0' .. ret
+    end
+    return ret
+end
 
 function SkillTree:onInit()
 
@@ -144,6 +152,11 @@ function SkillTree:onInit()
     --drawIcons(rootNode)
 
     self:addChild(rootNode)
+    self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
+    
+    
+    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+    
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 

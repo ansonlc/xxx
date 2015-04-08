@@ -82,6 +82,15 @@
             <PressedFileData Type="Normal" Path="imgs/btns/icon/icon_Close_press.png" />
             <NormalFileData Type="Normal" Path="imgs/btns/icon/icon_Close.png" />
           </NodeObjectData>
+          <NodeObjectData Name="CrystalNumDisplay" ActionTag="-234263723" FrameEvent="" Tag="22" ObjectIndex="1" FontSize="20" LabelText="999999&#xA;" ctype="TextObjectData">
+            <Position X="163.8811" Y="1855.0077" />
+            <Scale ScaleX="2.7407" ScaleY="2.5942" />
+            <AnchorPoint ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="66.0000" Y="46.0000" />
+            <PrePosition X="0.1517" Y="0.9661" />
+            <PreSize X="0.0000" Y="0.0000" />
+          </NodeObjectData>
         </Children>
       </ObjectData>
     </Content>
