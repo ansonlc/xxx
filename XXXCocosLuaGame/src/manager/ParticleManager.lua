@@ -21,7 +21,7 @@ function ParticleManager.particleDisplay(from,to,parentNode,duration,plist)
     local moveToAction = cc.MoveTo:create(duration,to)
     particle:runAction(moveToAction)
 end
-
+--[[
 function ParticleManager.particleDisplay(from,to,parentNode,duration,plist,actionType)
     local particle = cc.ParticleSystemQuad:create(plist)
     particle:setPosition(from)
@@ -33,7 +33,7 @@ function ParticleManager.particleDisplay(from,to,parentNode,duration,plist,actio
     end    
     particle:runAction(moveAction)
 end
-
+]]--
 function ParticleManager.monsterUseSkillParticle(parentNode,skill)
     local particle  = MetaManager.getParticle(skill.particleID)
     ParticleManager.particleDisplay(monsterXY,playerXY,parentNode,0.5,particle.path)

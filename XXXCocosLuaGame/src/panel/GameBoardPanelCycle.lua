@@ -6,9 +6,10 @@
 require "logic.GameBoardLogic"
 require "core.BaseScene"
 require "config.CommonDefine"
+--require "src/manager/ParticleManager.lua"
 
 local GameBoardPanel = class("GameBoardPanel", function() return cc.Layer:create() end)
-
+local particleTable =  require "src/config/particle_effect.lua"
 local curSelectTag = nil
 
 local NODE_TAG_START = 10000
@@ -326,11 +327,11 @@ local function onCheckSuccess(succCellSet)
     for i = 1, #succCellSet do
 
         local succCell = succCellSet[i]
-        --[[
+        
         local fromCellPoint = getCellCenterPoint(succCell)
         local toCellPoint = {100, 900}
-        particleDisplay(succCell, toCellPoint, parentNode, )
-        ]]--
+        particleDisplay(fromCellPoint, toCellPoint, parentNode, particleTable[1001].path)
+        
         local nearbySet = getNearbyCellSet(succCell)
         for i = 1, #nearbySet do
             local cell = nearbySet[i]
