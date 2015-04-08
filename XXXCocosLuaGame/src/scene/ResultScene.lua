@@ -107,6 +107,7 @@ function ResultScene:onInit()
     
     local function onPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
+            self.enterData.levelData.missionId = self.enterData.levelData.missionId + 1
             local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData.levelData)
             SceneManager.replaceSceneWithName("EndingScene", params)
             return true
