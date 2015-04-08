@@ -29,10 +29,19 @@ function EndingScene:onInit()
     
     local function onBtnPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
+            if sender:getName() == "btn_next" then
+                self.enterData.missionId = self.enterData.missionId + 1
+            end
             local params = SceneManager.generateParams(self, "LoginScene", self.enterData)
             SceneManager.replaceSceneWithName(btn2scene[sender:getName()], params)
             return true
         end
+    end
+    
+    if self.enterScene == "ResultScene" then
+        rootNode:getChildByName("panel_btn"):getChildByName("btn_next"):setEnabled(true)
+    else
+        rootNode:getChildByName("panel_btn"):getChildByName("btn_next"):setEnabled(false)
     end
     
     for key,_ in pairs(btn2scene) do

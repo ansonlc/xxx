@@ -98,7 +98,8 @@ function LoginScene:createBtnLayer()
 
     local function onDebugBtnPress(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
-            SceneManager.replaceSceneWithName("TestScene", "Test parameter passed by LoginScene")
+            print ("here")
+            SceneManager.replaceSceneWithName("SkillTree", nil)
             return true
         end
     end

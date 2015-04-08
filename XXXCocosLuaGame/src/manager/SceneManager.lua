@@ -33,6 +33,8 @@ function SceneManager.replaceSceneWithName(sceneName, params)
     
     local startTime = TimeUtil.getRunningTime()
     local sceneClass = require("scene." .. sceneName)
+    print ("sceneClass is..")
+    print (sceneClass)
     local targetScene = sceneClass.create(params)
     cclog("Initialized in " .. (TimeUtil.getRunningTime() - startTime) .. "s")
     
