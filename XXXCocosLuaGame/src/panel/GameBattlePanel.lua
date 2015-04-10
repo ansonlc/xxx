@@ -150,6 +150,14 @@ function GameBattlePanel:initPanel()
     monsterSprite:setScale(visibleSize.width * GBattleMonsterBlockHorizontalRatio / monsterSprite:getContentSize().width, visibleSize.height * GBattleMonsterBlockVerticalRatio / monsterSprite:getContentSize().height)
     monsterSprite:setName("MonsterNode")
     self:addChild(monsterSprite)
+    
+    -- Monster HP Bar
+    local monsterHPSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
+    --monsterHPSprite:changeWidthAndHeight(visibleSize.width * GBattleMonsterHPBarHorizontalRatio, visibleSize.height * GBattleMonsterHPBarVerticalRatio)
+    monsterHPSprite:setAnchorPoint(0,0)
+    monsterHPSprite:setPosition(visibleSize.width * GBattleMonsterHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterHPBarVerticalStartOffsetRatio)
+    monsterHPSprite:setScale(visibleSize.width * GBattleMonsterHPBarHorizontalRatio / monsterHPSprite:getContentSize().width, visibleSize.height * GBattleMonsterHPBarVerticalRatio / monsterHPSprite:getContentSize().height)
+    self:addChild(monsterHPSprite)
 
     -- Player Effect Block
     local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
