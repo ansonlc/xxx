@@ -143,6 +143,38 @@ function toString6(x)
     return ret
 end
 
+function SkillTree:updateCrystalNum()
+    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+end
+
+local function getSkillButton(skillID)
+    local xSize = 100
+    local ySize = 100
+    local skillButton = ccui.Button:create()
+    skillButton:loadTextures("res/imgs/temp/white.png", "res/imgs/temp/white.png")
+    skillButton:setScale(800, SkillListSize)
+    skillButton:setPosition(cc.p(430, posY))
+
+    local pic = GameIconManager.getSkillSprite(id, 1, true, 99)
+    pic:setScale(1.0 / 800, 1.0 / SkillListSize)
+    pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
+    pic:setAnchorPoint(0.5, 0.5)
+    skillButton:addChild(pic)
+
+    local function onBtnPress(sender, eventType)
+        if eventType == 0 then
+            print ('hi!')
+        end
+    end
+    skillButton:addTouchEventListener(onBtnPress)
+    return skillButton
+end
+
+function SkillTree:drawSkillIcon()
+    
+    self.ScrollView.addChild(icon)
+end
+
 function SkillTree:onInit()
 
 
@@ -154,9 +186,11 @@ function SkillTree:onInit()
     self:addChild(rootNode)
     self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
     
+    self:updateCrystalNum()
     
-    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+    self.ScrollView = rootNode:getChildByName("ScrollView_1")
     
+    self:drawSkillIcon()
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
@@ -166,6 +200,15 @@ function SkillTree:onInit()
     end
     )
     
+    
+    rootNode:getChildByName("Button_1"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            currentCrystalNumDisplay = currentCrystalNumDisplay - 100
+            self:updateCrystalNum()
+        end
+
+    end
+    )
     --self.skillScroll = rootNode:getChildByName("SkillScroll")
 
     --print("self.skillScroll = ")
