@@ -6,9 +6,10 @@
 require "logic.GameBoardLogic"
 require "core.BaseScene"
 require "config.CommonDefine"
+--require "src/manager/ParticleManager.lua"
 
 local GameBoardPanel = class("GameBoardPanel", function() return cc.Layer:create() end)
-
+local particleTable =  require "src/config/particle_effect.lua"
 local curSelectTag = nil
 
 local NODE_TAG_START = 10000
@@ -324,7 +325,14 @@ local function onCheckSuccess(succCellSet)
     --用于检测是否已加入
     local assSet = {}
     for i = 1, #succCellSet do
+
         local succCell = succCellSet[i]
+        
+        local fromCellPoint = getCellCenterPoint(succCell)
+        local toCellPoint = cc.p(165,1350)
+
+        ParticleManager.particleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1001)
+        
         local nearbySet = getNearbyCellSet(succCell)
         for i = 1, #nearbySet do
             local cell = nearbySet[i]
@@ -592,8 +600,9 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[j][cellA.y] = elem[j]
             nodes[j]:runAction(nodesActions[j])
-            --resetIsTouchingCallback()
+            --
         end
+        --resetIsTouchingCallback()
     elseif cellA.x == cellB.x then
         diff = cellA.y - cellB.y
         for i = 1, GBoardSizeY do
@@ -642,8 +651,8 @@ function GameBoardPanel:movingCells(cellA, cellB, cfCallBack)
             nodes[j]:setTag(NODE_TAG_START + tags[j])
             GameBoard[cellA.x][j] = elem[j]
             nodes[j]:runAction(nodesActions[j])
-            --resetIsTouchingCallback()
         end
+        --resetIsTouchingCallback()
     end
 end
 

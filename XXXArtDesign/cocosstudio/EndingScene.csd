@@ -44,7 +44,7 @@
                 <PressedFileData Type="Default" Path="Default/Button_Press.png" />
                 <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
               </NodeObjectData>
-              <NodeObjectData Name="btn_next" ActionTag="1163759281" FrameEvent="" Tag="72" ObjectIndex="2" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Continue" Scale9Enable="True" Scale9Width="46" Scale9Height="36" DisplayState="False" ctype="ButtonObjectData">
+              <NodeObjectData Name="btn_next" ActionTag="1163759281" FrameEvent="" Tag="72" ObjectIndex="2" PrePositionEnabled="True" TouchEnable="True" FontSize="72" ButtonText="Continue" Scale9Enable="True" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
                 <Position X="440.0000" Y="300.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />

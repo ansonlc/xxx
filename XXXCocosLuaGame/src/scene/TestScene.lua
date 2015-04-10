@@ -24,13 +24,13 @@ function TestScene:onInit()
     local rootNode = cc.CSLoader:createNode("ParticleTestScene.csb")
     
     -- test for the particle effect
-    local particle1  = MetaManager.getParticle(1001)
-    local particle2  = MetaManager.getParticle(1002)
-    local particle3  = MetaManager.getParticle(1003)
-    
-    particleDisplay(cc.p(100,100),cc.p(1000,1000),rootNode,0.5,particle1.path)
-    particleDisplay(cc.p(100,100),cc.p(1000,1500),rootNode,0.5,particle1.path)
-    particleDisplay(cc.p(100,100),cc.p(1000,500),rootNode,0.5,particle1.path)
+    --local particle1  = MetaManager.getParticle(1001)
+    --local particle2  = MetaManager.getParticle(1002)
+    --local particle3  = MetaManager.getParticle(1003)
+   
+    ParticleManager.particleDisplay(cc.p(100,100),cc.p(1000,1000),rootNode,0.5,1001)
+    ParticleManager.particleDisplay(cc.p(100,100),cc.p(1000,1500),rootNode,0.5,1002)
+    ParticleManager.particleDisplay(cc.p(100,100),cc.p(1000,500),rootNode,0.5,1003)
     --local particle = cc.ParticleSystemQuad:create("effects/fx_fire.plist")
     --particle:setPosition(100,100)
     --n:addChild(particle)

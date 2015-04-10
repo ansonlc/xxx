@@ -27,9 +27,11 @@ function MainMenuScene:onInit()
     self.btnEndless = rootNode:getChildByName("btn_endless")
     self.btnVs = rootNode:getChildByName("btn_vs")
     self.panelIcon = rootNode:getChildByName("panel_icon")
-    
+    self.btn_skill = self.panelIcon:getChildByName("btn_skill")
     self.logoSprite:setPosition(self.visibleSize.width/2, self.visibleSize.height/3)
     
+    print (self.btnVs)
+    print (self.btn_skill)
     self.btnStory:setOpacity(0)
     self.btnEndless:setOpacity(0)
     self.btnVs:setOpacity(0)
@@ -40,8 +42,15 @@ function MainMenuScene:onInit()
             SceneManager.replaceSceneWithName("LevelSelectScene")
         end
     end
-    
+       
     self.btnStory:addTouchEventListener(onStoryPress)
+    self.btn_skill:addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            SceneManager.replaceSceneWithName("SkillTree")
+        end
+        
+    end
+    )
 end
 
 function MainMenuScene:onEnter()

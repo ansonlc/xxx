@@ -58,6 +58,7 @@ local function main()
     DataManager.loadUserInfo()
     DataManager.saveData()
     MetaManager.init()
+    ParticleManager.init()
     SceneManager.replaceSceneWithName("LoginScene")
 end
 

@@ -60,6 +60,10 @@
             <Image Name="main_menu_monsterBtn.png" />
             <Image Name="main_menu_skillBtn.png" />
             <Image Name="main_menu_tutorialBtn.png" />
+            <Folder Name="icon">
+              <Image Name="icon_Close.png" />
+              <Image Name="icon_Close_press.png" />
+            </Folder>
           </Folder>
           <Folder Name="game_scene_contents">
             <Image Name="BattlePanel.png" />
@@ -172,6 +176,12 @@
               <PlistImageFile Name="Qintomb_map_bg_l.png" Key="Qintomb_map_bg_l.png" />
               <PlistImageFile Name="Qintomb_map_bg_r.png" Key="Qintomb_map_bg_r.png" />
             </PlistImageFolder>
+          </Folder>
+          <Folder Name="SkillTree">
+            <Image Name="Header.png" />
+            <Image Name="Foot.png" />
+            <Image Name="Btn_Upgrade.png" />
+            <Image Name="Btn_Upgrade_press.png" />
           </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" />
