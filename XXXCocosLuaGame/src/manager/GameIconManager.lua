@@ -65,6 +65,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
         bg:setScale(128/130)
         bg:setPosition(64, 64)
         skillSprite:addChild(bg)
+        skillSprite.bg = bg
     end
     
     --Add icon to sprite
@@ -74,6 +75,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
         skillIcon:setScale(2)
     end
     skillSprite:addChild(skillIcon)
+    skillSprite.skillIcon = skillIcon
     
     --Add border to sprite
     if (borderAndBg) then
@@ -81,7 +83,9 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
         border:setScale(128/130)
         border:setPosition(64, 64)
         skillSprite:addChild(border)
+        skillSprite.border = border
     end
+    
     
     --Add skill level label
     if (skillLvl and skillLvl>0) then

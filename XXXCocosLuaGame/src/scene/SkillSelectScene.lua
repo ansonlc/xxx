@@ -33,12 +33,20 @@ local function drawCurrentSkill(root)
 
     for i = 1,5 do
         local skillSprite = skillIcons[skills[i]]
-        skillSprite:setPosition(i * 196 - 45 , 1654)
-        skillSprite:setScale(2.6)
+        skillSprite:setPosition(i * 196 - 45 - 82 , 1654 - 82)
+        skillSprite:setScale(1.3)
         skillSprite:setVisible(true)
-        skillSprite:setOpacity(255)
+        --skillSprite:setOpacity(255)
+        skillSprite.skillIcon:setOpacity(255)
+        skillSprite.border:setOpacity(255)
+        skillSprite.skillLevelLabel:setOpacity(255)
+        skillSprite.bg:setOpacity(255)
         if i == currentSelect then
-            skillSprite:setOpacity(50)
+            --skillSprite:setOpacity(50)
+            skillSprite.skillIcon:setOpacity(50)
+            skillSprite.border:setOpacity(50)
+            skillSprite.skillLevelLabel:setOpacity(50)
+            skillSprite.bg:setOpacity(50)
         end
     end
 end
@@ -127,7 +135,8 @@ end
 
 local function drawIcons(root)
     for _, id in pairs(allSkill()) do
-        skillIcons[id] = cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
+        skillIcons[id] = GameIconManager.getSkillSprite(id, 1, true, 99) --cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
+        
         root:addChild(skillIcons[id])
         skillIcons[id]:setVisible(false)
     end
@@ -213,7 +222,11 @@ function SkillSelectScene:onInit()
     --TODO Adjust scroll view size here
     local totalY = 0
     local yOffset = SkillListSizePlus
-    local nowPosY = 3350
+    local nowPosY = table.getn(allSkill()) * SkillListSizePlus - 70
+    
+    print(self.skillScroll)
+    self.skillScroll:setInnerContainerSize(cc.size(864, table.getn(allSkill()) * SkillListSizePlus + 80))
+    
     for id, key in pairs(allSkill()) do
         
         local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
