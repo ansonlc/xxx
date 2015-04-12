@@ -22,27 +22,17 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="node_bg" ActionTag="-833504512" FrameEvent="" Tag="1632" ObjectIndex="3" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
+          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ColorAngle="90.0000" Scale9Width="400" Scale9Height="15960" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
             <Position X="0.0000" Y="0.0000" />
-            <Scale ScaleX="1.7000" ScaleY="1.7000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="0.0000" Y="0.0000" />
-            <PrePosition X="0.0000" Y="0.0000" />
-            <PreSize X="0.0000" Y="0.0000" />
-            <FileData Type="Normal" Path="level_select/MissionSandBackground.csd" />
-          </NodeObjectData>
-          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
-            <Position X="0.0000" Y="1536.0000" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
             <Size X="1080.0000" Y="1536.0000" />
-            <PrePosition X="0.0000" Y="0.8000" />
+            <PrePosition X="0.0000" Y="0.0000" />
             <PreSize X="1.0000" Y="0.8000" />
             <Children>
               <NodeObjectData Name="txt_hidden" ActionTag="-503738617" FrameEvent="" CallBackType="Touch" Tag="6" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" LabelText="A Hidden Level" ctype="TextObjectData">
-                <Position X="540.0000" Y="192.0000" />
+                <Position X="540.0000" Y="1596.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                 <CColor A="255" R="255" G="255" B="255" />
@@ -50,32 +40,31 @@
                 <PrePosition X="0.5000" Y="0.1000" />
                 <PreSize X="0.0000" Y="0.0000" />
               </NodeObjectData>
-              <NodeObjectData Name="node_point" ActionTag="-2025717906" FrameEvent="" Tag="447" ObjectIndex="1" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
+              <NodeObjectData Name="bg_level" ActionTag="295042606" FrameEvent="" Tag="486" ObjectIndex="284" ctype="SpriteObjectData">
                 <Position X="0.0000" Y="0.0000" />
-                <Scale ScaleX="1.5000" ScaleY="1.5000" />
+                <Scale ScaleX="2.7500" ScaleY="1.0000" />
                 <AnchorPoint />
                 <CColor A="255" R="255" G="255" B="255" />
-                <Size X="0.0000" Y="0.0000" />
+                <Size X="400.0000" Y="15960.0000" />
                 <PrePosition X="0.0000" Y="0.0000" />
                 <PreSize X="0.0000" Y="0.0000" />
-                <FileData Type="Normal" Path="level_select/MissionPoint.csd" />
-              </NodeObjectData>
-              <NodeObjectData Name="node_bgdec" ActionTag="-225313238" FrameEvent="" Tag="501" ObjectIndex="2" IconVisible="True" PrePositionEnabled="True" ctype="ProjectNodeObjectData">
-                <Position X="0.0000" Y="0.0000" />
-                <Scale ScaleX="1.5000" ScaleY="1.5000" />
-                <AnchorPoint />
-                <CColor A="255" R="255" G="255" B="255" />
-                <Size X="0.0000" Y="0.0000" />
-                <PrePosition X="0.0000" Y="0.0000" />
-                <PreSize X="0.0000" Y="0.0000" />
-                <FileData Type="Normal" Path="level_select/MissionSelectBackground.csd" />
+                <FileData Type="Normal" Path="imgs/bg_level.jpg" />
               </NodeObjectData>
             </Children>
             <SingleColor A="255" R="58" G="165" B="255" />
             <FirstColor A="255" R="58" G="165" B="255" />
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
-            <InnerNodeSize Width="1080" Height="1920" />
+            <InnerNodeSize Width="1080" Height="15960" />
+          </NodeObjectData>
+          <NodeObjectData Name="node_rtn_btn" ActionTag="-827736537" FrameEvent="" Tag="169" ObjectIndex="1" IconVisible="True" ctype="SingleNodeObjectData">
+            <Position X="940.0000" Y="1820.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="0.0000" Y="0.0000" />
+            <PrePosition X="0.8704" Y="0.9479" />
+            <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
           <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
             <Position X="540.0000" Y="1728.0000" />
@@ -85,19 +74,6 @@
             <Size X="600.0000" Y="100.0000" />
             <PrePosition X="0.5000" Y="0.9000" />
             <PreSize X="0.0000" Y="0.0000" />
-          </NodeObjectData>
-          <NodeObjectData Name="btn_return" ActionTag="1674605402" FrameEvent="" Tag="115" ObjectIndex="1" TouchEnable="True" FontSize="72" ButtonText="Return" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
-            <Position X="938.9967" Y="1822.4991" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <Size X="216.0000" Y="72.0000" />
-            <PrePosition X="0.8694" Y="0.9492" />
-            <PreSize X="0.0000" Y="0.0000" />
-            <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
-            <PressedFileData Type="Default" Path="Default/Button_Press.png" />
-            <NormalFileData Type="Default" Path="Default/Button_Normal.png" />
           </NodeObjectData>
         </Children>
       </ObjectData>
