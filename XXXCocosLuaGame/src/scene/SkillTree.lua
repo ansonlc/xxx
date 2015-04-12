@@ -152,13 +152,14 @@ local function getSkillButton(skillID)
     local ySize = 100
     local skillButton = ccui.Button:create()
     skillButton:loadTextures("res/imgs/temp/white.png", "res/imgs/temp/white.png")
-    skillButton:setScale(800, SkillListSize)
-    skillButton:setPosition(cc.p(430, posY))
+    local size = 150
+    skillButton:setScale(size, size)
+    
 
-    local pic = GameIconManager.getSkillSprite(id, 1, true, 99)
-    pic:setScale(1.0 / 800, 1.0 / SkillListSize)
-    pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
-    pic:setAnchorPoint(0.5, 0.5)
+    local pic = GameIconManager.getSkillSprite(skillID, 1, true, 99)
+    pic:setScale(0.78 / 100.0, 0.78 / 100.0)
+    pic:setPosition(0, 0)
+    pic:setAnchorPoint(0, 0)
     skillButton:addChild(pic)
 
     local function onBtnPress(sender, eventType)
@@ -170,9 +171,39 @@ local function getSkillButton(skillID)
     return skillButton
 end
 
+function SkillTree:drawTab()
+    
+end
+
 function SkillTree:drawSkillIcon()
     
-    self.ScrollView.addChild(icon)
+    local startX = 120
+    local total = 1080 - startX * 2
+    local space = (total - 150 * 4) / 3.0
+    
+    
+    local topSpace = 200
+    local y = self.ScrollView:getInnerContainerSize().height - topSpace
+    
+    local icon1 = getSkillButton(1001)
+    icon1:setPosition(cc.p(startX + (150 + space) * 0 + 75, y))
+    self.ScrollView:addChild(icon1)
+    
+    local icon2 = getSkillButton(1001)
+    icon2:setPosition(cc.p(startX + (150 + space) * 1 + 75, y))
+    self.ScrollView:addChild(icon2)
+    
+    local icon3 = getSkillButton(1001)
+    icon3:setPosition(cc.p(startX + (150 + space) * 2 + 75, y))
+    self.ScrollView:addChild(icon3)
+    
+    local icon4 = getSkillButton(1001)
+    icon4:setPosition(cc.p(startX + (150 + space) * 3 + 75, y))
+    self.ScrollView:addChild(icon4)
+    
+    print (startX + (150 + space) * 3 + 150 + startX)
+    print (space)
+
 end
 
 function SkillTree:onInit()

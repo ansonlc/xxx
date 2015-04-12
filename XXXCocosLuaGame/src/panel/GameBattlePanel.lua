@@ -153,11 +153,13 @@ function GameBattlePanel:initPanel()
     
     -- Monster HP Bar
     local monsterHPSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
-    --monsterHPSprite:changeWidthAndHeight(visibleSize.width * GBattleMonsterHPBarHorizontalRatio, visibleSize.height * GBattleMonsterHPBarVerticalRatio)
     monsterHPSprite:setAnchorPoint(0,0)
     monsterHPSprite:setPosition(visibleSize.width * GBattleMonsterHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterHPBarVerticalStartOffsetRatio)
     monsterHPSprite:setScale(visibleSize.width * GBattleMonsterHPBarHorizontalRatio / monsterHPSprite:getContentSize().width, visibleSize.height * GBattleMonsterHPBarVerticalRatio / monsterHPSprite:getContentSize().height)
+    self.monsterHPBar = monsterHPSprite
+    self.monsterHPBarFullRatio = visibleSize.width * GBattleMonsterHPBarHorizontalRatio / monsterHPSprite:getContentSize().width
     self:addChild(monsterHPSprite)
+    
 
     -- Player Effect Block
     local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
@@ -274,7 +276,25 @@ function GameBattlePanel:initRuneBlock()
     airRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirTextLabelVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock.airRune = airRuneText
     self.runeBlock:addChild(airRuneText)
+    
+    -- Calculate the global position for all the runes
+    self.runePositionTable = {}
+    local runeBlockPosY = visibleSize.height * (GBattlePanelVerticalStartOffsetRatio + GBattleRuneBlockVerticalStartOffsetRatio)
+    local runeBlockPosX = visibleSize.width * (GBattleRuneBlockHorizontalStartOffsetRatio)
+    local runeIdelHeight = visibleSize.height * GBattleRuneIdelHeightRatio / 2
+    local runePosX = runeBlockPosX + visibleSize.width * GBattleRuneIdelWidthRatio / 2
+    local runePosY = runeBlockPosY + runeIdelHeight
+    
+    self.runePositionTable['Fire'] = {x = runePosX, y = runePosY + visibleSize.height * GBattleRuneFireVerticalStartOffsetRatio}
+    self.runePositionTable['Water'] = {x = runePosX, y = runePosY + visibleSize.height * GBattleRuneWaterVerticalStartOffsetRatio}
+    self.runePositionTable['Earth'] = {x = runePosX, y = runePosY + visibleSize.height * GBattleRuneEarthVerticalStartOffsetRatio}
+    self.runePositionTable['Air'] = {x = runePosX, y = runePosY + visibleSize.height * GBattleRuneAirVerticalStartOffsetRatio}
 
+    --[[local fire = self:getRunePosition('Fire')
+    local water = self:getRunePosition('Water')
+    local earth = self:getRunePosition('Earth')
+    local air = self:getRunePosition('Air')--]]
+    
 end
 
 ---
@@ -336,7 +356,7 @@ end
 -- Show the damage info for the monster
 -- @function [parent=#panel.GameBattlePanel] doDamageToMonster
 -- @param damageValue The damage hit on the monster
-function GameBattlePanel:doDamageToMonster(damageValue)
+function GameBattlePanel:doDamageToMonster(damageValue,ratio)
     assert(damageValue, "Nil input in function: GameBattlePanel:doDamageToMonster()")
     if self.damageText == nil then
         if damageValue >= 0 then
@@ -360,6 +380,10 @@ function GameBattlePanel:doDamageToMonster(damageValue)
     self.damageText:setAnchorPoint(0,0)
     self.damageText:setPosition(400, 150)
     self.damageText:runAction(actionSeq)
+    
+    -- scale the monster hp bar
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.monsterHPBarFullRatio, self.monsterHPBar:getScaleY())
+    self.monsterHPBar:runAction(scaleAction)
 end
 
 ---
@@ -653,13 +677,20 @@ function GameBattlePanel:onUpdate(delta)
     end
 end
 
-
 ---
 -- Change the sprite for the monster when the monster is dead
 -- @function [parent=#panel.GameBattlePanel] monsterIsDefeated
 function GameBattlePanel:monsterIsDefeated()
     local scaleAction = cc.ScaleBy:create(2,0.01)
     self:getChildByName("MonsterNode"):runAction(scaleAction)   
+end
+
+---
+-- Get the position for a certain rune in the game battle panel
+-- @function [parent=#panel.GameBattlePanel] getRunePosition
+-- @param runeName string name of the desired rune
+function GameBattlePanel:getRunePosition(runeName)
+    return self.runePositionTable[runeName]
 end
 
 return GameBattlePanel

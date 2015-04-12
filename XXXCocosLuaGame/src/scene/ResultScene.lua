@@ -64,7 +64,7 @@ function ResultScene:onInit()
         skill:setAnchorPoint(0.5, 0.5)
         skills[1] = skill
     end
-    
+    local test = battleResult.upgradeSkillIds
     if (battleResult.upgradeSkillIds) then
         for key, value in pairs(battleResult.upgradeSkillIds) do
             local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)

@@ -90,9 +90,9 @@ GBattleMonsterBlockHorizontalRatio = 470 / 1080
 GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
 GBattleMonsterBlockHorizontalStartOffsetRatio = 330 / 1080--]]
 
-GBattleMonsterHPBarVerticalRatio = 70 / 1920
+GBattleMonsterHPBarVerticalRatio = 30 / 1920
 GBattleMonsterHPBarHorizontalRatio = 400 / 1080
-GBattleMonsterHPBarVerticalStartOffsetRatio = 480 / 1920
+GBattleMonsterHPBarVerticalStartOffsetRatio = 500 / 1920
 GBattleMonsterHPBarHorizontalStartOffsetRatio = 365 / 1080
 
 GBattlePlayerEffectBlockVerticalRatio = 150 / 1920
@@ -126,5 +126,7 @@ GSkillPublicCD = 3
 GEffectPublicCD = 3
 
 GMonsterAIInterval = 3.5
+
+GSkillMaxLevel = 10
 
 

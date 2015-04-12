@@ -23,6 +23,7 @@ function GameBattleLogic:initNode()
     self.playerMaxHP = 500
     self.playerHP = self.playerMaxHP
     self.playerWins = nil
+    self.playerSkillLevel = {}
     -- Statistics for the whole battle
     self.skillUsedCount = {}
     self.runeCollectStat = {water = 0, air = 0, fire = 0, earth = 0}
@@ -92,6 +93,13 @@ function GameBattleLogic:playerUseSkill(skill)
         self.skillUsedCount[skill.skillID] = 0
     else
         self.skillUsedCount[skill.skillID] = self.skillUsedCount[skill.skillID] + 1
+    end
+    
+    -- Get the skill level data
+    if self.playerSkillLevel[skill.skillID] == nil then
+        self.playerSkillLevel[skill.skillID] = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[skill.skillID]
+        local test = self.playerSkillLevel[skill.skillID]
+        local test2 = 0
     end
     
     -- Decrease the rune number
@@ -258,7 +266,7 @@ function GameBattleLogic:playerUseSkill(skill)
         
         -- Display the related animation
         if causeDamage then
-            self.gameBattlePanel:doDamageToMonster(damage)
+            self.gameBattlePanel:doDamageToMonster(damage, self.monsterHP / self.monsterMaxHP)
         end
         
         if causeHealing then
@@ -563,7 +571,7 @@ function GameBattleLogic:monsterUseEffect(effect)
         self.monsterHP = self.monsterHP - damage
 
         if causeDamage then
-            self.gameBattlePanel:doDamageToMonster(damage)   
+            self.gameBattlePanel:doDamageToMonster(damage, self.monsterHP / self.monsterMaxHP)   
         end
 
         if causeShellAbsorbed then
@@ -664,9 +672,11 @@ function GameBattleLogic:outputBattleStats()
 end
 
 function GameBattleLogic:endGame()
+    -- 1: skill count 2: battle duration 3: player skill level
     local gameResultTable = {}
     gameResultTable[1] = self.skillUsedCount
     gameResultTable[2] = self.battleDuration
+    gameResultTable[3] = self.playerSkillLevel
     
     self:getParent():onGameOver(self.playerWins, gameResultTable)
 end
