@@ -41,11 +41,13 @@ function LevelSelectScene:onInit()
     self.lvlScroll = rootNode:getChildByName("LevelScroll")
     
     local function onRtnTouch(sender, eventType)
-        local params = SceneManager.generateParams(self, "MainMenuScene", nil)
-        SceneManager.replaceSceneWithName("MainMenuScene", params)
+        if eventType == ccui.TouchEventType.ended then
+            local params = SceneManager.generateParams(self, "MainMenuScene", nil)
+            SceneManager.replaceSceneWithName("MainMenuScene", params)
+        end
     end
     local rtnNode = rootNode:getChildByName("node_rtn_btn");
-    local rtnBtn = GameButton.create("Return")
+    local rtnBtn = GameButton.create("Return", true)
     rtnBtn:addTouchEventListener(onRtnTouch)
     --rtnBtn:setEnabled(false)
     rtnNode:addChild(rtnBtn)
