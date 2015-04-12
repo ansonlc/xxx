@@ -76,10 +76,8 @@ function GameScene:onInit()
     self.battleLogicNode:setName("GameBattleLogic")
     self:addChild(self.battleLogicNode)
     -- Directly call the init function of for this node
-    -- TODO: Initialize the monster data based on the enter data - self.enterData.monsterID
     self.battleLogicNode:initNode()
-    -- TODO: Delete the monster simulation ID
-    self.battleLogicNode:initMonster(1003)
+    self.battleLogicNode:initMonster(DataManager.userInfo.currentMonsterID)
     
     -- Add the MonsterAILogic
     local MonsterAIlogic = require("logic.MonsterAILogic")
@@ -87,7 +85,7 @@ function GameScene:onInit()
     self.monsterAI:setName("MonsterAILogic")
     self:addChild(self.monsterAI)
     self.monsterAI:initAI()
-    self.monsterAI:initMonster(1003)
+    self.monsterAI:initMonster(DataManager.userInfo.currentMonsterID)
     
     --local rootNode = cc.CSLoader:createNode("GameScene.csb")
     --self:addChild(rootNode)

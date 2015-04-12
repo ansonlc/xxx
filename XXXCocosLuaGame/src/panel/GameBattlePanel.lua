@@ -49,7 +49,7 @@ function GameBattlePanel:initPanel()
     --self:addChild(backgroundLayer)
 
     -- HP Bar
-    local hpBarSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
+    local hpBarSprite = cc.Sprite:create("res/imgs/GameScene/player_health_bar.png")
     hpBarSprite:setAnchorPoint(0,0)
     hpBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
     hpBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
@@ -58,6 +58,14 @@ function GameBattlePanel:initPanel()
     self.hpBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width
     self.hpBarSprite = hpBarSprite
     self:addChild(self.hpBarSprite)
+    
+    -- HP Bar Frame
+    local hpBarFrameSprite = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
+    hpBarFrameSprite:setAnchorPoint(0,0)
+    hpBarFrameSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
+    hpBarFrameSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
+    hpBarFrameSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / hpBarSprite:getContentSize().height)
+    self:addChild(hpBarFrameSprite)
 
     -- Shell Bar
     local shellBarSprite = cc.Sprite:create("imgs/temp/shellbar_1.png")
@@ -101,10 +109,7 @@ function GameBattlePanel:initPanel()
     self:addChild(levelSprite)
 
     -- Option Block
-    local optionSprite = cc.Sprite:create("imgs/temp/pause_button.png")
-
-    -- used for the touch event test
-    -- TODO: Find a better way for this purpose
+    local optionSprite = cc.Sprite:create("res/imgs/GameScene/btn_option.png")
     optionSprite.onScreenWidth = visibleSize.width * GBattleOptionBlockHorizontalRatio
     optionSprite.onScreenHeight = visibleSize.height * GBattleOptionBlockVerticalRatio
     optionSprite.onScreenX = visibleSize.width * GBattleOptionBlockHorizontalStartOffset
@@ -382,6 +387,9 @@ function GameBattlePanel:doDamageToMonster(damageValue,ratio)
     self.damageText:runAction(actionSeq)
     
     -- scale the monster hp bar
+    if ratio < 0.0 then
+        ratio = 0.0
+    end
     local scaleAction = cc.ScaleTo:create(0.5, ratio * self.monsterHPBarFullRatio, self.monsterHPBar:getScaleY())
     self.monsterHPBar:runAction(scaleAction)
 end
@@ -392,6 +400,9 @@ end
 --  @param self
 --  @param ratio
 function GameBattlePanel:doDamageToPlayer(ratio)
+    if ratio < 0.0 then
+        ratio = 0.0
+    end
     local scaleAction = cc.ScaleTo:create(0.5,ratio * self.hpBarSpriteFullRatio,self.hpBarSprite:getScaleY())   
     self.hpBarSprite:runAction(scaleAction) 
 end

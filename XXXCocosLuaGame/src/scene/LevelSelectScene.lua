@@ -64,6 +64,8 @@ function LevelSelectScene:onInit()
             local params = SceneManager.generateParams(self, "MainMenuScene", {missionId = selectLvL.id})
             params.data.mode = "SlideMode"
             params.data.difficulty = "Hard"
+            -- Write to current user info
+            DataManager.userInfo.currentMonsterID = selectLvL.missionBossID
             
             SceneManager.replaceSceneWithName("SkillSelectScene", params)
         end
