@@ -219,7 +219,6 @@ function SkillSelectScene:onInit()
         rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
     end
     
-    --TODO Adjust scroll view size here
     local totalY = 0
     local yOffset = SkillListSizePlus
     local nowPosY = table.getn(allSkill()) * SkillListSizePlus - 70
