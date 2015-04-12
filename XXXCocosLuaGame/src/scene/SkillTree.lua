@@ -136,6 +136,9 @@ function SkillTree:drawTab()
     self.tab.tab1:addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 1
+            self.ScrollView1:setVisible(true)
+            self.ScrollView2:setVisible(false)
+            self.ScrollView3:setVisible(false)
             self:drawTab()
         end
     end
@@ -160,6 +163,9 @@ function SkillTree:drawTab()
     self.tab.tab2:addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 2
+            self.ScrollView1:setVisible(false)
+            self.ScrollView2:setVisible(true)
+            self.ScrollView3:setVisible(false)
             self:drawTab()
         end
     end
@@ -182,6 +188,9 @@ function SkillTree:drawTab()
     self.tab.tab3:addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 3
+            self.ScrollView1:setVisible(false)
+            self.ScrollView2:setVisible(false)
+            self.ScrollView3:setVisible(true)
             self:drawTab()
         end
     end
@@ -197,26 +206,54 @@ function SkillTree:drawSkillIcon()
     local total = 1080 - startX * 2
     local space = (total - 150 * 4) / 3.0
     
-    local skills = {
+    local skills1 = {
         {1001, 1002, 1003},
-        {nil , 1004, 1005},
+        {nil, 1004, 1005},
         {nil , 1006, 1007},
         {nil , 1008, 1009}
+    }
+
+    local skills2 = {
+        {1200},
+        {1100},
+        {1300},
+        {2000, 2100}
+    }
+    
+    local skills3 = {
+        {1600,1800},
+        {1400, 1500, 1700, 1900},
+        {},
+        {}
     }
     
     local topSpace = 200
     
-    for i = 1,4 do
-        local y = self.ScrollView:getInnerContainerSize().height - topSpace
-        for j = 1, table.getn(skills[i]) do
-            if skills[i][j] ~= nil then
-                local icon1 = self:getSkillButton(skills[i][j])
-                icon1:setPosition(cc.p(startX + (150 + space) * (i-1) + 75, y))
-                self.ScrollView:addChild(icon1)
+    local skillsList = {skills1, skills2, skills3 }
+    local scrollViewList = {self.ScrollView1, self.ScrollView2, self.ScrollView3}
+    
+    for t = 1,3 do
+        local scrollView = scrollViewList[t]
+        
+        local skills = skillsList[t]
+        for i = 1,4 do
+            local y = scrollView:getInnerContainerSize().height - topSpace
+            for j = 1, table.getn(skills[i]) do
+                if (skills[i][j] ~= nil) then
+                    local icon1 = self:getSkillButton(skills[i][j])
+                    icon1:setPosition(cc.p(startX + (150 + space) * (i-1) + 75, y))
+                    scrollView:addChild(icon1)
+                end
+                y = y - (space + 150)
             end
-            y = y - (space + 150)
         end
+    
     end
+    
+    
+    
+    
+    
 
 end
 
@@ -233,7 +270,12 @@ function SkillTree:onInit()
     
     self:updateCrystalNum()
     
-    self.ScrollView = rootNode:getChildByName("ScrollView_1")
+    self.ScrollView1 = rootNode:getChildByName("ScrollView_1")
+    self.ScrollView2 = rootNode:getChildByName("ScrollView_2")
+    self.ScrollView3 = rootNode:getChildByName("ScrollView_3")
+    self.ScrollView1:setVisible(true)
+    self.ScrollView2:setVisible(false)
+    self.ScrollView3:setVisible(false)
     
     self:drawSkillIcon()
     

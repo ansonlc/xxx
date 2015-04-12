@@ -91,6 +91,34 @@
             <PrePosition X="0.1517" Y="0.9661" />
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
+          <NodeObjectData Name="ScrollView_2" ActionTag="1888238357" FrameEvent="" Tag="10" ObjectIndex="2" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+            <Position X="0.0000" Y="400.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="1080.0000" Y="1260.0000" />
+            <PrePosition X="0.0000" Y="0.2083" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
+            <InnerNodeSize Width="1080" Height="1500" />
+          </NodeObjectData>
+          <NodeObjectData Name="ScrollView_3" ActionTag="-1538551366" FrameEvent="" Tag="11" ObjectIndex="3" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+            <Position X="0.0000" Y="400.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="1080.0000" Y="1260.0000" />
+            <PrePosition X="0.0000" Y="0.2083" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
+            <InnerNodeSize Width="1080" Height="1500" />
+          </NodeObjectData>
         </Children>
       </ObjectData>
     </Content>
