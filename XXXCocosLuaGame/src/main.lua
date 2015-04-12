@@ -8,11 +8,16 @@ cc.FileUtils:getInstance():addSearchPath("res")
 -- CC_USE_DEPRECATED_API = true
 
 require "cocos.init"
+
+require "core.BaseScene"
+require "core.GameButton"
+
 require "manager.DataManager"
 require "manager.MetaManager"
 require "manager.SceneManager"
 require "manager.GameIconManager"
 require "manager.ParticleManager"
+
 require "utils.TimeUtil"
 
 -- cclog
