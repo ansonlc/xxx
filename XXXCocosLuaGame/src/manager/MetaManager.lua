@@ -10,6 +10,7 @@ function MetaManager.init()
     loadMetaData("battle_monster")
     loadMetaData("battle_skill")
     loadMetaData("particle_effect")
+    loadMetaData("skill_level")
 end
 
 function MetaManager.checkMetaVersion(metaName)
@@ -60,4 +61,10 @@ function MetaManager.getParticle(particleID)
     MetaManager.checkMetaVersion("particle_effect")
     local particle = MetaManager["particle_effect"][particleID]
     return particle
+end
+
+function MetaManager.getSkillLevel(level)
+    --MetaManager.checkMetaVersion("")
+    local level = MetaManager["skill_level"][level]
+    return level
 end
