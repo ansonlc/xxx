@@ -143,6 +143,69 @@ function toString6(x)
     return ret
 end
 
+function SkillTree:updateCrystalNum()
+    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+end
+
+local function getSkillButton(skillID)
+    local xSize = 100
+    local ySize = 100
+    local skillButton = ccui.Button:create()
+    skillButton:loadTextures("res/imgs/temp/white.png", "res/imgs/temp/white.png")
+    local size = 150
+    skillButton:setScale(size, size)
+    
+
+    local pic = GameIconManager.getSkillSprite(skillID, 1, true, 99)
+    pic:setScale(0.78 / 100.0, 0.78 / 100.0)
+    pic:setPosition(0, 0)
+    pic:setAnchorPoint(0, 0)
+    skillButton:addChild(pic)
+
+    local function onBtnPress(sender, eventType)
+        if eventType == 0 then
+            print ('hi!')
+        end
+    end
+    skillButton:addTouchEventListener(onBtnPress)
+    return skillButton
+end
+
+function SkillTree:drawTab()
+    
+end
+
+function SkillTree:drawSkillIcon()
+    
+    local startX = 120
+    local total = 1080 - startX * 2
+    local space = (total - 150 * 4) / 3.0
+    
+    
+    local topSpace = 200
+    local y = self.ScrollView:getInnerContainerSize().height - topSpace
+    
+    local icon1 = getSkillButton(1001)
+    icon1:setPosition(cc.p(startX + (150 + space) * 0 + 75, y))
+    self.ScrollView:addChild(icon1)
+    
+    local icon2 = getSkillButton(1001)
+    icon2:setPosition(cc.p(startX + (150 + space) * 1 + 75, y))
+    self.ScrollView:addChild(icon2)
+    
+    local icon3 = getSkillButton(1001)
+    icon3:setPosition(cc.p(startX + (150 + space) * 2 + 75, y))
+    self.ScrollView:addChild(icon3)
+    
+    local icon4 = getSkillButton(1001)
+    icon4:setPosition(cc.p(startX + (150 + space) * 3 + 75, y))
+    self.ScrollView:addChild(icon4)
+    
+    print (startX + (150 + space) * 3 + 150 + startX)
+    print (space)
+
+end
+
 function SkillTree:onInit()
 
 
@@ -154,9 +217,11 @@ function SkillTree:onInit()
     self:addChild(rootNode)
     self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
     
+    self:updateCrystalNum()
     
-    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+    self.ScrollView = rootNode:getChildByName("ScrollView_1")
     
+    self:drawSkillIcon()
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
@@ -166,6 +231,15 @@ function SkillTree:onInit()
     end
     )
     
+    
+    rootNode:getChildByName("Button_1"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            currentCrystalNumDisplay = currentCrystalNumDisplay - 100
+            self:updateCrystalNum()
+        end
+
+    end
+    )
     --self.skillScroll = rootNode:getChildByName("SkillScroll")
 
     --print("self.skillScroll = ")

@@ -22,19 +22,19 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="ScrollView_1" ActionTag="503153752" FrameEvent="" Tag="416" ObjectIndex="1" TouchEnable="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
-            <Position X="0.0000" Y="399.9982" />
-            <Scale ScaleX="5.4000" ScaleY="6.3000" />
+          <NodeObjectData Name="ScrollView_1" ActionTag="503153752" FrameEvent="" Tag="416" ObjectIndex="1" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+            <Position X="0.0000" Y="400.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint />
             <CColor A="255" R="255" G="255" B="255" />
-            <Size X="200.0000" Y="200.0000" />
+            <Size X="1080.0000" Y="1260.0000" />
             <PrePosition X="0.0000" Y="0.2083" />
-            <PreSize X="0.0000" Y="0.0000" />
-            <SingleColor A="255" R="255" G="150" B="100" />
-            <FirstColor A="255" R="255" G="150" B="100" />
+            <PreSize X="1.0000" Y="0.6563" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
-            <InnerNodeSize Width="200" Height="300" />
+            <InnerNodeSize Width="1080" Height="1500" />
           </NodeObjectData>
           <NodeObjectData Name="Image_2" ActionTag="132262724" FrameEvent="" Tag="417" ObjectIndex="2" Scale9Width="1080" Scale9Height="255" ctype="ImageViewObjectData">
             <Position X="542.9999" Y="1784.9987" />
