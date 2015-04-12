@@ -44,8 +44,11 @@ function LevelSelectScene:onInit()
         local params = SceneManager.generateParams(self, "MainMenuScene", nil)
         SceneManager.replaceSceneWithName("MainMenuScene", params)
     end
-    local rtnBtn = rootNode:getChildByName("btn_return");
+    local rtnNode = rootNode:getChildByName("node_rtn_btn");
+    local rtnBtn = GameButton.create("Return")
     rtnBtn:addTouchEventListener(onRtnTouch)
+    --rtnBtn:setEnabled(false)
+    rtnNode:addChild(rtnBtn)
     
     -- Level buttons touching event
     local function onTouch(sender, eventType)
@@ -65,8 +68,9 @@ function LevelSelectScene:onInit()
     end
     
     -- Add level button items to scroll view
+    self.lvlScroll:setInnerContainerSize(cc.size(1080, 15960))
     local yOffset = 100
-    local nowPosY = 1720
+    local nowPosY = self.lvlScroll:getInnerContainerSize().height - 100
     for key, value in ipairs(battle_mission_cfg) do
         --TODO Add different chapters and worlds
         local lvBossType = value.lvlBossType==0 and nil or value.lvlBossType
