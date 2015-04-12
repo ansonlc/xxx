@@ -24,116 +24,8 @@ end
 
 local skillIcons = {}
 local skillSlotButton = {}
-
-
-local function drawCurrentSkill(root)
-    local skills = DataManager.userInfo.currentSkills
-
-    for _, id in pairs(allSkill()) do
-        skillIcons[id]:setVisible(false)
-    end
-
-    for i = 1,5 do
-        local skillSprite = skillIcons[skills[i]]
-        skillSprite:setPosition(i * 196 - 45 , 1654)
-        skillSprite:setScale(2.6)
-        skillSprite:setVisible(true)
-        skillSprite:setOpacity(255)
-        if i == currentSelect then
-            skillSprite:setOpacity(50)
-        end
-    end
-end
-
-
-local function currentNotContain(id)
-    for i = 1,5 do
-        if DataManager.userInfo.currentSkills[i] == id then
-            return false
-        end
-    end
-    return true
-end
-
-local SkillListSize = 200
-local SkillListSizePlus = 210
-
-local skillListIcons = {}
-
-local function updateInvalidSkills()
-    for _, id in pairs(allSkill()) do
-        if currentNotContain(id) then
-            skillListIcons[id]:setOpacity(255)
-        else
-            skillListIcons[id]:setOpacity(50)
-        end
-    end
-end
-
-local function buildSkillButton(id, skill, posY)
-    local skillButton = ccui.Button:create()
-
-    skillListIcons[id] = skillButton
-
-    --skillButton:setTitleText(skill.skillName)-- ? - 0.lvlName
-    --skillButton:setTitleFontName("fonts/ALGER.TTF")
-    --skillButton:setTitleFontSize(72)
-
-    local name = cc.LabelTTF:create("[" .. id .. "] " .. skill.skillName , "Arial", 35)
-    name:setColor(cc.c3b(0,0,0))
-    name:setScale(1.0 / 800, 1.0 / SkillListSize)
-    name:setPosition(450.0 / 800, 150.0 / SkillListSize)
-    skillButton:addChild(name) 
-
-    local costs = cc.LabelTTF:create("Costs : " .. skill.runeCostTable.air .. " | " .. skill.runeCostTable.earth .. " | " .. skill.runeCostTable.water .. " | " .. skill.runeCostTable.fire , "Arial", 35)
-    costs:setColor(cc.c3b(0,0,0))
-    costs:setScale(1.0 / 800, 1.0 / SkillListSize)
-    costs:setPosition(450.0 / 800, 100.0 / SkillListSize)
-    skillButton:addChild(costs)
-
-    local desc = cc.LabelTTF:create(skill.skillDesc , "Arial", 35)
-    desc:setColor(cc.c3b(0,0,0))
-    desc:setScale(1.0 / 800, 1.0 / SkillListSize)
-    desc:setPosition(450.0 / 800, 50.0 / SkillListSize)
-    skillButton:addChild(desc)
-
-    skillButton:loadTextures("res/imgs/temp/white.png", "res/imgs/temp/white.png")
-    skillButton:setScale(800, SkillListSize)
-    skillButton:setPosition(cc.p(430, posY))
-
-    local pic = GameIconManager.getSkillSprite(id, 1, true, 99)
-    pic:setScale(1.0 / 800, 1.0 / SkillListSize)
-    pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
-    pic:setAnchorPoint(0.5, 0.5)
-    skillButton:addChild(pic)
-
-
-    local function onBtnPress(sender, eventType)
-        if eventType == 0 then
-            if currentSelect > 0 and currentNotContain(id) then
-                print ("x[" .. currentSelect .. "] = " .. id)
-                DataManager.userInfo.currentSkills[currentSelect] = id
-                DataManager.setCurrentSkill(1001, DataManager.userInfo.currentSkills)
-                currentSelect = 0
-                drawCurrentSkill()
-                updateInvalidSkills()
-            end
-        end
-    end
-    skillButton:addTouchEventListener(onBtnPress)
-
-    --TODO Add level button background
-    return skillButton
-end
-
-
-local function drawIcons(root)
-    for _, id in pairs(allSkill()) do
-        skillIcons[id] = cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
-        root:addChild(skillIcons[id])
-        skillIcons[id]:setVisible(false)
-    end
-end
+local currentSelect = nil
+local tabSelect = 1
 
 function toString6(x)
     local ret = x .. ""
@@ -147,7 +39,52 @@ function SkillTree:updateCrystalNum()
     self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
 end
 
-local function getSkillButton(skillID)
+function SkillTree:drawSkillInfo()
+    if self.currentSelectSkill ~= nil then
+        self.currentSelectSkill.skillIcon:setVisible(false)
+        self.currentSelectSkill.skillName:setVisible(false)
+        self.currentSelectSkill.skillDesc:setVisible(false)
+        self.currentSelectSkill.skillLevel:setVisible(false)
+    end
+    
+    
+    self.currentSelectSkill = {}
+    
+    -- Icon
+    if (currentSelect ~= nil) then
+        self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect)
+        self.currentSelectSkill.skillIcon:setPosition(cc.p(145, 275))
+        self:addChild(self.currentSelectSkill.skillIcon)
+
+    end
+    
+    local skill = MetaManager.getSkill(currentSelect)
+    -- Name
+    self.currentSelectSkill.skillName = cc.LabelTTF:create("[" .. currentSelect .. "] " .. skill.skillName , "Arial", 35)
+    self.currentSelectSkill.skillName:setColor(cc.c3b(255, 255, 255))
+    self.currentSelectSkill.skillName:setPosition(cc.p(650, 190))
+    self:addChild(self.currentSelectSkill.skillName)
+    
+    -- Desc
+    self.currentSelectSkill.skillDesc = cc.LabelTTF:create(skill.skillDesc , "Arial", 35)
+    self.currentSelectSkill.skillDesc:setColor(cc.c3b(255, 255, 255))
+    self.currentSelectSkill.skillDesc:setPosition(cc.p(650, 140))
+    self:addChild(self.currentSelectSkill.skillDesc)
+    
+    -- Level
+    self.currentSelectSkill.skillLevel = cc.LabelTTF:create("42" , "Arial", 35)
+    self.currentSelectSkill.skillLevel:setColor(cc.c3b(255, 255, 255))
+    self.currentSelectSkill.skillLevel:setPosition(cc.p(350, 335))
+    self:addChild(self.currentSelectSkill.skillLevel)
+
+    
+    
+    
+    
+    
+end
+
+function SkillTree:getSkillButton(skillID)
     local xSize = 100
     local ySize = 100
     local skillButton = ccui.Button:create()
@@ -161,19 +98,98 @@ local function getSkillButton(skillID)
     pic:setPosition(0, 0)
     pic:setAnchorPoint(0, 0)
     skillButton:addChild(pic)
-
-    local function onBtnPress(sender, eventType)
+    
+    
+    skillButton:addTouchEventListener(function(sender, eventType)
         if eventType == 0 then
-            print ('hi!')
+            currentSelect = skillID
+            self:drawSkillInfo()
         end
-    end
-    skillButton:addTouchEventListener(onBtnPress)
+    end)
     return skillButton
 end
 
 function SkillTree:drawTab()
     
+    if self.tab ~= nil then
+        self.tab.tab1:setVisible(false)
+        self.tab.tab2:setVisible(false)
+        self.tab.tab3:setVisible(false)
+    end
+    
+    self.tab = {}
+    
+    self.tab.tab1 = ccui.Button:create()
+    if tabSelect == 1 then
+        self.tab.tab1:loadTextures("res/imgs/SkillTree/Tab_select.png", "res/imgs/SkillTree/Tab_select.png")
+    else
+        self.tab.tab1:loadTextures("res/imgs/SkillTree/Tab.png", "res/imgs/SkillTree/Tab.png")
+    end
+    self.tab.tab1:setPosition(1080 / 2 - 340, 1700)
+    self:addChild(self.tab.tab1)
+    
+    local tab1Text = cc.Sprite:create("res/imgs/SkillTree/Tab_OffenceL.png")
+    tab1Text:setPosition(0, 4)
+    tab1Text:setAnchorPoint(0, 0)
+    self.tab.tab1:addChild(tab1Text)
+    
+    self.tab.tab1:addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            tabSelect = 1
+            self:drawTab()
+        end
+    end
+    )
+    
+    
+    
+    self.tab.tab2 = ccui.Button:create()
+    if tabSelect == 2 then
+        self.tab.tab2:loadTextures("res/imgs/SkillTree/Tab_select.png", "res/imgs/SkillTree/Tab_select.png")
+    else
+        self.tab.tab2:loadTextures("res/imgs/SkillTree/Tab.png", "res/imgs/SkillTree/Tab.png")
+    end
+    self.tab.tab2:setPosition(1080 / 2, 1700)
+    self:addChild(self.tab.tab2)
+    
+    local tab2Text = cc.Sprite:create("res/imgs/SkillTree/Tab_DeffenceL.png")
+    tab2Text:setPosition(0, 4)
+    tab2Text:setAnchorPoint(0, 0)
+    self.tab.tab2:addChild(tab2Text)
+    
+    self.tab.tab2:addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            tabSelect = 2
+            self:drawTab()
+        end
+    end
+    )
+    
+    self.tab.tab3 = ccui.Button:create()
+    if tabSelect == 3 then
+        self.tab.tab3:loadTextures("res/imgs/SkillTree/Tab_select.png", "res/imgs/SkillTree/Tab_select.png")
+    else
+        self.tab.tab3:loadTextures("res/imgs/SkillTree/Tab.png", "res/imgs/SkillTree/Tab.png")
+    end
+    self.tab.tab3:setPosition(1080 / 2 + 340, 1700)
+    self:addChild(self.tab.tab3)
+    
+    local tab3Text = cc.Sprite:create("res/imgs/SkillTree/Tab_UtilityL.png")
+    tab3Text:setPosition(0, 4)
+    tab3Text:setAnchorPoint(0, 0)
+    self.tab.tab3:addChild(tab3Text)
+   
+    self.tab.tab3:addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            tabSelect = 3
+            self:drawTab()
+        end
+    end
+    )
+     
 end
+
+
 
 function SkillTree:drawSkillIcon()
     
@@ -181,28 +197,26 @@ function SkillTree:drawSkillIcon()
     local total = 1080 - startX * 2
     local space = (total - 150 * 4) / 3.0
     
+    local skills = {
+        {1001, 1002, 1003},
+        {nil , 1004, 1005},
+        {nil , 1006, 1007},
+        {nil , 1008, 1009}
+    }
     
     local topSpace = 200
-    local y = self.ScrollView:getInnerContainerSize().height - topSpace
     
-    local icon1 = getSkillButton(1001)
-    icon1:setPosition(cc.p(startX + (150 + space) * 0 + 75, y))
-    self.ScrollView:addChild(icon1)
-    
-    local icon2 = getSkillButton(1001)
-    icon2:setPosition(cc.p(startX + (150 + space) * 1 + 75, y))
-    self.ScrollView:addChild(icon2)
-    
-    local icon3 = getSkillButton(1001)
-    icon3:setPosition(cc.p(startX + (150 + space) * 2 + 75, y))
-    self.ScrollView:addChild(icon3)
-    
-    local icon4 = getSkillButton(1001)
-    icon4:setPosition(cc.p(startX + (150 + space) * 3 + 75, y))
-    self.ScrollView:addChild(icon4)
-    
-    print (startX + (150 + space) * 3 + 150 + startX)
-    print (space)
+    for i = 1,4 do
+        local y = self.ScrollView:getInnerContainerSize().height - topSpace
+        for j = 1, table.getn(skills[i]) do
+            if skills[i][j] ~= nil then
+                local icon1 = self:getSkillButton(skills[i][j])
+                icon1:setPosition(cc.p(startX + (150 + space) * (i-1) + 75, y))
+                self.ScrollView:addChild(icon1)
+            end
+            y = y - (space + 150)
+        end
+    end
 
 end
 
@@ -223,6 +237,8 @@ function SkillTree:onInit()
     
     self:drawSkillIcon()
     
+    self:drawTab()
+    
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
             SceneManager.replaceSceneWithName("MainMenuScene")
@@ -240,87 +256,7 @@ function SkillTree:onInit()
 
     end
     )
-    --self.skillScroll = rootNode:getChildByName("SkillScroll")
-
-    --print("self.skillScroll = ")
-    --print(self.skillScroll)
-
-    --drawCurrentSkill(rootNode)
     
-    --[[
-    local btn2scene = {
-        ["Button_Ok"] = "GameScene",
-        ["Button_Cancel"] = "LevelSelectScene",
-        ["Button_Skill1"] = "",
-        ["Button_Skill2"] = "",
-        ["Button_Skill3"] = "",
-        ["Button_Skill4"] = "",
-        ["Button_Skill5"] = "",
-
-    }
-
-    local function onBtnPress(sender, eventType)
-
-        if eventType == ccui.TouchEventType.ended then
-            for i = 1,5 do
-                if sender:getName() == ("Button_Skill" .. i) then
-
-                    if i == currentSelect then
-                        currentSelect = 0
-                    elseif currentSelect > 0 then
-                        local a = DataManager.userInfo.currentSkills[i]
-                        local b = DataManager.userInfo.currentSkills[currentSelect]
-                        DataManager.userInfo.currentSkills[i] = b
-                        DataManager.userInfo.currentSkills[currentSelect] = a
-                        currentSelect = 0
-                    else
-                        currentSelect = i
-                    end
-                    drawCurrentSkill(rootNode)
-                    updateInvalidSkills()
-                end
-            end
-
-            if sender:getName() == "Button_Ok" then
-                --print ("ok!")
-                local params = {}
-                params.enterScene = self.enterScene
-                params.returnScene = self.returnScene
-                params.data = self.enterData
-                SceneManager.replaceSceneWithName("GameScene", params)
-
-            end
-            if sender:getName() == "Button_Cancel" then
-                --print ("cancel!")
-                SceneManager.replaceSceneWithName("LevelSelectScene")
-            end
-            --SceneManager.replaceSceneWithName(btn2scene[sender:getName()], params)
-            return true
-        end
-    end
-
-    for i = 1,5 do
-        rootNode:getChildByName("Button_Skill" .. i):setOpacity(0)
-    end
-
-    for key,_ in pairs(btn2scene) do
-        rootNode:getChildByName(key):addTouchEventListener(onBtnPress)
-    end
-
-    --TODO Adjust scroll view size here
-    local totalY = 0
-    local yOffset = SkillListSizePlus
-    local nowPosY = 3350
-    for id, key in pairs(allSkill()) do
-
-        local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
-        self.skillScroll:addChild(skillButton)
-        nowPosY = nowPosY - yOffset
-        totalY = totalY + SkillListSizePlus
-    end
-
-    updateInvalidSkills()
-    ]]--
 
 
 end
