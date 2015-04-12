@@ -54,6 +54,7 @@ function MainMenuScene:onInit()
 end
 
 function MainMenuScene:onEnter()
+    --TODO perform different enter animation when enter from other scenes
     local moveToAction = cc.MoveTo:create(0.5, cc.p(self.visibleSize.width/2, self.visibleSize.height/2))
     
     local function endOnMoveTo()
