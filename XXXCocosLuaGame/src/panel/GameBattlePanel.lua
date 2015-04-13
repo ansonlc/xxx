@@ -31,17 +31,16 @@ function GameBattlePanel:initPanel()
     self:setPosition(0, visibleSize.height * GBattlePanelVerticalStartOffsetRatio)
 
     -- Debug layer
-    local debugColor = cc.c4b(255, 255, 255, 100)
+    --[[local debugColor = cc.c4b(255, 255, 255, 100)
     local debugLayer = cc.LayerColor:create(debugColor)
 
     debugLayer:changeWidthAndHeight(visibleSize.width,visibleSize.height * GBattlePanelVerticalRatio)
     debugLayer:setAnchorPoint(0,0)
     debugLayer:setPosition(0,0)
 
-    self:addChild(debugLayer)
+    self:addChild(debugLayer)--]]
 
     -- Create the BackgroundLayer
-    -- TODO change the single color to the final sprite in te res file
     local backgroundColor = cc.c4b(255, 255, 255, 255)
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
@@ -79,17 +78,24 @@ function GameBattlePanel:initPanel()
     self:addChild(self.shellBarSprite)
 
     -- Battle Field
-    local battleFieldColor = cc.c4b(0, 0, 255, 80)
+    --[[local battleFieldColor = cc.c4b(0, 0, 255, 80)
     local battleFieldLayer = cc.LayerColor:create(battleFieldColor)
 
     battleFieldLayer:changeWidthAndHeight(visibleSize.width * GBattleFieldHorizontalRatio, visibleSize.height * GBattleFieldVerticalRatio)
     battleFieldLayer:setAnchorPoint(0,0)
     battleFieldLayer:setPosition(visibleSize.width * GBattleFieldHorizontalStartOffsetRatio,visibleSize.height * GBattleFieldVerticalStartOffsetRatio)
 
-    self:addChild(battleFieldLayer)
-
+    self:addChild(battleFieldLayer)--]]
+    local battleFieldBackground = cc.Sprite:create("res/imgs/GameScene/battle_panel.png")
+    
+    battleFieldBackground:setScale(visibleSize.width * GBattleFieldHorizontalRatio / battleFieldBackground:getContentSize().width, visibleSize.height * GBattleFieldVerticalRatio / battleFieldBackground:getContentSize().height)
+    battleFieldBackground:setAnchorPoint(0,0)
+    battleFieldBackground:setPosition(visibleSize.width * GBattleFieldHorizontalStartOffsetRatio,visibleSize.height * GBattleFieldVerticalStartOffsetRatio)
+    
+    self:addChild(battleFieldBackground)
+    
     -- Rune Block
-    local runeBlockColor = cc.c4b(100, 100, 0, 100)
+    local runeBlockColor = cc.c4b(100, 100, 0, 0)
     local runeBlockLayer = cc.LayerColor:create(runeBlockColor)
 
     runeBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleRuneBlockHorizontalRatio, visibleSize.height * GBattleRuneBlockVerticalRatio)
@@ -98,9 +104,18 @@ function GameBattlePanel:initPanel()
 
     self.runeBlock = runeBlockLayer
     self:addChild(runeBlockLayer)
+    
+    -- Crystal Block
+    local crystalBlockSprite = cc.Sprite:create("res/imgs/GameScene/CrystalLabel.png")
+    
+    crystalBlockSprite:setScale(visibleSize.width * GBattleCrystalBlockHorizontalRatio / crystalBlockSprite:getContentSize().width, visibleSize.height * GBattleCrystalBlockVerticalRatio / crystalBlockSprite:getContentSize().height)
+    crystalBlockSprite:setAnchorPoint(0,0)
+    crystalBlockSprite:setPosition(visibleSize.width * GBattleCrystalBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleCrystalBlockVerticalStartOffsetRatio)
+    
+    self:addChild(crystalBlockSprite)
 
     -- Level Block
-    local levelSprite = cc.Sprite:create("imgs/temp/leveltitle_1.png")
+    local levelSprite = cc.Sprite:create("imgs/GameScene/level_1.png")
     levelSprite:setScaleX(visibleSize.width * GBattleLevelBlockHorizontalRatio / levelSprite:getContentSize().width)
     levelSprite:setScaleY(visibleSize.height * GBattleLevelBlockVerticalRatio / levelSprite:getContentSize().height)
     levelSprite:setAnchorPoint(0,0)
@@ -222,28 +237,28 @@ function GameBattlePanel:initRuneBlock()
     -- Rune Icons
     -- Current all the Runes Sprites are the children of the RuneBlock in this panel
     -- Fire Rune
-    local fireRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon11.png"))
+    local fireRuneSprite = cc.Sprite:create("res/imgs/GameScene/rune_fire_label.png")
     fireRuneSprite:setAnchorPoint(0,0)
     fireRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     fireRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneFireVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock:addChild(fireRuneSprite)
 
     -- Water Rune
-    local waterRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon15.png"))
+    local waterRuneSprite = cc.Sprite:create("res/imgs/GameScene/rune_water_label.png")
     waterRuneSprite:setAnchorPoint(0,0)
     waterRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     waterRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneWaterVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock:addChild(waterRuneSprite)
 
     -- Earth Rune
-    local earthRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon12.png"))
+    local earthRuneSprite = cc.Sprite:create("res/imgs/GameScene/rune_earth_label.png")
     earthRuneSprite:setAnchorPoint(0,0)
     earthRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     earthRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthVerticalStartOffsetRatio * visibleSize.height)
     self.runeBlock:addChild(earthRuneSprite)
 
     -- Air Rune
-    local airRuneSprite = cc.Sprite:createWithSpriteFrame(cc.SpriteFrameCache:getInstance():getSpriteFrame("icon14.png"))
+    local airRuneSprite = cc.Sprite:create("res/imgs/GameScene/rune_air_label.png")
     airRuneSprite:setAnchorPoint(0,0)
     airRuneSprite:setScale(GBattleRuneIdelWidthRatio * visibleSize.width / fireRuneSprite:getContentSize().width, GBattleRuneIdelHeightRatio * visibleSize.height / fireRuneSprite:getContentSize().height)
     airRuneSprite:setPosition(GBattleRuneIdelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirVerticalStartOffsetRatio * visibleSize.height)
@@ -251,7 +266,7 @@ function GameBattlePanel:initRuneBlock()
 
     -- Rune Text
     -- Fire Rune Text
-    local fireRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    local fireRuneText = cc.LabelTTF:create("10", "Arial", 80)
     fireRuneText:setAnchorPoint(0,0)
     fireRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / fireRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / fireRuneText:getContentSize().height)
     fireRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneFireTextLabelVerticalStartOffsetRatio * visibleSize.height)
@@ -259,7 +274,7 @@ function GameBattlePanel:initRuneBlock()
     self.runeBlock:addChild(fireRuneText)
 
     -- Water Rune Text
-    local waterRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    local waterRuneText = cc.LabelTTF:create("10", "Arial", 80)
     waterRuneText:setAnchorPoint(0,0)
     waterRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / waterRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / waterRuneText:getContentSize().height)
     waterRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneWaterTextLabelVerticalStartOffsetRatio * visibleSize.height)
@@ -267,7 +282,7 @@ function GameBattlePanel:initRuneBlock()
     self.runeBlock:addChild(waterRuneText)
 
     -- Earth Rune Text
-    local earthRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    local earthRuneText = cc.LabelTTF:create("10", "Arial", 80)
     earthRuneText:setAnchorPoint(0,0)
     earthRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / earthRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / earthRuneText:getContentSize().height)
     earthRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneEarthTextLabelVerticalStartOffsetRatio * visibleSize.height)
@@ -275,7 +290,7 @@ function GameBattlePanel:initRuneBlock()
     self.runeBlock:addChild(earthRuneText)
 
     -- Air Rune Text
-    local airRuneText = cc.LabelTTF:create("10", "Arial", 100)
+    local airRuneText = cc.LabelTTF:create("10", "Arial", 80)
     airRuneText:setAnchorPoint(0,0)
     airRuneText:setScale(GBattleRuneTextLabelIdelWidthRatio * visibleSize.width / airRuneText:getContentSize().width, GBattleRuneTextLabelIdelHeightRatio * visibleSize.height / airRuneText:getContentSize().height)
     airRuneText:setPosition(GBattleRuneTextLabelHorizontalStartOffsetRatio * visibleSize.width, GBattleRuneAirTextLabelVerticalStartOffsetRatio * visibleSize.height)
