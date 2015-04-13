@@ -2,11 +2,11 @@ local UserSkillStatusTable = {
     [1001] = {
     userID = 1001, 
     availableSkills = {
-        [1001]={skillID = 1001, exp = 0, level = 1},
+        [1001]={skillID = 1001, exp = 0, level = 2},
         [1100]={skillID = 1100, exp = 0, level = 1},
-        [1200]={skillID = 1200, exp = 0, level = 1},
-        [1300]={skillID = 1300, exp = 0, level = 1},
-        [1400]={skillID = 1400, exp = 0, level = 1},
+        [1200]={skillID = 1200, exp = 0, level = 3},
+        [1300]={skillID = 1300, exp = 0, level = 3},
+        [1400]={skillID = 1400, exp = 0, level = 3},
         [1500]={skillID = 1500, exp = 0, level = 1},
         [1600]={skillID = 1600, exp = 0, level = 1},
         [1700]={skillID = 1700, exp = 0, level = 1},

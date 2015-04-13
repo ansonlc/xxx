@@ -69,6 +69,14 @@ function DataManager.getAvailableSkill(userID)
     return DataManager.userSkillStatus[userID].availableSkills
 end
 
+function DataManager.getSkillLevel(skillID)
+    local userID = DataManager.userInfo.currentUser
+    if DataManager.userSkillStatus[userID].availableSkills[skillID] ~= nil then
+        return DataManager.userSkillStatus[userID].availableSkills[skillID].level
+    end
+    return 0
+end
+
 function DataManager.saveData()
     --table.save(DataManager.userData, "../../data/UserData.txt")
     --table.save(DataManager.userSkillStatus, "../../data/UserSkillStatus.txt")

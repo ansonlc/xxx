@@ -100,12 +100,25 @@ function SkillTree:getSkillButton(skillID)
     skillButton:addChild(pic)
     
     
+    
     skillButton:addTouchEventListener(function(sender, eventType)
         if eventType == 0 then
             currentSelect = skillID
             self:drawSkillInfo()
         end
     end)
+       
+    skillButton.updateLevel = function()
+        local skillLvl = DataManager.getSkillLevel(skillID)
+        if skillLvl == 0 then
+            pic:setDisabled(true)
+        end
+            pic.skillLevelLabel:setString("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl)
+    end
+    
+    skillButton.updateLevel()
+    
+    
     return skillButton
 end
 
@@ -217,13 +230,13 @@ function SkillTree:drawSkillIcon()
         {1200},
         {1100},
         {1300},
-        {2000, 2100}
+        {}
     }
     
     local skills3 = {
         {1600,1800},
         {1400, 1500, 1700, 1900},
-        {},
+        {2000, 2100},
         {}
     }
     

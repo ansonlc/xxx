@@ -104,7 +104,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     --Provide a disabled cover for the pic
     local disableCover = cc.Sprite:create("res/imgs/item/border/black.png")
     disableCover:setPosition(64, 64)
-    disableCover:setOpacity(128)
+    disableCover:setOpacity(200)
     skillSprite:addChild(disableCover)
     disableCover:setVisible(false)
     skillSprite.setDisabled = function(self, flag)
