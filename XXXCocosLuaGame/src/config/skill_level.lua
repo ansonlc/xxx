@@ -1,4 +1,5 @@
 local SkillLevelTable = {
+    [1] = 0,
     [2] = 100,
     [3] = 300,
     [4] = 600, 

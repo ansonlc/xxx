@@ -12,6 +12,14 @@ local SkillTree = class("SkillTree", function() return BaseScene.create() end)
 
 local currentCrystalNumDisplay = 0001000;
 
+local skillIconList = {}
+
+local function skillIconListUpdates()
+    for i = 1, #skillIconList do
+        skillIconList[i].updateLevel()
+    end
+end
+
 function SkillTree:ctor()
     self.sceneName = "SkillTree"
 end
@@ -27,13 +35,23 @@ local skillSlotButton = {}
 local currentSelect = nil
 local tabSelect = 1
 
-function toString6(x)
+local function toString6(x)
     local ret = x .. ""
     while string.len(ret) < 6 do
         ret = '0' .. ret
     end
     return ret
 end
+
+local function toString2(x)
+    local ret = x .. ""
+    while string.len(ret) < 2 do
+        ret = '0' .. ret
+    end
+    return ret
+end
+
+
 
 function SkillTree:updateCrystalNum()
     self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
@@ -52,10 +70,10 @@ function SkillTree:drawSkillInfo()
     
     -- Icon
     if (currentSelect ~= nil) then
-        self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect)
+        self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect, false)
         self.currentSelectSkill.skillIcon:setPosition(cc.p(145, 275))
+        self.currentSelectSkill.skillIcon.removeLevel()
         self:addChild(self.currentSelectSkill.skillIcon)
-
     end
     
     local skill = MetaManager.getSkill(currentSelect)
@@ -72,7 +90,7 @@ function SkillTree:drawSkillInfo()
     self:addChild(self.currentSelectSkill.skillDesc)
     
     -- Level
-    self.currentSelectSkill.skillLevel = cc.LabelTTF:create("42" , "Arial", 35)
+    self.currentSelectSkill.skillLevel = cc.LabelTTF:create(toString2(DataManager.getSkillLevel(currentSelect)) , "Arial", 35)
     self.currentSelectSkill.skillLevel:setColor(cc.c3b(255, 255, 255))
     self.currentSelectSkill.skillLevel:setPosition(cc.p(350, 335))
     self:addChild(self.currentSelectSkill.skillLevel)
@@ -84,7 +102,7 @@ function SkillTree:drawSkillInfo()
     
 end
 
-function SkillTree:getSkillButton(skillID)
+function SkillTree:getSkillButton(skillID, canClick)
     local xSize = 100
     local ySize = 100
     local skillButton = ccui.Button:create()
@@ -92,7 +110,7 @@ function SkillTree:getSkillButton(skillID)
     local size = 150
     skillButton:setScale(size, size)
     
-
+    
     local pic = GameIconManager.getSkillSprite(skillID, 1, true, 99)
     pic:setScale(0.78 / 100.0, 0.78 / 100.0)
     pic:setPosition(0, 0)
@@ -100,13 +118,15 @@ function SkillTree:getSkillButton(skillID)
     skillButton:addChild(pic)
     
     
-    
-    skillButton:addTouchEventListener(function(sender, eventType)
+    if DataManager.getSkillLevel(skillID) > 0 then
+        skillButton:addTouchEventListener(function(sender, eventType)
         if eventType == 0 then
             currentSelect = skillID
             self:drawSkillInfo()
         end
-    end)
+  
+        end)
+    end
        
     skillButton.updateLevel = function()
         local skillLvl = DataManager.getSkillLevel(skillID)
@@ -115,8 +135,19 @@ function SkillTree:getSkillButton(skillID)
         end
             pic.skillLevelLabel:setString("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl)
     end
-    
+  
+    skillButton.removeLevel = function()
+        local skillLvl = DataManager.getSkillLevel(skillID)
+        if skillLvl == 0 then
+            pic:setDisabled(true)
+        end
+        pic.skillLevelLabel:setString("")
+    end
+      
     skillButton.updateLevel()
+    if DataManager.getSkillLevel(skillID) == 0 then
+        skillButton.removeLevel()
+    end
     
     
     return skillButton
@@ -253,9 +284,10 @@ function SkillTree:drawSkillIcon()
             local y = scrollView:getInnerContainerSize().height - topSpace
             for j = 1, table.getn(skills[i]) do
                 if (skills[i][j] ~= nil) then
-                    local icon1 = self:getSkillButton(skills[i][j])
+                    local icon1 = self:getSkillButton(skills[i][j], true)
                     icon1:setPosition(cc.p(startX + (150 + space) * (i-1) + 75, y))
                     scrollView:addChild(icon1)
+                    skillIconList[#skillIconList+1] = icon1
                 end
                 y = y - (space + 150)
             end
@@ -286,9 +318,10 @@ function SkillTree:onInit()
     self.ScrollView1 = rootNode:getChildByName("ScrollView_1")
     self.ScrollView2 = rootNode:getChildByName("ScrollView_2")
     self.ScrollView3 = rootNode:getChildByName("ScrollView_3")
-    self.ScrollView1:setVisible(true)
-    self.ScrollView2:setVisible(false)
-    self.ScrollView3:setVisible(false)
+    
+    self.ScrollView1:setVisible(tabSelect == 1)
+    self.ScrollView2:setVisible(tabSelect == 2)
+    self.ScrollView3:setVisible(tabSelect == 3)
     
     self:drawSkillIcon()
     
