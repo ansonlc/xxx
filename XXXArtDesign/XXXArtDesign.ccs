@@ -47,8 +47,8 @@
             <PlistImageFile Name="fx_starshining_cell-xingxing1.png" Key="fx_starshining_cell-xingxing1.png" />
           </PlistImageFolder>
         </Folder>
-        <Project Name="ParticleTestScene.csd" />
-        <Project Name="MainMenuScene.csd" />
+        <Project Name="ParticleTestScene.csd" Type="Scene" />
+        <Project Name="MainMenuScene.csd" Type="Scene" />
         <Folder Name="imgs">
           <Image Name="main_menu_bg.png" />
           <Image Name="main_menu_logo.png" />
@@ -185,21 +185,21 @@
           </Folder>
           <Image Name="bg_level.jpg" />
         </Folder>
-        <Project Name="LevelSelectScene.csd" />
+        <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
           <File Name="ALGER.TTF" />
         </Folder>
-        <Project Name="GameSceneLayout.csd" />
-        <Project Name="ResultScene.csd" />
-        <Project Name="EndingScene.csd" />
-        <Project Name="GameScene.csd" />
-        <Project Name="SkillSelectScene.csd" />
+        <Project Name="GameSceneLayout.csd" Type="Scene" />
+        <Project Name="ResultScene.csd" Type="Scene" />
+        <Project Name="EndingScene.csd" Type="Scene" />
+        <Project Name="GameScene.csd" Type="Scene" />
+        <Project Name="SkillSelectScene.csd" Type="Scene" />
         <Folder Name="level_select">
-          <Project Name="MissionPoint.csd" />
-          <Project Name="MissionSandBackground.csd" />
-          <Project Name="MissionSelectBackground.csd" />
+          <Project Name="MissionPoint.csd" Type="Node" />
+          <Project Name="MissionSandBackground.csd" Type="Node" />
+          <Project Name="MissionSelectBackground.csd" Type="Node" />
         </Folder>
-        <Project Name="SkillTree.csd" />
+        <Project Name="SkillTree.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>
