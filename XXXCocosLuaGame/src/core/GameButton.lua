@@ -14,17 +14,41 @@ GameButton = class("GameButton", function() return ccui.Button:create() end)
 function GameButton:ctor() end
 
 function GameButton:init(text, withBg)
+    local btnConfig = MetaManager.getBtnUI(text)
+    --Load background texture
     if withBg then
         --Load button texture
-        --TODO load different textures according to text
-        self:loadTextures(
-            "imgs/btns/btn_normal.png",
-            "imgs/btns/btn_normal_selected.png",
-            "imgs/btns/btn_normal.png")
+        if btnConfig and btnConfig.normal then
+            self:loadTextureNormal(btnConfig.normal)
+        else
+            self:loadTextureNormal("imgs/btns/btn_normal.png")
+        end
+        if btnConfig and btnConfig.selected then
+            self:loadTexturePressed(btnConfig.selected)
+        else
+            self:loadTexturePressed("imgs/btns/btn_normal_selected.png")
+        end
+        if btnConfig and btnConfig.disabled then
+            if (btnConfig.disabled == "normal") then
+                self:loadTextureDisabled(btnConfig.noraml)
+            else
+                self:loadTextureDisabled(btnConfig.disabled)
+            end
+        else
+            self:loadTextureDisabled("imgs/btns/btn_normal.png")
+        end
     end
         
     --Set title data
-    self:setTitle(text, "Marker Felt", 40)
+    if btnConfig then
+        if btnConfig.text then
+            self:setTitle(btnConfig.text)
+        --else
+            --Don't put title text when btnConfig.text == nil
+        end
+    else
+        self:setTitle(text, "Marker Felt", 40)
+    end
 end
 
 function GameButton:setTitle(text, fontName, size)
@@ -33,13 +57,17 @@ function GameButton:setTitle(text, fontName, size)
     self:setTitleFontSize(size)
 end
 
-function GameButton.create(text, withBg)
+function GameButton.create(text, withBg, scale)
     local button = GameButton.new()
     --Set touch
     button:setTouchEnabled(true)
     
     --Load button data
     button:init(text, withBg)
+    
+    if scale then
+        button:setScale(scale)
+    end
     
     --Add cover layer
     local coverLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), 150, 60)
