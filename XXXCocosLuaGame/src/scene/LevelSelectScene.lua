@@ -47,7 +47,7 @@ function LevelSelectScene:onInit()
         end
     end
     local rtnNode = rootNode:getChildByName("node_rtn_btn");
-    local rtnBtn = GameButton.create("Return", true)
+    local rtnBtn = GameButton.create("ReturnBtn", true, 0.5)
     rtnBtn:addTouchEventListener(onRtnTouch)
     --rtnBtn:setEnabled(false)
     rtnNode:addChild(rtnBtn)

@@ -22,6 +22,9 @@ function MainMenuScene:onInit()
     local rootNode = cc.CSLoader:createNode("MainMenuScene.csb")
     self:addChild(rootNode)
     
+    self.btnOption = GameButton.create("OptionBtn", true, 0.5)
+    rootNode:getChildByName("panel_icon"):getChildByName("node_option"):addChild(self.btnOption)
+    
     self.logoSprite = rootNode:getChildByName("main_menu_logo")
     self.btnStory = rootNode:getChildByName("btn_story")
     self.btnEndless = rootNode:getChildByName("btn_endless")
