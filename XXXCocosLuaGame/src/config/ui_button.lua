@@ -1,4 +1,4 @@
-----Button txt key to texture and side text configuration table
+----Button txt key to texture and title text configuration table
 -- If text=nil, programe will not generate any title text on the button
 -- If disabled is set to be "normal", program will use normal + dark cover as the disabled state
 local ButtonTable = {
