@@ -50,7 +50,7 @@ end
 
 local SkillLevelTable = nil
 
-local function expToLevel(exp)
+function DataManager.expToLevel(exp)
     if SkillLevelTable == nil  then
         SkillLevelTable = MetaManager["skill_level"]
     end
@@ -64,24 +64,32 @@ local function expToLevel(exp)
     return x
 end
 
-local function expToNextLevelNeedExp(exp)
+function DataManager.expToMax(skillID)
     if SkillLevelTable == nil  then
         SkillLevelTable = MetaManager["skill_level"]
     end
-    if exp < 0 or expToLevel(exp) == #SkillLevelTable then
-        return 0;
-    end
-    return SkillLevelTable[expToLevel(exp) + 1] - exp
+    
+    return SkillLevelTable[#SkillLevelTable] - DataManager.getSkillExp(skillID)
 end
 
-local function expToRate(exp)
+function DataManager.expToNextLevelNeedExp(exp)
     if SkillLevelTable == nil  then
         SkillLevelTable = MetaManager["skill_level"]
     end
-    if exp < 0 or expToLevel(exp) == #SkillLevelTable then
+    if exp < 0 or DataManager.expToLevel(exp) == #SkillLevelTable then
+        return 0;
+    end
+    return SkillLevelTable[DataManager.expToLevel(exp) + 1] - exp
+end
+
+function DataManager.expToRate(exp)
+    if SkillLevelTable == nil  then
+        SkillLevelTable = MetaManager["skill_level"]
+    end
+    if exp < 0 or DataManager.expToLevel(exp) == #SkillLevelTable then
         return 1;
     end
-    return (exp - SkillLevelTable[expToLevel(exp)]) / (SkillLevelTable[expToLevel(exp) + 1] - SkillLevelTable[expToLevel(exp)])
+    return (exp - SkillLevelTable[DataManager.expToLevel(exp)]) / (SkillLevelTable[DataManager.expToLevel(exp) + 1] - SkillLevelTable[DataManager.expToLevel(exp)])
 end
 
 
@@ -109,16 +117,25 @@ function DataManager.getSkillExp(skillID)
     return -1
 end
 
+function DataManager.setSkillExp(skillID, newExp)
+    local userID = DataManager.userInfo.currentUser
+    if DataManager.userSkillStatus[userID].availableSkills[skillID] ~= nil then
+        DataManager.userSkillStatus[userID].availableSkills[skillID].exp = newExp
+    end
+end
+
+
+
 function DataManager.getSkillLevel(skillID)
-    return expToLevel(DataManager.getSkillExp(skillID))
+    return DataManager.expToLevel(DataManager.getSkillExp(skillID))
 end
 
 function DataManager.getSkillNextLevelNeedExp(skillID)
-    return expToNextLevelNeedExp(DataManager.getSkillExp(skillID))
+    return DataManager.expToNextLevelNeedExp(DataManager.getSkillExp(skillID))
 end
 
 function DataManager.getSkillRate(skillID)
-    return expToRate(DataManager.getSkillExp(skillID))
+    return DataManager.expToRate(DataManager.getSkillExp(skillID))
 end
 
 function DataManager.saveData()

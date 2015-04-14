@@ -10,9 +10,9 @@ local SkillTagHeader = 10000
 local currentSelect = 0
 local SkillTree = class("SkillTree", function() return BaseScene.create() end)
 
-local currentCrystalNumDisplay = 0001000;
-
 local skillIconList = {}
+local upgradePanelOn = false
+local upgradePanelCost = 0
 
 local function skillIconListUpdates()
     for i = 1, #skillIconList do
@@ -54,7 +54,7 @@ end
 
 
 function SkillTree:updateCrystalNum()
-    self.CrystalNumDisplay:setString(toString6(currentCrystalNumDisplay))
+    self.CrystalNumDisplay:setString(toString6(DataManager.getCrystalNum()))
 end
 
 function SkillTree:drawSkillInfo()
@@ -63,6 +63,7 @@ function SkillTree:drawSkillInfo()
         self.currentSelectSkill.skillName:setVisible(false)
         self.currentSelectSkill.skillDesc:setVisible(false)
         self.currentSelectSkill.skillLevel:setVisible(false)
+        self.currentSelectSkill.expBar:setVisible(false)
     end
     
     
@@ -94,9 +95,19 @@ function SkillTree:drawSkillInfo()
     self.currentSelectSkill.skillLevel:setColor(cc.c3b(255, 255, 255))
     self.currentSelectSkill.skillLevel:setPosition(cc.p(350, 335))
     self:addChild(self.currentSelectSkill.skillLevel)
-
     
+    -- Exp bar
+    self.currentSelectSkill.expBar = cc.Sprite:create("res/imgs/SkillTree/red.png")
     
+    --[[ 100%
+    self.currentSelectSkill.expBar:setScale(610, 20)
+    self.currentSelectSkill.expBar:setPosition(cc.p(705, 335))
+    ]]--
+    local  rate = DataManager.getSkillRate(currentSelect)
+    self.currentSelectSkill.expBar:setScale(10 + 600 * rate, 20)
+    self.currentSelectSkill.expBar:setPosition(cc.p(405 + 300 * rate, 335))
+    
+    self:addChild(self.currentSelectSkill.expBar)
     
     
     
@@ -120,7 +131,7 @@ function SkillTree:getSkillButton(skillID, canClick)
     
     if DataManager.getSkillLevel(skillID) > 0 then
         skillButton:addTouchEventListener(function(sender, eventType)
-        if eventType == 0 then
+            if eventType == 0 and upgradePanelOn == false then
             currentSelect = skillID
             self:drawSkillInfo()
         end
@@ -302,14 +313,36 @@ function SkillTree:drawSkillIcon()
 
 end
 
+function SkillTree:updateUpgradePanel()
+    
+    
+    if(upgradePanelOn) then
+        self.UpgradePanel:setVisible(true)
+        if upgradePanelCost > DataManager.expToMax(currentSelect) then
+            upgradePanelCost = DataManager.expToMax(currentSelect)
+        end
+        if upgradePanelCost > DataManager.getCrystalNum() then
+            upgradePanelCost = DataManager.getCrystalNum()
+        end
+        
+        local newExp = DataManager.getSkillExp(currentSelect) + upgradePanelCost
+        local newLevel = DataManager.expToLevel(newExp)
+        local newRate = DataManager.expToRate(newExp)
+       
+        self.UpgradePanel:getChildByName("display"):setString("Use " .. upgradePanelCost .. " Crystal, upgrade to Lv."   .. toString2(newLevel) .. " (+" .. math.floor(newRate*100) .. "%)" )
+        
+        
+        
+    else
+        self.UpgradePanel:setVisible(false)
+    end
+end
+
 function SkillTree:onInit()
 
 
     local rootNode = cc.CSLoader:createNode("SkillTree.csb")
-
-
-    --drawIcons(rootNode)
-
+    
     self:addChild(rootNode)
     self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
     
@@ -318,6 +351,12 @@ function SkillTree:onInit()
     self.ScrollView1 = rootNode:getChildByName("ScrollView_1")
     self.ScrollView2 = rootNode:getChildByName("ScrollView_2")
     self.ScrollView3 = rootNode:getChildByName("ScrollView_3")
+    
+    self.UpgradePanel = rootNode:getChildByName("UpgradePanel")
+    self.UpgradePanel:setVisible(false)
+    upgradePanelOn = false
+    upgradePanelCost = 0
+    currentSelect = 0
     
     self.ScrollView1:setVisible(tabSelect == 1)
     self.ScrollView2:setVisible(tabSelect == 2)
@@ -338,12 +377,66 @@ function SkillTree:onInit()
     
     rootNode:getChildByName("Button_1"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
-            currentCrystalNumDisplay = currentCrystalNumDisplay - 100
-            self:updateCrystalNum()
+            if currentSelect > 0 then
+                upgradePanelOn = true
+                upgradePanelCost = 0
+                self:updateUpgradePanel()
+                --self:updateCrystalNum()
+            end
         end
 
     end
     )
+    
+    self.UpgradePanel:getChildByName("cancel"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            upgradePanelOn = false
+            self:updateUpgradePanel()
+            self:updateCrystalNum()
+            self:drawSkillInfo()
+        end
+    end
+    )
+    
+    self.UpgradePanel:getChildByName("confirm"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            upgradePanelOn = false
+            DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
+            DataManager.setCrystalNum(DataManager.getCrystalNum() - upgradePanelCost)
+            self:updateUpgradePanel()
+            self:updateCrystalNum()
+            self:drawSkillInfo()
+            skillIconListUpdates()
+        end
+    end
+    )
+
+    self.UpgradePanel:getChildByName("plus100"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            upgradePanelCost = upgradePanelCost + 100
+            self:updateUpgradePanel()
+            self:updateCrystalNum()
+        end
+    end)
+    
+    self.UpgradePanel:getChildByName("plus10"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            upgradePanelCost = upgradePanelCost + 10
+            self:updateUpgradePanel()
+            self:updateCrystalNum()
+        end
+    end)
+    
+    self.UpgradePanel:getChildByName("plus1"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            upgradePanelCost = upgradePanelCost + 1
+            self:updateUpgradePanel()
+            self:updateCrystalNum()
+        end
+    end)
+
+    
+    
     
 
 
