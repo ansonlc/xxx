@@ -70,12 +70,12 @@
             <NormalFileData Type="Normal" Path="imgs/SkillTree/Btn_Upgrade.png" />
           </NodeObjectData>
           <NodeObjectData Name="ButtonReturn" ActionTag="500458427" FrameEvent="" Tag="19" ObjectIndex="2" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Width="110" Scale9Height="110" ctype="ButtonObjectData">
-            <Position X="1022.9952" Y="1745.1658" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <Position X="1025.9755" Y="1787.1311" />
+            <Scale ScaleX="0.7000" ScaleY="0.7000" />
             <AnchorPoint ScaleX="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
             <Size X="110.0000" Y="110.0000" />
-            <PrePosition X="0.9472" Y="0.9089" />
+            <PrePosition X="0.9500" Y="0.9308" />
             <PreSize X="0.0000" Y="0.0000" />
             <TextColor A="255" R="65" G="65" B="70" />
             <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
@@ -90,6 +90,124 @@
             <Size X="66.0000" Y="46.0000" />
             <PrePosition X="0.1517" Y="0.9661" />
             <PreSize X="0.0000" Y="0.0000" />
+          </NodeObjectData>
+          <NodeObjectData Name="ScrollView_2" ActionTag="1888238357" FrameEvent="" Tag="10" ObjectIndex="2" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+            <Position X="0.0000" Y="400.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="1080.0000" Y="1260.0000" />
+            <PrePosition X="0.0000" Y="0.2083" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
+            <InnerNodeSize Width="1080" Height="1500" />
+          </NodeObjectData>
+          <NodeObjectData Name="ScrollView_3" ActionTag="-1538551366" FrameEvent="" Tag="11" ObjectIndex="3" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" IsBounceEnabled="True" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+            <Position X="0.0000" Y="400.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="1080.0000" Y="1260.0000" />
+            <PrePosition X="0.0000" Y="0.2083" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
+            <InnerNodeSize Width="1080" Height="1500" />
+          </NodeObjectData>
+          <NodeObjectData Name="UpgradePanel" ActionTag="-1654028597" FrameEvent="" Tag="64" ObjectIndex="5" TouchEnable="True" ComboBoxIndex="1" ColorAngle="90.0000" Scale9Width="398" Scale9Height="192" ctype="PanelObjectData">
+            <Position X="143.4997" Y="704.9978" />
+            <Scale ScaleX="2.0250" ScaleY="2.0417" />
+            <AnchorPoint />
+            <CColor A="255" R="255" G="255" B="255" />
+            <Size X="398.0000" Y="192.0000" />
+            <PrePosition X="0.1329" Y="0.3672" />
+            <PreSize X="0.3685" Y="0.1280" />
+            <Children>
+              <NodeObjectData Name="plus100" ActionTag="177976852" FrameEvent="" Tag="65" ObjectIndex="4" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="140" Scale9Height="60" ctype="ButtonObjectData">
+                <Position X="83.4585" Y="92.7373" />
+                <Scale ScaleX="0.6000" ScaleY="0.6000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="140.0000" Y="60.0000" />
+                <PrePosition X="0.2097" Y="0.4830" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Normal" Path="imgs/SkillTree/plus100.png" />
+                <NormalFileData Type="Normal" Path="imgs/SkillTree/plus100.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="plus10" ActionTag="1382228106" FrameEvent="" Tag="66" ObjectIndex="5" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="140" Scale9Height="60" ctype="ButtonObjectData">
+                <Position X="198.1900" Y="91.1040" />
+                <Scale ScaleX="0.6000" ScaleY="0.6000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="140.0000" Y="60.0000" />
+                <PrePosition X="0.4980" Y="0.4745" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Normal" Path="imgs/SkillTree/plus10.png" />
+                <NormalFileData Type="Normal" Path="imgs/SkillTree/plus10.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="plus1" ActionTag="1062266895" FrameEvent="" Tag="67" ObjectIndex="6" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="140" Scale9Height="60" ctype="ButtonObjectData">
+                <Position X="313.4161" Y="91.1038" />
+                <Scale ScaleX="0.6000" ScaleY="0.6000" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="140.0000" Y="60.0000" />
+                <PrePosition X="0.7875" Y="0.4745" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Normal" Path="imgs/SkillTree/plus1.png" />
+                <NormalFileData Type="Normal" Path="imgs/SkillTree/plus1.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="confirm" ActionTag="122558006" FrameEvent="" Tag="68" ObjectIndex="7" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="140" Scale9Height="60" ctype="ButtonObjectData">
+                <Position X="110.5348" Y="37.3893" />
+                <Scale ScaleX="1.0000" ScaleY="0.5500" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="140.0000" Y="60.0000" />
+                <PrePosition X="0.2777" Y="0.1947" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Normal" Path="imgs/SkillTree/confirm.png" />
+                <NormalFileData Type="Normal" Path="imgs/SkillTree/confirm.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="cancel" ActionTag="1301994066" FrameEvent="" Tag="69" ObjectIndex="8" TouchEnable="True" FontSize="14" ButtonText="" Scale9Width="140" Scale9Height="60" ctype="ButtonObjectData">
+                <Position X="286.8308" Y="36.4097" />
+                <Scale ScaleX="1.0000" ScaleY="0.5500" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <Size X="140.0000" Y="60.0000" />
+                <PrePosition X="0.7207" Y="0.1896" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <TextColor A="255" R="65" G="65" B="70" />
+                <DisabledFileData Type="Default" Path="Default/Button_Disable.png" />
+                <PressedFileData Type="Normal" Path="imgs/SkillTree/cancel.png" />
+                <NormalFileData Type="Normal" Path="imgs/SkillTree/cancel.png" />
+              </NodeObjectData>
+              <NodeObjectData Name="display" ActionTag="1795713424" FrameEvent="" Tag="70" ObjectIndex="7" FontSize="20" LabelText="Use 4500 Crystal to Lv.09 + 32%" ctype="TextObjectData">
+                <Position X="198.1914" Y="150.2883" />
+                <Scale ScaleX="0.9270" ScaleY="1.0710" />
+                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                <CColor A="255" R="255" G="0" B="0" />
+                <Size X="292.0000" Y="23.0000" />
+                <PrePosition X="0.4980" Y="0.7828" />
+                <PreSize X="0.0000" Y="0.0000" />
+              </NodeObjectData>
+            </Children>
+            <FileData Type="Normal" Path="imgs/SkillTree/UpgradePanelBG.png" />
+            <SingleColor A="255" R="255" G="255" B="255" />
+            <FirstColor A="255" R="255" G="255" B="255" />
+            <EndColor A="255" R="255" G="255" B="255" />
+            <ColorVector ScaleY="1.0000" />
           </NodeObjectData>
         </Children>
       </ObjectData>

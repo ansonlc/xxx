@@ -107,7 +107,7 @@ local function buildSkillButton(id, skill, posY)
     skillButton:setScale(800, SkillListSize)
     skillButton:setPosition(cc.p(430, posY))
     
-    local pic = GameIconManager.getSkillSprite(id, 1, true, 99)
+    local pic = GameIconManager.getSkillSprite(id, 1, true, DataManager.getSkillLevel(id))
     pic:setScale(1.0 / 800, 1.0 / SkillListSize)
     pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
     pic:setAnchorPoint(0.5, 0.5)
@@ -135,7 +135,7 @@ end
 
 local function drawIcons(root)
     for _, id in pairs(allSkill()) do
-        skillIcons[id] = GameIconManager.getSkillSprite(id, 1, true, 99) --cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
+        skillIcons[id] = GameIconManager.getSkillSprite(id, 1, true, DataManager.getSkillLevel(id)) --cc.Sprite:create("res/imgs/temp/skill_" .. id .. ".png")
         
         root:addChild(skillIcons[id])
         skillIcons[id]:setVisible(false)

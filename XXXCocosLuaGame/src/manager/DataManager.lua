@@ -18,11 +18,6 @@ if _G.dataManagerInit == nil then
     _G.dataManagerInit = true
 end
 
-
-
-
---DataManager = {}
-
 local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
 end
@@ -53,6 +48,51 @@ function DataManager.init()
 end
 ]]--
 
+local SkillLevelTable = nil
+
+function DataManager.expToLevel(exp)
+    if SkillLevelTable == nil  then
+        SkillLevelTable = MetaManager["skill_level"]
+    end
+    if exp < 0 then
+        return 0
+    end
+    local x = 1
+    while x+1 <= #SkillLevelTable and SkillLevelTable[x+1] <= exp do
+        x = x + 1
+    end
+    return x
+end
+
+function DataManager.expToMax(skillID)
+    if SkillLevelTable == nil  then
+        SkillLevelTable = MetaManager["skill_level"]
+    end
+    
+    return SkillLevelTable[#SkillLevelTable] - DataManager.getSkillExp(skillID)
+end
+
+function DataManager.expToNextLevelNeedExp(exp)
+    if SkillLevelTable == nil  then
+        SkillLevelTable = MetaManager["skill_level"]
+    end
+    if exp < 0 or DataManager.expToLevel(exp) == #SkillLevelTable then
+        return 0;
+    end
+    return SkillLevelTable[DataManager.expToLevel(exp) + 1] - exp
+end
+
+function DataManager.expToRate(exp)
+    if SkillLevelTable == nil  then
+        SkillLevelTable = MetaManager["skill_level"]
+    end
+    if exp < 0 or DataManager.expToLevel(exp) == #SkillLevelTable then
+        return 1;
+    end
+    return (exp - SkillLevelTable[DataManager.expToLevel(exp)]) / (SkillLevelTable[DataManager.expToLevel(exp) + 1] - SkillLevelTable[DataManager.expToLevel(exp)])
+end
+
+
 function DataManager.getCrystalNum()
     return DataManager.userData[DataManager.userInfo.currentUser].CrystalNum;
 end
@@ -67,6 +107,35 @@ end
 
 function DataManager.getAvailableSkill(userID)
     return DataManager.userSkillStatus[userID].availableSkills
+end
+
+function DataManager.getSkillExp(skillID)
+    local userID = DataManager.userInfo.currentUser
+    if DataManager.userSkillStatus[userID].availableSkills[skillID] ~= nil then
+        return DataManager.userSkillStatus[userID].availableSkills[skillID].exp
+    end
+    return -1
+end
+
+function DataManager.setSkillExp(skillID, newExp)
+    local userID = DataManager.userInfo.currentUser
+    if DataManager.userSkillStatus[userID].availableSkills[skillID] ~= nil then
+        DataManager.userSkillStatus[userID].availableSkills[skillID].exp = newExp
+    end
+end
+
+
+
+function DataManager.getSkillLevel(skillID)
+    return DataManager.expToLevel(DataManager.getSkillExp(skillID))
+end
+
+function DataManager.getSkillNextLevelNeedExp(skillID)
+    return DataManager.expToNextLevelNeedExp(DataManager.getSkillExp(skillID))
+end
+
+function DataManager.getSkillRate(skillID)
+    return DataManager.expToRate(DataManager.getSkillExp(skillID))
 end
 
 function DataManager.saveData()

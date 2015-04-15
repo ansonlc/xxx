@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Scene" Name="LevelSelectScene" ID="15ac7223-e995-4f95-a5d5-c90fa249a55d" Version="2.0.8.0" />
+  <PropertyGroup Type="Scene" Name="LevelSelectScene" ID="15ac7223-e995-4f95-a5d5-c90fa249a55d" Version="2.0.5.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
@@ -12,7 +12,7 @@
         <PrePosition X="0.0000" Y="0.0000" />
         <PreSize X="0.0000" Y="0.0000" />
         <Children>
-          <NodeObjectData Name="main_menu_bg" ActionTag="240643451" FrameEvent="" Tag="37" ObjectIndex="1" PrePositionEnabled="True" ctype="SpriteObjectData">
+          <NodeObjectData Name="main_menu_bg" ActionTag="240643451" FrameEvent="" Tag="37" PrePositionEnabled="True" ObjectIndex="1" ctype="SpriteObjectData">
             <Position X="540.0000" Y="960.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -22,7 +22,7 @@
             <PreSize X="0.0000" Y="0.0000" />
             <FileData Type="Normal" Path="imgs/main_menu_bg.png" />
           </NodeObjectData>
-          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" ObjectIndex="1" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ColorAngle="90.0000" Scale9Width="400" Scale9Height="15960" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
+          <NodeObjectData Name="LevelScroll" ActionTag="-1172032880" FrameEvent="" Tag="4" PrePositionEnabled="True" PreSizeEnable="True" TouchEnable="True" ClipAble="True" BackColorAlpha="110" ColorAngle="90.0000" Scale9Width="400" Scale9Height="15960" ScrollDirectionType="Vertical" ObjectIndex="1" ctype="ScrollViewObjectData">
             <Position X="0.0000" Y="0.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint />
@@ -31,7 +31,7 @@
             <PrePosition X="0.0000" Y="0.0000" />
             <PreSize X="1.0000" Y="0.8000" />
             <Children>
-              <NodeObjectData Name="txt_hidden" ActionTag="-503738617" FrameEvent="" CallBackType="Touch" Tag="6" ObjectIndex="3" PrePositionEnabled="True" TouchEnable="True" FontSize="72" LabelText="A Hidden Level" ctype="TextObjectData">
+              <NodeObjectData Name="txt_hidden" ActionTag="-503738617" FrameEvent="" CallBackType="Touch" Tag="6" PrePositionEnabled="True" TouchEnable="True" FontSize="72" LabelText="A Hidden Level" ObjectIndex="3" ctype="TextObjectData">
                 <Position X="540.0000" Y="1596.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -57,7 +57,7 @@
             <ColorVector ScaleY="1.0000" />
             <InnerNodeSize Width="1080" Height="15960" />
           </NodeObjectData>
-          <NodeObjectData Name="node_rtn_btn" ActionTag="-827736537" FrameEvent="" Tag="169" ObjectIndex="1" IconVisible="True" ctype="SingleNodeObjectData">
+          <NodeObjectData Name="node_rtn_btn" ActionTag="-827736537" FrameEvent="" Tag="169" IconVisible="True" ObjectIndex="1" ctype="SingleNodeObjectData">
             <Position X="940.0000" Y="1820.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint />
@@ -66,7 +66,7 @@
             <PrePosition X="0.8704" Y="0.9479" />
             <PreSize X="0.0000" Y="0.0000" />
           </NodeObjectData>
-          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" ObjectIndex="1" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ctype="TextObjectData">
+          <NodeObjectData Name="TitleText" ActionTag="-1002433260" FrameEvent="" Tag="3" PrePositionEnabled="True" FontSize="100" LabelText="Level Select" HorizontalAlignmentType="HT_Center" ObjectIndex="1" ctype="TextObjectData">
             <Position X="540.0000" Y="1728.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />

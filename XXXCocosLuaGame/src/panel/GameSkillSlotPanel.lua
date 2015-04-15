@@ -56,8 +56,6 @@ end
 -- @param self 
 -- @param skillTable table skills chosen by the player
 function GameSkillSlotManagerLayer:initSkills(skillTable)    
-    -- TODO: Delete the simulation for the skill table
-    --DataManager.loadUserInfo()
     skillTable = DataManager.userInfo.currentSkills
     --skillTable = {1005, 1800, 1300, 2000, 2100}
     
@@ -294,7 +292,7 @@ end
 function GameSkillSlotPanel:initPanel(skillTable)
    
     -- Debug layer to show the panel size
-    local debugColor = cc.c4b(128, 0, 0, 100)
+    local debugColor = cc.c4b(128, 0, 0, 0)
     local debugLayer = cc.LayerColor:create(debugColor)
     
     debugLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotPanelVerticalRatio)
@@ -305,14 +303,20 @@ function GameSkillSlotPanel:initPanel(skillTable)
     
     -- Create the BackgroundLayer
     -- TODO: changed to sprite image
-    local backgroundColor = cc.c4b(255, 255, 255, 180)
+    --[[local backgroundColor = cc.c4b(255, 255, 255, 180)
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
     backgroundLayer:changeWidthAndHeight(visibleSize.width * GSkillSlotBGHorizontalRatio, visibleSize.height * GSkillSlotBGVerticalRatio)
     backgroundLayer:setAnchorPoint(0,0)
     backgroundLayer:setPosition(visibleSize.width * GSkillSlotBGHorizontalStartOffsetRatio,visibleSize.height * GSkillSlotBGVerticalStartOffsetRatio) 
-    backgroundLayer:setName("BackgroundLayer")
-    self:addChild(backgroundLayer)
+    backgroundLayer:setName("BackgroundLayer")--]]
+    local backgroundSprite = cc.Sprite:create("res/imgs/GameScene/skillslot_panel.png")
+    
+    backgroundSprite:setScale(visibleSize.width * GSkillSlotBGHorizontalRatio / backgroundSprite:getContentSize().width, visibleSize.height * GSkillSlotBGVerticalRatio / backgroundSprite:getContentSize().height)
+    backgroundSprite:setAnchorPoint(0,0)
+    backgroundSprite:setPosition(visibleSize.width * GSkillSlotBGHorizontalStartOffsetRatio,visibleSize.height * GSkillSlotBGVerticalStartOffsetRatio) 
+    
+    self:addChild(backgroundSprite)
     
     
    -- Add the GameSkillSlotMangaerNode (as a self member -> easy to access)

@@ -11,6 +11,7 @@ function MetaManager.init()
     loadMetaData("battle_skill")
     loadMetaData("particle_effect")
     loadMetaData("skill_level")
+    loadMetaData("ui_button")
 end
 
 function MetaManager.checkMetaVersion(metaName)
@@ -21,6 +22,11 @@ function MetaManager.checkMetaVersion(metaName)
     
     -- TODO Pull new meta data from server
     --loadMetaData(metaName)
+end
+
+function MetaManager.getBtnUI(text)
+    MetaManager.checkMetaVersion("ui_button")
+    return MetaManager["ui_button"][text]
 end
 
 function MetaManager.getEffect(effectID)
