@@ -103,8 +103,8 @@ function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
     --particleNode:runAction(moveToAction)
     
     local function endOnMoveTo()
-        particleNode:removeFromParent()
-        --cc.Node:removeChild(particleNode,true)
+        --particleNode:removeFromParent()
+        parentNode:removeChild(particleNode, true)
     end  
     
     local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
