@@ -72,6 +72,31 @@ function ParticleManager.particleDisplay(from,to,parentNode,duration,particleID)
     particleNode:runAction(moveToAction)
 end
 
+function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
+    --local fire = cc.TextureCache.addImage()
+    
+    local particleNode
+    if 1001 == id then 
+         particleNode = cc.ParticleFire:create()
+    elseif 1002 == id then
+         particleNode = cc.ParticleSun:create()
+    elseif 1004 == id then
+         particleNode = cc.ParticleFlower:create()
+    elseif 1005 == id then
+         particleNode = cc.ParticleGalaxy:create()
+    end
+         
+
+    --particleNode.setTexture(fire)
+    particleNode:setPosition(from)
+    particleNode:setDuration(duration+0.1)
+    parentNode:addChild(particleNode)
+    
+    local moveToAction = cc.MoveTo:create(duration,to)
+    particleNode:runAction(moveToAction)
+
+end
+
 --[[function ParticleManager.particleDisplay(from,to,parentNode,duration,particleID,actionType)
     local particleNode = nil
     if 1001 == particleID   then  
