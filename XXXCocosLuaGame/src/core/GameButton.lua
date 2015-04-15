@@ -74,13 +74,17 @@ end
 --  Create method of the game button
 --  @function [parent=#GameButton] create
 --  @param #string text Text key
---  @param #bool withBg Load background texture or not (Optional, default = nil)
+--  @param #bool withBg Load background texture or not (Optional, default = true)
 --  @param #float scale Scale of the button (Optional, default = 1x)
 --  @return #core.GameButton Created game button
 function GameButton.create(text, withBg, scale)
     local button = GameButton.new()
     --Set touch
     button:setTouchEnabled(true)
+    
+    if withBg == nil then
+        withBg = true
+    end
     
     --Load button data
     button:init(text, withBg)
