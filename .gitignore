@@ -217,3 +217,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 XXXArtDesign/XXXArtDesign.udf
+XXXCocosLuaGame/frameworks/cocos2d-x/external/Box2D/proj.win32/
+XXXCocosLuaGame/frameworks/cocos2d-x/cocos/2d/
+XXXCocosLuaGame/frameworks/cocos2d-x/cocos/editor-support/spine/
+XXXCocosLuaGame/frameworks/cocos2d-x/cocos/scripting/lua-bindings/proj.win32/Debug.win32/
+XXXCocosLuaGame/frameworks/runtime-src/proj.win32/Debug.win32/
