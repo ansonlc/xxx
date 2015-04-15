@@ -22,15 +22,28 @@ function MainMenuScene:onInit()
     local rootNode = cc.CSLoader:createNode("MainMenuScene.csb")
     self:addChild(rootNode)
     
-    self.btnOption = GameButton.create("OptionBtn", true, 0.5)
+    self.btnOption = GameButton.create("OptionBtn_Menu")
     rootNode:getChildByName("panel_icon"):getChildByName("node_option"):addChild(self.btnOption)
     
     self.logoSprite = rootNode:getChildByName("main_menu_logo")
-    self.btnStory = rootNode:getChildByName("btn_story")
-    self.btnEndless = rootNode:getChildByName("btn_endless")
-    self.btnVs = rootNode:getChildByName("btn_vs")
+    
+    self.btnStory = GameButton.create("Story")
+    rootNode:getChildByName("btn_story"):addChild(self.btnStory)
+    
+    self.btnEndless = GameButton.create("Endless")
+    rootNode:getChildByName("btn_endless"):addChild(self.btnEndless)
+    
+    self.btnVs = GameButton.create("VS")
+    rootNode:getChildByName("btn_vs"):addChild(self.btnVs)
+    
     self.panelIcon = rootNode:getChildByName("panel_icon")
-    self.btn_skill = self.panelIcon:getChildByName("btn_skill")
+    self.btn_skill = GameButton.create("SkillBtn")
+    rootNode:getChildByName("panel_icon"):getChildByName("btn_skill"):addChild(self.btn_skill)
+    self.btn_monster = GameButton.create("MonsterBtn")
+    self.panelIcon:getChildByName("btn_monster"):addChild(self.btn_monster)
+    self.btn_tutorial = GameButton.create("TutorialBtn")
+    self.panelIcon:getChildByName("btn_tutorial"):addChild(self.btn_tutorial)
+    
     self.logoSprite:setPosition(self.visibleSize.width/2, self.visibleSize.height/3)
     
     print (self.btnVs)
