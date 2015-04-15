@@ -95,7 +95,7 @@ function GameButton.create(text, withBg, scale)
     
     --Add cover layer
     local btnConfig = MetaManager.getBtnUI(text)
-    if withBg and btnConfig and btnConfig.disabled and btnConfig.disabled == "normal" then
+    if withBg and ((btnConfig and btnConfig.disabled and btnConfig.disabled == "normal") or not btnConfig) then
         local coverLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), 150, 60)
         coverLayer:setVisible(false)
         button.coverLayer = coverLayer

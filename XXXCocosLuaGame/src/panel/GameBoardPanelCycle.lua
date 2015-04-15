@@ -329,9 +329,34 @@ local function onCheckSuccess(succCellSet)
         local succCell = succCellSet[i]
         
         local fromCellPoint = getCellCenterPoint(succCell)
-        local toCellPoint = cc.p(165,1350)
+        local name = nil
+        
+        --cc.p(165,1350)
+        if GameBoard[succCell.x][succCell.y] == 1 then
+                    --gameLogicNode.runesTable['Fire'] = gameLogicNode.runesTable['Fire'] + howMuch
+            name = "Fire"
+        end
+        if GameBoard[succCell.x][succCell.y] == 2 then
+            --gameLogicNode.runesTable['Earth'] = gameLogicNode.runesTable['Earth'] + howMuch
+            name = "Earth"
+        end
 
-        ParticleManager.particleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1001)
+        if GameBoard[succCell.x][succCell.y] == 4 then
+            --gameLogicNode.runesTable['Wind'] = gameLogicNode.runesTable['Wind'] + howMuch
+            name = "Air"
+        end
+        if GameBoard[succCell.x][succCell.y] == 5 then
+            --gameLogicNode.runesTable['Water'] = gameLogicNode.runesTable['Water'] + howMuch
+            name = "Water"
+        end
+        if GameBoard[succCell.x][succCell.y] ~= 3 then
+            local tmpNode = parentNode.battlePanel
+            --:getRunePosition(name)
+            local tmpPoint = tmpNode:getRunePosition(name)
+            local toCellPoint = cc.p(tmpPoint.x, tmpPoint.y)
+            ParticleManager.particleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1000 + GameBoard[succCell.x][succCell.y])
+            
+        end
         
         local nearbySet = getNearbyCellSet(succCell)
         for i = 1, #nearbySet do
