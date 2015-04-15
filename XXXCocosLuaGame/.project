@@ -10,4 +10,10 @@
 		<nature>org.ccdt.cocosproject</nature>
 		<nature>org.eclipse.koneki.ldt.nature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>COCOS_TEMPLATE_ROOT</name>
+			<value>file:/C:/Program%20Files/cocos2d-x-3.3/templates</value>
+		</variable>
+	</variableList>
 </projectDescription>
