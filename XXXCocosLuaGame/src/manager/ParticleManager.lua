@@ -67,9 +67,16 @@ function ParticleManager.particleDisplay(from,to,parentNode,duration,particleID)
     particleNode:setPosition(from)
     particleNode:setDuration(duration+0.1)
     parentNode:addChild(particleNode)
-
+    
     local moveToAction = cc.MoveTo:create(duration,to)
-    particleNode:runAction(moveToAction)
+    --particleNode:runAction(moveToAction)
+
+    local function endOnMoveTo()
+        cc.Node:removeChild(particleNode,true)
+    end  
+
+    local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
+    particleNode:runAction(sequence)
 end
 
 function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
@@ -93,7 +100,15 @@ function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
     parentNode:addChild(particleNode)
     
     local moveToAction = cc.MoveTo:create(duration,to)
-    particleNode:runAction(moveToAction)
+    --particleNode:runAction(moveToAction)
+    
+    local function endOnMoveTo()
+        --particleNode:removeFromParent()
+        parentNode:removeChild(particleNode, true)
+    end  
+    
+    local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
+    particleNode:runAction(sequence)
 
 end
 

@@ -166,7 +166,8 @@ function GameScene:onGameOver(playerWins, gameData)
                 local upgradeSkillIds = {}
                 local index = 1
                 for k, v in pairs(gameData[1]) do
-                    local currentLvl = gameData[3][k].level
+                    --local currentLvl = gameData[3][k].level
+                    local currentLvl = DataManager.expToLevel(gameData[3][k].exp)
                     local expGained = v * MetaManager.getSkill(k).growthRatio
                     -- Construct the table
                     upgradeSkillIds[index] = {}

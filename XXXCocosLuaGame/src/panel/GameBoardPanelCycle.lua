@@ -354,8 +354,8 @@ local function onCheckSuccess(succCellSet)
             --:getRunePosition(name)
             local tmpPoint = tmpNode:getRunePosition(name)
             local toCellPoint = cc.p(tmpPoint.x, tmpPoint.y)
-            ParticleManager.particleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1000 + GameBoard[succCell.x][succCell.y])
-            
+            ParticleManager.sysParticleDisplay(fromCellPoint, toCellPoint, parentNode, 0.3, 1000 + GameBoard[succCell.x][succCell.y])
+            cclog("parent: CHILD COUNT"..parentNode:getChildrenCount())
         end
         
         local nearbySet = getNearbyCellSet(succCell)
@@ -510,7 +510,7 @@ function GameBoardPanel:createTouchLayer()
         isTouching = true
         touchStartPoint = {x = x, y = y}
         touchStartCell = touchPointToCell(x, y)
-        board:onClickGameIcon(touchStartCell)
+        --board:onClickGameIcon(touchStartCell)
         return true
     end
     
