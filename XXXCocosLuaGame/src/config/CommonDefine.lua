@@ -42,7 +42,9 @@ GSkillSlotBGHorizontalStartOffsetRatio = 40 / 1080
 GSkillSlotHorizontalStartOffsetRatio = 65 / 1080
 GSkillSlotVerticalStartOffsetRatio = 55 / 1920  -- 40 + 15
 GSkillSlotHorizontalOffsetRatio = 25 / 1080
-GSkillSlotIdelSizeRatio = 170 / 1080
+GSkillSlotIdleSizeRatio = 170 / 1080
+GSkillSlotRuneIdleSizeRatio = 40 / 1080
+GSkillSlotRuneIdleGapRatio = 2 / 1080
 GSkillSlotStartIndex = 1
 
 -- Constant used by the GameBattlePanel

@@ -18,7 +18,7 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 50, air = 50, fire = 50, earth = 50}    -- currently all the runes start from 5
+    self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}    -- currently all the runes start from 5
     self.crystalNum = 0
     self.playerMaxHP = 500
     self.playerHP = self.playerMaxHP
@@ -692,8 +692,8 @@ function GameBattleLogic:onUpdate(delta)
         self:playerUseSkill(MetaManager.getSkill(1600))
         self:monsterUseSkill(MetaManager.getSkill(1400))
         self:monsterUseSkill(MetaManager.getSkill(1500))--]]
-        self:monsterUseSkill(MetaManager.getSkill(1800))
-        self:monsterUseSkill(MetaManager.getSkill(1400))
+        --self:monsterUseSkill(MetaManager.getSkill(1800))
+        --self:monsterUseSkill(MetaManager.getSkill(1400))
         self.test = 0
     end
    

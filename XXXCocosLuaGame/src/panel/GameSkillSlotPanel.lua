@@ -26,7 +26,7 @@ function GameSkillSlotManagerLayer:initLayer()
     -- initialize the layer
     self:changeWidthAndHeight(visibleSize.width, visibleSize.height * GSkillSlotPanelVerticalRatio)  
     -- initialize the constant
-    self.spriteSize = visibleSize.width * GSkillSlotIdelSizeRatio    -- should be dynamic;
+    self.spriteSize = visibleSize.width * GSkillSlotIdleSizeRatio    -- should be dynamic;
     self.slotNumber = GSkillSLotStartIndex  -- indices of lua table start from 1
     self.skillSlotTable = {}
     self.layerHorizontalStartOffset = visibleSize.width * GSkillSlotHorizontalStartOffsetRatio
@@ -140,7 +140,7 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
     if node == nil then
         -- this is an empty slot
         local nullSprite = cc.Sprite:create("res/imgs/temp/null_1.png") 
-        local scale = GSkillSlotIdelSizeRatio * visibleSize.width / nullSprite:getContentSize().width
+        local scale = GSkillSlotIdleSizeRatio * visibleSize.width / nullSprite:getContentSize().width
         local scaledSize = nullSprite:getContentSize().width * scale
         
         nullSprite:setAnchorPoint(0,0)
@@ -150,9 +150,10 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         self.skillSlotTable[index] = nil
         self:addChild(nullSprite)
     else
-        local scale = GSkillSlotIdelSizeRatio * visibleSize.width / node:getContentSize().width
+        local scale = GSkillSlotIdleSizeRatio * visibleSize.width / node:getContentSize().width
         local scaledSize = node:getContentSize().width * scale
         
+        local a1 = node:getContentSize().width
         -- Initialize for the skills
         node.isActive = false
         --node.isCoolingDown = false
@@ -171,7 +172,7 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         self:addChild(node)
         
         -- Add the inActiveLayer
-        local inActiveColor = cc.c4b(0, 0, 128, 200)
+        local inActiveColor = cc.c4b(0, 0, 128, 100)
         local inActiveLayer = cc.LayerColor:create(inActiveColor)
 
         inActiveLayer:setAnchorPoint(0,0)
@@ -201,6 +202,56 @@ function GameSkillSlotManagerLayer:insertSkillNode(index, node)
         
         node.LockLayer = LockLayer
         self:addChild(LockLayer)
+        
+        -- Add the rune requirement block here
+        node.runeSprite = {}
+        local runeSpriteSize = visibleSize.width * GSkillSlotRuneIdleSizeRatio
+        local runeSpriteGap = visibleSize.width * GSkillSlotRuneIdleGapRatio
+        -- Air
+        local airRuneSprite = cc.Sprite:create("res/imgs/GameScene/tile_air.png")
+        local size = airRuneSprite:getContentSize().width
+        airRuneSprite:setAnchorPoint(0,0)
+        airRuneSprite:setScale(runeSpriteSize / airRuneSprite:getContentSize().width)
+        airRuneSprite:setPosition(node.x + runeSpriteGap, node.y)
+        --airRuneSprite:setPosition(0, 0)
+        airRuneSprite:setVisible(false)
+        node.runeSprite["Air"] = airRuneSprite
+        self:addChild(airRuneSprite)
+        -- Earth
+        local earthRuneSprite = cc.Sprite:create("res/imgs/GameScene/tile_earth.png")
+        earthRuneSprite:setAnchorPoint(0,0)
+        earthRuneSprite:setScale(runeSpriteSize / earthRuneSprite:getContentSize().width)
+        earthRuneSprite:setPosition(node.x + 2 * runeSpriteGap + runeSpriteSize, node.y)
+        --earthRuneSprite:setPosition(40, 0)
+        earthRuneSprite:setVisible(false)
+        node.runeSprite["Earth"] = earthRuneSprite
+        self:addChild(earthRuneSprite)
+        -- Water
+        local waterRuneSprite = cc.Sprite:create("res/imgs/GameScene/tile_water.png")
+        waterRuneSprite:setAnchorPoint(0,0)
+        waterRuneSprite:setScale(runeSpriteSize / waterRuneSprite:getContentSize().width)
+        waterRuneSprite:setPosition(node.x + 3 * runeSpriteGap + 2 * runeSpriteSize, node.y)
+        --waterRuneSprite:setPosition(80, 0)
+        waterRuneSprite:setVisible(false)
+        node.runeSprite["Water"] = waterRuneSprite
+        self:addChild(waterRuneSprite)
+        -- Fire
+        local fireRuneSprite = cc.Sprite:create("res/imgs/GameScene/tile_fire.png")
+        fireRuneSprite:setAnchorPoint(0,0)
+        fireRuneSprite:setScale(runeSpriteSize / fireRuneSprite:getContentSize().width)
+        fireRuneSprite:setPosition(node.x + 4 * runeSpriteGap + 3 * runeSpriteSize, node.y)
+        --fireRuneSprite:setPosition(120, 0)
+        fireRuneSprite:setVisible(false)
+        node.runeSprite["Fire"] = fireRuneSprite
+        self:addChild(fireRuneSprite)
+        
+        --[[local debugRuneLayer = cc.LayerColor:create(cc.c4b(100,100,100,100))
+        
+        debugRuneLayer:changeWidthAndHeight(scaledSize,scaledSize)
+        debugRuneLayer:setAnchorPoint(0,0)
+        debugRuneLayer:setPosition(node.x,node.y)
+        
+        self:addChild(debugRuneLayer)--]]
     end
 end
 
@@ -218,10 +269,44 @@ function GameSkillSlotManagerLayer:updateSkillStatus(currentRunesTable)
                 
                 -- Cancel the Inactive layer
                 self.skillSlotTable[i].inActiveLayer:changeWidthAndHeight(0, 0) -- make it invisible
+                
+                -- Cancel all the rune sprite
+                for k,v in pairs(self.skillSlotTable[i].runeSprite) do
+                    v:setVisible(false)
+                end
             else
                 self.skillSlotTable[i].isActive = false      
                          
                 self.skillSlotTable[i].inActiveLayer:changeWidthAndHeight(self.skillSlotTable[i].scaledSize, self.skillSlotTable[i].scaledSize)
+                
+                local isAirRuneRequired = (currentRunesTable.air < self.skillSlotTable[i].skill.runeCostTable.air)
+                local isEarthRuneRequired = (currentRunesTable.earth < self.skillSlotTable[i].skill.runeCostTable.earth)
+                local isWaterRuneRequired = (currentRunesTable.water < self.skillSlotTable[i].skill.runeCostTable.water)
+                local isFireRuneRequired = (currentRunesTable.fire < self.skillSlotTable[i].skill.runeCostTable.fire)
+                
+                if isAirRuneRequired then
+                    self.skillSlotTable[i].runeSprite["Air"]:setVisible(true)
+                else
+                    self.skillSlotTable[i].runeSprite["Air"]:setVisible(false)
+                end
+                
+                if isEarthRuneRequired then
+                    self.skillSlotTable[i].runeSprite["Earth"]:setVisible(true)
+                else 
+                    self.skillSlotTable[i].runeSprite["Earth"]:setVisible(false)
+                end
+                
+                if isWaterRuneRequired then
+                    self.skillSlotTable[i].runeSprite["Water"]:setVisible(true)
+                else
+                    self.skillSlotTable[i].runeSprite["Water"]:setVisible(false)
+                end
+                
+                if isFireRuneRequired then
+                    self.skillSlotTable[i].runeSprite["Fire"]:setVisible(true)
+                else
+                    self.skillSlotTable[i].runeSprite["Fire"]:setVisible(false)
+                end
             end
         end
     end
