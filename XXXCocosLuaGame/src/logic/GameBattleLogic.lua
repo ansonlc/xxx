@@ -19,8 +19,8 @@ end
 function GameBattleLogic:initNode()
     -- Initialization
     self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}    -- currently all the runes start from 5
-    self.crystalNum = 0
-    self.playerMaxHP = 500
+    self.crystalNum = DataManager.getCrystalNum()
+    self.playerMaxHP = DataManager.getUserHP()
     self.playerHP = self.playerMaxHP
     self.playerWins = nil
     self.playerSkillLevel = {}
@@ -60,6 +60,7 @@ function GameBattleLogic:initNode()
     end
     assert(self.gameBattlePanel, "Nil in function GameBattleLogic:initNode()")
     self.gameBattlePanel:updateRuneNum(self.runesTable)
+    self.gameBattlePanel:updateCrystalNum(self.crystalNum)
     
 end
 

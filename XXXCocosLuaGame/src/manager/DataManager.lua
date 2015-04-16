@@ -101,6 +101,10 @@ function DataManager.setCrystalNum(toValue)
     DataManager.userData[DataManager.userInfo.currentUser].CrystalNum = toValue;
 end
 
+function DataManager.getUserHP()
+    return DataManager.userData[DataManager.userInfo.currentUser].userHP;
+end
+
 function DataManager.setCurrentSkill(userID, toSkills)
     --self.userData[userID].currentSkills = toSkills
 end

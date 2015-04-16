@@ -100,6 +100,11 @@ GBattleCrystalBlockHorizontalRatio = 285 / 1080
 GBattleCrystalBlockVerticalStartOffsetRatio = 560 / 1920
 GBattleCrystalBlockHorizontalStartOffsetRatio = 80 / 1080
 
+GBattleCrystalTextVerticalRatio = 70 / 1920
+GBattleCrystalTextHorizontalRatio = 80 / 1080
+GBattleCrystalTextVerticalStartOffsetRatio = 570 / 1920
+GBattleCrystalTextHorizontalStartOffsetRatio = 200 / 1080
+
 --[[GBattleMonsterBlockVerticalRatio = 470 / 1920
 GBattleMonsterBlockHorizontalRatio = 470 / 1080
 GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
