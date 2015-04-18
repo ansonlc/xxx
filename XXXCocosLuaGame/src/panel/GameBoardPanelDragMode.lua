@@ -365,7 +365,7 @@ local function createNodeByIndex(index, opacity)
     iconNormalSprite:setScale(0.85, 0.85)
     iconNode:addChild(iconNormalSprite)
     iconNode.x = iconNormalSprite
-
+    iconNode.x:setOpacity(opacity)
     return iconNode
 end
 
