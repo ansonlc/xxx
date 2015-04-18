@@ -166,8 +166,14 @@ local function falling()
     State = State_Waiting
 end
 
-local function getRunes(type, howMuch)
+local function getRunes(type, howMuch, posList)
     return function()
+        if type ~= 3 then
+            for i, pos in ipairs(posList) do
+                ParticleManager.sysParticleDisplay(getCellCenter(pos.x, pos.y), parentNode.battlePanel:getRunePosition(({"Fire","Earth","?","Air","Water"})[type]), parentNode, 0.3, 1000 + type)
+            end
+        end
+        
         local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
         if gameLogicNode ~= nil then
             if gameLogicNode.runesTable ~= nil then
@@ -190,22 +196,29 @@ local function getRunes(type, howMuch)
                 end
                 gameLogicNode:updateRunesTable(updateTable)
             end
+            
+            if type == 3 then
+                gameLogicNode:updateCrystalNum(howMuch * 10)
+                parentNode.battlePanel:updateCrystalNum(DataManager.getCrystalNum())
+            end
+            
         end
         
     end
 end
 
-local Skill_Three = function()
+local Skill_Three = function(deleteIt)
     for i = 1, nColumn do
         for j = 1, nRow - 2 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i][j+2] then
-                
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation1Vert
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation1Vert
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i,y=j+1}, {x=i, y=j+2}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i][j+2] = true
@@ -215,13 +228,14 @@ local Skill_Three = function()
     for i = 1, nColumn - 2 do
         for j = 1, nRow do
             if GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+2][j] then
-                
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation1Horz
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation1Horz
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i+1,y=j}, {x=i+2, y=j}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i+1][j] = true
                 willDelete[i+2][j] = true
@@ -230,17 +244,18 @@ local Skill_Three = function()
     end
 end
 
-local Skill_2by2 = function()
+local Skill_2by2 = function(deleteIt)
     for i = 1, nColumn - 1 do
         for j = 1, nRow - 1 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+1][j+1] then
-            
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation2
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation2
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2, {{x=i,y=j}, {x=i,y=j+1}, {x=i+1, y=j}, {x=i+1, y=j+1}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i+1][j] = true
@@ -252,18 +267,19 @@ end
 
 
 
-local Skill_Cross = function()
+local Skill_Cross = function(deleteIt)
     for i = 1, nColumn - 2 do
         for j = 1, nRow - 2 do
             local t = GameBoard[i+1][j]
             if t == GameBoard[i+0][j+1] and t == GameBoard[i+1][j+1] and t == GameBoard[i+2][j+1] and t == GameBoard[i+1][j+2] then
-
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation3
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation3
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3, {{x=i,y=j+1}, {x=i+1,y=j+1}, {x=i+2, y=j+1}, {x=i+1,y=j+2}})
+                end    
                 willDelete[i+1][j] = true
                 willDelete[i+0][j+1] = true
                 willDelete[i+1][j+1] = true
@@ -275,16 +291,16 @@ local Skill_Cross = function()
 end
 
 
-local function haveDelete()
+local function haveDelete(deleteIt)
     for i = 1, nColumn do
         for j = 1, nRow do
             willDelete[i][j] = false
         end
     end
     
-    Skill_Three()
-    Skill_2by2()
-    Skill_Cross()
+    Skill_Three(deleteIt)
+    Skill_2by2(deleteIt)
+    Skill_Cross(deleteIt)
     
     local ret = false
     for i = 1, nColumn do
@@ -475,7 +491,7 @@ function GameBoardPanelDragMode:onUpdate(delta)
         end
         
         if haveNotFinish == false then
-            if haveDelete() then
+            if haveDelete(true) then
                 State = State_Delete_animation
                 animationList.current = 0
                 animationList.remain = 0
@@ -617,19 +633,20 @@ function GameBoardPanelDragMode:initPanel()
     self:addChild(CountDown_Bar)
     
     local t
+    local col = cc.c4b(255, 255, 255, 100)
     skillAnimation1Horz = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
     skillAnimation1Horz:setPosition(getCellCenter(2,1).x, getCellCenter(2,1).y)
     skillAnimation1Horz:setVisible(false)
     self:addChild(skillAnimation1Horz, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
@@ -639,15 +656,15 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation1Vert:setPosition(getCellCenter(3,3).x, getCellCenter(3,3).y)
     skillAnimation1Vert:setVisible(false)
     self:addChild(skillAnimation1Vert, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Vert:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation1Vert:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (2 - 0.5))
     skillAnimation1Vert:addChild(t)
@@ -657,19 +674,19 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation2:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
     skillAnimation2:setVisible(false)
     self:addChild(skillAnimation2, 100)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation2:addChild(t)
@@ -678,23 +695,23 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation3:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
     skillAnimation3:setVisible(false)
     self:addChild(skillAnimation3, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (2 - 0.5))
     skillAnimation3:addChild(t)
@@ -747,7 +764,7 @@ function GameBoardPanelDragMode:initPanel()
                 GameBoard[i][j] = math.random(nType)
             end
         end
-        if haveDelete() == false then
+        if haveDelete(false) == false then
             ok = true
         end
     end

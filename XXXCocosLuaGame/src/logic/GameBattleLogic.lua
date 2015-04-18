@@ -647,6 +647,9 @@ end
 -- @param num number crystal number added
 function GameBattleLogic:updateCrystalNum(num)
     self.crystalNum = self.crystalNum + num
+    DataManager.setCrystalNum(self.crystalNum)
+    
+    --print ('get->' .. self.crystalNum)
 end
 
 ---
