@@ -113,8 +113,22 @@ function TestScene:onInit()
     self:addChild(rootNode)
     
     local monster = GameIconManager.getMonsterSprite("Pikachu", 1, true)
-    monster:setPosition(500, 500)
-    --rootNode:addChild(monster)
+    monster:setPosition(500, 600)
+    rootNode:addChild(monster)
+    
+    local actionSeq = cc.Sequence:create(cc.FadeIn:create(1),cc.FadeOut:create(1))
+    local actionSeq1 = cc.Sequence:create(cc.DelayTime:create(0.5),cc.Hide:create(),cc.DelayTime:create(1),cc.Show:create())
+    
+    local actionByLeft = cc.MoveBy:create(0.1,cc.p(-50,0))
+    local actionByLeftBack  = actionByLeft:reverse()
+    local actionByRight = cc.MoveBy:create(0.1,cc.p(50,0))
+    local actionByRightBack  = actionByRight:reverse()   
+    local actionScaleTo = cc.ScaleTo:create(0.5, 1.5)
+    local actionScaleToBack = cc.ScaleTo:create(0.5, 1) 
+    
+    local actionSeq2 = cc.Sequence:create(cc.Blink:create(0.5, 3),actionByLeft,actionByLeftBack,actionByRight,actionByRightBack,actionScaleTo,actionScaleToBack)
+    monster:runAction(actionSeq2)
+    --local p = monster:getPositionY()
     
     local skill = GameIconManager.getSkillSprite(1002, 1, true, 0)
     skill:setPosition(500, 1000)
