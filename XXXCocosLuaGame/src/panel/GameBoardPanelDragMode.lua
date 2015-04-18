@@ -7,10 +7,10 @@ local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return
 local firstTime = true
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
-local myWidth = visibleSize.width * 0.96 * 0.85
-local myHeight = visibleSize.height * 0.54 * 0.85
+local myWidth = visibleSize.width * 0.96 * 0.84
+local myHeight = visibleSize.height * 0.54 * 0.84
 local centerWidth = visibleSize.width * 0.5
-local centerHeight = visibleSize.height * 0.38
+local centerHeight = visibleSize.height * 0.375
 local iconSize = 150
 
 local nColumn = 6
@@ -198,7 +198,7 @@ local function getRunes(type, howMuch, posList)
             end
             
             if type == 3 then
-                gameLogicNode:updateCrystalNum(howMuch * 10)
+                gameLogicNode:updateCrystalNum(howMuch)
                 parentNode.battlePanel:updateCrystalNum(DataManager.getCrystalNum())
             end
             
@@ -337,6 +337,8 @@ end
 
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index, opacity)
+
+    --[[
     local iconNormalSprite = GameIconManager.getTileIconSprite(GIconNormalType, index)
     local iconMatchSprite = GameIconManager.getTileIconSprite(GIconMatchType, index)
     local iconSelectSprite = GameIconManager.getTileIconSprite(GIconSelectType, index)
@@ -356,8 +358,12 @@ local function createNodeByIndex(index, opacity)
     local iconNode = cc.Node:create()
     iconNode:addChild(iconNormalSprite)
     iconNode:addChild(iconMatchSprite)
-    iconNode:addChild(iconSelectSprite)
+    iconNode:addChild(iconSelectSprite)]]--
     
+    local iconNode = cc.Node:create()
+    local iconNormalSprite = cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[index])..  ".png")
+    iconNormalSprite:setScale(0.85, 0.85)
+    iconNode:addChild(iconNormalSprite)
     iconNode.x = iconNormalSprite
 
     return iconNode
@@ -814,7 +820,7 @@ end
 
 function GameBoardPanelDragMode:createBackgroundLayer()
 
-    local backgroundColor = cc.c4b(99, 99, 99, 99)    
+    local backgroundColor = cc.c4b(99, 99, 99, 0)    
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
     backgroundLayer:changeWidthAndHeight(myWidth, myHeight)
