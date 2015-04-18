@@ -58,6 +58,18 @@ function MonsterAILogic:getSkill()
     return skill
 end
 
+function MonsterAILogic:prepareUseSkill(monsterNode)
+    local actionByLeft = cc.MoveBy:create(0.1,cc.p(-50,0))
+    local actionByLeftBack  = actionByLeft:reverse()
+    local actionByRight = cc.MoveBy:create(0.1,cc.p(50,0))
+    local actionByRightBack  = actionByRight:reverse()   
+    local actionScaleTo = cc.ScaleTo:create(0.5, 1.5)
+    local actionScaleToBack = cc.ScaleTo:create(0.5, 1)
+    
+    local actionSeq = cc.Sequence:create(cc.Blink:create(0.5, 3),actionByLeft,actionByLeftBack,actionByRight,actionByRightBack,actionScaleTo,actionScaleToBack)
+    monsterNode:runAction(actionSeq)
+end
+
 local actualInterval = GMonsterAIInterval
 function MonsterAILogic:onUpdate(delta)  
     --cclog(delta)  
@@ -71,6 +83,7 @@ function MonsterAILogic:onUpdate(delta)
         self.interval = 0
         --self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
+        --self.prepareUseSkill(self,monsterNode)
         self.battleLogic:monsterUseSkill(skill)
         --cclog("Monster use skill times:"..self.useSkillTimes[4].." ,skillName:"..skill.skillName)
         --cclog("stat: skill1:"..self.useSkillTimes[1]..",skill2:"..self.useSkillTimes[2]..",skill3:"..self.useSkillTimes[3])   
