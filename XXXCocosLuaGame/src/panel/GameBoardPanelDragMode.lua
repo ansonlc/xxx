@@ -7,14 +7,14 @@ local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return
 local firstTime = true
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
-local myWidth = visibleSize.width * 0.96 * 0.9
-local myHeight = visibleSize.height * 0.45 * 0.9
+local myWidth = visibleSize.width * 0.96 * 0.85
+local myHeight = visibleSize.height * 0.54 * 0.85
 local centerWidth = visibleSize.width * 0.5
 local centerHeight = visibleSize.height * 0.38
 local iconSize = 150
 
 local nColumn = 6
-local nRow = 5
+local nRow = 6
 local nType = 5
 
 local GameBoard = {}
@@ -46,12 +46,12 @@ local MP = 100
 local MP_Bar
 local CountDown = 100
 local CountDown_Bar
-local CountDownReduce = 100
+local CountDownReduce = 200
 local MP_RecoverPerSecond = 400
 
-local MP_ReduceFirst = 10
-local MP_ReduceNext = 1
-local MP_ReducePerSecond = 10
+local MP_ReduceFirst = 0
+local MP_ReduceNext = 0
+local MP_ReducePerSecond = 0
 
 local willDelete = {}
 local noSwap = true
@@ -73,6 +73,10 @@ local parentNode
 
 
 local function setMode(i)
+    
+    return nil
+    --[[
+    
     if i == 1 then
         modes[mode]:setOpacity(100)
         modes[1]:setOpacity(255)
@@ -109,6 +113,7 @@ local function setMode(i)
         MP_ReducePerSecond = 100
     end
     mode = i
+    ]]--
 end
 
 local function fromTo(A, B)
@@ -367,10 +372,14 @@ local rune1, rune2, rune3, rune4
 function GameBoardPanelDragMode:onUpdate(delta)
     
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    rune1:setString(gameLogicNode.runesTable.fire .. '')
-    rune2:setString(gameLogicNode.runesTable.earth .. '')
-    rune3:setString(gameLogicNode.runesTable.air .. '')
-    rune4:setString(gameLogicNode.runesTable.water .. '')
+    --rune1:setString(gameLogicNode.runesTable.fire .. '')
+    rune1:setString('')
+    --rune2:setString(gameLogicNode.runesTable.earth .. '')
+    rune2:setString('')
+    --rune3:setString(gameLogicNode.runesTable.air .. '')
+    rune3:setString('')
+    --rune4:setString(gameLogicNode.runesTable.water .. '')
+    rune4:setString('')
     
     
     --print (delta)
@@ -598,11 +607,13 @@ function GameBoardPanelDragMode:initPanel()
     MP_Bar = cc.LayerColor:create(cc.c4b(0, 100, 255, 200))
     MP_Bar:changeWidthAndHeight(myWidth, 20)
     MP_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 20)
+    MP_Bar:setVisible(false)
     self:addChild(MP_Bar)
     
     CountDown_Bar = cc.LayerColor:create(cc.c4b(255, 255, 255, 200))
     CountDown_Bar:changeWidthAndHeight(myWidth, 20)
     CountDown_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 40)
+    CountDown_Bar:setVisible(false)
     self:addChild(CountDown_Bar)
     
     local t
@@ -691,26 +702,31 @@ function GameBoardPanelDragMode:initPanel()
     
     mode1 = cc.Sprite:create("res/imgs/temp/Easy.png")
     mode1:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 1, centerHeight - myHeight / 2 - 60)
+    mode1:setVisible(false)
     self:addChild(mode1)
 
     mode2 = cc.Sprite:create("res/imgs/temp/Hard.png")
     mode2:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 2, centerHeight - myHeight / 2 - 60)
     mode2:setOpacity(100)
+    mode2:setVisible(false)
     self:addChild(mode2)
 
     mode3 = cc.Sprite:create("res/imgs/temp/INF.png")
     mode3:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 3, centerHeight - myHeight / 2 - 60)
     mode3:setOpacity(100)
+    mode3:setVisible(false)
     self:addChild(mode3)
 
     mode4 = cc.Sprite:create("res/imgs/temp/PAD.png")
     mode4:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 4, centerHeight - myHeight / 2 - 60)
     mode4:setOpacity(100)
+    mode4:setVisible(false)
     self:addChild(mode4)
 
     mode5 = cc.Sprite:create("res/imgs/temp/Switch.png")
     mode5:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 5, centerHeight - myHeight / 2 - 60)
     mode5:setOpacity(100)
+    mode5:setVisible(false)
     self:addChild(mode5)
 
     modes = {mode1, mode2, mode3, mode4, mode5}
