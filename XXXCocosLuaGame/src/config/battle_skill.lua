@@ -1,4 +1,34 @@
+
+local monsterSkill = function(eff1, eff2, eff3)
+    local effectTable = {}
+    if eff1 ~= nil then
+        local t = eff1
+        effectTable.effectID1 = t[1]
+        effectTable.effectValue1 = t[2]
+    end
+    if eff2 ~= nil then
+        local t = eff2
+        effectTable.effectID2 = t[1]
+        effectTable.effectValue2 = t[2]
+    end
+    if eff3 ~= nil then
+        local t = eff3
+        effectTable.effectID3 = t[1]
+        effectTable.effectValue3 = t[2]
+    end
+    ret = {effectTable = effectTable}
+    return ret
+end
+
+local damage = 1001
+
 local SkillTable = {
+
+    -- monster skills
+    [-10011] = monsterSkill({damage, 10}, nil, nil),
+
+
+
     -- Attack skills
     [1001] = {skillID=1001,skillQuality=1,skillName='Strike',runeCostTable= {air=1,earth=1,water=1,fire=1},animationID = nil,particleID = nil,growthRatio = 2,CD = 1,effectTable ={effectID1=1001,effectValue1=50,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Basic Strike Attack'},
     [1002] = {skillID=1002,skillQuality=2,skillName='Wind Sword',runeCostTable= {air=1,earth=0,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 2,CD = 1,effectTable ={effectID1=1002,effectValue1=25,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Basic Wind Attack'},
