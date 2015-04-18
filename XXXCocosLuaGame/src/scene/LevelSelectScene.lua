@@ -62,7 +62,8 @@ function LevelSelectScene:onInit()
         if eventType == ccui.TouchEventType.ended then
             local selectLvL = battle_mission_cfg[sender:getTag() - LevelTagHeader]
             local params = SceneManager.generateParams(self, "MainMenuScene", {missionId = selectLvL.id})
-            params.data.mode = "SlideMode"
+            --params.data.mode = "SlideMode"
+            params.data.mode = "DragMode"
             params.data.difficulty = "Hard"
             -- Write to current user info
             DataManager.userInfo.currentMonsterID = selectLvL.missionBossID

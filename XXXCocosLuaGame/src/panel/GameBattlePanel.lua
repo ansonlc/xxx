@@ -113,6 +113,16 @@ function GameBattlePanel:initPanel()
     crystalBlockSprite:setPosition(visibleSize.width * GBattleCrystalBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleCrystalBlockVerticalStartOffsetRatio)
     
     self:addChild(crystalBlockSprite)
+    
+    -- Crystal Text Block
+    local crystalTextBlock = cc.LabelTTF:create("10", "Arial", 80)
+    
+    crystalTextBlock:setScale(visibleSize.width * GBattleCrystalTextHorizontalRatio / crystalTextBlock:getContentSize().width, visibleSize.height * GBattleCrystalTextVerticalRatio / crystalTextBlock:getContentSize().height)
+    crystalTextBlock:setAnchorPoint(0,0)
+    crystalTextBlock:setPosition(visibleSize.width * GBattleCrystalTextHorizontalStartOffsetRatio, visibleSize.height * GBattleCrystalTextVerticalStartOffsetRatio)
+    
+    self.crystalText = crystalTextBlock
+    self:addChild(crystalTextBlock)
 
     -- Level Block
     local levelSprite = cc.Sprite:create("imgs/GameScene/level_1.png")
@@ -327,6 +337,14 @@ function GameBattlePanel:updateRuneNum(runesTable)
     self.runeBlock.earthRune:setString(runesTable.earth)
     self.runeBlock.waterRune:setString(runesTable.water)
     self.runeBlock.fireRune:setString(runesTable.fire)
+end
+
+---
+--  Update the crystal number according to the current crystal number
+--  @function [parent=#panel.GameBattlePanel] updateCrystalNum
+--  @param num number number of crystal  
+function GameBattlePanel:updateCrystalNum(num)
+    self.crystalText:setString(num)
 end
 
 function GameBattlePanel:playerShellActivated(ratio)

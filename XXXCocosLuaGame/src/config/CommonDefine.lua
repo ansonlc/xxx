@@ -42,7 +42,9 @@ GSkillSlotBGHorizontalStartOffsetRatio = 40 / 1080
 GSkillSlotHorizontalStartOffsetRatio = 65 / 1080
 GSkillSlotVerticalStartOffsetRatio = 55 / 1920  -- 40 + 15
 GSkillSlotHorizontalOffsetRatio = 25 / 1080
-GSkillSlotIdelSizeRatio = 170 / 1080
+GSkillSlotIdleSizeRatio = 170 / 1080
+GSkillSlotRuneIdleSizeRatio = 40 / 1080
+GSkillSlotRuneIdleGapRatio = 2 / 1080
 GSkillSlotStartIndex = 1
 
 -- Constant used by the GameBattlePanel
@@ -97,6 +99,11 @@ GBattleCrystalBlockVerticalRatio = 100 / 1920
 GBattleCrystalBlockHorizontalRatio = 285 / 1080
 GBattleCrystalBlockVerticalStartOffsetRatio = 560 / 1920
 GBattleCrystalBlockHorizontalStartOffsetRatio = 80 / 1080
+
+GBattleCrystalTextVerticalRatio = 70 / 1920
+GBattleCrystalTextHorizontalRatio = 80 / 1080
+GBattleCrystalTextVerticalStartOffsetRatio = 570 / 1920
+GBattleCrystalTextHorizontalStartOffsetRatio = 200 / 1080
 
 --[[GBattleMonsterBlockVerticalRatio = 470 / 1920
 GBattleMonsterBlockHorizontalRatio = 470 / 1080

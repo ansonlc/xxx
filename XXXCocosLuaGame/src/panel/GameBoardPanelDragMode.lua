@@ -7,14 +7,14 @@ local GameBoardPanelDragMode = class("GameBoardPanelDragMode", function() return
 local firstTime = true
 -- local variables
 local visibleSize = cc.Director:getInstance():getVisibleSize()
-local myWidth = visibleSize.width * 0.96 * 0.9
-local myHeight = visibleSize.height * 0.45 * 0.9
+local myWidth = visibleSize.width * 0.96 * 0.84
+local myHeight = visibleSize.height * 0.54 * 0.84
 local centerWidth = visibleSize.width * 0.5
-local centerHeight = visibleSize.height * 0.38
+local centerHeight = visibleSize.height * 0.375
 local iconSize = 150
 
 local nColumn = 6
-local nRow = 5
+local nRow = 6
 local nType = 5
 
 local GameBoard = {}
@@ -46,12 +46,12 @@ local MP = 100
 local MP_Bar
 local CountDown = 100
 local CountDown_Bar
-local CountDownReduce = 100
+local CountDownReduce = 200
 local MP_RecoverPerSecond = 400
 
-local MP_ReduceFirst = 10
-local MP_ReduceNext = 1
-local MP_ReducePerSecond = 10
+local MP_ReduceFirst = 0
+local MP_ReduceNext = 0
+local MP_ReducePerSecond = 0
 
 local willDelete = {}
 local noSwap = true
@@ -73,6 +73,10 @@ local parentNode
 
 
 local function setMode(i)
+    
+    return nil
+    --[[
+    
     if i == 1 then
         modes[mode]:setOpacity(100)
         modes[1]:setOpacity(255)
@@ -109,6 +113,7 @@ local function setMode(i)
         MP_ReducePerSecond = 100
     end
     mode = i
+    ]]--
 end
 
 local function fromTo(A, B)
@@ -161,8 +166,14 @@ local function falling()
     State = State_Waiting
 end
 
-local function getRunes(type, howMuch)
+local function getRunes(type, howMuch, posList)
     return function()
+        if type ~= 3 then
+            for i, pos in ipairs(posList) do
+                ParticleManager.sysParticleDisplay(getCellCenter(pos.x, pos.y), parentNode.battlePanel:getRunePosition(({"Fire","Earth","?","Air","Water"})[type]), parentNode, 0.3, 1000 + type)
+            end
+        end
+        
         local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
         if gameLogicNode ~= nil then
             if gameLogicNode.runesTable ~= nil then
@@ -185,22 +196,29 @@ local function getRunes(type, howMuch)
                 end
                 gameLogicNode:updateRunesTable(updateTable)
             end
+            
+            if type == 3 then
+                gameLogicNode:updateCrystalNum(howMuch)
+                parentNode.battlePanel:updateCrystalNum(DataManager.getCrystalNum())
+            end
+            
         end
         
     end
 end
 
-local Skill_Three = function()
+local Skill_Three = function(deleteIt)
     for i = 1, nColumn do
         for j = 1, nRow - 2 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i][j+2] then
-                
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation1Vert
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation1Vert
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i,y=j+1}, {x=i, y=j+2}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i][j+2] = true
@@ -210,13 +228,14 @@ local Skill_Three = function()
     for i = 1, nColumn - 2 do
         for j = 1, nRow do
             if GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+2][j] then
-                
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation1Horz
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation1Horz
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i+1,y=j}, {x=i+2, y=j}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i+1][j] = true
                 willDelete[i+2][j] = true
@@ -225,17 +244,18 @@ local Skill_Three = function()
     end
 end
 
-local Skill_2by2 = function()
+local Skill_2by2 = function(deleteIt)
     for i = 1, nColumn - 1 do
         for j = 1, nRow - 1 do
             if GameBoard[i][j] == GameBoard[i][j+1] and GameBoard[i][j] == GameBoard[i+1][j] and GameBoard[i][j] == GameBoard[i+1][j+1] then
-            
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation2
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation2
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2, {{x=i,y=j}, {x=i,y=j+1}, {x=i+1, y=j}, {x=i+1, y=j+1}})
+                end    
                 willDelete[i][j] = true
                 willDelete[i][j+1] = true
                 willDelete[i+1][j] = true
@@ -247,18 +267,19 @@ end
 
 
 
-local Skill_Cross = function()
+local Skill_Cross = function(deleteIt)
     for i = 1, nColumn - 2 do
         for j = 1, nRow - 2 do
             local t = GameBoard[i+1][j]
             if t == GameBoard[i+0][j+1] and t == GameBoard[i+1][j+1] and t == GameBoard[i+2][j+1] and t == GameBoard[i+1][j+2] then
-
-                animationList.n = animationList.n + 1
-                animationList[animationList.n] = {}
-                animationList[animationList.n].animation = skillAnimation3
-                animationList[animationList.n].x = getCellCenter(i,j).x
-                animationList[animationList.n].y = getCellCenter(i,j).y
-                animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3)
+                if deleteIt then
+                    animationList.n = animationList.n + 1
+                    animationList[animationList.n] = {}
+                    animationList[animationList.n].animation = skillAnimation3
+                    animationList[animationList.n].x = getCellCenter(i,j).x
+                    animationList[animationList.n].y = getCellCenter(i,j).y
+                    animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3, {{x=i,y=j+1}, {x=i+1,y=j+1}, {x=i+2, y=j+1}, {x=i+1,y=j+2}})
+                end    
                 willDelete[i+1][j] = true
                 willDelete[i+0][j+1] = true
                 willDelete[i+1][j+1] = true
@@ -270,16 +291,16 @@ local Skill_Cross = function()
 end
 
 
-local function haveDelete()
+local function haveDelete(deleteIt)
     for i = 1, nColumn do
         for j = 1, nRow do
             willDelete[i][j] = false
         end
     end
     
-    Skill_Three()
-    Skill_2by2()
-    Skill_Cross()
+    Skill_Three(deleteIt)
+    Skill_2by2(deleteIt)
+    Skill_Cross(deleteIt)
     
     local ret = false
     for i = 1, nColumn do
@@ -316,6 +337,8 @@ end
 
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index, opacity)
+
+    --[[
     local iconNormalSprite = GameIconManager.getTileIconSprite(GIconNormalType, index)
     local iconMatchSprite = GameIconManager.getTileIconSprite(GIconMatchType, index)
     local iconSelectSprite = GameIconManager.getTileIconSprite(GIconSelectType, index)
@@ -335,10 +358,14 @@ local function createNodeByIndex(index, opacity)
     local iconNode = cc.Node:create()
     iconNode:addChild(iconNormalSprite)
     iconNode:addChild(iconMatchSprite)
-    iconNode:addChild(iconSelectSprite)
+    iconNode:addChild(iconSelectSprite)]]--
     
+    local iconNode = cc.Node:create()
+    local iconNormalSprite = cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[index])..  ".png")
+    iconNormalSprite:setScale(0.85, 0.85)
+    iconNode:addChild(iconNormalSprite)
     iconNode.x = iconNormalSprite
-
+    iconNode.x:setOpacity(opacity)
     return iconNode
 end
 
@@ -367,10 +394,14 @@ local rune1, rune2, rune3, rune4
 function GameBoardPanelDragMode:onUpdate(delta)
     
     local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
-    rune1:setString(gameLogicNode.runesTable.fire .. '')
-    rune2:setString(gameLogicNode.runesTable.earth .. '')
-    rune3:setString(gameLogicNode.runesTable.air .. '')
-    rune4:setString(gameLogicNode.runesTable.water .. '')
+    --rune1:setString(gameLogicNode.runesTable.fire .. '')
+    rune1:setString('')
+    --rune2:setString(gameLogicNode.runesTable.earth .. '')
+    rune2:setString('')
+    --rune3:setString(gameLogicNode.runesTable.air .. '')
+    rune3:setString('')
+    --rune4:setString(gameLogicNode.runesTable.water .. '')
+    rune4:setString('')
     
     
     --print (delta)
@@ -466,7 +497,7 @@ function GameBoardPanelDragMode:onUpdate(delta)
         end
         
         if haveNotFinish == false then
-            if haveDelete() then
+            if haveDelete(true) then
                 State = State_Delete_animation
                 animationList.current = 0
                 animationList.remain = 0
@@ -598,27 +629,30 @@ function GameBoardPanelDragMode:initPanel()
     MP_Bar = cc.LayerColor:create(cc.c4b(0, 100, 255, 200))
     MP_Bar:changeWidthAndHeight(myWidth, 20)
     MP_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 20)
+    MP_Bar:setVisible(false)
     self:addChild(MP_Bar)
     
     CountDown_Bar = cc.LayerColor:create(cc.c4b(255, 255, 255, 200))
     CountDown_Bar:changeWidthAndHeight(myWidth, 20)
     CountDown_Bar:setPosition(centerWidth - myWidth / 2, centerHeight + myHeight / 2 + 40)
+    CountDown_Bar:setVisible(false)
     self:addChild(CountDown_Bar)
     
     local t
+    local col = cc.c4b(255, 255, 255, 100)
     skillAnimation1Horz = cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
     skillAnimation1Horz:setPosition(getCellCenter(2,1).x, getCellCenter(2,1).y)
     skillAnimation1Horz:setVisible(false)
     self:addChild(skillAnimation1Horz, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Horz:addChild(t)
@@ -628,15 +662,15 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation1Vert:setPosition(getCellCenter(3,3).x, getCellCenter(3,3).y)
     skillAnimation1Vert:setVisible(false)
     self:addChild(skillAnimation1Vert, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation1Vert:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation1Vert:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 100, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (2 - 0.5))
     skillAnimation1Vert:addChild(t)
@@ -646,19 +680,19 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation2:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
     skillAnimation2:setVisible(false)
     self:addChild(skillAnimation2, 100)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation2:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(100, 100, 255, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation2:addChild(t)
@@ -667,23 +701,23 @@ function GameBoardPanelDragMode:initPanel()
     skillAnimation3:setPosition(getCellCenter(4,4).x, getCellCenter(4,4).y)
     skillAnimation3:setVisible(false)
     self:addChild(skillAnimation3, 100)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (0 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (0 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (2 - 0.5), myWidth / nColumn * (1 - 0.5))
     skillAnimation3:addChild(t)
-    t = cc.LayerColor:create(cc.c4b(255, 255, 100, 150))
+    t = cc.LayerColor:create(col)
     t:changeWidthAndHeight(myWidth / nColumn, myHeight / nRow)
     t:setPosition(myWidth / nColumn * (1 - 0.5), myWidth / nColumn * (2 - 0.5))
     skillAnimation3:addChild(t)
@@ -691,26 +725,31 @@ function GameBoardPanelDragMode:initPanel()
     
     mode1 = cc.Sprite:create("res/imgs/temp/Easy.png")
     mode1:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 1, centerHeight - myHeight / 2 - 60)
+    mode1:setVisible(false)
     self:addChild(mode1)
 
     mode2 = cc.Sprite:create("res/imgs/temp/Hard.png")
     mode2:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 2, centerHeight - myHeight / 2 - 60)
     mode2:setOpacity(100)
+    mode2:setVisible(false)
     self:addChild(mode2)
 
     mode3 = cc.Sprite:create("res/imgs/temp/INF.png")
     mode3:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 3, centerHeight - myHeight / 2 - 60)
     mode3:setOpacity(100)
+    mode3:setVisible(false)
     self:addChild(mode3)
 
     mode4 = cc.Sprite:create("res/imgs/temp/PAD.png")
     mode4:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 4, centerHeight - myHeight / 2 - 60)
     mode4:setOpacity(100)
+    mode4:setVisible(false)
     self:addChild(mode4)
 
     mode5 = cc.Sprite:create("res/imgs/temp/Switch.png")
     mode5:setPosition(centerWidth - myWidth / 2 - 60 + 110 * 5, centerHeight - myHeight / 2 - 60)
     mode5:setOpacity(100)
+    mode5:setVisible(false)
     self:addChild(mode5)
 
     modes = {mode1, mode2, mode3, mode4, mode5}
@@ -731,7 +770,7 @@ function GameBoardPanelDragMode:initPanel()
                 GameBoard[i][j] = math.random(nType)
             end
         end
-        if haveDelete() == false then
+        if haveDelete(false) == false then
             ok = true
         end
     end
@@ -781,7 +820,7 @@ end
 
 function GameBoardPanelDragMode:createBackgroundLayer()
 
-    local backgroundColor = cc.c4b(99, 99, 99, 99)    
+    local backgroundColor = cc.c4b(99, 99, 99, 0)    
     local backgroundLayer = cc.LayerColor:create(backgroundColor)
 
     backgroundLayer:changeWidthAndHeight(myWidth, myHeight)
