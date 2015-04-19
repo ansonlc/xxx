@@ -44,7 +44,7 @@ local function drawCurrentSkill(root)
         if i == currentSelect then
             --skillSprite:setOpacity(50)
             skillSprite.skillIcon:setOpacity(50)
-            skillSprite.border:setOpacity(50)
+            --skillSprite.border:setOpacity(50)
             skillSprite.skillLevelLabel:setOpacity(50)
             skillSprite.bg:setOpacity(50)
         end
