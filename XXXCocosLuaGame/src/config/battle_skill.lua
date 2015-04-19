@@ -44,7 +44,7 @@ local SkillTable = {
     [1100] = {skillID=1100,skillQuality=4,skillName='Minor Heal',runeCostTable = {air=0,earth=0,water=3,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1010,effectValue1=100,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Healing'},
     [1101] = {skillID=1101,skillQuality=4,skillName='Major Heal',runeCostTable = {air=0,earth=0,water=5,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 7,effectTable={effectID1=1010,effectValue1=200,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Healing'},
     -- Shell skills
-    [1200] = {skillID=1200,skillQuality=4,skillName='Minor Shell',runeCostTable = {air=0,earth=3,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1020,effectValue1=100,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Shell'},
+    [1200] = {skillID=1200,skillQuality=4,skillName='Minor Shell',runeCostTable = {air=0,earth=3,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1020,effectValue1=40,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Shell'},
     -- Recovery skills
     [1300] = {skillID=1300,skillQuality=5,skillName='Minor Recovery',runeCostTable = {air=2,earth=0,water=2,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1030,effectValue1=100,effectID2=1030,effectValue2=9,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Recovery'},
     -- Bleed skills

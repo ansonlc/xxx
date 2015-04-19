@@ -193,7 +193,7 @@ function GameScene:onGameOver(playerWins, gameData)
                     unlockMonsterId = "Pikachu",
                     learnSkillId = 1800,
                     upgradeSkillIds = upgradeSkillIds,
-                    crystal = 123,
+                    crystal = self.battleLogicNode.crystalNum ,
                 }
                 -- Modify codes before here
                 

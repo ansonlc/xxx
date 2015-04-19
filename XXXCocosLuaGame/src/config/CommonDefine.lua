@@ -122,7 +122,7 @@ GBattlePlayerEffectBlockHorizontalStartOffsetRatio = 815 / 1080
 
 GBattleMonsterEffectBlockVerticalRatio = 150 / 1920
 GBattleMonsterEffectBlockHorizontalRatio = 200 / 1080
-GBattleMonsterEffectBlockVerticalStartOffsetRatio = 270 / 1920
+GBattleMonsterEffectBlockVerticalStartOffsetRatio = 300 / 1920
 GBattleMonsterEffectBlockHorizontalStartOffsetRatio = 815 / 1080
 
 GBattleEffectGapVerticalRatio = 10 / 1920
@@ -139,10 +139,11 @@ GBattleOptionBlockHorizontalStartOffset = 900 / 1080
 
 GBattleToggleBlockVerticalRatio = 110 / 1920
 GBattleToggleBlockHorizontalRatio = 110 / 1080
-GBattleToggleBlockVerticalStartOffset = 430 / 1920
-GBattleToggleBlockHorizontalStartOffset = 900 / 1080
+GBattleToggleBlockVerticalStartOffset = 560 / 1920
+GBattleToggleBlockHorizontalStartOffset = 750 / 1080
 
 GSkillPublicCD = 3
+GSkillLevelBonus = 1.2
 GEffectPublicCD = 3
 
 GMonsterAIInterval = 3.5
