@@ -26,6 +26,7 @@ local SkillTable = {
 
     -- monster skills
     [-10011] = monsterSkill({damage, 10}, nil, nil),
+    [-10021] = monsterSkill({damage, 30}, nil, nil),
 
 
 
