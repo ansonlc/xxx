@@ -12,6 +12,8 @@ function MonsterAILogic:initAI()
     -- useSkillTimes[i] means the i skill's use times 
     self.useSkillTimes = {0,0,0,0} 
     self.battleLogic = self:getParent():getChildByName("GameBattleLogic")
+    self.battlePanel = self:getParent():getChildByName("GameBattlePanel")
+    self.monsterNode = self.battlePanel:getMonsterNode()
     self.isAIOn = true
     print(self.battleLogic)
 end
@@ -63,10 +65,16 @@ function MonsterAILogic:prepareUseSkill(monsterNode)
     local actionByLeftBack  = actionByLeft:reverse()
     local actionByRight = cc.MoveBy:create(0.1,cc.p(50,0))
     local actionByRightBack  = actionByRight:reverse()   
-    local actionScaleTo = cc.ScaleTo:create(0.5, 1.5)
-    local actionScaleToBack = cc.ScaleTo:create(0.5, 1)
+    local actionScaleBy = cc.ScaleBy:create(0.2, 1.25, 1.25, 1.25)
+    local actionScaleByBack = actionScaleBy:reverse()
     
-    local actionSeq = cc.Sequence:create(cc.Blink:create(0.5, 3),actionByLeft,actionByLeftBack,actionByRight,actionByRightBack,actionScaleTo,actionScaleToBack)
+    local skill = self:getSkill()
+    local function monsterUseSkill()
+        self.battleLogic:monsterUseSkill(skill)
+    end
+    
+    local actionSeq = cc.Sequence:create(cc.Blink:create(0.8, 5),actionByLeft,actionByLeftBack,actionByRight,actionByRightBack,actionScaleBy,actionScaleByBack, cc.CallFunc:create(monsterUseSkill))
+        
     monsterNode:runAction(actionSeq)
 end
 
@@ -83,8 +91,9 @@ function MonsterAILogic:onUpdate(delta)
         self.interval = 0
         --self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
-        --self.prepareUseSkill(self,monsterNode)
-        self.battleLogic:monsterUseSkill(skill)
+        self:prepareUseSkill(self.monsterNode)
+       
+        --self.battleLogic:monsterUseSkill(skill)
         --cclog("Monster use skill times:"..self.useSkillTimes[4].." ,skillName:"..skill.skillName)
         --cclog("stat: skill1:"..self.useSkillTimes[1]..",skill2:"..self.useSkillTimes[2]..",skill3:"..self.useSkillTimes[3])   
     end    

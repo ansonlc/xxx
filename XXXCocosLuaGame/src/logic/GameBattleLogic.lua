@@ -461,7 +461,7 @@ function GameBattleLogic:monsterUseSkill(skill)
             self.gameBattlePanel:doDamageToPlayer(self.playerHP / self.playerMaxHP)
         end      
         
-        self.gameBattlePanel:monsterUseSkill(nil)
+        --self.gameBattlePanel:monsterUseSkill(nil)
         
         if self.playerWins ~= nil and not self.playerWins then
             self:outputBattleStats()
