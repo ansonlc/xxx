@@ -49,6 +49,10 @@ function ResultScene:onInit()
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
     self:addChild(rootNode)
     
+    local _, nowLevelKey = GeneralUtil.getSubTableByKey(MetaManager["battle_mission"], 
+        {name = "id", value = self.enterData.levelData.missionId})
+    rootNode:getChildByName("panel_result"):getChildByName("txt_currentlevel"):setString("Level " .. nowLevelKey)
+    
     --Add monster sprite
     if (battleResult.unlockMonsterId) then
         local monsterNode = rootNode:getChildByName("panel_result"):getChildByName("node_monster")

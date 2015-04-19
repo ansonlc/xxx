@@ -31,7 +31,7 @@
             <PrePosition X="0.0000" Y="0.0020" />
             <PreSize X="1.0000" Y="1.0000" />
             <Children>
-              <NodeObjectData Name="bitmap_currentlevel" ActionTag="-1020884053" FrameEvent="" Tag="17" ObjectIndex="4" LabelText="Level 1" ctype="TextBMFontObjectData">
+              <NodeObjectData Name="txt_currentlevel" ActionTag="-1020884053" FrameEvent="" Tag="17" ObjectIndex="4" LabelText="Level 1" ctype="TextBMFontObjectData">
                 <Position X="540.0000" Y="1440.0000" />
                 <Scale ScaleX="4.0000" ScaleY="4.0000" />
                 <AnchorPoint ScaleX="0.5000" />
