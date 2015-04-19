@@ -78,7 +78,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     skillSprite.skillIcon = skillIcon
     
     --Add border to sprite
-    if (borderAndBg) then
+    if (false) then
         local border = cc.Sprite:create("res/imgs/item/border/border" .. skillData.skillQuality .. ".png")
         border:setScale(128/130)
         border:setPosition(64, 64)

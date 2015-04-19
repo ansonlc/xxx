@@ -127,6 +127,7 @@ end
         particleNode = cc.ParticleSystemQuad:create(particle.path)
     end
 
+
     particleNode:setPosition(from)
     particleNode:setDuration(duration+0.1)
     parentNode:addChild(particleNode)
