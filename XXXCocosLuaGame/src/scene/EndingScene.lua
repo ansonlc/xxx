@@ -30,9 +30,9 @@ function EndingScene:onInit()
     btns["btn_next"]:setTitleFontSize(30)
     
     local btn2scene = {
-        ["btn_retry"] = "GameScene",
-        ["btn_next"] = "GameScene",
-        ["btn_return"] = self.returnScene,
+        ["btn_retry"] = "SkillSelectScene",
+        ["btn_next"] = "LevelSelectScene",
+        ["btn_return"] = "MainMenuScene",
     }
     
     local function onBtnPress(sender, eventType)
