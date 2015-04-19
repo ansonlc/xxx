@@ -62,7 +62,6 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     --Add border and background to sprite
     if (false) then
         local bg = cc.Sprite:create("res/imgs/item/border/bg" .. skillData.skillQuality .. ".png")
-        bg:setScale(128/130)
         bg:setPosition(85, 85)
         skillSprite:addChild(bg)
         skillSprite.bg = bg
@@ -108,6 +107,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     disableCover:setOpacity(200)
     skillSprite:addChild(disableCover)
     disableCover:setVisible(false)
+    -- Set disabled interface
     skillSprite.setDisabled = function(self, flag)
         disableCover:setVisible(flag)
     end
