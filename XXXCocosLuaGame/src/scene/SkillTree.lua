@@ -15,6 +15,7 @@ local upgradePanelOn = false
 local upgradePanelCost = 0
 
 local function skillIconListUpdates()
+    --print('now update: ' .. #skillIconList)
     for i = 1, #skillIconList do
         skillIconList[i].updateLevel()
     end
@@ -286,6 +287,8 @@ function SkillTree:drawSkillIcon()
     
     local skillsList = {skills1, skills2, skills3 }
     local scrollViewList = {self.ScrollView1, self.ScrollView2, self.ScrollView3}
+    
+    skillIconList = {}
     
     for t = 1,3 do
         local scrollView = scrollViewList[t]
