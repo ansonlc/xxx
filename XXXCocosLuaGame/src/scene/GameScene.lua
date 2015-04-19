@@ -150,7 +150,8 @@ function GameScene:onGameOver(playerWins, gameData)
         if event:getEventCode() == 2 then
             if playerWins then
                 -- [[TODO Results needed to calculate by Ren
-                --[[local upgradeSkillIds = {
+                ---[[
+                local upgradeSkillIds = {
                     {
                         skillId = 1001,
                         lvlBefore = 1,
@@ -161,8 +162,10 @@ function GameScene:onGameOver(playerWins, gameData)
                         lvlBefore = 1,
                         lvlAfter = 99,
                     },
-                }--]]
+                }
+                --]]
                 -- iterate through all the skill
+                --[[
                 local upgradeSkillIds = {}
                 local index = 1
                 for k, v in pairs(gameData[1]) do
@@ -188,7 +191,7 @@ function GameScene:onGameOver(playerWins, gameData)
                     end
                     index  = index + 1
                 end
-                
+                --]]
                 local battleResult = {
                     unlockMonsterId = "Pikachu",
                     learnSkillId = 1800,

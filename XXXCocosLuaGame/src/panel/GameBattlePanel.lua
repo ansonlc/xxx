@@ -240,7 +240,7 @@ function GameBattlePanel:initPanel()
             else
                 cclog("Current AI Status: Off")
             end
-            --self:getParent():onGameOver(true, nil)
+            self:getParent():onGameOver(true, nil)
         end
     end
 
