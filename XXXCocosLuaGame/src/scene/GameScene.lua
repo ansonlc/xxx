@@ -150,7 +150,7 @@ function GameScene:onGameOver(playerWins, gameData)
         if event:getEventCode() == 2 then
             if playerWins then
                 -- [[TODO Results needed to calculate by Ren
-                ---[[
+                --[[
                 local upgradeSkillIds = {
                     {
                         skillId = 1001,
@@ -165,7 +165,7 @@ function GameScene:onGameOver(playerWins, gameData)
                 }
                 --]]
                 -- iterate through all the skill
-                --[[
+                ---[[
                 local upgradeSkillIds = {}
                 local index = 1
                 for k, v in pairs(gameData[1]) do

@@ -183,6 +183,12 @@ function GameBattleLogic:playerUseSkill(skill)
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Silence' then
                     self.isMonsterSilenced = true
+                    -- should notify the AI node
+                    if self.monsterAINode == nil then
+                        self.monsterAINode = self:getParent():getChildByName("MonsterAILogic")
+                    end
+                    self.monsterAINode.isAIOn = false
+                    
                 elseif effect.effectType == 'Fear' then
                     self.monsterDamageBonus = (1 - effectToAdd.effectValue)     -- TODO: pending for decision
                 elseif effect.effectType == 'Bleed' then
@@ -765,6 +771,12 @@ function GameBattleLogic:onUpdate(delta)
             if v.effectTimeToLive < 0 then
                 if v.effectType == 'Silence' then
                     self.isMonsterSilenced = false
+                    -- should notify the AI node
+                    if self.monsterAINode == nil then
+                        self.monsterAINode = self:getParent():getChildByName("MonsterAILogic")
+                    end
+                    self.monsterAINode.isAIOn = true
+                    
                 elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
                     self.monsterDamageBonus = 1.0
                 end
