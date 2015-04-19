@@ -38,7 +38,7 @@ function DataManager.loadUserInfo()
     -- TODO: Delete the predefined table
     DataManager.userInfo = {}
     DataManager.userInfo.currentUser = 1001
-    DataManager.userInfo.currentSkills = {1001, 1100, 1200, 1300, 1400}
+    DataManager.userInfo.currentSkills = DataManager.userSkillStatus[DataManager.userInfo.currentUser].currentSkills
 end
 
 --[[
@@ -99,6 +99,10 @@ end
 
 function DataManager.setCrystalNum(toValue)
     DataManager.userData[DataManager.userInfo.currentUser].CrystalNum = toValue;
+end
+
+function DataManager.getUserHP()
+    return DataManager.userData[DataManager.userInfo.currentUser].userHP;
 end
 
 function DataManager.setCurrentSkill(userID, toSkills)

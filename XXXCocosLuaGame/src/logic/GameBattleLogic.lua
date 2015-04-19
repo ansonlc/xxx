@@ -18,9 +18,9 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 50, air = 50, fire = 50, earth = 50}    -- currently all the runes start from 5
-    self.crystalNum = 0
-    self.playerMaxHP = 500
+    self.runesTable = {water = 10, air = 10, fire = 10, earth = 10}    -- currently all the runes start from 5
+    self.crystalNum = DataManager.getCrystalNum()
+    self.playerMaxHP = DataManager.getUserHP()
     self.playerHP = self.playerMaxHP
     self.playerWins = nil
     self.playerSkillLevel = {}
@@ -60,6 +60,7 @@ function GameBattleLogic:initNode()
     end
     assert(self.gameBattlePanel, "Nil in function GameBattleLogic:initNode()")
     self.gameBattlePanel:updateRuneNum(self.runesTable)
+    self.gameBattlePanel:updateCrystalNum(self.crystalNum)
     
 end
 
@@ -110,6 +111,7 @@ function GameBattleLogic:playerUseSkill(skill)
     
     local damage = 0
     local heal = 0
+    local skillLevel = DataManager.expToLevel(self.playerSkillLevel[skill.skillID].exp)
     local newEffect = nil
     local isContinuousSkill = false
     local effectAdded = false
@@ -136,21 +138,22 @@ function GameBattleLogic:playerUseSkill(skill)
             attackPoint = effectValue * monster.elementTable.air
         end
         -- TODO: Replace skill level with the skill level system
-        local skillLevel = 1
-        --attackPoint = (1 + math.random(-0.05,0.05)) * skillLevel * attackPoint
+        attackPoint = (100 + math.random(-5,5)) * math.pow(GSkillLevelBonus, skillLevel) * attackPoint / 100;
+        cclog("Attack Power: "..attackPoint )
         return math.floor(attackPoint)
     end
     
     local function playerApplyEffect(effect, effectValue)
+        causeDamage = false
         if effect.effectType == 'Attack' then
-            damage = damage + calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)
-            causeDamage = true
-            causeShellAbsorbed = true
+            damage = damage + calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)   -- bonus calculated in local function
+            causeShellAbsorbed = false
         elseif effect.effectType == 'Heal' then
-            heal = heal + effectValue
+            heal = heal + effectValue * math.pow(GSkillLevelBonus, skillLevel)   -- level matters to the healing value
             causeHealing = true
         elseif effect.effectType == 'Shell' then
-            self.playerShellEnergy = effectValue
+            self.playerShellEnergy = effectValue * math.pow(GSkillLevelBonus, skillLevel)    -- level matters to the shell value
+            --self.playerShellEnergy = effectValue
             causeShieldActivated = true
         elseif effect.effectType == 'Purify' then
             -- delete all the debuff on the player
@@ -181,15 +184,21 @@ function GameBattleLogic:playerUseSkill(skill)
                 if effect.effectType == 'Silence' then
                     self.isMonsterSilenced = true
                 elseif effect.effectType == 'Fear' then
-                    self.monsterDamageBonus = effectToAdd.effectValue
+                    self.monsterDamageBonus = (1 - effectToAdd.effectValue)     -- TODO: pending for decision
+                elseif effect.effectType == 'Bleed' then
+                    effectToAdd.effectValue = effectToAdd.effectValue * math.pow(GSkillLevelBonus, skillLevel)
+                elseif effect.effectType == 'Curse' then
+                    -- should not happend since player cannot use curse
                 end
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             else    -- Positive effect here
                 self.playerEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Bless' then
-                    self.runeCollectingBonus = effectToAdd.effectValue
+                    self.runeCollectingBonus = effectToAdd.effectValue;  -- TODO: Pending for decision
                 elseif effect.effectType == 'Bravery' then
-                    self.playerDamageBonus = effectToAdd.effectValue
+                    self.playerDamageBonus = effectToAdd.effectValue    -- TODO: pending for decision
+                elseif effect.effectType == 'Recovery' then
+                    effectToAdd.effectValue = effectToAdd.effectValue * math.pow(GSkillLevelBonus, skillLevel)
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
@@ -235,23 +244,29 @@ function GameBattleLogic:playerUseSkill(skill)
         -- For statistics
         self.damageCausedByPlayer = self.damageCausedByPlayer + damage
         
-        if damage >= 0 then
+        if damage > 0 then
             -- do damage to the monster       
-            if self.monsterShellEnergy >= 0 then
+            if self.monsterShellEnergy > 0 then
+                damage = math.floor(damage / 2.0)
                 self.monsterShellEnergy = self.monsterShellEnergy - damage
+                causeShellAbsorbed = true
                 if self.monsterShellEnergy < 0 then
                     -- Shell Breaks here
                     damage = - self.monsterShellEnergy
                     self.monsterShellEnergy = 0
                     causeShellAbsorbed = false
+                    causeDamage = true
                 else 
                     damage = 0
                     causeDamage = false
                 end
+            else
+                causeDamage = true
             end
         elseif damage < 0 then
             -- The monster will absorb the damage here (Special case because of the element property)
             causeShellAbsorbed = false
+            causeDamage = false
         end
         
         self.monsterHP = self.monsterHP - damage
@@ -366,7 +381,7 @@ function GameBattleLogic:monsterUseSkill(skill)
                     self.runeCollectBound = effectToAdd.effectValue
                     self.isPlayerCursed = true
                 elseif effect.effectType == 'Fear' then
-                    self.playerDamageBonus = effectToAdd.effectValue
+                    self.playerDamageBonus = (1 - effectToAdd.effectValue)
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             else -- Positive buff for the monster
@@ -412,13 +427,16 @@ function GameBattleLogic:monsterUseSkill(skill)
         end
         
         -- First apply the damage bonus
+        local test = self.monsterDamageBonus
         damage = damage * self.monsterDamageBonus
                 
         -- For statistics
         self.damageCausedByMonster = self.damageCausedByMonster + damage
         
         -- Calculate Shell      
-        if self.playerShellEnergy >= 0 then
+        if self.playerShellEnergy > 0 then
+            --self.monsterShellEnergy = math.floor(self.monsterShellEnergy - damage / 2)
+            damage = math.floor(damage / 2.0)
             shellAbsorbedDamage = damage
             self.playerShellEnergy = self.playerShellEnergy - damage
             if self.playerShellEnergy <= 0 then
@@ -494,7 +512,8 @@ function GameBattleLogic:playerUseEffect(effect)
         local causeDamage = true    -- Default to cause damage to the player
         
         -- Calculate Shell      
-        if self.playerShellEnergy >= 0 then
+        if self.playerShellEnergy > 0 then
+            damage = math.floor(damage / 2.0)
             shellAbsorbedDamage = damage
             causeShellAbsorbed = true  -- Shield must absord some damage
             self.playerShellEnergy = self.playerShellEnergy - damage
@@ -550,23 +569,27 @@ function GameBattleLogic:monsterUseEffect(effect)
         
     elseif effect.effectType == 'Bleed' then
         local damage = effect.effectValue
-        local causeDamage = true
-        local causeShellAbsorbed = true
-        
+        local causeDamage = false
+        local causeShellAbsorbed = false
+           
         -- do damage to the monster       
-        if self.monsterShellEnergy >= 0 then
+        if self.monsterShellEnergy > 0 then
+            damage = math.floor(damage / 2.0)
             self.monsterShellEnergy = self.monsterShellEnergy - damage
+            causeShellAbsorbed = true
             if self.monsterShellEnergy < 0 then
-                 -- Shell Breaks here
+                -- Shell Breaks here
                 damage = - self.monsterShellEnergy
                 self.monsterShellEnergy = 0
-                causeDamage = true
                 causeShellAbsorbed = false
+                causeDamage = true
             else 
                 damage = 0
                 causeDamage = false
             end
-       end
+        else
+            causeDamage = true
+        end
         
         self.monsterHP = self.monsterHP - damage
 
@@ -646,6 +669,9 @@ end
 -- @param num number crystal number added
 function GameBattleLogic:updateCrystalNum(num)
     self.crystalNum = self.crystalNum + num
+    DataManager.setCrystalNum(self.crystalNum)
+    
+    --print ('get->' .. self.crystalNum)
 end
 
 ---
@@ -692,8 +718,8 @@ function GameBattleLogic:onUpdate(delta)
         self:playerUseSkill(MetaManager.getSkill(1600))
         self:monsterUseSkill(MetaManager.getSkill(1400))
         self:monsterUseSkill(MetaManager.getSkill(1500))--]]
-        self:monsterUseSkill(MetaManager.getSkill(1800))
-        self:monsterUseSkill(MetaManager.getSkill(1400))
+        --self:monsterUseSkill(MetaManager.getSkill(1800))
+        --self:monsterUseSkill(MetaManager.getSkill(1400))
         self.test = 0
     end
    
