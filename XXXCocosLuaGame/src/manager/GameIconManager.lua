@@ -207,6 +207,13 @@ function GameIconManager.getMonsterSprite(monsterId, scale, border)
     
     local cacheInst = cc.SpriteFrameCache:getInstance()
     local monsterSprite = cc.Sprite:create("res/imgs/monster/" .. monsterId .. ".png")
+    if border then
+        monsterSprite.border = cc.Sprite:create("res/imgs/monster/bgs/border.png")
+        monsterSprite.border:setScale(470/400)
+        monsterSprite.border:setAnchorPoint(0, 0)
+        monsterSprite:addChild(monsterSprite.border)
+    end
+    
     if (scale) then
         monsterSprite:setScale(scale)
     end
