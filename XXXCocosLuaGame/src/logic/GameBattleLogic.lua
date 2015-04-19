@@ -563,6 +563,7 @@ function GameBattleLogic:monsterUseEffect(effect)
 
     if effect.effectType == 'Recovery' then
         local heal = effect.effectValue
+        heal = math.floor(heal)
 
         self.monsterHP = self.monsterHP + heal
 
@@ -577,6 +578,9 @@ function GameBattleLogic:monsterUseEffect(effect)
         local damage = effect.effectValue
         local causeDamage = false
         local causeShellAbsorbed = false
+        
+        -- first floor the damage to interger
+        damage = math.floor(damage)
            
         -- do damage to the monster       
         if self.monsterShellEnergy > 0 then
