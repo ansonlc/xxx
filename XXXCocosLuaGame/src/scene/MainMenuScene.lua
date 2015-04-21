@@ -54,6 +54,7 @@ function MainMenuScene:onInit()
     self.panelIcon:setOpacity(0)
     
     local function onStoryPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             SceneManager.replaceSceneWithName("LevelSelectScene")
         end
@@ -61,6 +62,7 @@ function MainMenuScene:onInit()
        
     self.btnStory:addTouchEventListener(onStoryPress)
     self.btn_skill:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             SceneManager.replaceSceneWithName("SkillTree")
         end
