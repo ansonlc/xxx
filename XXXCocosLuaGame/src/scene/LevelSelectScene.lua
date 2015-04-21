@@ -41,6 +41,7 @@ function LevelSelectScene:onInit()
     self.lvlScroll = rootNode:getChildByName("LevelScroll")
     
     local function onRtnTouch(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             local params = SceneManager.generateParams(self, "MainMenuScene", nil)
             SceneManager.replaceSceneWithName("MainMenuScene", params)
@@ -55,9 +56,7 @@ function LevelSelectScene:onInit()
     -- Level buttons touching event
     local function onTouch(sender, eventType)
         --While exiting this scene, ignore touch events
-        if not self.touchEnabled then
-            return false
-        end
+        if not self.touchEnabled then return true end
         
         if eventType == ccui.TouchEventType.ended then
             local selectLvL = battle_mission_cfg[sender:getTag() - LevelTagHeader]
