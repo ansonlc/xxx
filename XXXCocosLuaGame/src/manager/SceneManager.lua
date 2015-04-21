@@ -55,14 +55,15 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         if ccRunning.doExit then
             ccRunning:doExit()
         end
-        ccRunning:addChild(SceneManager.generateLoadingPanel())
+        local loading = SceneManager.generateLoadingPanel()
+        ccRunning:addChild(loading)
         -- ccRunning:dispose()
     end
-    
+
+local function doChangeScene()
     local startTime = TimeUtil.getRunningTime()
     local sceneClass = require("scene." .. sceneName)
-    print ("sceneClass is..")
-    print (sceneClass)
+    print ("sceneClass is.." .. sceneName)
     local targetScene = sceneClass.create(params)
     cclog("Initialized in " .. (TimeUtil.getRunningTime() - startTime) .. "s")
     ---[[
@@ -76,6 +77,10 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         targetScene:doEnter()
     end
     --]]
+end
+
+    local sequence = cc.Sequence:create({cc.DelayTime:create(0.01), cc.CallFunc:create(doChangeScene)})
+    ccRunning:runAction(sequence)
 end
 
 --------------------------------
