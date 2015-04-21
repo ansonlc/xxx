@@ -590,12 +590,20 @@ function GameBoardPanelDragMode:setTouch(flag)
     self.touchLayer:setTouchEnabled(flag)
 end
 
+
 function GameBoardPanelDragMode:initPanel()
 
     --self:registerScriptUpdateHandler(update)
     --self:setUpdateEnabled(true)
     
     --loadGameIcon()
+    
+    self:removeAllChildren()
+    
+    nowTouch = false
+    touchType = 0
+    
+    --print('self:removeAllChildren()')
     
     rune1 = cc.LabelTTF:create("99", "Arial", 70)
     rune1:setPosition(280, 1680)

@@ -38,7 +38,7 @@
           <Image Name="tx_4star.png" />
           <Image Name="tx_snow.png" />
           <Image Name="tx_wave.png" />
-          <PlistImageFolder PListFile="fx_starshining.plist" LastPlistWriteTime="2015-04-15T11:21:16.9246642-07:00" LastImageWriteTime="2015-04-15T11:21:16.9256495-07:00" Name=".fx_starshining_PList.Dir">
+          <PlistImageFolder PListFile="fx_starshining.plist" LastPlistWriteTime="2015-03-25T12:35:07.6769493-07:00" LastImageWriteTime="2015-03-25T12:35:07.67795-07:00" Name=".fx_starshining_PList.Dir">
             <PlistImageFile Name="fx_starshining_cell-bong_light.png" Key="fx_starshining_cell-bong_light.png" />
             <PlistImageFile Name="fx_starshining_cell-bong_light_light.png" Key="fx_starshining_cell-bong_light_light.png" />
             <PlistImageFile Name="fx_starshining_cell-dian.png" Key="fx_starshining_cell-dian.png" />
@@ -63,6 +63,8 @@
             <Folder Name="icon">
               <Image Name="icon_Close.png" />
               <Image Name="icon_Close_press.png" />
+              <Image Name="icon_return.png" />
+              <Image Name="icon_return_press.png" />
             </Folder>
           </Folder>
           <Folder Name="game_scene_contents">
@@ -80,7 +82,7 @@
             <Image Name="battle_result_panel.png" />
           </Folder>
           <Folder Name="MissionSelect">
-            <PlistImageFolder PListFile="EgyptRes.plist" LastPlistWriteTime="2015-04-15T11:21:17.1037787-07:00" LastImageWriteTime="2015-04-15T11:21:17.1087798-07:00" Name=".EgyptRes_PList.Dir">
+            <PlistImageFolder PListFile="EgyptRes.plist" LastPlistWriteTime="2015-03-25T12:35:07.7560056-07:00" LastImageWriteTime="2015-03-25T12:35:07.7610087-07:00" Name=".EgyptRes_PList.Dir">
               <PlistImageFile Name="gap01.png" Key="gap01.png" />
               <PlistImageFile Name="gap02.png" Key="gap02.png" />
               <PlistImageFile Name="gap03.png" Key="gap03.png" />
@@ -166,7 +168,7 @@
             <Image Name="MS02.png" />
             <Image Name="MS03.png" />
             <Image Name="MS04.png" />
-            <PlistImageFolder PListFile="map_board.plist" LastPlistWriteTime="2015-04-15T11:21:17.1167859-07:00" LastImageWriteTime="2015-04-15T11:21:17.1197883-07:00" Name=".map_board_PList.Dir">
+            <PlistImageFolder PListFile="map_board.plist" LastPlistWriteTime="2015-03-25T12:35:07.767013-07:00" LastImageWriteTime="2015-03-25T12:35:07.7690144-07:00" Name=".map_board_PList.Dir">
               <PlistImageFile Name="Atlantis_map_bg_l.png" Key="Atlantis_map_bg_l.png" />
               <PlistImageFile Name="Atlantis_map_bg_r.png" Key="Atlantis_map_bg_r.png" />
               <PlistImageFile Name="Egypt_map_bg_l.png" Key="Egypt_map_bg_l.png" />

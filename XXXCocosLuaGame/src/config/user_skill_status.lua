@@ -23,7 +23,10 @@ local UserSkillStatusTable = {
         [1001] = {skillID = 1001, exp = 0},
         }
         ,
-    currentSkills = {1002, 1004, 1006, 1008, 1001}
+    currentSkills = {1002, 1004, 1006, 1008, 1001} -- level 1 skills
+    
+    
+    
     },
 }
 return UserSkillStatusTable
