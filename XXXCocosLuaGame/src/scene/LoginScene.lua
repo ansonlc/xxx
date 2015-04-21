@@ -85,6 +85,7 @@ function LoginScene:createBtnLayer()
     end
 
     local function onStartBtnPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then   
             return onTouchEnded()
         end
@@ -97,6 +98,7 @@ function LoginScene:createBtnLayer()
     btnLayer:addChild(startBtn)
 
     local function onDebugBtnPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             print ("here")
             --SceneManager.replaceSceneWithName("SkillTree", nil)
