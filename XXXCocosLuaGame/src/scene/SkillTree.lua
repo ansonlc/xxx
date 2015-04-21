@@ -73,7 +73,7 @@ function SkillTree:drawSkillInfo()
     -- Icon
     if (currentSelect ~= nil) then
         self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect, false)
-        self.currentSelectSkill.skillIcon:setPosition(cc.p(145, 275))
+        self.currentSelectSkill.skillIcon:setPosition(cc.p(137, 267))
         self.currentSelectSkill.skillIcon.removeLevel()
         self:addChild(self.currentSelectSkill.skillIcon)
     end
@@ -124,7 +124,7 @@ function SkillTree:getSkillButton(skillID, canClick)
     
     
     local pic = GameIconManager.getSkillSprite(skillID, 1, true, 99)
-    pic:setScale(0.78 / 100.0, 0.78 / 100.0)
+    pic:setScale(0.65 / 100.0, 0.65 / 100.0)
     pic:setPosition(0, 0)
     pic:setAnchorPoint(0, 0)
     skillButton:addChild(pic)

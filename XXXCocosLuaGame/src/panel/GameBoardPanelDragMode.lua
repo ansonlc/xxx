@@ -214,7 +214,7 @@ local Skill_Three = function(deleteIt)
                 if deleteIt then
                     animationList.n = animationList.n + 1
                     animationList[animationList.n] = {}
-                    animationList[animationList.n].animation = skillAnimation1Vert
+                    animationList[animationList.n].animation = {{x=i,y=j}, {x=i,y=j+1}, {x=i, y=j+2}}
                     animationList[animationList.n].x = getCellCenter(i,j).x
                     animationList[animationList.n].y = getCellCenter(i,j).y
                     animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i,y=j+1}, {x=i, y=j+2}})
@@ -231,7 +231,7 @@ local Skill_Three = function(deleteIt)
                 if deleteIt then
                     animationList.n = animationList.n + 1
                     animationList[animationList.n] = {}
-                    animationList[animationList.n].animation = skillAnimation1Horz
+                    animationList[animationList.n].animation = {{x=i,y=j}, {x=i+1,y=j}, {x=i+2, y=j}}
                     animationList[animationList.n].x = getCellCenter(i,j).x
                     animationList[animationList.n].y = getCellCenter(i,j).y
                     animationList[animationList.n].effect = getRunes(GameBoard[i][j], 1, {{x=i,y=j}, {x=i+1,y=j}, {x=i+2, y=j}})
@@ -251,7 +251,7 @@ local Skill_2by2 = function(deleteIt)
                 if deleteIt then
                     animationList.n = animationList.n + 1
                     animationList[animationList.n] = {}
-                    animationList[animationList.n].animation = skillAnimation2
+                    animationList[animationList.n].animation = {{x=i,y=j}, {x=i,y=j+1}, {x=i+1, y=j}, {x=i+1, y=j+1}}
                     animationList[animationList.n].x = getCellCenter(i,j).x
                     animationList[animationList.n].y = getCellCenter(i,j).y
                     animationList[animationList.n].effect = getRunes(GameBoard[i][j], 2, {{x=i,y=j}, {x=i,y=j+1}, {x=i+1, y=j}, {x=i+1, y=j+1}})
@@ -275,7 +275,7 @@ local Skill_Cross = function(deleteIt)
                 if deleteIt then
                     animationList.n = animationList.n + 1
                     animationList[animationList.n] = {}
-                    animationList[animationList.n].animation = skillAnimation3
+                    animationList[animationList.n].animation = {{x=i,y=j+1}, {x=i+1,y=j+1}, {x=i+2, y=j+1}, {x=i+1,y=j+2}}
                     animationList[animationList.n].x = getCellCenter(i,j).x
                     animationList[animationList.n].y = getCellCenter(i,j).y
                     animationList[animationList.n].effect = getRunes(GameBoard[i+1][j], 3, {{x=i,y=j+1}, {x=i+1,y=j+1}, {x=i+2, y=j+1}, {x=i+1,y=j+2}})
@@ -299,8 +299,8 @@ local function haveDelete(deleteIt)
     end
     
     Skill_Three(deleteIt)
-    Skill_2by2(deleteIt)
-    Skill_Cross(deleteIt)
+    --Skill_2by2(deleteIt)
+    --Skill_Cross(deleteIt)
     
     local ret = false
     for i = 1, nColumn do
@@ -334,6 +334,7 @@ local function positionToCell(x, y)
     return {i = i, j = j}
 end
 
+--local var = 0;
 
 --根据index创建某类型结点，不包含额外信息
 local function createNodeByIndex(index, opacity)
@@ -362,10 +363,20 @@ local function createNodeByIndex(index, opacity)
     
     local iconNode = cc.Node:create()
     local iconNormalSprite = cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[index])..  ".png")
+    local iconSelectSprite = cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[index])..  "_selected.png")
     iconNormalSprite:setScale(0.85, 0.85)
+    iconSelectSprite:setScale(0.85, 0.85)
     iconNode:addChild(iconNormalSprite)
     iconNode.x = iconNormalSprite
     iconNode.x:setOpacity(opacity)
+    iconNode:addChild(iconSelectSprite)
+    iconNode.y = iconSelectSprite
+    iconNode.y:setOpacity(opacity)
+    
+    
+    iconNode.y:setOpacity(0)
+    
+    
     return iconNode
 end
 
@@ -519,13 +530,21 @@ function GameBoardPanelDragMode:onUpdate(delta)
             if animationList.remain <= 0 then
                 if animationList.current > 0 then
                     animationList[animationList.current].effect()
-                    animationList[animationList.current].animation:setVisible(false)
+                    for i, p in ipairs(animationList[animationList.current].animation) do
+                        icons[p.x][p.y][GameBoard[p.x][p.y]].x:setOpacity(255)
+                        icons[p.x][p.y][GameBoard[p.x][p.y]].y:setOpacity(0)
+                    end
+                    --animationList[animationList.current].animation:setVisible(false)
                 end
                 animationList.remain = animationTime
                 animationList.current = animationList.current + 1
                 if animationList.current <= animationList.n then
-                    animationList[animationList.current].animation:setPosition(animationList[animationList.current].x, animationList[animationList.current].y)
-                    animationList[animationList.current].animation:setVisible(true)
+                    for i, p in ipairs(animationList[animationList.current].animation) do
+                        icons[p.x][p.y][GameBoard[p.x][p.y]].x:setOpacity(0)
+                        icons[p.x][p.y][GameBoard[p.x][p.y]].y:setOpacity(255)
+                    end
+                    --animationList[animationList.current].animation:setPosition(animationList[animationList.current].x, animationList[animationList.current].y)
+                    --animationList[animationList.current].animation:setVisible(true)
                 end
             end
         end

@@ -34,7 +34,7 @@ local function drawCurrentSkill(root)
     for i = 1,5 do
         local skillSprite = skillIcons[skills[i]]
         skillSprite:setPosition(i * 196 - 45 - 82 , 1654 - 82)
-        skillSprite:setScale(1.3)
+        skillSprite:setScale(0.95)
         skillSprite:setVisible(true)
         --skillSprite:setOpacity(255)
         skillSprite.skillIcon:setOpacity(255)
@@ -108,7 +108,7 @@ local function buildSkillButton(id, skill, posY)
     skillButton:setPosition(cc.p(430, posY))
     
     local pic = GameIconManager.getSkillSprite(id, 1, true, DataManager.getSkillLevel(id))
-    pic:setScale(1.0 / 800, 1.0 / SkillListSize)
+    pic:setScale(0.8 / 800, 0.8 / SkillListSize)
     pic:setPosition(100.0 / 800, 100.0 / SkillListSize)
     pic:setAnchorPoint(0.5, 0.5)
     skillButton:addChild(pic)
