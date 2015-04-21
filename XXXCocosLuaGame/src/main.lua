@@ -17,6 +17,7 @@ require "manager.MetaManager"
 require "manager.SceneManager"
 require "manager.GameIconManager"
 require "manager.ParticleManager"
+require "manager.AnimationManager"
 
 require "utils.TimeUtil"
 
@@ -64,6 +65,7 @@ local function main()
     DataManager.saveData()
     MetaManager.init()
     ParticleManager.init()
+    AnimationManager.init()
     SceneManager.replaceSceneWithName("LoginScene")
 end
 

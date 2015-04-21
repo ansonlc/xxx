@@ -150,7 +150,8 @@ function GameScene:onGameOver(playerWins, gameData)
         if event:getEventCode() == 2 then
             if playerWins then
                 -- [[TODO Results needed to calculate by Ren
-                --[[local upgradeSkillIds = {
+                --[[
+                local upgradeSkillIds = {
                     {
                         skillId = 1001,
                         lvlBefore = 1,
@@ -161,39 +162,46 @@ function GameScene:onGameOver(playerWins, gameData)
                         lvlBefore = 1,
                         lvlAfter = 99,
                     },
-                }--]]
+                }
+                --]]
                 -- iterate through all the skill
+                ---[[
                 local upgradeSkillIds = {}
                 local index = 1
-                for k, v in pairs(gameData[1]) do
-                    --local currentLvl = gameData[3][k].level
-                    local currentLvl = DataManager.expToLevel(gameData[3][k].exp)
-                    local expGained = v * MetaManager.getSkill(k).growthRatio
-                    -- Construct the table
-                    upgradeSkillIds[index] = {}
-                    upgradeSkillIds[index].skillId = k
-                    upgradeSkillIds[index].lvlBefore = currentLvl
-                    upgradeSkillIds[index].lvlAfter = currentLvl
-                    -- add the exp to the current exp
-                    DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp + expGained
-                    -- check if the skill has leveled up or not
-                    if true then
-                    --if currentLvl < GSkillMaxLevel then
-                        local nextLvl = 1  -- always points to the next lvl
-                        --while DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp >= MetaManager.getSkillLevel(nextLvl) do
-                        --    nextLvl = nextLvl + 1
-                        --end
-                        upgradeSkillIds[index].lvlAfter = nextLvl - 1
-                        DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].level =  nextLvl - 1
-                    end
-                    index  = index + 1
-                end
+                if gameData == nil or gameData[1] == nil then
                 
+                else
+                    for k, v in pairs(gameData[1]) do
+                        --local currentLvl = gameData[3][k].level
+                        local currentLvl = DataManager.expToLevel(gameData[3][k].exp)
+                        local expGained = v * MetaManager.getSkill(k).growthRatio
+                        -- Construct the table
+                        upgradeSkillIds[index] = {}
+                        upgradeSkillIds[index].skillId = k
+                        upgradeSkillIds[index].lvlBefore = currentLvl
+                        upgradeSkillIds[index].lvlAfter = currentLvl
+                        -- add the exp to the current exp
+                        DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp + expGained
+                        -- check if the skill has leveled up or not
+                        if true then
+                        --if currentLvl < GSkillMaxLevel then
+                            local nextLvl = 1  -- always points to the next lvl
+                            --while DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp >= MetaManager.getSkillLevel(nextLvl) do
+                            --    nextLvl = nextLvl + 1
+                            --end
+                            upgradeSkillIds[index].lvlAfter = nextLvl - 1
+                            DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].level =  nextLvl - 1
+                        end
+                        index  = index + 1
+                    end
+                end
+               
+                --]]
                 local battleResult = {
                     unlockMonsterId = "Pikachu",
                     learnSkillId = 1800,
                     upgradeSkillIds = upgradeSkillIds,
-                    crystal = 123,
+                    crystal = self.battleLogicNode.crystalNum ,
                 }
                 -- Modify codes before here
                 

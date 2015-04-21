@@ -69,12 +69,12 @@
             <PreSize X="0.7407" Y="0.1042" />
             <Children>
               <NodeObjectData Name="node_option" ActionTag="624045562" FrameEvent="" Tag="13" IconVisible="True" ctype="SingleNodeObjectData">
-                <Position X="750.0000" Y="1600.0000" />
+                <Position X="817.0000" Y="1261.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <AnchorPoint />
                 <CColor A="255" R="255" G="255" B="255" />
                 <Size X="0.0000" Y="0.0000" />
-                <PrePosition X="0.9375" Y="8.0000" />
+                <PrePosition X="1.0213" Y="6.3050" />
                 <PreSize X="0.0000" Y="0.0000" />
               </NodeObjectData>
               <NodeObjectData Name="btn_skill" ActionTag="1238647808" FrameEvent="" Tag="16" ObjectIndex="4" IconVisible="True" ctype="SingleNodeObjectData">

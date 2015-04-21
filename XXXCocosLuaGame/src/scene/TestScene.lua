@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- TestScene.lua - Á£×ÓÐ§¹û²âÊÔ³¡¾°
+-- TestScene.lua - ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -24,6 +24,7 @@ function TestScene:onInit()
     
     local rootNode = cc.CSLoader:createNode("ParticleTestScene.csb")
     
+    --[[
     -- test for the particle effect
     local particle1  = MetaManager.getParticle(1001)
     local particle2  = MetaManager.getParticle(1002)
@@ -99,7 +100,7 @@ function TestScene:onInit()
     rootNode:addChild(particle) 
     --local moveToAction = cc.MoveTo:create(0.5, cc.p(1000, 1000))
     --particle:runAction(moveToAction)
-    
+    --]]
     
     
     ---[[
@@ -113,8 +114,22 @@ function TestScene:onInit()
     self:addChild(rootNode)
     
     local monster = GameIconManager.getMonsterSprite("Pikachu", 1, true)
-    monster:setPosition(500, 500)
-    --rootNode:addChild(monster)
+    monster:setPosition(500, 600)
+    rootNode:addChild(monster)
+    --[[
+    local actionSeq = cc.Sequence:create(cc.FadeIn:create(1),cc.FadeOut:create(1))
+    local actionSeq1 = cc.Sequence:create(cc.DelayTime:create(0.5),cc.Hide:create(),cc.DelayTime:create(1),cc.Show:create())
+    
+    local actionByLeft = cc.MoveBy:create(0.1,cc.p(-50,0))
+    local actionByLeftBack  = actionByLeft:reverse()
+    local actionByRight = cc.MoveBy:create(0.1,cc.p(50,0))
+    local actionByRightBack  = actionByRight:reverse()   
+    local actionScaleTo = cc.ScaleTo:create(0.5, 1.5)
+    local actionScaleToBack = cc.ScaleTo:create(0.5, 1) 
+    
+    local actionSeq2 = cc.Sequence:create(cc.Blink:create(0.5, 3),actionByLeft,actionByLeftBack,actionByRight,actionByRightBack,actionScaleTo,actionScaleToBack)
+    monster:runAction(actionSeq2)
+    --local p = monster:getPositionY()
     
     local skill = GameIconManager.getSkillSprite(1002, 1, true, 0)
     skill:setPosition(500, 1000)
@@ -123,6 +138,13 @@ function TestScene:onInit()
     local item = GameIconManager.getItemSprite(0, 1, true, 10)
     item:setPosition(500, 750)
     --rootNode:addChild(item)
+    --]]
+       
+    local sprite = AnimationManager.create("Attack1")
+    rootNode:addChild(sprite)
+    sprite:setScale(3)
+    sprite:setPosition(cc.p(500, 750))
+    sprite:runAnimation()
 end
 
 function TestScene:onUpdate()
