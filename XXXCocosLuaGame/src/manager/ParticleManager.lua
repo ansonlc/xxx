@@ -46,6 +46,9 @@ end
 --  @param #string plist the filename of the particle
 --  @param #int actionType 0 means use straight line, 1 means use arc
 function ParticleManager.particleDisplay(from,to,parentNode,duration,particleID)
+
+    
+
     --local frameCache = cc.SpriteFrameCache:getInstance():addSpriteFrames("")
     --local textureCache = cc.TextureCache
   
@@ -84,22 +87,41 @@ function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
     
     local particleNode
     if 1001 == id then 
-         particleNode = cc.ParticleFire:create()
-    elseif 1002 == id then
-         particleNode = cc.ParticleSun:create()
-    elseif 1004 == id then
-         particleNode = cc.ParticleFlower:create()
-    elseif 1005 == id then
-         particleNode = cc.ParticleGalaxy:create()
-    end
+        particleNode = cc.ParticleSun:create()
+        particleNode:setStartColor(cc.c4f(1.0,0.2,0.2,1.0))
          
+    elseif 1002 == id then
+         --particleNode = cc.ParticleSun:create()
+        particleNode = cc.ParticleSun:create()
+        particleNode:setStartColor(cc.c4f(1.0,1.0,0.4,1.0))
+        
+    elseif 1004 == id then
+         --particleNode = cc.ParticleFlower:create()
+        particleNode = cc.ParticleSun:create()
+        particleNode:setStartColor(cc.c4f(0.4,1.0,1.0,1.0))
+    elseif 1005 == id then
+         --particleNode = cc.ParticleGalaxy:create()
+        particleNode = cc.ParticleSun:create()
+        particleNode:setStartColor(cc.c4f(0.2,0.2,1.0,1.0))
+        
+    end
+     
+    duration = 0.5 
 
     --particleNode.setTexture(fire)
     particleNode:setPosition(from)
-    particleNode:setDuration(duration+0.1)
+    particleNode:setDuration(-1)
+    particleNode:setStartSize(100)
+    particleNode:setPosVar(cc.p(20,20))
+    particleNode:setEmissionRate(70)
+    
+    
     parentNode:addChild(particleNode)
     
-    local moveToAction = cc.MoveTo:create(duration,to)
+    local ScaleToAction0 = cc.ScaleTo:create(0.10,4)
+    local ScaleToAction1 = cc.ScaleTo:create(0.08,2)
+    local moveToAction = cc.MoveTo:create(0.2,to)
+    local ScaleToAction = cc.ScaleTo:create(0.2,0)
     --particleNode:runAction(moveToAction)
     
     local function endOnMoveTo()
@@ -107,7 +129,7 @@ function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
         parentNode:removeChild(particleNode, true)
     end  
     
-    local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
+    local sequence = cc.Sequence:create({ScaleToAction0, ScaleToAction1, moveToAction, ScaleToAction, cc.CallFunc:create(endOnMoveTo)})
     particleNode:runAction(sequence)
 
 end
