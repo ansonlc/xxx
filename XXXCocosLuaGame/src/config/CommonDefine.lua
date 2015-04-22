@@ -89,10 +89,10 @@ GBattleLevelBlockHorizontalRatio = 300 / 1080
 GBattleLevelBlockVerticalStartOffsetRatio = 560 / 1920
 GBattleLevelBlockHorizontalStartOffsetRatio = 380 / 1080
 
-GBattleMonsterBlockVerticalRatio = 400 / 1920
-GBattleMonsterBlockHorizontalRatio = 400 / 1080
+GBattleMonsterBlockVerticalRatio = 350 / 1920
+GBattleMonsterBlockHorizontalRatio = 350 / 1080
 GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
-GBattleMonsterBlockHorizontalStartOffsetRatio = 365 / 1080
+GBattleMonsterBlockHorizontalStartOffsetRatio = 390 / 1080
 
 
 GBattleCrystalBlockVerticalRatio = 100 / 1920
