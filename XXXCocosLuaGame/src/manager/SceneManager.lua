@@ -81,6 +81,9 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         local sceneClass = require("scene." .. sceneName)
         local targetScene = sceneClass.create(params)
         cc.Director:getInstance():runWithScene(targetScene)
+        if targetScene.doEnter then
+            targetScene:doEnter()
+        end
     end
 end
 
