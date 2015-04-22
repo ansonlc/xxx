@@ -27,14 +27,14 @@ function SceneManager.generateLoadingPanel()
     label:setPosition(visibleSize.width/2 , visibleSize.height/2)
     label:setScale(6)
     blackLayer:addChild(label)
-    
+
     blackLayer:setTouchEnabled(true)
     blackLayer:setSwallowsTouches(true)
     --[[
     local dispatcher = cc.Director:getInstance():getEventDispatcher()
     local listener = cc.EventListenerTouchOneByOne:create()
     local function onTouch(touch, event)
-        return true
+    return true
     end
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
     listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
@@ -60,27 +60,28 @@ function SceneManager.replaceSceneWithName(sceneName, params)
         -- ccRunning:dispose()
     end
 
-local function doChangeScene()
-    local startTime = TimeUtil.getRunningTime()
-    local sceneClass = require("scene." .. sceneName)
-    print ("sceneClass is.." .. sceneName)
-    local targetScene = sceneClass.create(params)
-    cclog("Initialized in " .. (TimeUtil.getRunningTime() - startTime) .. "s")
-    ---[[
-    if ccRunning then
+    local function doChangeScene()
+        local startTime = TimeUtil.getRunningTime()
+        local sceneClass = require("scene." .. sceneName)
+        print ("sceneClass is.." .. sceneName)
+        local targetScene = sceneClass.create(params)
+        cclog("Initialized in " .. (TimeUtil.getRunningTime() - startTime) .. "s")
+
         cc.Director:getInstance():replaceScene(targetScene)
-    else
-        cc.Director:getInstance():runWithScene(targetScene)
+
+        if targetScene.doEnter then
+            targetScene:doEnter()
+        end
     end
-    
-    if targetScene.doEnter then
-        targetScene:doEnter()
-    end
-    --]]
-end
 
     local sequence = cc.Sequence:create({cc.DelayTime:create(0.01), cc.CallFunc:create(doChangeScene)})
-    ccRunning:runAction(sequence)
+    if ccRunning then
+        ccRunning:runAction(sequence)
+    else
+        local sceneClass = require("scene." .. sceneName)
+        local targetScene = sceneClass.create(params)
+        cc.Director:getInstance():runWithScene(targetScene)
+    end
 end
 
 --------------------------------
