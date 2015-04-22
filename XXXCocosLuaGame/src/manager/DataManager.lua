@@ -92,6 +92,13 @@ function DataManager.expToRate(exp)
     return (exp - SkillLevelTable[DataManager.expToLevel(exp)]) / (SkillLevelTable[DataManager.expToLevel(exp) + 1] - SkillLevelTable[DataManager.expToLevel(exp)])
 end
 
+function DataManager.getStoryProgress()
+    return DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+end
+
+function DataManager.setStoryProgress(num)
+    DataManager.userData[DataManager.userInfo.currentUser].StoryProgress = num
+end
 
 function DataManager.getCrystalNum()
     return DataManager.userData[DataManager.userInfo.currentUser].CrystalNum;
