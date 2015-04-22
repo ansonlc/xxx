@@ -43,7 +43,7 @@ function AnimationManager.create(name, delay, loops)
     
     --Assemble animation
     local animation = cc.Animation:createWithSpriteFrames(frames,
-        delay and delay or 0.2,
+        delay and delay or 0.1,
         loops and loops or 1)
     animation:setRestoreOriginalFrame(false)
     local animate = cc.Animate:create(animation)

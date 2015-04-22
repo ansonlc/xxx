@@ -4,9 +4,7 @@
 -- TODO Add background map
 --------------------------------
 
-local battle_mission_cfg = require("config.battle_mission")
 local LevelTagHeader = 10000
-local unLockedStoryLevelNum = 101103 --TODO Get it from UserInfo table
 
 local LevelSelectScene = class("LevelSelectScene", function() return BaseScene.create() end)
 
@@ -41,6 +39,7 @@ function LevelSelectScene:onInit()
     self.lvlScroll = rootNode:getChildByName("LevelScroll")
     
     local function onRtnTouch(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             local params = SceneManager.generateParams(self, "MainMenuScene", nil)
             SceneManager.replaceSceneWithName("MainMenuScene", params)
@@ -52,12 +51,11 @@ function LevelSelectScene:onInit()
     --rtnBtn:setEnabled(false)
     rtnNode:addChild(rtnBtn)
     
+    local battle_mission_cfg = require("config.battle_mission")
     -- Level buttons touching event
     local function onTouch(sender, eventType)
         --While exiting this scene, ignore touch events
-        if not self.touchEnabled then
-            return false
-        end
+        if not self.touchEnabled then return true end
         
         if eventType == ccui.TouchEventType.ended then
             local selectLvL = battle_mission_cfg[sender:getTag() - LevelTagHeader]
@@ -76,13 +74,14 @@ function LevelSelectScene:onInit()
     self.lvlScroll:setInnerContainerSize(cc.size(1080, 15960))
     local yOffset = 100
     local nowPosY = self.lvlScroll:getInnerContainerSize().height - 100
+    local unLockedStoryLevelNum = DataManager.getStoryProgress()
     for key, value in ipairs(battle_mission_cfg) do
         --TODO Add different chapters and worlds
         local lvBossType = value.lvlBossType==0 and nil or value.lvlBossType
         local lvNum = math.mod(value.id, 100)
         local lvName = value.missionName
         
-        if unLockedStoryLevelNum<value.id then
+        if unLockedStoryLevelNum<key then
             lvName = "-- LEVEL LOCKED --"
         end
         
@@ -91,7 +90,7 @@ function LevelSelectScene:onInit()
         lvlBtn:addTouchEventListener(onTouch)
         self.lvlScroll:addChild(lvlBtn)
         
-        if unLockedStoryLevelNum<value.id then
+        if unLockedStoryLevelNum<key then
             lvlBtn:setEnabled(false)
             break
         end

@@ -110,6 +110,7 @@ function ResultScene:onInit()
     continueBtn:runAction(repeatFunc)
     
     local function onPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             local params = SceneManager.generateParams(self, "MainMenuScene", self.enterData.levelData)
             SceneManager.replaceSceneWithName("EndingScene", params)

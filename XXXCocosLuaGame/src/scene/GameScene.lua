@@ -131,10 +131,16 @@ function GameScene:onGameOver(playerWins, gameData)
     local label = cc.Label:create()
     if playerWins then
         label:setString("You win!\nPress to continue")
-        --SceneManager.replaceSceneWithName("ResultScene", "Test")
+        --Unlock next level
+        local _, nowLevelKey = GeneralUtil.getSubTableByKey(MetaManager["battle_mission"], 
+            {name = "id", value = self.enterData.missionId})
+        local nowProgress = DataManager.getStoryProgress()
+        local battle_mission_cfg = require("config.battle_mission")
+        if nowLevelKey == nowProgress and battle_mission_cfg[nowProgress + 1] then
+            DataManager.setStoryProgress(nowProgress + 1)
+        end
     else
         label:setString("Game Over!\nPress to continue")
-        --SceneManager.replaceSceneWithName("EndingScene", "Test")
     end
     label:setPosition(self.visibleSize.width/2 , self.visibleSize.height/2)
     label:setAlignment(cc.TEXT_ALIGNMENT_CENTER)

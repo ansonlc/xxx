@@ -36,6 +36,7 @@ function EndingScene:onInit()
     }
     
     local function onBtnPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             if sender:getName() == "btn_next" then
                 self.enterData.missionId = self.nextLevelId
