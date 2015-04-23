@@ -74,6 +74,9 @@ function ResultScene:onInit()
             local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)
             skill:setAnchorPoint(0.5, 0.5)
             skills[table.getn(skills)+1] = skill
+            if value.lvlBefore ~= value.lvlAfter then
+                skill.lvlUpSprite:setVisible(true)
+            end
         end
     end
     

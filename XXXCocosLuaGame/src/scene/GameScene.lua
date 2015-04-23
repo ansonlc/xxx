@@ -185,19 +185,17 @@ function GameScene:onGameOver(playerWins, gameData)
                         upgradeSkillIds[index] = {}
                         upgradeSkillIds[index].skillId = k
                         upgradeSkillIds[index].lvlBefore = currentLvl
-                        upgradeSkillIds[index].lvlAfter = currentLvl
+                        --upgradeSkillIds[index].lvlAfter = currentLvl
                         -- add the exp to the current exp
                         DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp + expGained
-                        -- check if the skill has leveled up or not
-                        if true then
+                        -- check if the skill has leveled up or not\
+                        upgradeSkillIds[index].lvlAfter = DataManager.expToLevel(DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp)
+                        --[[if true then
                         --if currentLvl < GSkillMaxLevel then
                             local nextLvl = 1  -- always points to the next lvl
-                            --while DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp >= MetaManager.getSkillLevel(nextLvl) do
-                            --    nextLvl = nextLvl + 1
-                            --end
                             upgradeSkillIds[index].lvlAfter = nextLvl - 1
                             DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].level =  nextLvl - 1
-                        end
+                        end--]]
                         index  = index + 1
                     end
                 end

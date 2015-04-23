@@ -46,6 +46,14 @@ function GameBattlePanel:initPanel()
 
     backgroundLayer:changeWidthAndHeight(visibleSize.width, visibleSize.height * 0.2)   -- 20% of the screen's height
     --self:addChild(backgroundLayer)
+    
+    -- HP Bar Frame
+    local hpBarFrameSpriteDown = cc.Sprite:create("res/imgs/GameScene/player_health_bar_down.png")
+    hpBarFrameSpriteDown:setAnchorPoint(0,0)
+    hpBarFrameSpriteDown:setPosition(visibleSize.width * GBattleHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarFrameVerticalStartOffsetRatio)
+    hpBarFrameSpriteDown:setScaleX(visibleSize.width * GBattleHPBarFrameHorizontalRatio / hpBarFrameSpriteDown:getContentSize().width)
+    hpBarFrameSpriteDown:setScaleY(visibleSize.height * GBattleHPBarFrameVerticalRatio / hpBarFrameSpriteDown:getContentSize().height)
+    self:addChild(hpBarFrameSpriteDown)
 
     -- HP Bar
     local hpBarSprite = cc.Sprite:create("res/imgs/GameScene/player_health_bar.png")
@@ -59,12 +67,12 @@ function GameBattlePanel:initPanel()
     self:addChild(self.hpBarSprite)
     
     -- HP Bar Frame
-    local hpBarFrameSprite = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
-    hpBarFrameSprite:setAnchorPoint(0,0)
-    hpBarFrameSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
-    hpBarFrameSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio / hpBarSprite:getContentSize().width)
-    hpBarFrameSprite:setScaleY(visibleSize.height * GBattleHPBarVerticalRatio / hpBarSprite:getContentSize().height)
-    self:addChild(hpBarFrameSprite)
+    local hpBarFrameSpriteUp = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
+    hpBarFrameSpriteUp:setAnchorPoint(0,0)
+    hpBarFrameSpriteUp:setPosition(visibleSize.width * GBattleHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarFrameVerticalStartOffsetRatio)
+    hpBarFrameSpriteUp:setScaleX(visibleSize.width * GBattleHPBarFrameHorizontalRatio / hpBarFrameSpriteUp:getContentSize().width)
+    hpBarFrameSpriteUp:setScaleY(visibleSize.height * GBattleHPBarFrameVerticalRatio / hpBarFrameSpriteUp:getContentSize().height)
+    self:addChild(hpBarFrameSpriteUp)
 
     -- Shell Bar
     local shellBarSprite = cc.Sprite:create("imgs/temp/shellbar_1.png")
@@ -125,7 +133,8 @@ function GameBattlePanel:initPanel()
     self:addChild(crystalTextBlock)
 
     -- Level Block
-    local levelSprite = cc.Sprite:create("imgs/GameScene/level_1.png")
+    --local levelSprite = cc.Sprite:create("imgs/GameScene/level_1.png")
+    local levelSprite = cc.Sprite:create("imgs/GameScene/level_"..DataManager.userInfo.currentLevelID..".png")
     levelSprite:setScaleX(visibleSize.width * GBattleLevelBlockHorizontalRatio / levelSprite:getContentSize().width)
     levelSprite:setScaleY(visibleSize.height * GBattleLevelBlockVerticalRatio / levelSprite:getContentSize().height)
     levelSprite:setAnchorPoint(0,0)
@@ -173,7 +182,6 @@ function GameBattlePanel:initPanel()
     
     self:addChild(monsterBlockLayer)
 
-    -- TODO: Delete the test monster in this panel
     local picture = MetaManager.getMonster(DataManager.userInfo.currentMonsterID).picture
     
     local monsterSprite = nil
@@ -191,14 +199,30 @@ function GameBattlePanel:initPanel()
     self.monsterSprite = monsterSprite
     self:addChild(monsterSprite)
     
+    -- Monster HP Bar Frame
+    local monsterHPBarFrameSpriteDown = cc.Sprite:create("res/imgs/GameScene/player_health_bar_down.png")
+    monsterHPBarFrameSpriteDown:setAnchorPoint(0,0)
+    monsterHPBarFrameSpriteDown:setPosition(visibleSize.width * GBattleMonsterHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterHPBarFrameVerticalStartOffsetRatio)
+    monsterHPBarFrameSpriteDown:setScaleX(visibleSize.width * GBattleMonsterHPBarFrameHorizontalRatio / monsterHPBarFrameSpriteDown:getContentSize().width)
+    monsterHPBarFrameSpriteDown:setScaleY(visibleSize.height * GBattleMonsterHPBarFrameVerticalRatio / monsterHPBarFrameSpriteDown:getContentSize().height)
+    self:addChild(monsterHPBarFrameSpriteDown)
+    
     -- Monster HP Bar
-    local monsterHPSprite = cc.Sprite:create("res/imgs/temp/hpbar_1.png")
+    local monsterHPSprite = cc.Sprite:create("res/imgs/GameScene/player_health_bar.png")
     monsterHPSprite:setAnchorPoint(0,0)
     monsterHPSprite:setPosition(visibleSize.width * GBattleMonsterHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterHPBarVerticalStartOffsetRatio)
     monsterHPSprite:setScale(visibleSize.width * GBattleMonsterHPBarHorizontalRatio / monsterHPSprite:getContentSize().width, visibleSize.height * GBattleMonsterHPBarVerticalRatio / monsterHPSprite:getContentSize().height)
     self.monsterHPBar = monsterHPSprite
     self.monsterHPBarFullRatio = visibleSize.width * GBattleMonsterHPBarHorizontalRatio / monsterHPSprite:getContentSize().width
     self:addChild(monsterHPSprite)
+    
+    -- Monster HP Bar Frame
+    local monsterHPBarFrameSpriteUP = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
+    monsterHPBarFrameSpriteUP:setAnchorPoint(0,0)
+    monsterHPBarFrameSpriteUP:setPosition(visibleSize.width * GBattleMonsterHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterHPBarFrameVerticalStartOffsetRatio)
+    monsterHPBarFrameSpriteUP:setScaleX(visibleSize.width * GBattleMonsterHPBarFrameHorizontalRatio / monsterHPBarFrameSpriteUP:getContentSize().width)
+    monsterHPBarFrameSpriteUP:setScaleY(visibleSize.height * GBattleMonsterHPBarFrameVerticalRatio / monsterHPBarFrameSpriteUP:getContentSize().height)
+    self:addChild(monsterHPBarFrameSpriteUP)
     
 
     -- Player Effect Block
@@ -208,6 +232,13 @@ function GameBattlePanel:initPanel()
     playerEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio,visibleSize.height * GBattlePlayerEffectBlockVerticalRatio)
     self.playerEffectBlockLayer = playerEffectBlockLayer
     self:addChild(playerEffectBlockLayer)
+    
+    --[[local playerEffectBlock = cc.Sprite:create("imgs/GameScene/player_effectblock.png")
+    playerEffectBlock:setAnchorPoint(0,0)
+    playerEffectBlock:setPosition(visibleSize.width * GBattlePlayerEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattlePlayerEffectBlockVerticalStartOffsetRatio)
+    playerEffectBlock:setScale(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio / playerEffectBlock:getContentSize().width, visibleSize.height * GBattlePlayerEffectBlockVerticalRatio / playerEffectBlock:getContentSize().height)
+    self.playerEffectBlockLayer = playerEffectBlock
+    self:addChild(playerEffectBlock)--]]
 
     self.playerEffectBlockIndex = 1     -- this index points to the current location where the effect should be added
     self.playerEffectTable = {}

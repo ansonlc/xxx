@@ -78,7 +78,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     end
     
     --Add icon to sprite
-    local skillIcon = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
+    local skillIcon = cc.Sprite:create("res/imgs/SkillIcons/skill_" .. skillId .. ".png")
     skillIcon:setPosition(85, 85)
     if (not borderAndBg) then
         skillIcon:setScale(2)
@@ -88,10 +88,16 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
    
     --Add skill level label
     if (skillLvl and skillLvl>0) then
-        local lvlLbl = cc.LabelTTF:create("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl, "Arial", 30)
-        lvlLbl:setPosition(120, 20)
+        local lvlLbl = cc.LabelTTF:create("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl, "Arial", 25)
+        lvlLbl:setPosition(120, 18)
         skillSprite.skillLevelLabel = lvlLbl
         skillSprite:addChild(lvlLbl)
+        -- Add upgrade icon here
+        local lvlUp = cc.Sprite:create("res/imgs/icon_levelup.png")
+        lvlUp:setPosition(170, 0)
+        lvlUp:setVisible(false)
+        skillSprite.lvlUpSprite = lvlUp
+        skillSprite:addChild(lvlUp)
     else
         if (skillLvl and skillLvl==0) then
             local newIcon = cc.Sprite:create("res/imgs/icon_new.png")

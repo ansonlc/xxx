@@ -18,9 +18,9 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
+    --self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
     --self.runesTable = {water = 10, air = 10, fire = 10, earth = 10}    -- currently all the runes start from 5
-    --self.runesTable = {water = 1000, air = 1000, fire = 1000, earth = 1000}
+    self.runesTable = {water = 99, air = 99, fire = 99, earth = 99}
     self.crystalNum = DataManager.getCrystalNum()
     self.playerMaxHP = DataManager.getUserHP()
     self.playerHP = self.playerMaxHP
