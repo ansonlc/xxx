@@ -91,11 +91,35 @@ local function buildSkillButton(id, skill, posY)
     name:setPosition(450.0 / 800, 150.0 / SkillListSize)
     skillButton:addChild(name) 
     
-    local costs = cc.LabelTTF:create("Costs : " .. skill.runeCostTable.air .. " | " .. skill.runeCostTable.earth .. " | " .. skill.runeCostTable.water .. " | " .. skill.runeCostTable.fire , "Arial", 35)
+    local costs = cc.LabelTTF:create("Costs :        x" .. skill.runeCostTable.air .. "        x" .. skill.runeCostTable.earth .. "        x" .. skill.runeCostTable.water .. "        x" .. skill.runeCostTable.fire , "Arial", 35)
     costs:setColor(cc.c3b(0,0,0))
     costs:setScale(1.0 / 800, 1.0 / SkillListSize)
-    costs:setPosition(450.0 / 800, 100.0 / SkillListSize)
+    costs:setPosition(480.0 / 800, 100.0 / SkillListSize)
     skillButton:addChild(costs)
+    
+    local runesCostIcon1 = cc.Sprite:create("res/imgs/rune/rune_02_air.png")
+    runesCostIcon1:setScale(0.4 / 800, 0.4 / SkillListSize)
+    runesCostIcon1:setPosition(355.0 / 800, 100.0 / SkillListSize)
+    skillButton:addChild(runesCostIcon1)
+
+    local runesCostIcon2 = cc.Sprite:create("res/imgs/rune/rune_03_earth.png")
+    runesCostIcon2:setScale(0.5 / 800, 0.5 / SkillListSize)
+    runesCostIcon2:setPosition((355.0 + 112.0) / 800, 100.0 / SkillListSize)
+    skillButton:addChild(runesCostIcon2)
+    
+    local runesCostIcon3 = cc.Sprite:create("res/imgs/rune/rune_01_water.png")
+    runesCostIcon3:setScale(0.5 / 800, 0.5 / SkillListSize)
+    runesCostIcon3:setPosition((355.0 + 112.0 * 2) / 800, 100.0 / SkillListSize)
+    skillButton:addChild(runesCostIcon3)
+
+    local runesCostIcon4 = cc.Sprite:create("res/imgs/rune/rune_04_fire.png")
+    runesCostIcon4:setScale(0.5 / 800, 0.5 / SkillListSize)
+    runesCostIcon4:setPosition((355.0 + 112.0 * 3) / 800, 100.0 / SkillListSize)
+    skillButton:addChild(runesCostIcon4)
+
+
+
+
     
     local desc = cc.LabelTTF:create(skill.skillDesc , "Arial", 35)
     desc:setColor(cc.c3b(0,0,0))
