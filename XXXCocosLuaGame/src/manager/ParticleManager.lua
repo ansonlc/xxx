@@ -84,7 +84,7 @@ end
 
 function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
     --local fire = cc.TextureCache.addImage()
-    
+      
     local particleNode
     if 1001 == id then 
         particleNode = cc.ParticleSun:create()
@@ -103,7 +103,10 @@ function ParticleManager.sysParticleDisplay(from,to,parentNode,duration,id)
          --particleNode = cc.ParticleGalaxy:create()
         particleNode = cc.ParticleSun:create()
         particleNode:setStartColor(cc.c4f(0.2,0.2,1.0,1.0))
-        
+    elseif id == 1003 then
+        particleNode = cc.ParticleSun:create()
+        particleNode:setStartColor(cc.c4f(1.0,0.2,1.0,1.0))
+        to = cc.p(150,1800)
     end
      
     duration = 0.5 
