@@ -194,6 +194,13 @@ function SkillSelectScene:onInit()
         ["Button_Skill5"] = "",
 
     }
+    
+
+    
+    GameButton.ChangeTo(rootNode:getChildByName("Button_Ok"), GameButton.create("OK", true, 2))
+    GameButton.ChangeTo(rootNode:getChildByName("Button_Cancel"), GameButton.create("Cancel", true, 2))
+    
+    
 
     local function onBtnPress(sender, eventType)
         

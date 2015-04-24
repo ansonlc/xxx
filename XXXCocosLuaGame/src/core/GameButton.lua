@@ -105,6 +105,16 @@ function GameButton.create(text, withBg, scale)
     return button;
 end
 
+GameButton.ChangeTo = function (tbut, newbut)
+        newbut:setAnchorPoint(tbut:getAnchorPoint())
+        newbut:setPosition(tbut:getPosition())
+        local name = tbut:getName()
+        tbut:setName('.' .. name)
+        tbut:getParent():addChild(newbut)
+        tbut:setVisible(false)
+        newbut:setName(name)
+end
+
 --------------------------------
 --  Set enabled function of game button
 --  @function [parent=#GameButton] setEnabled
