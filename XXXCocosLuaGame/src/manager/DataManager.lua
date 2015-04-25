@@ -37,6 +37,10 @@ function DataManager.getRecommendSkills()
         DataManager.userInfo.currentSkills = {1100, 1400, 1004, 1008, 1006}
     end
 
+    if DataManager.userInfo.currentLevelID == 101104 then
+        DataManager.userInfo.currentSkills = {1800, 1500, 1100, 2000, 1001}
+    end
+    
     
     
 end
