@@ -62,7 +62,7 @@ local SkillTable = {
     -- Fear skills
     [1900] = {skillID=1900,skillQuality=7,skillName='Minor Fear',runeCostTable = {air=0,earth=5,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1090,effectValue1=0.5,effectID2=1090,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},   
     -- Purify skills
-    [2000] = {skillID=2000,skillQuality=1,skillName='Minor Purify',runeCostTable = {air=3,earth=3,water=3,fire=3},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1100,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
+    [2000] = {skillID=2000,skillQuality=1,skillName='Minor Purify',runeCostTable = {air=0,earth=0,water=3,fire=0},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1100,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
     -- Disperse skills
     [2100] = {skillID=2100,skillQuality=1,skillName='Minor Disperse',runeCostTable = {air=3,earth=3,water=3,fire=3},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1110,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
     

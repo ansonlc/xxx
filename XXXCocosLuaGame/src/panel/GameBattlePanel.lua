@@ -192,8 +192,8 @@ function GameBattlePanel:initPanel()
     end
 
     
-    monsterSprite:setAnchorPoint(0,0)
-    monsterSprite:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio)
+    monsterSprite:setAnchorPoint(0.5,0.5)
+    monsterSprite:setPosition(visibleSize.width * GBattleMonsterBlockHorizontalStartOffsetRatio + 0.5*visibleSize.width * GBattleMonsterBlockHorizontalRatio,visibleSize.height * GBattleMonsterBlockVerticalStartOffsetRatio + 0.5 * visibleSize.height * GBattleMonsterBlockVerticalRatio)
     monsterSprite:setScale(visibleSize.width * GBattleMonsterBlockHorizontalRatio / monsterSprite:getContentSize().width, visibleSize.height * GBattleMonsterBlockVerticalRatio / monsterSprite:getContentSize().height)
     monsterSprite:setName("MonsterNode")
     self.monsterSprite = monsterSprite
