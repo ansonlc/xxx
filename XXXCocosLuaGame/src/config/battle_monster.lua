@@ -18,8 +18,8 @@ local MonsterTable = {
     [1003] = {
         monsterID =1003,
         monsterName='pipikachu~',
-        monsterHP=3000,
-        elementTable={physical=0.1,air=0.1,earth=0.1,water=0.1,fire=0.1},
+        monsterHP=600,
+        elementTable={physical=3.0,air=1.0,earth=1.0,water=1.0,fire=1.0},
         skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
         picture = "Pikachuaa"
     },

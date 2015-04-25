@@ -25,7 +25,8 @@ local UserSkillStatusTable = {
         ,
     
     --currentSkills = {1002, 1004, 1006, 1008, 1001} -- level 1 skills
-    currentSkills = {1002, 1004, 1008, 2000, 1001} -- level 2 skills
+    --currentSkills = {1002, 1004, 1008, 2000, 1001} -- level 2 skills
+    currentSkills = {1100, 1400, 1004, 1008, 1006} -- level 3 skills
     
     
     
