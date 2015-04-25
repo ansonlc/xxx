@@ -202,7 +202,8 @@ function GameScene:onGameOver(playerWins, gameData)
                
                 --]]
                 local battleResult = {
-                    unlockMonsterId = "Pikachu",
+                    unlockMonsterId = MetaManager.getMonster(DataManager.userInfo.currentMonsterID).picture,
+                    --unlockMonsterId = "Pikachuaa",
                     learnSkillId = 1800,
                     upgradeSkillIds = upgradeSkillIds,
                     crystal = self.battleLogicNode.crystalNum ,

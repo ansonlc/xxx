@@ -213,15 +213,28 @@ function GameIconManager.getMonsterSprite(monsterId, scale, border)
     
     local cacheInst = cc.SpriteFrameCache:getInstance()
     local monsterSprite = cc.Sprite:create("res/imgs/monster/" .. monsterId .. ".png")
-    if border then
+    
+    --[[if border then
         monsterSprite.border = cc.Sprite:create("res/imgs/monster/bgs/border.png")
         monsterSprite.border:setScale(470/400)
         monsterSprite.border:setAnchorPoint(0, 0)
+        -- adjust the monster sprite size
+        --monsterSprite:setScale(monsterSprite:getContentSize().width / 470, monsterSprite:getContentSize().height / 470)
+        -- add as child
+        monsterSprite:addChild(monsterSprite.border)
+    end--]]
+    
+    if border then
+        monsterSprite.border = cc.Sprite:create("res/imgs/monster/bgs/border.png")
+        monsterSprite.border:setAnchorPoint(0,0)
+        monsterSprite.border:setScaleX(monsterSprite:getContentSize().width / monsterSprite.border:getContentSize().width)
+        monsterSprite.border:setScaleY(monsterSprite:getContentSize().height / monsterSprite.border:getContentSize().height)
         monsterSprite:addChild(monsterSprite.border)
     end
     
     if (scale) then
-        monsterSprite:setScale(scale)
+        monsterSprite:setScaleX(380 / monsterSprite:getContentSize().width)
+        monsterSprite:setScaleY(380 / monsterSprite:getContentSize().height)
     end
     monsterSprite.monster = MetaManager.getSkill(skillId)
     return monsterSprite
