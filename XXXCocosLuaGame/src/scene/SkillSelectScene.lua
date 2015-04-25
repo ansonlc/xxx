@@ -173,6 +173,7 @@ function SkillSelectScene:onInit()
     
     local rootNode = cc.CSLoader:createNode("SkillSelectScene.csb")
     
+    DataManager.getRecommendSkills()
     
     drawIcons(rootNode)
     
