@@ -3,15 +3,15 @@ local MonsterTable = {
     	monsterID =1001,
     	monsterName='Air Fairy',
     	monsterHP=200,
-    	elementTable={physical=1.5,air=0.1,earth=0.1,water=0.1,fire=0.1},
+    	elementTable={physical=1.5,air=0.3,earth=0.3,water=0.3,fire=0.3},
     	skillTable={SkillID1=-10011,SkillID2=-10011,SkillID3=-10011},
     	picture = "pink_monster"
     	},
     [1002] = {
     	monsterID =1002,
     	monsterName='pipikachu~',
-    	monsterHP=2000,
-    	elementTable={physical=0.1,air=0.1,earth=0.1,water=0.1,fire=0.1},
+    	monsterHP=500,
+    	elementTable={physical=1.0,air=1.0,earth=1.0,water=1.0,fire=1.0},
     	skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
         picture = "Pikachu"
     	},

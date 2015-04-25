@@ -516,8 +516,9 @@ function GameBattlePanel:healPlayer(ratio)
     self.hpBarSprite:runAction(scaleAction)
 end
 
-function GameBattlePanel:healMonster(value)
-
+function GameBattlePanel:healMonster(ratio)
+    local scaleAction = cc.ScaleTo:create(0.5, ratio * self.monsterHPBarFullRatio, self.monsterHPBar:getScaleY())
+    self.monsterHPBar:runAction(scaleAction)
 end
 
 function GameBattlePanel:getMonsterNode()

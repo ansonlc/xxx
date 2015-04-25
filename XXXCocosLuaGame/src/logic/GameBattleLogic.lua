@@ -469,10 +469,13 @@ function GameBattleLogic:monsterUseSkill(skill)
         
         -- Calculate Heal
         self.monsterHP = self.monsterHP + heal
+        
         if self.monsterHP > self.monsterMaxHP then
             heal = heal - (self.monsterHP - self.monsterMaxHP)
             self.monsterHP = self.monsterMaxHP
         end
+        
+        self.gameBattlePanel:healMonster(self.monsterHP / self.monsterMaxHP)
         
         -- Display the related Animation
         
