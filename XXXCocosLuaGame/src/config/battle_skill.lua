@@ -52,7 +52,7 @@ local SkillTable = {
     -- Bleed skills
     [1400] = {skillID=1400,skillQuality=6,skillName='Minor Bleed',runeCostTable = {air=0,earth=0,water=0,fire=2},animationID = nil,particleID = nil,growthRatio = 5,CD = 3,effectTable={effectID1=1040,effectValue1=50,effectID2=1040,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bleed'},
     -- Silence skills
-    [1500] = {skillID=1500,skillQuality=4,skillName='Minor Silence',runeCostTable = {air=0,earth=4,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1050,effectValue1=0,effectID2=1050,effectValue2=4,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Silence'},
+    [1500] = {skillID=1500,skillQuality=4,skillName='Minor Silence',runeCostTable = {air=0,earth=4,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 20,effectTable={effectID1=1050,effectValue1=0,effectID2=1050,effectValue2=4,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Silence'},
     -- Bless skills
     [1600] = {skillID=1600,skillQuality=4,skillName='Minor Bless',runeCostTable = {air=1,earth=1,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1060,effectValue1=2,effectID2=1060,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bless'},
     -- Curse skills
