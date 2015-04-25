@@ -63,9 +63,7 @@ local function main()
     
     DataManager.loadUserInfo()
     DataManager.saveData()
-    MetaManager.init()
-    ParticleManager.init()
-    AnimationManager.init()
+    -- Don't init game/data here, init game at LoginScene:initGame() !
     SceneManager.replaceSceneWithName("LoginScene")
 end
 
