@@ -63,9 +63,9 @@ GBattleHPBarFrameHorizontalStartOffsetRatio = 62.5 / 1080
 
 
 GBattleHPBarVerticalRatio = 40 / 1920
-GBattleHPBarHorizontalRatio = 950 / 1080
+GBattleHPBarHorizontalRatio = 937 / 1080
 GBattleHPBarVerticalStartOffsetRatio = 0 / 1920
-GBattleHPBarHorizontalStartOffsetRatio = 65 / 1080
+GBattleHPBarHorizontalStartOffsetRatio = 69.5 / 1080
 
 GBattleRuneBlockVerticalRatio = 470 / 1920
 GBattleRuneBlockHorizontalRatio = 250 / 1080
@@ -117,9 +117,9 @@ GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
 GBattleMonsterBlockHorizontalStartOffsetRatio = 330 / 1080--]]
 
 GBattleMonsterHPBarVerticalRatio = 30 / 1920
-GBattleMonsterHPBarHorizontalRatio = 400 / 1080
+GBattleMonsterHPBarHorizontalRatio = 396 / 1080
 GBattleMonsterHPBarVerticalStartOffsetRatio = 500 / 1920
-GBattleMonsterHPBarHorizontalStartOffsetRatio = 371 / 1080
+GBattleMonsterHPBarHorizontalStartOffsetRatio = 372.5 / 1080
 
 GBattleMonsterHPBarFrameVerticalRatio = 30 / 1920
 GBattleMonsterHPBarFrameHorizontalRatio = 400 / 1080

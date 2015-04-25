@@ -388,6 +388,12 @@ function GameBattlePanel:updateCrystalNum(num)
     self.crystalText:setString(num)
 end
 
+---
+-- Play animation according to the players skill
+function GameBattlePanel:playerPlayAnimation(name)
+    
+end
+
 function GameBattlePanel:playerShellActivated(ratio)
     --self.shellBarSprite:setScaleX(visibleSize.width * GBattleHPBarHorizontalRatio * ratio / self.shellBarSprite:getContentSize().width)
     -- Animation
@@ -439,9 +445,9 @@ function GameBattlePanel:doDamageToMonster(damageValue,ratio)
     assert(damageValue, "Nil input in function: GameBattlePanel:doDamageToMonster()")
     if self.damageText == nil then
         if damageValue >= 0 then
-            self.damageText = cc.LabelTTF:create("-"..damageValue, "Arial", 200)
+            self.damageText = cc.LabelTTF:create("-"..damageValue, "Arial", 150)
         else
-            self.damageText = cc.LabelTTF:create("+"..math.abs(damageValue), "Arial", 200)
+            self.damageText = cc.LabelTTF:create("+"..math.abs(damageValue), "Arial", 150)
         end
         self.damageText:setName("DamageTextNode") 
         self:addChild(self.damageText)
@@ -452,13 +458,24 @@ function GameBattlePanel:doDamageToMonster(damageValue,ratio)
             self.damageText:setString("+"..math.abs(damageValue))
         end
     end
-    local fadeInAction = cc.FadeIn:create(0.3)
+    local fadeInAction = cc.FadeIn:create(0.1)
     local fadeOutAction = cc.FadeOut:create(0.3)
+    --local fadeSpawn = cc.Spawn:create(fadeInAction, fadeOutAction)
+    local moveToAction = cc.MoveBy:create(0.3, cc.p(200, -200))
     local actionSeqTable = {fadeInAction, fadeOutAction}
+    --local actionSeqTable = {fadeSpawn, moveToAction};
     local actionSeq = cc.Sequence:create(actionSeqTable)
     self.damageText:setAnchorPoint(0,0)
-    self.damageText:setPosition(400, 150)
+    self.damageText:setPosition(500, 150)
     self.damageText:runAction(actionSeq)
+    self.damageText:runAction(moveToAction)
+    
+    -- Play the attack animation
+    local attackFlipbook = AnimationManager.create("Attack1")
+    attackFlipbook:setPosition(540, 300)
+    attackFlipbook:setScale(2)
+    self:addChild(attackFlipbook)
+    attackFlipbook:runAnimation()
     
     -- scale the monster hp bar
     if ratio < 0.0 then
@@ -605,6 +622,7 @@ function GameBattlePanel:monsterAddEffect(effect)
        cclog("Type: "..v.effectType)
        if v.effectType == effect.effectType then
             index = v.index
+            break
        end
     end
     
@@ -650,6 +668,12 @@ function GameBattlePanel:monsterAddEffect(effect)
         self.monsterEffectTable[index].timerLayer:changeWidthAndHeight(self.monsterEffectTable[index].onScreenWidth, self.monsterEffectTable[index].onScreenHeight)
     end
     
+    -- Apply the animation
+    local effectFlipbook = AnimationManager.create("Heal2")
+    effectFlipbook:setPosition(540, 300)
+    effectFlipbook:setScale(3)
+    self:addChild(effectFlipbook)
+    effectFlipbook:runAnimation()
 end
 
 ---
