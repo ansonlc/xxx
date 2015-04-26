@@ -198,7 +198,7 @@ local function getRunes(type, howMuch, posList)
             end
             
             if type == 3 then
-                gameLogicNode:updateCrystalNum(howMuch)
+                gameLogicNode:updateCrystalNum(10 * howMuch)
                 parentNode.battlePanel:updateCrystalNum(DataManager.getCrystalNum())
             end
             
