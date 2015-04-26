@@ -24,6 +24,12 @@ function LoginScene.create()
     return scene
 end
 
+function LoginScene:initGame()
+    MetaManager.init()
+    ParticleManager.init()
+    AnimationManager.init()
+end
+
 function LoginScene:onInit()
     self:addChild(self:createBackLayer())
     self:addChild(self:createBtnLayer())
@@ -78,6 +84,7 @@ function LoginScene:createBtnLayer()
     local touchBeginPoint = nil
 
     local function onTouchEnded()
+        self:initGame()
         SceneManager.replaceSceneWithName("MainMenuScene")
 
         -- CCTOUCHBEGAN event must return true

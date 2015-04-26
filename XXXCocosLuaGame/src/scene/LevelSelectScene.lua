@@ -65,7 +65,7 @@ function LevelSelectScene:onInit()
             params.data.difficulty = "Hard"
             -- Write to current user info
             DataManager.userInfo.currentMonsterID = selectLvL.missionBossID
-            
+            DataManager.userInfo.currentLevelID = selectLvL.id
             SceneManager.replaceSceneWithName("SkillSelectScene", params)
         end
     end

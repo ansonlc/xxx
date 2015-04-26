@@ -43,26 +43,26 @@ local SkillTable = {
     [1009] = {skillID=1009,skillQuality=3,skillName='Fire Arrow',runeCostTable= {air=0,earth=0,water=0,fire=2},animationID = nil,particleID = nil,growthRatio = 2,CD = 1,effectTable ={effectID1=1005,effectValue1=50,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Advanced Fire Attack'},
     [1010] = {skillID=1010,skillQuality=1,skillName='Slash',runeCostTable= {air=2,earth=2,water=2,fire=2},animationID = nil,particleID = nil,growthRatio = 5,CD = 2,effectTable ={effectID1=1001,effectValue1=50,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Basic Slash Attack'},
     -- Heal skills
-    [1100] = {skillID=1100,skillQuality=4,skillName='Minor Heal',runeCostTable = {air=0,earth=0,water=3,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1010,effectValue1=100,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Healing'},
+    [1100] = {skillID=1100,skillQuality=4,skillName='Minor Heal',runeCostTable = {air=2,earth=0,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1010,effectValue1=50,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Healing'},
     [1101] = {skillID=1101,skillQuality=4,skillName='Major Heal',runeCostTable = {air=0,earth=0,water=5,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 7,effectTable={effectID1=1010,effectValue1=200,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Healing'},
     -- Shell skills
     [1200] = {skillID=1200,skillQuality=4,skillName='Minor Shell',runeCostTable = {air=0,earth=3,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1020,effectValue1=40,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Shell'},
     -- Recovery skills
     [1300] = {skillID=1300,skillQuality=5,skillName='Minor Recovery',runeCostTable = {air=2,earth=0,water=2,fire=0},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1030,effectValue1=100,effectID2=1030,effectValue2=9,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Recovery'},
     -- Bleed skills
-    [1400] = {skillID=1400,skillQuality=6,skillName='Minor Bleed',runeCostTable = {air=0,earth=0,water=0,fire=3},animationID = nil,particleID = nil,growthRatio = 5,CD = 3,effectTable={effectID1=1040,effectValue1=100,effectID2=1040,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bleed'},
+    [1400] = {skillID=1400,skillQuality=6,skillName='Minor Bleed',runeCostTable = {air=0,earth=0,water=0,fire=2},animationID = nil,particleID = nil,growthRatio = 5,CD = 3,effectTable={effectID1=1040,effectValue1=50,effectID2=1040,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bleed'},
     -- Silence skills
-    [1500] = {skillID=1500,skillQuality=4,skillName='Minor Silence',runeCostTable = {air=0,earth=3,water=3,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1050,effectValue1=0,effectID2=1050,effectValue2=5,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Silence'},
+    [1500] = {skillID=1500,skillQuality=4,skillName='Minor Silence',runeCostTable = {air=0,earth=4,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 20,effectTable={effectID1=1050,effectValue1=0,effectID2=1050,effectValue2=4,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Silence'},
     -- Bless skills
     [1600] = {skillID=1600,skillQuality=4,skillName='Minor Bless',runeCostTable = {air=1,earth=1,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1060,effectValue1=2,effectID2=1060,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bless'},
     -- Curse skills
     [1700] = {skillID=1700,skillQuality=4,skillName='Minor Curse',runeCostTable = {air=0,earth=1,water=0,fire=1},animationID = nil,particleID = nil,growthRatio = 5,CD = 5,effectTable={effectID1=1070,effectValue1=1,effectID2=1070,effectValue2=20,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Curse'},
     -- Bravery skills
-    [1800] = {skillID=1800,skillQuality=7,skillName='Minor Bravery',runeCostTable = {air=5,earth=0,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1080,effectValue1=2.0,effectID2=1080,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bravery'},
+    [1800] = {skillID=1800,skillQuality=7,skillName='Minor Bravery',runeCostTable = {air=0,earth=0,water=0,fire=2},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1080,effectValue1=2.0,effectID2=1080,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Bravery'},
     -- Fear skills
     [1900] = {skillID=1900,skillQuality=7,skillName='Minor Fear',runeCostTable = {air=0,earth=5,water=0,fire=0},animationID = nil,particleID = nil,growthRatio = 10,CD = 10,effectTable={effectID1=1090,effectValue1=0.5,effectID2=1090,effectValue2=10,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},   
     -- Purify skills
-    [2000] = {skillID=2000,skillQuality=1,skillName='Minor Purify',runeCostTable = {air=3,earth=3,water=3,fire=3},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1100,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
+    [2000] = {skillID=2000,skillQuality=1,skillName='Minor Purify',runeCostTable = {air=0,earth=0,water=2,fire=0},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1100,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
     -- Disperse skills
     [2100] = {skillID=2100,skillQuality=1,skillName='Minor Disperse',runeCostTable = {air=3,earth=3,water=3,fire=3},animationID = nil,particleID = nil,growthRatio = 10, CD = 10, effectTable={effectID1=1110,effectValue1=nil,effectID2=nil,effectValue2=nil,effectID3=nil,effectValue3=nil},skillSum='',skillDesc='Minor Fear'},
     

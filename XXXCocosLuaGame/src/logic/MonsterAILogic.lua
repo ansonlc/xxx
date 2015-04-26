@@ -18,10 +18,15 @@ function MonsterAILogic:initAI()
     print(self.battleLogic)
 end
 
+
 function MonsterAILogic:initMonster(monsterID)
     -- Get the monster from the manager and set the monster HP
+    self.monsterID = monsterID
     self.monster = MetaManager.getMonster(monsterID)
     assert(self.monster, "Nil Monster !")
+    self:onInitLevel2()
+    self:onInitLevel3()
+    self:onInitLevel4()
     --print(self.monster)
 end
 
@@ -78,17 +83,343 @@ function MonsterAILogic:prepareUseSkill(monsterNode)
     monsterNode:runAction(actionSeq)
 end
 
-local actualInterval = GMonsterAIInterval
+local actualInterval = 0
+
+
+local monsterSkill = function(eff1, eff2, eff3)
+    local effectTable = {}
+    if eff1 ~= nil then
+        local t = eff1
+        effectTable.effectID1 = t[1]
+        effectTable.effectValue1 = t[2]
+    end
+    if eff2 ~= nil then
+        local t = eff2
+        effectTable.effectID2 = t[1]
+        effectTable.effectValue2 = t[2]
+    end
+    if eff3 ~= nil then
+        local t = eff3
+        effectTable.effectID3 = t[1]
+        effectTable.effectValue3 = t[2]
+    end
+    ret = {effectTable = effectTable}
+    return ret
+end
+
+local damage = 1001
+local heal = 1010
+local shell = 1020
+local recovery = 1030
+local bleed = 1040
+local silence = 1050
+local bravery = 1080
+
+function MonsterAILogic:onUpdateLevel1()
+    
+    local HP = self.battleLogic.monsterHP/self.battleLogic.monsterMaxHP
+
+    
+    local speed = math.max(HP, 0.3)
+    
+    self.monsterNode:runAction(cc.Sequence:create(
+        cc.CallFunc:create(function() actualInterval = 3 * speed end)
+        --,cc.Blink:create(0.1 * speed, 2)
+        ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75))
+        ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)):reverse(), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75):reverse())
+        ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25))
+        ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25):reverse())
+        --,cc.ScaleBy:create(0.2 * speed, 1.25, 1.25, 1.25)
+        --,cc.ScaleBy:create(0.2 * speed, 1.25, 1.25, 1.25):reverse()
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 10}, nil, nil)) end)
+        ))
+     
+end
+
+
+function MonsterAILogic:onInitLevel2()
+    self.firstTime = true
+    self.secondTime = true
+    self.recover = 2
+end
+
+function MonsterAILogic:onUpdateLevel2()
+
+    local HP = self.battleLogic.monsterHP/self.battleLogic.monsterMaxHP
+
+    local speed = math.max(HP, 0.8)
+    
+    if self.firstTime or (self.secondTime and HP < 0.5) then
+        if self.firstTime then
+            self.firstTime = false  
+        else
+            self.secondTime = false
+        end
+        self.monsterNode:runAction(cc.Sequence:create(
+            cc.CallFunc:create(function() actualInterval = 3 * speed end)
+            ,cc.Spawn:create( cc.RotateBy:create(0.3 * speed,80), cc.ScaleBy:create(0.3 * speed, 0.75, 0.75, 0.75))
+            ,cc.Spawn:create( cc.RotateBy:create(0.2 * speed,80):reverse(), cc.ScaleBy:create(0.2 * speed, 0.75, 0.75, 0.75):reverse())
+            ,cc.Spawn:create( cc.RotateBy:create(0.3 * speed,-20), cc.ScaleBy:create(0.3 * speed, 1.75, 1.75, 1.75))
+            ,cc.Blink:create(0.5 * speed,2)
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({bleed, 40}, {bleed, 200}, nil)) end)
+            ,cc.Spawn:create( cc.RotateBy:create(0.2 * speed,-20):reverse(), cc.ScaleBy:create(0.2 * speed, 1.75, 1.75, 1.75):reverse())            
+        ))
+    elseif HP < 0.25 and self.recover > 0 then
+        self.recover = self.recover - 1
+        self.monsterNode:runAction(cc.Sequence:create(
+            cc.CallFunc:create(function() actualInterval = 3 * speed end)
+            ,cc.ScaleBy:create(0.2 * speed, 1.5, 1.5, 1.5)
+            ,cc.Blink:create(0.3 * speed,1)
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+            ,cc.Blink:create(0.3 * speed,1)
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+            ,cc.Blink:create(0.3 * speed,1)
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+            ,cc.ScaleBy:create(0.2 * speed, 1.5, 1.5, 1.5):reverse()
+        ))
+    else
+        self.monsterNode:runAction(cc.Sequence:create(
+            cc.CallFunc:create(function() actualInterval = 2 end)
+            ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75))
+            ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)):reverse(), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75):reverse())
+            ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25))
+            ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25):reverse())
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 1}, nil, nil)) end)
+        ))
+        
+    end
+end
+
+
+
+
+function MonsterAILogic:onInitLevel3()
+    self.superSkill = true
+end
+
+function MonsterAILogic:onUpdateLevel3()
+
+    local HP = self.battleLogic.monsterHP/self.battleLogic.monsterMaxHP
+
+    local speed = math.max(HP, 0.8)
+    
+    if HP < 0.5 and self.superSkill then
+        self.superSkill = false
+        self.monsterNode:runAction(cc.Sequence:create(
+        
+        cc.CallFunc:create(function() actualInterval = 12 end)
+        
+        ,cc.MoveBy:create(0.2,cc.p(0,-100))
+        ,cc.Blink:create(1.0,5)
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({silence, 0}, {silence, 8}, nil)) end)
+        ,cc.MoveBy:create(0.3,cc.p(0,-100)):reverse()
+        ,cc.RotateBy:create(0.3,-30)
+        ,cc.RotateBy:create(0.3,60)
+        ,cc.RotateBy:create(0.2,-60)
+        ,cc.RotateBy:create(0.2,60)
+        ,cc.RotateBy:create(0.1,-60)
+        ,cc.RotateBy:create(0.1,30)
+        
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+                
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+        
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+
+        
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 30}, nil, nil)) end)
+        ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 50}, nil, nil)) end)
+        
+        
+        ,cc.MoveBy:create(0.2,cc.p(0,-100))
+        ,cc.Blink:create(1.0,5)
+        ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({bravery, 3.0}, {bravery, 1000}, nil)) end)
+        ,cc.MoveBy:create(0.3,cc.p(0,-100)):reverse()         
+    ))
+    
+    else
+        
+        
+        if((math.random(3)) == 1) then
+       
+        
+            self.monsterNode:runAction(cc.Sequence:create(
+                 cc.CallFunc:create(function() actualInterval = 3 end)
+                ,cc.Blink:create(0.5,2)
+                ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25))
+                ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 10}, nil, nil)) end)
+                ,cc.Spawn:create( cc.MoveBy:create(0.3,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.3, 1.25, 1.25, 1.25):reverse())
+                ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 10}, nil, nil)) end)
+            ))
+        
+        else
+        
+            self.monsterNode:runAction(cc.Sequence:create(
+                cc.CallFunc:create(function() actualInterval = 2 end)
+                ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75))
+                ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,150)):reverse(), cc.ScaleBy:create(0.1 * speed, 0.75, 0.75, 0.75):reverse())
+                ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25))
+                ,cc.Spawn:create( cc.MoveBy:create(0.1 * speed,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.1 * speed, 1.25, 1.25, 1.25):reverse())
+                ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 5}, nil, nil)) end)
+                ))
+                
+        end
+        
+        
+        
+        
+    
+    end
+   
+end
+
+
+
+function MonsterAILogic:onInitLevel4()
+    self.firstTime = true
+    self.secondTime = true
+    self.recover = 2
+end
+
+function MonsterAILogic:onUpdateLevel4()
+
+    local HP = self.battleLogic.monsterHP/self.battleLogic.monsterMaxHP
+
+    local speed = math.max(HP, 0.8)
+    
+    if HP < 0.5 then
+        self.monsterNode:runAction(cc.Sequence:create(
+            cc.CallFunc:create(function() actualInterval = 0.3  end)
+            ,cc.ScaleBy:create(0.1 , 1.5, 1.5, 1.5)
+            ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 100}, nil, nil)) end)
+            ,cc.ScaleBy:create(0.1 , 1.5, 1.5, 1.5):reverse()
+        ))
+    else
+        local r = math.random(10)
+        if r == 1 then
+        
+            self.monsterNode:runAction(cc.Sequence:create(
+                cc.CallFunc:create(function() actualInterval = 2  end)
+                ,cc.Spawn:create( cc.RotateBy:create(0.3 ,80), cc.ScaleBy:create(0.3 , 0.75, 0.75, 0.75))
+                ,cc.Spawn:create( cc.RotateBy:create(0.2 ,80):reverse(), cc.ScaleBy:create(0.2 , 0.75, 0.75, 0.75):reverse())
+                ,cc.Spawn:create( cc.RotateBy:create(0.3 ,-20), cc.ScaleBy:create(0.3 , 1.75, 1.75, 1.75))
+                ,cc.Blink:create(0.5 ,2)
+                ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({bleed, 50}, {bleed, 5}, nil)) end)
+                ,cc.Spawn:create( cc.RotateBy:create(0.2 ,-20):reverse(), cc.ScaleBy:create(0.2 , 1.75, 1.75, 1.75):reverse())            
+            ))
+        
+        elseif r == 2 or r == 3 then
+            self.monsterNode:runAction(cc.Sequence:create(
+                cc.CallFunc:create(function() actualInterval = 0.3  end)
+                ,cc.ScaleBy:create(0.1 , 1.5, 1.5, 1.5)
+                ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({heal, 100}, nil, nil)) end)
+                ,cc.ScaleBy:create(0.1 , 1.5, 1.5, 1.5):reverse()
+            ))
+            
+        else
+            if math.random(10) == 1 then
+                self.monsterNode:runAction(cc.Sequence:create(
+                    cc.CallFunc:create(function() actualInterval = 0.8  end)
+                    --,cc.Blink:create(0.1 , 2)
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,150)), cc.ScaleBy:create(0.1 , 0.75, 0.75, 0.75))
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,150)):reverse(), cc.ScaleBy:create(0.1 , 0.75, 0.75, 0.75):reverse())
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,-100)), cc.ScaleBy:create(0.1 , 1.25, 1.25, 1.25))
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.1 , 1.25, 1.25, 1.25):reverse())
+                    ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({silence, 0}, {silence, 3}, nil)) end)
+                    ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 2}, nil, nil)) end)
+                ))
+            else
+                self.monsterNode:runAction(cc.Sequence:create(
+                    cc.CallFunc:create(function() actualInterval = 0.8  end)
+                    --,cc.Blink:create(0.1 , 2)
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,150)), cc.ScaleBy:create(0.1 , 0.75, 0.75, 0.75))
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,150)):reverse(), cc.ScaleBy:create(0.1 , 0.75, 0.75, 0.75):reverse())
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,-100)), cc.ScaleBy:create(0.1 , 1.25, 1.25, 1.25))
+                    ,cc.Spawn:create( cc.MoveBy:create(0.1 ,cc.p(0,-100)):reverse(), cc.ScaleBy:create(0.1 , 1.25, 1.25, 1.25):reverse())
+                    ,cc.CallFunc:create(function() self.battleLogic:monsterUseSkill(monsterSkill({damage, 2}, nil, nil)) end)
+                ))
+            end
+        end
+    end
+end
+
+
+
 function MonsterAILogic:onUpdate(delta)  
     --cclog(delta)  
     if not self.isAIOn then
         return
     end
+
+    
+
+
     self.interval=self.interval+delta
     if self.interval > actualInterval then
+        self.interval = 0
+
+        if self.monsterID == 1001 then
+            self:onUpdateLevel1()
+            return
+        end
+        
+        
+        if self.monsterID == 1002 then
+            self:onUpdateLevel2()
+            return
+        end
+
+        if self.monsterID == 1003 then
+            self:onUpdateLevel3()
+            return
+        end
+
+        if self.monsterID == 1004 then
+            self:onUpdateLevel4()
+            return
+        end
+        
         math.randomseed(os.time())
         actualInterval = GMonsterAIInterval+2*(math.random()-0.5) 
-        self.interval = 0
+        
         --self.useSkillTimes = self.useSkillTimes+1
         local skill = self:getSkill()
         self:prepareUseSkill(self.monsterNode)

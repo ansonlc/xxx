@@ -184,6 +184,11 @@
             <Image Name="Foot.png" />
             <Image Name="Btn_Upgrade.png" />
             <Image Name="Btn_Upgrade_press.png" />
+            <Image Name="plus100.png" />
+            <Image Name="plus10.png" />
+            <Image Name="plus1.png" />
+            <Image Name="confirm.png" />
+            <Image Name="cancel.png" />
           </Folder>
           <Image Name="bg_level.jpg" />
         </Folder>

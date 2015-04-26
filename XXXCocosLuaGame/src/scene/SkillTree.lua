@@ -65,6 +65,12 @@ function SkillTree:drawSkillInfo()
         self.currentSelectSkill.skillDesc:setVisible(false)
         self.currentSelectSkill.skillLevel:setVisible(false)
         self.currentSelectSkill.expBar:setVisible(false)
+        self.currentSelectSkill.runesCost:setVisible(false)
+        self.currentSelectSkill.runesCostIcon1:setVisible(false)
+        self.currentSelectSkill.runesCostIcon2:setVisible(false)
+        self.currentSelectSkill.runesCostIcon3:setVisible(false)
+        self.currentSelectSkill.runesCostIcon4:setVisible(false)
+
     end
     
     
@@ -100,10 +106,43 @@ function SkillTree:drawSkillInfo()
     -- Exp bar
     self.currentSelectSkill.expBar = cc.Sprite:create("res/imgs/SkillTree/red.png")
     
+    -- Runes
+    local c1 = skill.runeCostTable.air
+    local c2 = skill.runeCostTable.earth
+    local c3 = skill.runeCostTable.water
+    local c4 = skill.runeCostTable.fire
+    
+    local p = 350
+    self.currentSelectSkill.runesCost = cc.LabelTTF:create(toString2('                   x ' .. c1 .. '        x ' .. c2 .. '        x ' .. c3 .. '        x ' .. c4) , "Arial", 50)
+    self.currentSelectSkill.runesCost:setColor(cc.c3b(255, 255, 255))
+    self.currentSelectSkill.runesCost:setPosition(cc.p(p + 210, 270))
+    self:addChild(self.currentSelectSkill.runesCost)
+    
+    self.currentSelectSkill.runesCostIcon1 = cc.Sprite:create("res/imgs/rune/rune_02_air.png")
+    self.currentSelectSkill.runesCostIcon1:setScale(0.7)
+    self.currentSelectSkill.runesCostIcon1:setPosition(cc.p(p, 270))
+    self:addChild(self.currentSelectSkill.runesCostIcon1)
+    
+    self.currentSelectSkill.runesCostIcon2 = cc.Sprite:create("res/imgs/rune/rune_03_earth.png")
+    self.currentSelectSkill.runesCostIcon2:setScale(0.7)
+    self.currentSelectSkill.runesCostIcon2:setPosition(cc.p(p + 175, 270))
+    self:addChild(self.currentSelectSkill.runesCostIcon2)
+    
+    self.currentSelectSkill.runesCostIcon3 = cc.Sprite:create("res/imgs/rune/rune_01_water.png")
+    self.currentSelectSkill.runesCostIcon3:setScale(0.7)
+    self.currentSelectSkill.runesCostIcon3:setPosition(cc.p(p + 175 * 2, 270))
+    self:addChild(self.currentSelectSkill.runesCostIcon3)
+    
+    self.currentSelectSkill.runesCostIcon4 = cc.Sprite:create("res/imgs/rune/rune_04_fire.png")
+    self.currentSelectSkill.runesCostIcon4:setScale(0.7)
+    self.currentSelectSkill.runesCostIcon4:setPosition(cc.p(p + 175 * 3, 270))
+    self:addChild(self.currentSelectSkill.runesCostIcon4)
+
     --[[ 100%
     self.currentSelectSkill.expBar:setScale(610, 20)
     self.currentSelectSkill.expBar:setPosition(cc.p(705, 335))
     ]]--
+    
     local  rate = DataManager.getSkillRate(currentSelect)
     self.currentSelectSkill.expBar:setScale(10 + 600 * rate, 20)
     self.currentSelectSkill.expBar:setPosition(cc.p(405 + 300 * rate, 335))
@@ -368,6 +407,13 @@ function SkillTree:onInit()
     self:drawSkillIcon()
     
     self:drawTab()
+    
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("confirm", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("cancel", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true, 0.70))
+    
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 

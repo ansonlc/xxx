@@ -78,7 +78,7 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
     end
     
     --Add icon to sprite
-    local skillIcon = cc.Sprite:create("res/imgs/temp/skill_" .. skillId .. ".png")
+    local skillIcon = cc.Sprite:create("res/imgs/SkillIcons/skill_" .. skillId .. ".png")
     skillIcon:setPosition(85, 85)
     if (not borderAndBg) then
         skillIcon:setScale(2)
@@ -88,10 +88,16 @@ function GameIconManager.getSkillSprite(skillId, scale, borderAndBg, skillLvl)
    
     --Add skill level label
     if (skillLvl and skillLvl>0) then
-        local lvlLbl = cc.LabelTTF:create("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl, "Arial", 30)
-        lvlLbl:setPosition(120, 20)
+        local lvlLbl = cc.LabelTTF:create("Lv. " .. (skillLvl<10 and "0" or "") .. skillLvl, "Arial", 25)
+        lvlLbl:setPosition(120, 18)
         skillSprite.skillLevelLabel = lvlLbl
         skillSprite:addChild(lvlLbl)
+        -- Add upgrade icon here
+        local lvlUp = cc.Sprite:create("res/imgs/icon_levelup.png")
+        lvlUp:setPosition(170, 0)
+        lvlUp:setVisible(false)
+        skillSprite.lvlUpSprite = lvlUp
+        skillSprite:addChild(lvlUp)
     else
         if (skillLvl and skillLvl==0) then
             local newIcon = cc.Sprite:create("res/imgs/icon_new.png")
@@ -207,15 +213,28 @@ function GameIconManager.getMonsterSprite(monsterId, scale, border)
     
     local cacheInst = cc.SpriteFrameCache:getInstance()
     local monsterSprite = cc.Sprite:create("res/imgs/monster/" .. monsterId .. ".png")
-    if border then
+    
+    --[[if border then
         monsterSprite.border = cc.Sprite:create("res/imgs/monster/bgs/border.png")
         monsterSprite.border:setScale(470/400)
         monsterSprite.border:setAnchorPoint(0, 0)
+        -- adjust the monster sprite size
+        --monsterSprite:setScale(monsterSprite:getContentSize().width / 470, monsterSprite:getContentSize().height / 470)
+        -- add as child
+        monsterSprite:addChild(monsterSprite.border)
+    end--]]
+    
+    if border then
+        monsterSprite.border = cc.Sprite:create("res/imgs/monster/bgs/border.png")
+        monsterSprite.border:setAnchorPoint(0,0)
+        monsterSprite.border:setScaleX(monsterSprite:getContentSize().width / monsterSprite.border:getContentSize().width)
+        monsterSprite.border:setScaleY(monsterSprite:getContentSize().height / monsterSprite.border:getContentSize().height)
         monsterSprite:addChild(monsterSprite.border)
     end
     
     if (scale) then
-        monsterSprite:setScale(scale)
+        monsterSprite:setScaleX(380 / monsterSprite:getContentSize().width)
+        monsterSprite:setScaleY(380 / monsterSprite:getContentSize().height)
     end
     monsterSprite.monster = MetaManager.getSkill(skillId)
     return monsterSprite

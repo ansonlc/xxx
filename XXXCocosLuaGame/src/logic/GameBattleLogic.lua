@@ -18,9 +18,9 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
+    --self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
     --self.runesTable = {water = 10, air = 10, fire = 10, earth = 10}    -- currently all the runes start from 5
-    --self.runesTable = {water = 1000, air = 1000, fire = 1000, earth = 1000}
+    self.runesTable = {water = 99, air = 99, fire = 99, earth = 99}
     self.crystalNum = DataManager.getCrystalNum()
     self.playerMaxHP = DataManager.getUserHP()
     self.playerHP = self.playerMaxHP
@@ -141,7 +141,7 @@ function GameBattleLogic:playerUseSkill(skill)
         end
         -- TODO: Replace skill level with the skill level system
         attackPoint = (100 + math.random(-5,5)) * math.pow(GSkillLevelBonus, skillLevel) * attackPoint / 100;
-        cclog("Attack Power: "..attackPoint )
+        --cclog("Attack Power: "..attackPoint )
         return math.floor(attackPoint)
     end
     
@@ -210,7 +210,7 @@ function GameBattleLogic:playerUseSkill(skill)
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
-            cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive.." by player") 
+            --cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive.." by player") 
         end
     end
     
@@ -278,6 +278,10 @@ function GameBattleLogic:playerUseSkill(skill)
         end
         
         self.monsterHP = self.monsterHP - damage
+        
+        if self.monsterHP < 0 then
+            self.monsterHP = 0
+        end
         
         -- heal the player
         self.playerHP = self.playerHP + heal
@@ -399,7 +403,7 @@ function GameBattleLogic:monsterUseSkill(skill)
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             end
-            cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive..' by monster') 
+            --cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive..' by monster') 
         end
     end
     
@@ -469,10 +473,13 @@ function GameBattleLogic:monsterUseSkill(skill)
         
         -- Calculate Heal
         self.monsterHP = self.monsterHP + heal
+        
         if self.monsterHP > self.monsterMaxHP then
             heal = heal - (self.monsterHP - self.monsterMaxHP)
             self.monsterHP = self.monsterMaxHP
         end
+        
+        self.gameBattlePanel:healMonster(self.monsterHP / self.monsterMaxHP)
         
         -- Display the related Animation
         
@@ -759,7 +766,7 @@ function GameBattleLogic:onUpdate(delta)
                 elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
                     self.playerDamageBonus = 1.0
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
+                --cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
                 self.playerEffectTable[k] = nil
             end
         end
@@ -786,7 +793,7 @@ function GameBattleLogic:onUpdate(delta)
                 elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
                     self.monsterDamageBonus = 1.0
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
+                --cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
                 self.monsterEffectTable[k] = nil
             end
         end

@@ -168,11 +168,11 @@ end
 
 local function getRunes(type, howMuch, posList)
     return function()
-        if type ~= 3 then
+        --if type ~= 3 then
             for i, pos in ipairs(posList) do
                 ParticleManager.sysParticleDisplay(getCellCenter(pos.x, pos.y), parentNode.battlePanel:getRunePosition(({"Fire","Earth","?","Air","Water"})[type]), parentNode, 0.3, 1000 + type)
             end
-        end
+        --end
         
         local gameLogicNode = parentNode:getChildByName("GameBattleLogic")
         if gameLogicNode ~= nil then

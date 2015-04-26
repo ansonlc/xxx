@@ -56,7 +56,7 @@ function ResultScene:onInit()
     --Add monster sprite
     if (battleResult.unlockMonsterId) then
         local monsterNode = rootNode:getChildByName("panel_result"):getChildByName("node_monster")
-        local monsterSprite = GameIconManager.getMonsterSprite(battleResult.unlockMonsterId, 400/470, true)
+        local monsterSprite = GameIconManager.getMonsterSprite(battleResult.unlockMonsterId, true, true)
         monsterSprite:setAnchorPoint(0, 0)
         monsterNode:addChild(monsterSprite)
     end
@@ -74,6 +74,9 @@ function ResultScene:onInit()
             local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)
             skill:setAnchorPoint(0.5, 0.5)
             skills[table.getn(skills)+1] = skill
+            if value.lvlBefore ~= value.lvlAfter then
+                skill.lvlUpSprite:setVisible(true)
+            end
         end
     end
     

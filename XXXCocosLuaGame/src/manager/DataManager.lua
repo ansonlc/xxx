@@ -22,6 +22,29 @@ local function loadData(dataName)
     DataManager[dataName] = require("config." .. dataName)
 end
 
+function DataManager.getRecommendSkills()
+    --print ('!!!')
+    --print (DataManager.userInfo.currentLevelID)
+    if DataManager.userInfo.currentLevelID == 101101 then
+        DataManager.userInfo.currentSkills = {1002, 1004, 1006, 1008, 1001}
+    end
+    
+    if DataManager.userInfo.currentLevelID == 101102 then
+        DataManager.userInfo.currentSkills = {1002, 1004, 1008, 2000, 1001}
+    end
+    
+    if DataManager.userInfo.currentLevelID == 101103 then
+        DataManager.userInfo.currentSkills = {1100, 1400, 1004, 1008, 1006}
+    end
+
+    if DataManager.userInfo.currentLevelID == 101104 then
+        DataManager.userInfo.currentSkills = {1800, 1500, 1100, 2000, 1001}
+    end
+    
+    
+    
+end
+
 function DataManager.loadUserInfo()
     
     --loadData("user_skill_status")

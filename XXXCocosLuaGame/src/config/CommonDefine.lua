@@ -56,10 +56,16 @@ GBattleFieldHorizontalRatio = 1000 / 1080
 GBattleFieldVerticalStartOffsetRatio = 65 / 1920
 GBattleFieldHorizontalStartOffsetRatio = 40 / 1080
 
+GBattleHPBarFrameVerticalRatio = 40 / 1920
+GBattleHPBarFrameHorizontalRatio = 950 / 1080
+GBattleHPBarFrameVerticalStartOffsetRatio = 0 / 1920
+GBattleHPBarFrameHorizontalStartOffsetRatio = 62.5 / 1080
+
+
 GBattleHPBarVerticalRatio = 40 / 1920
-GBattleHPBarHorizontalRatio = 950 / 1080
+GBattleHPBarHorizontalRatio = 937 / 1080
 GBattleHPBarVerticalStartOffsetRatio = 0 / 1920
-GBattleHPBarHorizontalStartOffsetRatio = 65 / 1080
+GBattleHPBarHorizontalStartOffsetRatio = 69.5 / 1080
 
 GBattleRuneBlockVerticalRatio = 470 / 1920
 GBattleRuneBlockHorizontalRatio = 250 / 1080
@@ -91,7 +97,7 @@ GBattleLevelBlockHorizontalStartOffsetRatio = 380 / 1080
 
 GBattleMonsterBlockVerticalRatio = 350 / 1920
 GBattleMonsterBlockHorizontalRatio = 350 / 1080
-GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
+GBattleMonsterBlockVerticalStartOffsetRatio = 85 / 1920
 GBattleMonsterBlockHorizontalStartOffsetRatio = 390 / 1080
 
 
@@ -111,20 +117,27 @@ GBattleMonsterBlockVerticalStartOffsetRatio = 80 / 1920
 GBattleMonsterBlockHorizontalStartOffsetRatio = 330 / 1080--]]
 
 GBattleMonsterHPBarVerticalRatio = 30 / 1920
-GBattleMonsterHPBarHorizontalRatio = 400 / 1080
+GBattleMonsterHPBarHorizontalRatio = 396 / 1080
 GBattleMonsterHPBarVerticalStartOffsetRatio = 500 / 1920
-GBattleMonsterHPBarHorizontalStartOffsetRatio = 365 / 1080
+GBattleMonsterHPBarHorizontalStartOffsetRatio = 372.5 / 1080
 
-GBattlePlayerEffectBlockVerticalRatio = 150 / 1920
-GBattlePlayerEffectBlockHorizontalRatio = 200 / 1080
+GBattleMonsterHPBarFrameVerticalRatio = 30 / 1920
+GBattleMonsterHPBarFrameHorizontalRatio = 400 / 1080
+GBattleMonsterHPBarFrameVerticalStartOffsetRatio = 500 / 1920
+GBattleMonsterHPBarFrameHorizontalStartOffsetRatio = 370 / 1080
+
+GBattlePlayerEffectBlockVerticalRatio = 180 / 1920
+GBattlePlayerEffectBlockHorizontalRatio = 220 / 1080
 GBattlePlayerEffectBlockVerticalStartOffsetRatio = 80 / 1920
-GBattlePlayerEffectBlockHorizontalStartOffsetRatio = 815 / 1080
+GBattlePlayerEffectBlockHorizontalStartOffsetRatio = 800 / 1080
 
-GBattleMonsterEffectBlockVerticalRatio = 150 / 1920
-GBattleMonsterEffectBlockHorizontalRatio = 200 / 1080
+GBattleMonsterEffectBlockVerticalRatio = 180 / 1920
+GBattleMonsterEffectBlockHorizontalRatio = 220 / 1080
 GBattleMonsterEffectBlockVerticalStartOffsetRatio = 300 / 1920
-GBattleMonsterEffectBlockHorizontalStartOffsetRatio = 815 / 1080
+GBattleMonsterEffectBlockHorizontalStartOffsetRatio = 800 / 1080
 
+GBattleEffectVerticalStartOffset = 15 / 1920
+GBattleEffectHorizontalStartOffset = 20 / 1080
 GBattleEffectGapVerticalRatio = 10 / 1920
 GBattleEffectGapHorizontalRatio = 5 / 1080
 GBattleEffectIconVerticalRatio = 60 / 1920
