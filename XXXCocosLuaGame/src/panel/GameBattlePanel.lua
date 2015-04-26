@@ -708,6 +708,7 @@ function GameBattlePanel:onUpdate(delta)
 
     if playerEffectToRemove then
         local reachEnd = false
+        local playerBuffCount = 0
         -- Readjust all nodes position
         for i = 1, GBattleMaxEffectNumber, 1 do
             if self.playerEffectTable[i] == nil then
@@ -730,15 +731,19 @@ function GameBattlePanel:onUpdate(delta)
                         reachEnd = true          
                     end
                 end
+            else
+                playerBuffCount = playerBuffCount + 1
             end
             -- If the remaining element is all nil ,jump out of the loop
-            if reachEnd then
+            --[[if reachEnd then
                 if i == 1 then
                     self.playerEffectBlockIndex = 1
                 end
                 break
-            end
+            end--]]
         end
+        self.playerEffectBlockIndex = playerBuffCount + 1
+        cclog("Player next index " .. self.playerEffectBlockIndex)
         --cclog("Current index: "..self.playerEffectBlockIndex)
     end
     
@@ -762,6 +767,7 @@ function GameBattlePanel:onUpdate(delta)
 
     if monsterEffectToRemove then
         local reachEnd = false
+        local monsterBuffCount = 0
         -- Readjust all nodes position
         for i = 1, GBattleMaxEffectNumber, 1 do
             if self.monsterEffectTable[i] == nil then
@@ -784,15 +790,20 @@ function GameBattlePanel:onUpdate(delta)
                         reachEnd = true          
                     end
                 end
+            else 
+                monsterBuffCount = monsterBuffCount + 1
             end
             -- If the remaining element is all nil ,jump out of the loop
-            if reachEnd then
+            --[[if reachEnd then
                 if i == 1 then
                     self.monsterEffectBlockIndex = 1
                 end
-                break
-            end
+                --break
+            end--]]
         end
+        
+        self.monsterEffectBlockIndex = monsterBuffCount + 1
+        cclog("Monster next index " .. self.monsterEffectBlockIndex)
         --cclog("Current index: "..self.monsterEffectBlockIndex)
     end
 end

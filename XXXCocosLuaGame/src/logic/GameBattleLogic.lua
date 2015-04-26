@@ -141,7 +141,7 @@ function GameBattleLogic:playerUseSkill(skill)
         end
         -- TODO: Replace skill level with the skill level system
         attackPoint = (100 + math.random(-5,5)) * math.pow(GSkillLevelBonus, skillLevel) * attackPoint / 100;
-        cclog("Attack Power: "..attackPoint )
+        --cclog("Attack Power: "..attackPoint )
         return math.floor(attackPoint)
     end
     
@@ -210,7 +210,7 @@ function GameBattleLogic:playerUseSkill(skill)
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
-            cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive.." by player") 
+            --cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive.." by player") 
         end
     end
     
@@ -403,7 +403,7 @@ function GameBattleLogic:monsterUseSkill(skill)
                 self.monsterEffectTable[effect.effectType] = effectToAdd
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             end
-            cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive..' by monster') 
+            --cclog("Effect type: "..effectToAdd.effectType.."; value: "..effectToAdd.effectValue.."; TTL: "..effectToAdd.effectTimeToLive..' by monster') 
         end
     end
     
@@ -766,7 +766,7 @@ function GameBattleLogic:onUpdate(delta)
                 elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
                     self.playerDamageBonus = 1.0
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
+                --cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on player") 
                 self.playerEffectTable[k] = nil
             end
         end
@@ -793,7 +793,7 @@ function GameBattleLogic:onUpdate(delta)
                 elseif v.effectType == 'Bravery' or v.effectType == 'Fear' then
                     self.monsterDamageBonus = 1.0
                 end
-                cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
+                --cclog("Effect type: "..v.effectType.."; value: "..v.effectValue.." stopped on monster") 
                 self.monsterEffectTable[k] = nil
             end
         end
