@@ -226,31 +226,36 @@ function GameBattlePanel:initPanel()
     
 
     -- Player Effect Block
-    local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    --[[local playerEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
     playerEffectBlockLayer:setAnchorPoint(0,0)
     playerEffectBlockLayer:setPosition(visibleSize.width * GBattlePlayerEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattlePlayerEffectBlockVerticalStartOffsetRatio)
     playerEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio,visibleSize.height * GBattlePlayerEffectBlockVerticalRatio)
     self.playerEffectBlockLayer = playerEffectBlockLayer
-    self:addChild(playerEffectBlockLayer)
+    self:addChild(playerEffectBlockLayer)--]]
     
-    --[[local playerEffectBlock = cc.Sprite:create("imgs/GameScene/player_effectblock.png")
-    playerEffectBlock:setAnchorPoint(0,0)
+    local playerEffectBlock = cc.Sprite:create("res/imgs/GameScene/player_buff_panel.png")
+    playerEffectBlock:setAnchorPoint(0.0, 0.0)
     playerEffectBlock:setPosition(visibleSize.width * GBattlePlayerEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattlePlayerEffectBlockVerticalStartOffsetRatio)
     playerEffectBlock:setScale(visibleSize.width * GBattlePlayerEffectBlockHorizontalRatio / playerEffectBlock:getContentSize().width, visibleSize.height * GBattlePlayerEffectBlockVerticalRatio / playerEffectBlock:getContentSize().height)
     self.playerEffectBlockLayer = playerEffectBlock
-    self:addChild(playerEffectBlock)--]]
+    self:addChild(playerEffectBlock)
 
     self.playerEffectBlockIndex = 1     -- this index points to the current location where the effect should be added
     self.playerEffectTable = {}
 
     -- Monster Effect Block
-    local monsterEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+    --[[local monsterEffectBlockLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
     monsterEffectBlockLayer:setAnchorPoint(0,0)
     monsterEffectBlockLayer:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
     monsterEffectBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio,visibleSize.height * GBattleMonsterEffectBlockVerticalRatio)
-    self.monsterEffectBlockLayer = monsterEffectBlockLayer
+    self.monsterEffectBlockLayer = monsterEffectBlockLayer--]]
+    local monsterEffectBlock = cc.Sprite:create("imgs/GameScene/monster_buff_panel.png")
+    monsterEffectBlock:setAnchorPoint(0,0)
+    monsterEffectBlock:setPosition(visibleSize.width * GBattleMonsterEffectBlockHorizontalStartOffsetRatio, visibleSize.height * GBattleMonsterEffectBlockVerticalStartOffsetRatio)
+    monsterEffectBlock:setScale(visibleSize.width * GBattleMonsterEffectBlockHorizontalRatio / monsterEffectBlock:getContentSize().width, visibleSize.height * GBattleMonsterEffectBlockVerticalRatio / monsterEffectBlock:getContentSize().height)
+    self.monsterEffectBlockLayer = monsterEffectBlock
 
-    self:addChild(monsterEffectBlockLayer)
+    self:addChild(monsterEffectBlock)
     self.monsterEffectBlockIndex = 1
     self.monsterEffectTable = {}
 
@@ -578,11 +583,11 @@ function GameBattlePanel:playerAddEffect(effect)
         effectSprite:setAnchorPoint(0,0)
         -- Adjust the position
         if self.playerEffectBlockIndex <= 3 then
-            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1)
-            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio
         else
-            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1 - GBattleMaxEffectInRow)
-            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectBlockIndex - 1 - GBattleMaxEffectInRow)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
         end
         effectSprite:setPosition(effectSprite.onScreenX, effectSprite.onScreenY)
         -- Adjust the size
@@ -637,11 +642,11 @@ function GameBattlePanel:monsterAddEffect(effect)
         effectSprite:setAnchorPoint(0,0)
         -- Adjust the position
         if self.monsterEffectBlockIndex <= 3 then
-            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1)
-            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectBlockIndex + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1)
+            effectSprite.onScreenY = visibleSize.height * (GBattleEffectGapVerticalRatio + GBattleEffectVerticalStartOffset)
         else
-            effectSprite.onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1 - GBattleMaxEffectInRow)
-            effectSprite.onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+            effectSprite.onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectBlockIndex - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectBlockIndex - 1 - GBattleMaxEffectInRow)
+            effectSprite.onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
         end
         effectSprite:setPosition(effectSprite.onScreenX, effectSprite.onScreenY)
         -- Adjust the size
@@ -712,11 +717,11 @@ function GameBattlePanel:onUpdate(delta)
                         self.playerEffectTable[i].index = i
                         self.playerEffectTable[j] = nil
                         if self.playerEffectTable[i].index <= 3 then
-                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
-                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * self.playerEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio
                         else
-                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
-                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                            self.playerEffectTable[i].onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * (self.playerEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.playerEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                            self.playerEffectTable[i].onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
                         end
                         self.playerEffectTable[i]:setPosition(self.playerEffectTable[i].onScreenX, self.playerEffectTable[i].onScreenY) 
                         self.playerEffectBlockIndex = i + 1
@@ -766,11 +771,11 @@ function GameBattlePanel:onUpdate(delta)
                         self.monsterEffectTable[i].index = i
                         self.monsterEffectTable[j] = nil
                         if self.monsterEffectTable[i].index <= 3 then
-                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1)
-                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio
+                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * self.monsterEffectTable[i].index + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1)
+                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio
                         else
-                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1 - GBattleMaxEffectInRow)
-                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
+                            self.monsterEffectTable[i].onScreenX = visibleSize.width * GBattleEffectHorizontalStartOffset + visibleSize.width * GBattleEffectGapHorizontalRatio * (self.monsterEffectTable[i].index - GBattleMaxEffectInRow) + visibleSize.width * GBattleEffectIconHorizontalRatio * (self.monsterEffectTable[i].index - 1 - GBattleMaxEffectInRow)
+                            self.monsterEffectTable[i].onScreenY = visibleSize.height * GBattleEffectVerticalStartOffset + visibleSize.height * GBattleEffectGapVerticalRatio * 2 + visibleSize.height * GBattleEffectIconVerticalRatio 
                         end
                         self.monsterEffectTable[i]:setPosition(self.monsterEffectTable[i].onScreenX, self.monsterEffectTable[i].onScreenY) 
                         self.monsterEffectBlockIndex = i + 1
