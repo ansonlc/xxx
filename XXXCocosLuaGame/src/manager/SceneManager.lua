@@ -23,7 +23,7 @@ function SceneManager.generateLoadingPanel()
     local visibleSize = cc.Director:getInstance():getVisibleSize();
     local blackLayer = cc.LayerColor:create(cc.c4b(0, 0, 0,150), visibleSize.width, visibleSize.height)
     local label = cc.Label:create()
-    label:setString("Loading... Please wait")
+    label:setString("Loading......")
     label:setPosition(visibleSize.width/2 , visibleSize.height/2)
     label:setScale(6)
     blackLayer:addChild(label)
