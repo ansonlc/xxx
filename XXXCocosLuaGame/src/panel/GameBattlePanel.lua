@@ -66,16 +66,8 @@ function GameBattlePanel:initPanel()
     self.hpBarSprite = hpBarSprite
     self:addChild(self.hpBarSprite)
     
-    -- HP Bar Frame
-    local hpBarFrameSpriteUp = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
-    hpBarFrameSpriteUp:setAnchorPoint(0,0)
-    hpBarFrameSpriteUp:setPosition(visibleSize.width * GBattleHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarFrameVerticalStartOffsetRatio)
-    hpBarFrameSpriteUp:setScaleX(visibleSize.width * GBattleHPBarFrameHorizontalRatio / hpBarFrameSpriteUp:getContentSize().width)
-    hpBarFrameSpriteUp:setScaleY(visibleSize.height * GBattleHPBarFrameVerticalRatio / hpBarFrameSpriteUp:getContentSize().height)
-    self:addChild(hpBarFrameSpriteUp)
-
     -- Shell Bar
-    local shellBarSprite = cc.Sprite:create("imgs/temp/shellbar_1.png")
+    local shellBarSprite = cc.Sprite:create("res/imgs/GameScene/player_shell_bar.png")
     shellBarSprite:setAnchorPoint(0,0)
     shellBarSprite:setPosition(visibleSize.width * GBattleHPBarHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarVerticalStartOffsetRatio)
     shellBarSprite:setScaleX(0)
@@ -84,6 +76,14 @@ function GameBattlePanel:initPanel()
     self.shellBarSpriteFullRatio = visibleSize.width * GBattleHPBarHorizontalRatio / shellBarSprite:getContentSize().width
     self.shellBarSprite = shellBarSprite
     self:addChild(self.shellBarSprite)
+    
+    -- HP Bar Frame
+    local hpBarFrameSpriteUp = cc.Sprite:create("res/imgs/GameScene/player_health_bar_up.png")
+    hpBarFrameSpriteUp:setAnchorPoint(0,0)
+    hpBarFrameSpriteUp:setPosition(visibleSize.width * GBattleHPBarFrameHorizontalStartOffsetRatio, visibleSize.height * GBattleHPBarFrameVerticalStartOffsetRatio)
+    hpBarFrameSpriteUp:setScaleX(visibleSize.width * GBattleHPBarFrameHorizontalRatio / hpBarFrameSpriteUp:getContentSize().width)
+    hpBarFrameSpriteUp:setScaleY(visibleSize.height * GBattleHPBarFrameVerticalRatio / hpBarFrameSpriteUp:getContentSize().height)
+    self:addChild(hpBarFrameSpriteUp)
 
     -- Battle Field
     --[[local battleFieldColor = cc.c4b(0, 0, 255, 80)
@@ -173,7 +173,7 @@ function GameBattlePanel:initPanel()
     self:addChild(toggleSprite)
 
     -- Monster Block
-    local monsterBlockColor = cc.c4b(100, 100, 0, 100)
+    local monsterBlockColor = cc.c4b(100, 100, 0, 0)
     local monsterBlockLayer = cc.LayerColor:create(monsterBlockColor)
 
     monsterBlockLayer:changeWidthAndHeight(visibleSize.width * GBattleMonsterBlockHorizontalRatio, visibleSize.height * GBattleMonsterBlockVerticalRatio)
@@ -564,12 +564,13 @@ function GameBattlePanel:playerAddEffect(effect)
         cclog("Type: "..v.effectType)
         if v.effectType == effect.effectType then
             index = v.index
+            break
         end
     end
 
     if index == nil then
         -- This effect has not been added to the table
-        local effectSprite = cc.Sprite:create("imgs/temp/effect_"..effect.effectType:lower()..'.png')
+        local effectSprite = cc.Sprite:create("imgs/BuffDebuff/effect_"..effect.effectType:lower()..'.png')
         effectSprite.index = self.playerEffectBlockIndex
         effectSprite.effectType = effect.effectType
         effectSprite.effectTimeCount = 0
@@ -628,7 +629,7 @@ function GameBattlePanel:monsterAddEffect(effect)
     
     if index == nil then
         -- This effect has not been added to the table
-        local effectSprite = cc.Sprite:create("imgs/temp/effect_"..effect.effectType:lower()..'.png')
+        local effectSprite = cc.Sprite:create("imgs/BuffDebuff/effect_"..effect.effectType:lower()..'.png')
         effectSprite.index = self.monsterEffectBlockIndex
         effectSprite.effectType = effect.effectType
         effectSprite.effectTimeCount = 0
