@@ -655,7 +655,7 @@ function GameBattlePanel:monsterAddEffect(effect)
         effectSprite:setScale(effectSprite.onScreenWidth / effectSprite:getContentSize().width, effectSprite.onScreenHeight / effectSprite:getContentSize().height)
 
         -- Add the timer layer
-        local timerLayer = cc.LayerColor:create(cc.c4b(100,100,0,100))
+        local timerLayer = cc.LayerColor:create(cc.c4b(0,0,0,100))
         timerLayer:changeWidthAndHeight(effectSprite.onScreenWidth, effectSprite.onScreenHeight)
         timerLayer:setAnchorPoint(0,0)
         timerLayer:setPosition(0,0)
