@@ -325,7 +325,7 @@ function MonsterAILogic:onUpdateLevel4()
 
     local speed = math.max(HP, 0.8)
     
-    if HP < 0.5 then
+    if HP < 0.35 then
         self.monsterNode:runAction(cc.Sequence:create(
             cc.CallFunc:create(function() actualInterval = 0.3  end)
             ,cc.ScaleBy:create(0.1 , 1.5, 1.5, 1.5)

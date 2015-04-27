@@ -3,6 +3,7 @@ local UserSkillStatusTable = {
     userID = 1001, 
     availableSkills = {
         
+        --[[
         [1001]={skillID = 1001, exp = 0},
         [1100]={skillID = 1100, exp = 0},
         [1200]={skillID = 1200, exp = 0},
@@ -15,6 +16,7 @@ local UserSkillStatusTable = {
         [1900]={skillID = 1900, exp = 0},
         [2000]={skillID = 2000, exp = 0},
         [2100]={skillID = 2100, exp = 0},
+        ]]--
         
         [1002] = {skillID = 1002, exp = 0},
         [1004] = {skillID = 1004, exp = 0},
