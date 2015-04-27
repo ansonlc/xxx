@@ -168,6 +168,7 @@ function GameBattleLogic:playerUseSkill(skill)
             end
         elseif effect.effectType == 'Disperse' then
             -- delete all the buff on the monster
+            self.monsterShellEnergy = 0
             for k, v in pairs(self.monsterEffectTable) do
                 if v.effectType == 'Recovery' or v.effectType == 'Bravery' then
                     v.effectTimeToLive = 0
@@ -175,6 +176,8 @@ function GameBattleLogic:playerUseSkill(skill)
                 end
                 self.gameBattlePanel:removeEffectOnPlayer(effect)
             end
+            
+            
         else    -- Deal with the effect: Recovery, Bless, Silence, Curse, Bravery, Fear, Bleed
             local effectToAdd = {}
             effectToAdd.effectType = effect.effectType
@@ -371,7 +374,7 @@ function GameBattleLogic:monsterUseSkill(skill)
             heal = heal + effectValue
             causeHealing = true
         elseif effect.effectType == 'Shell' then
-            self.monsterShellEnergy = effectValue
+            self.monsterShellEnergy = effectValue[1]
             causeShellActivated = true
         elseif effect.effectType == 'Purify' then
         
