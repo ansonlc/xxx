@@ -265,6 +265,7 @@ function GameBattlePanel:initPanel()
     -- test for the scene change
     local function onTouch(eventType, x, y)
         if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
+            SoundManager.playBGM('menu')
             SceneManager.replaceSceneWithName("LevelSelectScene","Test")
         end
 
