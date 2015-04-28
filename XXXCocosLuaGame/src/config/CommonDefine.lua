@@ -157,7 +157,7 @@ GBattleToggleBlockHorizontalStartOffset = 750 / 1080
 
 GSkillPublicCD = 3
 GSkillLevelBonus = 1.2
-GEffectPublicCD = 3
+GEffectPublicCD = 0.3
 
 GMonsterAIInterval = 3.5
 

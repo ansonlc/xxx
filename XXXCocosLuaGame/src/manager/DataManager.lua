@@ -31,6 +31,7 @@ function DataManager.getRecommendSkills()
     
     if DataManager.userInfo.currentLevelID == 101102 then
         DataManager.userInfo.currentSkills = {1002, 1004, 1008, 2000, 1001}
+        --DataManager.userInfo.currentSkills = {1002, 1004, 1006, 1008, 1001}
     end
     
     if DataManager.userInfo.currentLevelID == 101103 then
@@ -41,7 +42,14 @@ function DataManager.getRecommendSkills()
         DataManager.userInfo.currentSkills = {1800, 1500, 1100, 2000, 1001}
     end
     
+    if DataManager.userInfo.currentLevelID == 101105 then
+        DataManager.userInfo.currentSkills = {2100, 1100, 1900, 1004, 1006}
+    end
     
+    if DataManager.userInfo.currentLevelID == 101106 then
+        DataManager.userInfo.currentSkills = {1200, 1300, 1900, 1100, 1001}
+    end
+
     
 end
 
@@ -139,7 +147,42 @@ function DataManager.setCurrentSkill(userID, toSkills)
     --self.userData[userID].currentSkills = toSkills
 end
 
+function DataManager.getLearningData()
+    return {
+        {2, 2000},
+        {3, 1400},
+        {3, 1100},
+        {4, 1800},
+        {4, 1500},
+        {5, 2100},
+        {5, 1900},
+        {6, 1200},
+        {6, 1300},
+        {7, 1600}
+
+    }
+end
+
 function DataManager.getAvailableSkill(userID)
+    
+    --[[
+    local lv = DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+    local var = DataManager.userSkillStatus[userID].availableSkills
+    
+    local learn = DataManager.getLearningData()
+    
+    for i,v in ipairs(learn) do
+        local req = v[1]
+        local id = v[2]
+        
+        if  lv >= req and DataManager.userSkillStatus[userID].availableSkills[id] == nil then
+            --print ('req is ' .. req)
+            --print ('id is ' .. id)
+            DataManager.userSkillStatus[userID].availableSkills[id] = ({skillID = id, exp = 0})
+        end
+        
+    end]]--
+    
     return DataManager.userSkillStatus[userID].availableSkills
 end
 

@@ -19,6 +19,7 @@ local battle_mission = {
     [3]={id=101103,missionName="Mystery Ocean",levelMin=1,preMissionId=0,missionType=0,missionBossType=0,missionBossID=1003},
     [4]={id=101104,missionName="Flaming Mountain",levelMin=1,preMissionId=0,missionType=0,missionBossType=0,missionBossID=1004},
     [5]={id=101105,missionName="Crystal Mine",levelMin=1,preMissionId=0,missionType=0,missionBossType=0,missionBossID=1005},
-    
+    [6]={id=101106,missionName="And Then There Were None",levelMin=1,preMissionId=0,missionType=0,missionBossType=0,missionBossID=1006},
+    --[7]={id=101107,missionName=">_<",levelMin=1,preMissionId=0,missionType=0,missionBossType=0,missionBossID=1007},
 }
 return battle_mission

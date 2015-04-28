@@ -44,6 +44,9 @@ function ResultScene.create(params)
 end
 
 function ResultScene:onInit()
+
+    SoundManager.playBGM('menu', true)
+    
     local battleResult = self.enterData.battleResult
 
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
@@ -63,25 +66,46 @@ function ResultScene:onInit()
     
     --Add skill sprites
     local skills = {}
+    
+    local learn = DataManager.getLearningData()
+
+    for i,v in ipairs(learn) do
+        local req = v[1]
+        local id = v[2]
+        local userID = DataManager.userInfo.currentUser
+        local lv = DataManager.userInfo.currentLevelID - 101100 + 1
+        print (req .. " " .. lv .. " " .. id)
+        if  lv == req and DataManager.userSkillStatus[userID].availableSkills[id] == nil then
+            local skill = GameIconManager.getSkillSprite(id, 1, true, 0)
+            skill:setAnchorPoint(0.5, 0.5)
+            skills[table.getn(skills)+1] = skill
+            DataManager.userSkillStatus[userID].availableSkills[id] = ({skillID = id, exp = 0})
+        end
+
+    end
+    
     if (battleResult.learnSkillId) then
-        local skill = GameIconManager.getSkillSprite(battleResult.learnSkillId, 1, true, 0)
-        skill:setAnchorPoint(0.5, 0.5)
-        skills[1] = skill
+        
     end
     local test = battleResult.upgradeSkillIds
     if (battleResult.upgradeSkillIds) then
         for key, value in pairs(battleResult.upgradeSkillIds) do
-            local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)
-            skill:setAnchorPoint(0.5, 0.5)
-            skills[table.getn(skills)+1] = skill
+            --// changed to display leveled up skills only
             if value.lvlBefore ~= value.lvlAfter then
-                skill.lvlUpSprite:setVisible(true)
+                local skill = GameIconManager.getSkillSprite(value.skillId, 1, true, value.lvlAfter)
+                skill:setAnchorPoint(0.5, 0.5)
+                skills[table.getn(skills)+1] = skill
+                if value.lvlBefore ~= value.lvlAfter then
+                    skill.lvlUpSprite:setVisible(true)
+                end
             end
         end
     end
     
     for key, value in pairs(skills) do
-        rootNode:getChildByName("panel_result"):getChildByName("node_skill_" .. key):addChild(skills[key])
+        if rootNode:getChildByName("panel_result"):getChildByName("node_skill_" .. key) ~= nil then
+            rootNode:getChildByName("panel_result"):getChildByName("node_skill_" .. key):addChild(skills[key])
+        end
     end
     
     --Add item sprites

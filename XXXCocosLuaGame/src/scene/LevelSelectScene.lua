@@ -21,7 +21,9 @@ end
 local function buildLevelButton(lvlBossType, lvlNum, lvlName, posY)
     local lvlBtn = ccui.Button:create()
     lvlBossType = lvlBossType and lvlBossType or "?"
-    lvlBtn:setTitleText(lvlBossType .. " - " .. lvlNum .. "." .. lvlName)-- ? - 0.lvlName
+    lvlBtn:setTitleText(
+        --lvlBossType .. " - " ..
+        lvlNum .. "." .. lvlName)-- ? - 0.lvlName
     lvlBtn:setTitleFontName("fonts/ALGER.TTF")
     lvlBtn:setTitleFontSize(72)
     

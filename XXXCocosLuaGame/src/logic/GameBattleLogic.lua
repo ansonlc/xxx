@@ -18,8 +18,8 @@ end
 -- @param self
 function GameBattleLogic:initNode()
     -- Initialization
-    self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
-    --self.runesTable = {water = 10, air = 10, fire = 10, earth = 10}    -- currently all the runes start from 5
+    --self.runesTable = {water = 0, air = 0, fire = 0, earth = 0}
+    self.runesTable = {water = 10, air = 10, fire = 10, earth = 10}    -- currently all the runes start from 5
     --self.runesTable = {water = 99, air = 99, fire = 99, earth = 99}
     self.crystalNum = DataManager.getCrystalNum()
     self.playerMaxHP = DataManager.getUserHP()
@@ -150,13 +150,16 @@ function GameBattleLogic:playerUseSkill(skill)
         if effect.effectType == 'Attack' then
             damage = damage + calculatePlayerAttackPoint(effect.elementProperty,effectValue,self.monster)   -- bonus calculated in local function
             causeShellAbsorbed = false
+            SoundManager.playEffect('attack', false)
         elseif effect.effectType == 'Heal' then
             heal = heal + effectValue * math.pow(GSkillLevelBonus, skillLevel)   -- level matters to the healing value
             causeHealing = true
+            SoundManager.playEffect('heal', false)
         elseif effect.effectType == 'Shell' then
             self.playerShellEnergy = effectValue * math.pow(GSkillLevelBonus, skillLevel)    -- level matters to the shell value
             --self.playerShellEnergy = effectValue
             causeShieldActivated = true
+            SoundManager.playEffect('skill', false)
         elseif effect.effectType == 'Purify' then
             -- delete all the debuff on the player
             for k, v in pairs(self.playerEffectTable) do
@@ -166,8 +169,10 @@ function GameBattleLogic:playerUseSkill(skill)
                 end
                 self.gameBattlePanel:removeEffectOnPlayer(effect)
             end
+            SoundManager.playEffect('skill', false)
         elseif effect.effectType == 'Disperse' then
             -- delete all the buff on the monster
+            self.monsterShellEnergy = 0
             for k, v in pairs(self.monsterEffectTable) do
                 if v.effectType == 'Recovery' or v.effectType == 'Bravery' then
                     v.effectTimeToLive = 0
@@ -175,6 +180,8 @@ function GameBattleLogic:playerUseSkill(skill)
                 end
                 self.gameBattlePanel:removeEffectOnPlayer(effect)
             end
+            SoundManager.playEffect('skill', false)
+            
         else    -- Deal with the effect: Recovery, Bless, Silence, Curse, Bravery, Fear, Bleed
             local effectToAdd = {}
             effectToAdd.effectType = effect.effectType
@@ -190,23 +197,29 @@ function GameBattleLogic:playerUseSkill(skill)
                         self.monsterAINode = self:getParent():getChildByName("MonsterAILogic")
                     end
                     self.monsterAINode.isAIOn = false
-                    
+                    SoundManager.playEffect('silence', false)
                 elseif effect.effectType == 'Fear' then
                     self.monsterDamageBonus = (1 - effectToAdd.effectValue)     -- TODO: pending for decision
+                    SoundManager.playEffect('skill', false)
                 elseif effect.effectType == 'Bleed' then
                     effectToAdd.effectValue = effectToAdd.effectValue * math.pow(GSkillLevelBonus, skillLevel)
+                    SoundManager.playEffect('bleed', false)
                 elseif effect.effectType == 'Curse' then
                     -- should not happend since player cannot use curse
+                    SoundManager.playEffect('skill', false)
                 end
                 self.gameBattlePanel:monsterAddEffect(effectToAdd)
             else    -- Positive effect here
                 self.playerEffectTable[effect.effectType] = effectToAdd
                 if effect.effectType == 'Bless' then
                     self.runeCollectingBonus = effectToAdd.effectValue;  -- TODO: Pending for decision
+                    SoundManager.playEffect('skill', false)
                 elseif effect.effectType == 'Bravery' then
                     self.playerDamageBonus = effectToAdd.effectValue    -- TODO: pending for decision
+                    SoundManager.playEffect('skill', false)
                 elseif effect.effectType == 'Recovery' then
                     effectToAdd.effectValue = effectToAdd.effectValue * math.pow(GSkillLevelBonus, skillLevel)
+                    SoundManager.playEffect('recovery', false)
                 end
                 self.gameBattlePanel:playerAddEffect(effectToAdd)
             end
@@ -371,7 +384,7 @@ function GameBattleLogic:monsterUseSkill(skill)
             heal = heal + effectValue
             causeHealing = true
         elseif effect.effectType == 'Shell' then
-            self.monsterShellEnergy = effectValue
+            self.monsterShellEnergy = effectValue[1]
             causeShellActivated = true
         elseif effect.effectType == 'Purify' then
         
@@ -670,6 +683,8 @@ function GameBattleLogic:updateRunesTable(runesTable)
     -- notify the GameBattlePanel to update the rune text
     assert(self.gameBattlePanel, "Nil GameBattlePanel in function: GameBattleLogic:updateRunesTable()")
     self.gameBattlePanel:updateRuneNum(self.runesTable)
+    
+    SoundManager.playEffect('rune',false)
 end
 
 ---

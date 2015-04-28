@@ -34,7 +34,10 @@ end
 
 -- create game scene
 function GameScene:onInit()
-    AudioEngine.stopMusic(true)
+    --AudioEngine.stopMusic(true)
+    
+    local musicIndex = math.random(1,4)
+    SoundManager.playBGM('battle'..tostring(musicIndex), true)
     
     local GameBackgroundLayer = require("panel.GameBackgroundLayer")
     self.backLayer = GameBackgroundLayer.create()
@@ -90,8 +93,8 @@ function GameScene:onInit()
     --local rootNode = cc.CSLoader:createNode("GameScene.csb")
     --self:addChild(rootNode)
 
-    local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
-    AudioEngine.playMusic(bgMusicPath, true)
+    --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_battle.wav")
+    --AudioEngine.playMusic(bgMusicPath, true)
 end
 
 function GameScene:onUpdate(dt)
@@ -122,6 +125,14 @@ end
 
 function GameScene:onGameOver(playerWins, gameData)
       
+    -- stop the music
+    --SoundManager.stopMusic()
+    if playerWins then
+        SoundManager.playBGM('victory', false)
+    else
+        SoundManager.stopMusic()
+    end 
+     
     local AINode = self:getChildByName("MonsterAILogic")
     AINode.isAIOn = false
     

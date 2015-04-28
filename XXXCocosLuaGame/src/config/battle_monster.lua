@@ -24,12 +24,31 @@ local MonsterTable = {
         picture = "monster_water_element"
     },
     [1004] = {
-        monsterID =1004,
+        monsterID = 1004,
         monsterName='Level4',
-        monsterHP=5000,
+        monsterHP = 2000,
         elementTable={physical=4.0,air=0.1,earth=0.1,water=0.1,fire=0.1},
         skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
         picture = "monster_fire_skull"
     },
+    [1005] = {
+        monsterID = 1005,
+        monsterName='Level5',
+        monsterHP= 1500,
+        elementTable={physical=1.0,air=4.0,earth=4.0,water=4.0,fire=4.0},
+        skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
+        picture = "150_mega_mewtwo"
+    },
+    [1006] = {
+        monsterID = 1006,
+        monsterName='Level6',
+        monsterHP= 2000,
+        elementTable={physical=7.0,air=1.0,earth=1.0,water=1.0,fire=1.0},
+        skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
+        picture = "flandre"
+    },
+
+
+    
 }
 return MonsterTable
