@@ -21,7 +21,7 @@ local MonsterTable = {
         monsterHP=600,
         elementTable={physical=3.0,air=1.0,earth=1.0,water=1.0,fire=1.0},
         skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
-        picture = "monster_water_element"
+        picture = "RemiliaSWR"
     },
     [1004] = {
         monsterID = 1004,
@@ -37,7 +37,7 @@ local MonsterTable = {
         monsterHP= 1500,
         elementTable={physical=1.0,air=4.0,earth=4.0,water=4.0,fire=4.0},
         skillTable={SkillID1=-10021,SkillID2=-10021,SkillID3=-10021},
-        picture = "150_mega_mewtwo"
+        picture = "monster_water_element"
     },
     [1006] = {
         monsterID = 1006,
