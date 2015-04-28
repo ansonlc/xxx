@@ -170,6 +170,7 @@ function GameBattlePanel:initPanel()
     toggleSprite:setPosition(toggleSprite.onScreenX, toggleSprite.onScreenY) 
 
     self.toggleButton = toggleSprite
+    self.toggleButton:setVisible(false)
     self:addChild(toggleSprite)
 
     -- Monster Block
@@ -271,14 +272,14 @@ function GameBattlePanel:initPanel()
 
         if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             -- For Test Purpose
-            local AINode = self:getParent():getChildByName("MonsterAILogic")
+            --[[local AINode = self:getParent():getChildByName("MonsterAILogic")
             AINode.isAIOn = not AINode.isAIOn
             if AINode.isAIOn then
                 cclog("Current AI Status: On")
             else
                 cclog("Current AI Status: Off")
             end
-            self:getParent():onGameOver(true, nil)
+            self:getParent():onGameOver(true, nil)--]]
         end
     end
 
