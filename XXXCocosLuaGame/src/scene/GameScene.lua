@@ -215,7 +215,7 @@ function GameScene:onGameOver(playerWins, gameData)
                 local battleResult = {
                     unlockMonsterId = MetaManager.getMonster(DataManager.userInfo.currentMonsterID).picture,
                     --unlockMonsterId = "Pikachuaa",
-                    learnSkillId = 1800,
+                    learnSkillId = nil,
                     upgradeSkillIds = upgradeSkillIds,
                     crystal = self.battleLogicNode.crystalNum ,
                 }
