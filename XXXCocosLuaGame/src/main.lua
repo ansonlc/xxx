@@ -18,7 +18,7 @@ require "manager.SceneManager"
 require "manager.GameIconManager"
 require "manager.ParticleManager"
 require "manager.AnimationManager"
-
+require "manager.SoundManager"
 require "utils.TimeUtil"
 
 -- cclog

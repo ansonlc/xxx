@@ -7,6 +7,7 @@
 require("core.BaseScene")
 require("config.CommonDefine")
 
+
 local LoginScene = class("LoginScene", function() return BaseScene.create() end)
 
 function LoginScene:ctor()
@@ -28,6 +29,7 @@ function LoginScene:initGame()
     MetaManager.init()
     ParticleManager.init()
     AnimationManager.init()
+    SoundManager.init()
 end
 
 function LoginScene:onInit()
@@ -35,8 +37,9 @@ function LoginScene:onInit()
     self:addChild(self:createBtnLayer())
     
    --DataManager.loadUserInfo()
-    local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/login.wav")
+    --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
+    SoundManager.playBGM('menu', true)  
 end
 
 function LoginScene:onEnter()

@@ -18,6 +18,8 @@ function EndingScene.create(params)
 end
 
 function EndingScene:onInit()
+    SoundManager.playBGM('menu', true)
+    
     local rootNode = cc.CSLoader:createNode("EndingScene.csb")
     self:addChild(rootNode)
     

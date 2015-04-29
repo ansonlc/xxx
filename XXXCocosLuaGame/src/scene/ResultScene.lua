@@ -44,6 +44,9 @@ function ResultScene.create(params)
 end
 
 function ResultScene:onInit()
+
+    SoundManager.playBGM('menu', true)
+    
     local battleResult = self.enterData.battleResult
 
     local rootNode = cc.CSLoader:createNode("ResultScene.csb")
