@@ -34,7 +34,7 @@ function AnimationManager.create(name, delay, loops)
     
     --Test if the animation is loaded
     if not spriteFrame then
-        cclog("Error: Animation - " .. name .. " isn't loaded. Load it in Animation.init()!")
+        cclog("Error: Animation - " .. name .. " isn't loaded. Load it in AnimationManager.init()!")
         local sprite = cc.Sprite:create()
         sprite.runAnimation = function (self)
             cclog("Error: Running an uninitialized animation!")
