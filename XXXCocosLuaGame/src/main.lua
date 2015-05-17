@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- main.lua - 主类
+-- main.lua
 -- author: fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -19,6 +19,7 @@ require "manager.GameIconManager"
 require "manager.ParticleManager"
 require "manager.AnimationManager"
 require "manager.SoundManager"
+require "manager.NetworkManager"
 require "utils.TimeUtil"
 
 -- cclog

@@ -1,8 +1,9 @@
 --------------------------------------------------------------------------------
--- TestScene.lua - ����Ч�����Գ���
+-- TestScene.lua
 -- @author fangzhou.long
 --------------------------------------------------------------------------------
 
+require("json")
 require("core.BaseScene")
 require("manager.ParticleManager")
 require("manager.MetaManager")
@@ -112,10 +113,11 @@ function TestScene:onInit()
     --]]
     
     self:addChild(rootNode)
-    
+    --[[
     local monster = GameIconManager.getMonsterSprite("Pikachu", 1, true)
     monster:setPosition(500, 600)
     rootNode:addChild(monster)
+    --]]
     --[[
     local actionSeq = cc.Sequence:create(cc.FadeIn:create(1),cc.FadeOut:create(1))
     local actionSeq1 = cc.Sequence:create(cc.DelayTime:create(0.5),cc.Hide:create(),cc.DelayTime:create(1),cc.Show:create())
@@ -140,11 +142,13 @@ function TestScene:onInit()
     --rootNode:addChild(item)
     --]]
        
-    local sprite = AnimationManager.create("Attack1")
+    local sprite = AnimationManager.create("Attack1", nil, 10)
     rootNode:addChild(sprite)
     sprite:setScale(3)
     sprite:setPosition(cc.p(500, 750))
     sprite:runAnimation()
+    
+    NetworkManager.send()
 end
 
 function TestScene:onUpdate()
