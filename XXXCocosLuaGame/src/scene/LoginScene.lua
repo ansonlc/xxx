@@ -108,6 +108,7 @@ function LoginScene:createBtnLayer()
     btnLayer:addChild(startBtn)
 
     local function onDebugBtnPress(sender, eventType)
+        self:initGame()
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             print ("here")
