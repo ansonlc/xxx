@@ -1,0 +1,6 @@
+前后端通讯接口规范,,,,,,,,
+接口名,请求头1,请求头2,请求头3,请求头4,请求头5,请求body,响应body类型,响应body内容
+/login,uid,,,,,,string,sessionKey
+/battle,sessionKey,levelId,,,,,json,
+/battleResult,sessionKey,win,monsterId,crystal,,,json,
+/upgradeSkills,sessionKey,skillId[],skillExp[],,,,json,
