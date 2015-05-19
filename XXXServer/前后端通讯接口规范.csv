@@ -1,6 +1,11 @@
 Backend,Interfaces,,,,,,,
 Interface,Request Param1,Request Param2,Request Param3,Request Param4,Request Param5,Request Body,Response Type,Response Body
-/login,uid,,,,,,string,sessionKey
+/login,uid,,,,,,json,sessionKey
+/userInfo,uid,sessionKey,,,,,json,table userInfo
 /battle,sessionKey,levelId,,,,,json,bool enter
 /battleResult,sessionKey,win,monsterId,crystal,,,json,bool unlock
 /upgradeSkills,sessionKey,skillId[],skillExp[],,,,json,array skillIds
+,,,,,,,,
+,,,,,,,,
+Every json contains a child:,,,,,,,,
+"{""serverTime"":""linux seconds time""}",,,,,,,,
