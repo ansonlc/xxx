@@ -93,6 +93,16 @@
             <Image Name="cancel.png" />
           </Folder>
           <Image Name="bg_level.jpg" />
+          <Folder Name="LevelSelectScene">
+            <Image Name="icon_lock.png" />
+            <Image Name="icon_lock_boss.png" />
+            <Image Name="LevelSelectScene_sample.png" />
+            <Image Name="level_boss_lock.png" />
+            <Image Name="level_boss_unlock.png" />
+            <Image Name="level_lock.png" />
+            <Image Name="level_unlock.png" />
+            <Image Name="skillselect_panel.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
