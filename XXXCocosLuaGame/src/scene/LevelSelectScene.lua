@@ -18,12 +18,9 @@ function LevelSelectScene.create()
     return scene
 end
 
-local function buildLevelButton(lvlBossType, isUnlocked, isBossLevel, lvlNum, posY)
+local function buildLevelButton(lvlBoss, isLocked, isBossLevel, lvlNum, posY)
     local lvlBtn = ccui.Button:create()
-    lvlBossType = lvlBossType and lvlBossType or "?"
-    lvlBtn:setTitleText(
-        --lvlBossType .. " - " ..
-        "          Level " .. lvlNum)-- ? - 0.lvlName
+    lvlBtn:setTitleText("          Level " .. lvlNum)-- ? - 0.lvlName
     lvlBtn:setTitleFontName("fonts/ALGER.TTF")
     lvlBtn:setTitleFontSize(72)
     
@@ -31,14 +28,22 @@ local function buildLevelButton(lvlBossType, isUnlocked, isBossLevel, lvlNum, po
     --lvlBtn:setPositionPercent(cc.p(.5, posY))
     lvlBtn:setPosition(cc.p(540, posY))
     
-    --Add level button background
-    local suffix = isUnlocked and "lock" or "unlock"
+    -- Add level button background
+    local suffix = isLocked and "lock" or "unlock"
     if isBossLevel then
         lvlBtn:loadTextureNormal("imgs/LevelSelectScene/level_boss_" .. suffix .. ".png")
     else
         lvlBtn:loadTextureNormal("imgs/LevelSelectScene/level_" .. suffix .. ".png")
     end
     
+    -- Add level icon
+    local pic = 
+    --isLocked and 
+    cc.Sprite:create("imgs/LevelSelectScene/icon_lock" .. (isBossLevel and "_boss" or "") .. ".png")
+    --or cc.Sprite:create()
+    
+    pic:setNormalizedPosition(cc.p(.25, .5))
+    lvlBtn:addChild(pic)
     return lvlBtn
 end
 
