@@ -26,6 +26,15 @@ function LoginScene.create()
 end
 
 function LoginScene:initGame()
+    cclog("Path: " .. cc.UserDefault:getXMLFilePath())
+    local inst = cc.UserDefault:getInstance()
+    local uid = inst:getStringForKey("uuid")
+    if uid and uid~="" then
+        cclog("UID: " .. uid)
+    else
+    
+    end
+    
     MetaManager.init()
     ParticleManager.init()
     AnimationManager.init()
@@ -39,7 +48,7 @@ function LoginScene:onInit()
    --DataManager.loadUserInfo()
     --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
-    SoundManager.playBGM('menu', true)  
+    SoundManager.playBGM('menu', true)
 end
 
 function LoginScene:onEnter()
@@ -53,7 +62,7 @@ function LoginScene.createTextBtn(btnStr)
 	button:setScale(4)
 	
 	local scale1 = cc.ScaleTo:create(1.5, 3.5)
-	local scale2 = cc.ScaleTo:create(2, 4)			
+	local scale2 = cc.ScaleTo:create(2, 4)
 
     local arrayOfActions = {scale1,scale2}
 
