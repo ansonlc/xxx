@@ -5,9 +5,7 @@
 
 NetworkManager = {}
 
-function NetworkManager.init()
-
-end
+function NetworkManager.init() end
 
 function NetworkManager.send(request, onSuccess, onFailed)
     -- インスタンス宣言 XMLHttpRequestの慣例に従い、createではなくnewになっている模様
@@ -22,14 +20,21 @@ function NetworkManager.send(request, onSuccess, onFailed)
     ]]
     xhr.responseText = cc.XMLHTTPREQUEST_RESPONSE_JSON
     
+    local params = ""
+    local first = true
+    for key, value in pairs(request.params) do
+        params = params .. (first and "?" or "&")
+        params = params .. key .. "=" .. value
+        first = false
+    end
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
-    xhr:open("GET", "https://httpbin.org/get?userId=123456", true)
+    xhr:open(request.method, request.server .. request.endpoint .. params, true)
     
     -- 認証情報の送信の有無をBoolean型で設定
     xhr.withCredentials = true
     
     -- 通信がタイムアウトするまでの時間をNumber型で設定
-    xhr.timeout = 10
+    xhr.timeout = 3
 
     -- XHR通信開始した時間を記録
     local responseTime = TimeUtil.getRunningTime()
@@ -45,25 +50,32 @@ function NetworkManager.send(request, onSuccess, onFailed)
         cclog(status)
         --]]
         
-        ---[[ HTTPレスポンスヘッダを全て取得
-        local headers = xhr:getAllResponseHeaders()
-        cclog(headers)
-        --]]
+        if readyState == 4 then
+            if status == 200 then
+                ---[[ HTTPレスポンスヘッダを全て取得
+                local headers = xhr:getAllResponseHeaders()
+                cclog(headers)
+                --]]
+
+                --[[ HTTPレスポンスヘッダを指定して取得  引数1 (string) ラベル名
+                local header = xhr:getResponseHeader("Date")
+                cclog(header)
+                --]]
+
+                -- HTTPレスポンスボディの内容をString型で取得
+                local response = xhr.response
+                cclog(xhr.response)
+
+                ---[[ jsonファイルをパースしてみる
+                local data = json.decode(xhr.response)
+                cclog(data.origin)
+                --]]
+                
+                return
+            end
+        end
         
-        --[[ HTTPレスポンスヘッダを指定して取得  引数1 (string) ラベル名
-        local header = xhr:getResponseHeader("Date")
-        cclog(header)
-        --]]
-        
-        ---[[ HTTPレスポンスボディの内容をString型で取得
-        local response = xhr.response
-        cclog(xhr.response)
-        --]]
-        
-        ---[[ jsonファイルをパースしてみる
-        local table = json.decode(xhr.response)
-        cclog(table.origin)
-        --]]
+        --TODO Handle error here
         
         -- レスポンスタームを計算
         responseTime = TimeUtil.getRunningTime() - responseTime
@@ -77,7 +89,7 @@ function NetworkManager.send(request, onSuccess, onFailed)
     --xhr:unregisterScriptHandler(onReadyStateChange)
     
     -- registerScriptHandlerで登録した内容を用い、XHR通信を開始
-    xhr:send()
+    xhr:send(request.body)
     
     -- XHR通信を停止
     --xhr:abort()

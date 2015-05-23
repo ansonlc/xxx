@@ -39,6 +39,7 @@ function LoginScene:initGame()
     ParticleManager.init()
     AnimationManager.init()
     SoundManager.init()
+    NetworkManager.init()
 end
 
 function LoginScene:onInit()
