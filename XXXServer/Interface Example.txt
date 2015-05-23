@@ -1,3 +1,18 @@
+0./register
+request:
+
+resposne:
+{
+serverTime:12345,
+uuid:"MD5 value"
+}
+error:
+{
+serverTime:12345,
+retcode:0001,
+errmsg:"Don't allow register new accounts now."
+}
+
 1./login
 request:
 uid=123456789
