@@ -11,6 +11,7 @@ require "cocos.init"
 
 require "core.BaseScene"
 require "core.GameButton"
+require "core.BaseRequest"
 
 require "manager.DataManager"
 require "manager.MetaManager"

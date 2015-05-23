@@ -148,7 +148,14 @@ function TestScene:onInit()
     sprite:setPosition(cc.p(500, 750))
     sprite:runAnimation()
     
-    NetworkManager.send()
+    local request = BaseRequest.create()
+    request.endpoint = "/post"
+    request.params = {
+        userId = "123456",
+        skey = "abcdefg",
+        time = TimeUtil.getServerTime()
+    }
+    NetworkManager.send(request)
 end
 
 function TestScene:onUpdate()
