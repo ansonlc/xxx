@@ -155,7 +155,13 @@ function TestScene:onInit()
         skey = "abcdefg",
         time = TimeUtil.getServerTime()
     }
-    NetworkManager.send(request)
+    local function onSuccess(data)
+        cclog(data.url)
+    end
+    local function onFailed()
+    
+    end
+    NetworkManager.send(request, onSuccess, onFailed)
 end
 
 function TestScene:onUpdate()

@@ -5,12 +5,14 @@
 
 NetworkManager = {}
 
-function NetworkManager.init() end
+function NetworkManager.init()
+    NetworkManager.useJson = true
+end
 
-function NetworkManager.send(request, onSuccess, onFailed)
+local function xhrBuilder(request)
     -- インスタンス宣言 XMLHttpRequestの慣例に従い、createではなくnewになっている模様
     local xhr = cc.XMLHttpRequest:new()
-    
+
     --[[ HTTPレスポンスボディのデータ型をNumber型（以下の定数が使えます）で設定
     0 : cc.XMLHTTPREQUEST_RESPONSE_STRING
     1 : cc.XMLHTTPREQUEST_RESPONSE_ARRAY_BUFFER
@@ -19,7 +21,7 @@ function NetworkManager.send(request, onSuccess, onFailed)
     4 : cc.XMLHTTPREQUEST_RESPONSE_JSON
     ]]
     xhr.responseText = cc.XMLHTTPREQUEST_RESPONSE_JSON
-    
+
     local params = ""
     local first = true
     for key, value in pairs(request.params) do
@@ -27,27 +29,35 @@ function NetworkManager.send(request, onSuccess, onFailed)
         params = params .. key .. "=" .. value
         first = false
     end
+    local trueUrl = request.server .. request.endpoint .. params
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
-    xhr:open(request.method, request.server .. request.endpoint .. params, true)
-    
+    xhr:open(request.method, trueUrl, true)
+
     -- 認証情報の送信の有無をBoolean型で設定
     xhr.withCredentials = true
-    
+
     -- 通信がタイムアウトするまでの時間をNumber型で設定
     xhr.timeout = 3
+    
+    return xhr
+end
+
+function NetworkManager.send(request, onSuccess, onFailed)
+    local xhr = xhrBuilder(request)
 
     -- XHR通信開始した時間を記録
     local responseTime = TimeUtil.getRunningTime()
     
+    local retryCount = 0
     local function onReadyStateChange()
         ---[[ HTTPステータスをNumber型で取得
         local readyState = xhr.readyState
-        cclog(readyState)
+        cclog("Ready state " .. readyState)
         --]]
         
         ---[[ HTTPステータスをNumber型で取得
         local status = xhr.status
-        cclog(status)
+        cclog("HTTP status code " .. status)
         --]]
         
         if readyState == 4 then
@@ -66,16 +76,30 @@ function NetworkManager.send(request, onSuccess, onFailed)
                 local response = xhr.response
                 cclog(xhr.response)
 
-                ---[[ jsonファイルをパースしてみる
-                local data = json.decode(xhr.response)
-                cclog(data.origin)
-                --]]
-                
+                if NetworkManager.useJson then
+                    ---[[ jsonファイルをパースしてみる
+                    local data = json.decode(xhr.response)
+                    --cclog(data.origin)
+                    --]]
+                    onSuccess(data)
+                else
+                    onSuccess(response)
+                end
+            else
+                onFailed()
+            end
+        else
+            if retryCount<5 then
+                cclog("Try to resend the request " .. retryCount+1 .. " time(s).")
+                xhr = xhrBuilder(request)
+                xhr:registerScriptHandler(onReadyStateChange)
+                xhr:send(request.body)
+                retryCount = retryCount + 1
                 return
+            else
+                onFailed()
             end
         end
-        
-        --TODO Handle error here
         
         -- レスポンスタームを計算
         responseTime = TimeUtil.getRunningTime() - responseTime
