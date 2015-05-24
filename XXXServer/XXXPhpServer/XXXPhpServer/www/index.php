@@ -1,5 +1,5 @@
 <?php
 
-echo "Hello World!";
+echo "Welcome to the official site of OriStein!";
 
 ?>
