@@ -42,6 +42,22 @@ local function xhrBuilder(request)
     return xhr
 end
 
+local function doSuccess(onSuccess, request, data)
+    if onSuccess then
+        onSuccess(data)
+    else
+        cclog("WARN: No success handler for " .. request.endpoint)
+    end
+end
+
+local function doFailed(onFailed, request, data)
+    if onFailed then
+        onFailed(data)
+    else
+        cclog("WARN: No failed handler for this request")
+    end
+end
+
 function NetworkManager.send(request, onSuccess, onFailed)
     local xhr = xhrBuilder(request)
 
@@ -74,19 +90,19 @@ function NetworkManager.send(request, onSuccess, onFailed)
 
                 -- HTTPレスポンスボディの内容をString型で取得
                 local response = xhr.response
-                cclog(xhr.response)
 
                 if NetworkManager.useJson then
                     ---[[ jsonファイルをパースしてみる
                     local data = json.decode(xhr.response)
-                    --cclog(data.origin)
+                    cclog(data.origin)
                     --]]
-                    onSuccess(data)
+                    doSuccess(onSuccess, request, data)
                 else
-                    onSuccess(response)
+                    cclog(xhr.response)
+                    doSuccess(onSuccess, request, response)
                 end
             else
-                onFailed()
+                doFailed(onFailed, request)
             end
         else
             if retryCount<5 then
@@ -97,7 +113,7 @@ function NetworkManager.send(request, onSuccess, onFailed)
                 retryCount = retryCount + 1
                 return
             else
-                onFailed()
+                doFailed(onFailed, request)
             end
         end
         
