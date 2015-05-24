@@ -17,7 +17,7 @@ BaseRequest = class(cc.EventDispatcher)
 -- @param self 
 function BaseRequest:ctor()
     -- Request server address
-    self.server = "https://httpbin.org"
+    self.server = "http://oristein.com"
 
     -- Request method, can be GET/POST, default POST
     self.method = "POST"
@@ -39,4 +39,12 @@ end
 function BaseRequest.create()
     local request = BaseRequest.new()
     return request
+end
+
+function BaseRequest.onSuccess(data)
+    cclog("WARN: No success handler for " .. request.endpoint)
+end
+
+function BaseRequest.onFail(data)
+    cclog("WARN: No failed handler for this request")
 end

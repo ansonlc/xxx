@@ -408,8 +408,8 @@ function SkillTree:onInit()
     
     self:drawTab()
     
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("confirm", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("cancel", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("Confirm", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("Cancel", true, 0.70))
     GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true, 0.70))
     GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true, 0.70))
     GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true, 0.70))
