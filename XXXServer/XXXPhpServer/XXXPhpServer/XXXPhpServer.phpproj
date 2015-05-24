@@ -16,6 +16,11 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="index.php" />
+    <Compile Include="www\common.php" />
+    <Compile Include="www\index.php" />
+    <Compile Include="www\login.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="www\" />
   </ItemGroup>
 </Project>
