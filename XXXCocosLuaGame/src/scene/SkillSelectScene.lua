@@ -198,7 +198,7 @@ function SkillSelectScene:onInit()
     
 
     
-    GameButton.ChangeTo(rootNode:getChildByName("Button_Ok"), GameButton.create("OK", true, 2))
+    GameButton.ChangeTo(rootNode:getChildByName("Button_Ok"), GameButton.create("Confirm", true, 2))
     GameButton.ChangeTo(rootNode:getChildByName("Button_Cancel"), GameButton.create("Cancel", true, 2))
     
     
