@@ -7,6 +7,7 @@ NetworkManager = {}
 
 function NetworkManager.init()
     NetworkManager.useJson = true
+    require("request.RegisterRequest")
 end
 
 local function xhrBuilder(request)
@@ -24,10 +25,12 @@ local function xhrBuilder(request)
 
     local params = ""
     local first = true
-    for key, value in pairs(request.params) do
-        params = params .. (first and "?" or "&")
-        params = params .. key .. "=" .. value
-        first = false
+    if request.params then
+        for key, value in pairs(request.params) do
+            params = params .. (first and "?" or "&")
+            params = params .. key .. "=" .. value
+            first = false
+        end
     end
     local trueUrl = request.server .. request.endpoint .. params
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
@@ -42,23 +45,15 @@ local function xhrBuilder(request)
     return xhr
 end
 
-local function doSuccess(onSuccess, request, data)
-    if onSuccess then
-        onSuccess(data)
-    else
-        cclog("WARN: No success handler for " .. request.endpoint)
-    end
+local function doSuccess(request, data)
+    request.onSuccess(data)
 end
 
-local function doFailed(onFailed, request, data)
-    if onFailed then
-        onFailed(data)
-    else
-        cclog("WARN: No failed handler for this request")
-    end
+local function doFail(request, data)
+    request.onFail(data)
 end
 
-function NetworkManager.send(request, onSuccess, onFailed)
+function NetworkManager.send(request)
     local xhr = xhrBuilder(request)
 
     -- XHR通信開始した時間を記録
@@ -96,13 +91,13 @@ function NetworkManager.send(request, onSuccess, onFailed)
                     local data = json.decode(xhr.response)
                     cclog(data.origin)
                     --]]
-                    doSuccess(onSuccess, request, data)
+                    doSuccess(request, data)
                 else
                     cclog(xhr.response)
-                    doSuccess(onSuccess, request, response)
+                    doSuccess(request, response)
                 end
             else
-                doFailed(onFailed, request)
+                doFail(request)
             end
         else
             if retryCount<5 then
@@ -113,7 +108,7 @@ function NetworkManager.send(request, onSuccess, onFailed)
                 retryCount = retryCount + 1
                 return
             else
-                doFailed(onFailed, request)
+                doFail(request)
             end
         end
         
