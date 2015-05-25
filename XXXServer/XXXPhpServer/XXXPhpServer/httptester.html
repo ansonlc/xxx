@@ -120,7 +120,10 @@
             $("#button_submit").click(function (e) {
                 var host = $("#input-host").val();
                 if (host == 'localhost')
-                    host = location.origin + "/www";
+                    if (location.origin.includes('localhost'))
+                        host = location.origin + "/www";
+                    else
+                        host = location.origin;
                 else
                     host = "http://" + host;
                 var target = $("#input-endpoint").val();
