@@ -7,10 +7,6 @@
 LoginRequest = class(BaseRequest, function() return BaseRequest.create() end)
 
 function LoginRequest:ctor()
-    --[[
-    self.server = "http://httpbin.org"
-    self.endpoint = "/post"
-    --]]
     self.endpoint = "/login"
     
     local inst = cc.UserDefault:getInstance()
