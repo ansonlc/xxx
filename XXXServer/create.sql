@@ -13,3 +13,10 @@ CREATE TABLE SessionInfo(
 	skey varchar(50),
 	PRIMARY KEY(sid)	
 )
+
+CREATE TABLE BattleSkill{
+	skillID int,
+	skillQuality int,
+	skillName int,
+	PRIMARY KEY(skillid)
+}
