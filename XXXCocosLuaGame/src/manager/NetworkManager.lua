@@ -32,7 +32,7 @@ local function xhrBuilder(request)
             first = false
         end
     end
-    local trueUrl = request.server .. request.endpoint
+    local trueUrl = request.server .. request.endpoint .. ".php"
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
     cclog(trueUrl)
     xhr:open(request.method, trueUrl, true)

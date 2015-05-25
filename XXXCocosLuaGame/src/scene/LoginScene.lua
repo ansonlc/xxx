@@ -34,7 +34,7 @@ function LoginScene:initGame(sceneName)
     
     local function doLogin()
         local request = LoginRequest.create()
-        LoginRequest.postRequest = function()
+        request.postRequest = function()
             SceneManager.replaceSceneWithName(sceneName)
         end
         NetworkManager.send(request)
