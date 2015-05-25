@@ -48,7 +48,6 @@ end
 
 local function doSuccess(request, data)
     request.onSuccess(data)
-    request.postRequest()
 end
 
 local function doFail(request, data)
@@ -91,7 +90,7 @@ function NetworkManager.send(request)
                 if NetworkManager.useJson then
                     ---[[ jsonファイルをパースしてみる
                     local data = json.decode(xhr.response)
-                    --cclog(data.origin)
+                    cclog(data.origin)
                     --]]
                     doSuccess(request, data)
                     

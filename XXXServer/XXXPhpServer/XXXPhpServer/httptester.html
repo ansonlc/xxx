@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<!-- jQuery CDN-->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+<!-- bootstrap CDN-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1,  user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<style type="text/css">
+.page{
+    margin: 0 auto;
+    width:80%;
+    padding-top:40px;
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+<div class="row">
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "PHP Target" id="input-target"></input>
+    </div>
+</div>   
+<div class="row">
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter name 1" id="input-para-name-1"></input>
+    </div>
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter 1" id="input-para-1"></input>
+    </div>
+</div>  
+
+<div class="row">
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter name 2" id="input-para-name-2"></input>
+    </div>
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter 2" id="input-para-2"></input>
+    </div>
+</div> 
+
+<div class="row">
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter name 3" id="input-para-name-3"></input>
+    </div>
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter 3" id="input-para-3"></input>
+    </div>
+</div> 
+
+<div class="row">
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter name 4" id="input-para-name-4"></input>
+    </div>
+    <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder = "parameter 4" id="input-para-4"></input>
+    </div>
+</div> 
+
+<div class="row">
+
+    <div class="col-xs-2">
+         <button id="button_submit" class="btn btn-success">Submit</button>
+    </div>
+</div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+   
+    $("#button_submit").click(function (e) {
+        var target = $("#input-target").val();
+        var para1 = $("#input-para-1").val();
+        var para2 = $("#input-para-2").val();
+        var para3 = $("#input-para-3").val();
+        var para4 = $("#input-para-4").val();
+        var name1 = $("#input-para-name-1").val();
+        var name2 = $("#input-para-name-2").val();
+        var name3 = $("#input-para-name-3").val();
+        var name4 = $("#input-para-name-4").val();
+        var jsonObj = new Object();
+        jsonObj[name1] = para1;
+                jsonObj[name2] = para2;
+                        jsonObj[name3] = para3;
+                                jsonObj[name4] = para4;
+        var json = JSON.stringify(jsonObj);
+        var targetURL = target;
+        //alert(json);
+       // var str = "{"+name1+":"+para1+","+name1+":"+para1+"}";
+       
+        $.post(targetURL,{uuid:para1} , function (data) {
+            alert(data);
+         }); 
+    });
+
+  
+    
+});
+
+
+
+</script>
+
+</html>

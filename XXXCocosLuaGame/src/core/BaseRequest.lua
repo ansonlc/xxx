@@ -45,8 +45,6 @@ function BaseRequest.onSuccess(data)
     cclog("WARN: No success handler for " .. request.endpoint)
 end
 
-function BaseRequest.postRequest() end
-
 function BaseRequest.onFail(data)
     cclog("WARN: No failed handler for this request")
 end

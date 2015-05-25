@@ -44,16 +44,19 @@ function LoginScene:initGame(sceneName)
     local inst = cc.UserDefault:getInstance()
     local uuid = inst:getStringForKey("uuid")
     if uuid and uuid~="" then
-        cclog("UID: " .. uuid)
+        cclog("UUID: " .. uuid)
         doLogin()
     else
-        --TODO Register here
         local request = RegisterRequest.create()
         request.postRequest = doLogin
         NetworkManager.send(request)
     end
     
-    --TODO Login here
+    MetaManager.init()
+    ParticleManager.init()
+    AnimationManager.init()
+    SoundManager.init()
+    NetworkManager.init()
 end
 
 function LoginScene:onInit()
@@ -133,7 +136,6 @@ function LoginScene:createBtnLayer()
     local function onDebugBtnPress(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
-            --SceneManager.replaceSceneWithName("SkillTree", nil)
             self:initGame("TestScene")
             return true
         end

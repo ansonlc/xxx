@@ -16,11 +16,10 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="www\common.php" />
-    <Compile Include="www\index.php" />
-    <Compile Include="www\login.php" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="www\" />
+    <Compile Include="common.php" />
+    <Compile Include="httptester.html" />
+    <Compile Include="index.php" />
+    <Compile Include="register.php" />
+    <Compile Include="login.php" />
   </ItemGroup>
 </Project>
