@@ -33,18 +33,18 @@ function LoginScene:initGame(sceneName)
     NetworkManager.init()
     
     local function doLogin()
-        --local request = LoginRequest.create()
-        --LoginRequest.postRequest = function()
+        local request = LoginRequest.create()
+        LoginRequest.postRequest = function()
             SceneManager.replaceSceneWithName(sceneName)
-        --end
-        --NetworkManager.send(request)
+        end
+        NetworkManager.send(request)
     end
     
     cclog("Path: " .. cc.UserDefault:getXMLFilePath())
     local inst = cc.UserDefault:getInstance()
     local uuid = inst:getStringForKey("uuid")
     if uuid and uuid~="" then
-        cclog("UID: " .. uid)
+        cclog("UID: " .. uuid)
         doLogin()
     else
         --TODO Register here
