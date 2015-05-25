@@ -8,6 +8,7 @@ NetworkManager = {}
 function NetworkManager.init()
     NetworkManager.useJson = true
     require("request.RegisterRequest")
+    require("request.LoginRequest")
 end
 
 local function xhrBuilder(request)
@@ -93,6 +94,10 @@ function NetworkManager.send(request)
                     --cclog(data.origin)
                     --]]
                     doSuccess(request, data)
+                    
+                    if data.serverTime then
+                        _G.__g_utcDiffSeconds = TimeUtil.getServerTime() - data.serverTime
+                    end
                 else
                     cclog(xhr.response)
                     doSuccess(request, response)
