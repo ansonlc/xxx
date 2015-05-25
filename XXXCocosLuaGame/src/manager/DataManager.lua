@@ -13,7 +13,7 @@ if _G.dataManagerInit == nil then
             ["battle_mission"] = 1,
             ["battle_monster"] = 1,
         },
-        
+        sessionKey = "",
     }
     _G.dataManagerInit = true
 end

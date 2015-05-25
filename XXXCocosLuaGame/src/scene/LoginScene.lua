@@ -25,14 +25,31 @@ function LoginScene.create()
     return scene
 end
 
-function LoginScene:initGame()
+function LoginScene:initGame(sceneName)
+    MetaManager.init()
+    ParticleManager.init()
+    AnimationManager.init()
+    SoundManager.init()
+    NetworkManager.init()
+    
+    local function doLogin()
+        local request = LoginRequest.create()
+        LoginRequest.postRequest = function()
+            SceneManager.replaceSceneWithName(sceneName)
+        end
+        NetworkManager.send(request)
+    end
+    
     cclog("Path: " .. cc.UserDefault:getXMLFilePath())
     local inst = cc.UserDefault:getInstance()
-    local uid = inst:getStringForKey("uuid")
-    if uid and uid~="" then
-        cclog("UID: " .. uid)
+    local uuid = inst:getStringForKey("uuid")
+    if uuid and uuid~="" then
+        cclog("UUID: " .. uuid)
+        doLogin()
     else
-    
+        local request = RegisterRequest.create()
+        request.postRequest = doLogin
+        NetworkManager.send(request)
     end
     
     MetaManager.init()
@@ -97,8 +114,7 @@ function LoginScene:createBtnLayer()
     local touchBeginPoint = nil
 
     local function onTouchEnded()
-        self:initGame()
-        SceneManager.replaceSceneWithName("MainMenuScene")
+        self:initGame("MainMenuScene")
 
         -- CCTOUCHBEGAN event must return true
         return true
@@ -118,12 +134,9 @@ function LoginScene:createBtnLayer()
     btnLayer:addChild(startBtn)
 
     local function onDebugBtnPress(sender, eventType)
-        self:initGame()
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
-            print ("here")
-            --SceneManager.replaceSceneWithName("SkillTree", nil)
-            SceneManager.replaceSceneWithName("TestScene", nil)
+            self:initGame("TestScene")
             return true
         end
     end
