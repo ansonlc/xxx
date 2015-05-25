@@ -142,9 +142,8 @@
                 params = params + (name2 ? params ? '' : '&' + name2 + "=" + para2 : "");
                 params = params + (name3 ? params ? '' : '&' + name3 + "=" + para3 : "");
                 params = params + (name4 ? params ? '' : '&' + name4 + "=" + para4 : "");
-                params = (params ? '?' : '') + params
                 $("#result").val("Loading..." + host + "/" + targetURL + params);
-                $.post(host + "/" + targetURL + params, function (data) {
+                $.post(host + "/" + targetURL, params, function (data) {
                     console.log(data)
                     $("#result").val(data)
                 });
