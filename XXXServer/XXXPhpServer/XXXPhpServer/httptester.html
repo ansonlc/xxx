@@ -1,8 +1,7 @@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-
+<title>Http tester</title>
 <!-- jQuery CDN-->
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
 
@@ -27,93 +26,136 @@
 </head>
 
 <body>
-<div class="page">
-<div class="row">
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "PHP Target" id="input-target"></input>
-    </div>
-</div>   
-<div class="row">
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter name 1" id="input-para-name-1"></input>
-    </div>
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter 1" id="input-para-1"></input>
-    </div>
-</div>  
+    <div class="page">
+        <div class="row">
+            <div class="col-xs-2">
+                <select class="form-control"  id="input-host" >
+                    <option value="localhost">localhost</option>
+                    <option value="oristein.com">oristein.com</option>
+                    <option value="httpbin.org">httpbin.org</option>
+                </select>
+            </div>
+            <div class="col-xs-1">
+                /
+            </div>
+            <div class="col-xs-3">
+                <select class="form-control" id="input-endpoint">
+                    <option value="register.php">register.php</option>
+                    <option value="login.php">login.php</option>
+                    <option value="post">post</option>
+                </select>
+            </div>
+            </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <input type="text" class="form-control" placeholder="parameter name 1" id="input-para-name-1" />
+            </div>
+            <div class="col-xs-1">
+                =
+            </div>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" placeholder="parameter 1" id="input-para-1" />
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter name 2" id="input-para-name-2"></input>
-    </div>
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter 2" id="input-para-2"></input>
-    </div>
-</div> 
+        <div class="row">
+            <div class="col-xs-2">
+                <input type="text" class="form-control" placeholder="parameter name 2" id="input-para-name-2" />
+            </div>
+            <div class="col-xs-1">
+                =
+            </div>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" placeholder="parameter 2" id="input-para-2" />
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter name 3" id="input-para-name-3"></input>
-    </div>
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter 3" id="input-para-3"></input>
-    </div>
-</div> 
+        <div class="row">
+            <div class="col-xs-2">
+                <input type="text" class="form-control" placeholder="parameter name 3" id="input-para-name-3" />
+            </div>
+            <div class="col-xs-1">
+                =
+            </div>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" placeholder="parameter 3" id="input-para-3" />
+            </div>
+        </div>
 
-<div class="row">
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter name 4" id="input-para-name-4"></input>
-    </div>
-    <div class="col-xs-2">
-        <input type="text" class="form-control" placeholder = "parameter 4" id="input-para-4"></input>
-    </div>
-</div> 
+        <div class="row">
+            <div class="col-xs-2">
+                <input type="text" class="form-control" placeholder="parameter name 4" id="input-para-name-4" />
+            </div>
+            <div class="col-xs-1">
+                =
+            </div>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" placeholder="parameter 4" id="input-para-4" />
+            </div>
+        </div>
 
-<div class="row">
+        <div class="row">
 
-    <div class="col-xs-2">
-         <button id="button_submit" class="btn btn-success">Submit</button>
+            <div class="col-xs-2">
+                <button id="button_submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+        <br /><br /><br /><br />
+        <div class="row" id="title">
+            <div class="col-xs-2">
+                Result:
+            </div>
+        </div>
+        <div class="row" >
+            <textarea id="result" cols="100" rows="10"></textarea>
+        </div>
     </div>
-</div>
-</div>
 
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#button_submit").click(function (e) {
+                var host = $("#input-host").val();
+                if (host == 'localhost')
+                    host = location.origin + "/www";
+                else
+                    host = "http://" + host;
+                var target = $("#input-endpoint").val();
+
+                var name1 = $("#input-para-name-1").val();
+                var name2 = $("#input-para-name-2").val();
+                var name3 = $("#input-para-name-3").val();
+                var name4 = $("#input-para-name-4").val();
+
+                var para1 = $("#input-para-1").val();
+                var para2 = $("#input-para-2").val();
+                var para3 = $("#input-para-3").val();
+                var para4 = $("#input-para-4").val();
+
+                var targetURL = target;
+                //alert(json);
+                var params = '';
+                params = params + (name1 ? name1 + '=' + para1 : '');
+                params = params + (name2 ? params ? '' : '&' + name2 + "=" + para2 : "");
+                params = params + (name3 ? params ? '' : '&' + name3 + "=" + para3 : "");
+                params = params + (name4 ? params ? '' : '&' + name4 + "=" + para4 : "");
+                params = (params ? '?' : '') + params
+                $("#result").val("Loading..." + host + "/" + targetURL + params);
+                $.post(host + "/" + targetURL + params, function (data) {
+                    console.log(data)
+                    $("#result").val(data)
+                });
+            });
+
+
+
+        });
+
+
+
+    </script>
 </body>
-
-<script type="text/javascript">
-
-$(document).ready(function () {
-   
-    $("#button_submit").click(function (e) {
-        var target = $("#input-target").val();
-        var para1 = $("#input-para-1").val();
-        var para2 = $("#input-para-2").val();
-        var para3 = $("#input-para-3").val();
-        var para4 = $("#input-para-4").val();
-        var name1 = $("#input-para-name-1").val();
-        var name2 = $("#input-para-name-2").val();
-        var name3 = $("#input-para-name-3").val();
-        var name4 = $("#input-para-name-4").val();
-        var jsonObj = new Object();
-        jsonObj[name1] = para1;
-                jsonObj[name2] = para2;
-                        jsonObj[name3] = para3;
-                                jsonObj[name4] = para4;
-        var json = JSON.stringify(jsonObj);
-        var targetURL = target;
-        //alert(json);
-       // var str = "{"+name1+":"+para1+","+name1+":"+para1+"}";
-       
-        $.post(targetURL,{uuid:para1} , function (data) {
-            alert(data);
-         }); 
-    });
-
-  
-    
-});
-
-
-
-</script>
-
 </html>
