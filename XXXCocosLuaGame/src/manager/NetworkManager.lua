@@ -28,14 +28,15 @@ local function xhrBuilder(request)
     local first = true
     if request.params then
         for key, value in pairs(request.params) do
-            params = params .. (first and "?" or "&")
             params = params .. key .. "=" .. value
             first = false
         end
     end
-    local trueUrl = request.server .. request.endpoint .. params
+    local trueUrl = request.server .. request.endpoint
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
+    cclog(trueUrl)
     xhr:open(request.method, trueUrl, true)
+    request.body = params
 
     -- 認証情報の送信の有無をBoolean型で設定
     xhr.withCredentials = true
@@ -48,6 +49,7 @@ end
 
 local function doSuccess(request, data)
     request.onSuccess(data)
+    request.postRequest()
 end
 
 local function doFail(request, data)
@@ -90,7 +92,7 @@ function NetworkManager.send(request)
                 if NetworkManager.useJson then
                     ---[[ jsonファイルをパースしてみる
                     local data = json.decode(xhr.response)
-                    cclog(data.origin)
+                    --cclog(data.origin)
                     --]]
                     doSuccess(request, data)
                     
@@ -106,7 +108,7 @@ function NetworkManager.send(request)
             end
         else
             if retryCount<5 then
-                cclog("Try to resend the request " .. retryCount+1 .. " time(s).")
+                cclog("Try to resend the request " .. request.endpoint .. " " .. retryCount+1 .. " time(s).")
                 xhr = xhrBuilder(request)
                 xhr:registerScriptHandler(onReadyStateChange)
                 xhr:send(request.body)
