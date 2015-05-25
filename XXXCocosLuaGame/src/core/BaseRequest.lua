@@ -18,6 +18,7 @@ BaseRequest = class(cc.EventDispatcher)
 function BaseRequest:ctor()
     -- Request server address
     self.server = "http://oristein.com"
+    --self.server = "http://localhost:21401/www"
 
     -- Request method, can be GET/POST, default POST
     self.method = "POST"
