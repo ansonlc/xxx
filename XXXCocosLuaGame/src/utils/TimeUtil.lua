@@ -48,8 +48,8 @@ end
 --  Get current hh:mm:ss time string
 -- @function [parent=#TimeUtil] getTimeString
 -- @return #string Current time
-function TimeUtil.getTimeString()
-    return os.date("%X", os.time())
+function TimeUtil.getTimeString(givenTime)
+    return os.date("%X", givenTime and givenTime or TimeUtil.getServerTime())
 end
 
 --------------------------------
