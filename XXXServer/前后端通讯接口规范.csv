@@ -6,7 +6,7 @@ Interface,Request Param1,Request Param2,Request Param3,Request Param4,Request Pa
 /battle,skey,levelId,,,,,json,bool enter
 /battleResult,skey,win,monsterId,crystal,,,json,bool unlock
 /upgradeSkills,skey,skillId[],skillExp[],,,,json,array skillIds
-,,,,,,,,
+/log,uuid,skey,,,,,json,none
 ,,,,,,,,
 Every json contains a child:,,,,,,,,
 "{""serverTime"":""linux seconds time""}",,,,,,,,
