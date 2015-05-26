@@ -148,20 +148,8 @@ function TestScene:onInit()
     sprite:setPosition(cc.p(500, 750))
     sprite:runAnimation()
     
-    local request = BaseRequest.create()
-    request.endpoint = "/post"
-    request.params = {
-        userId = "123456",
-        skey = "abcdefg",
-        time = TimeUtil.getServerTime()
-    }
-    local function onSuccess(data)
-        cclog(data.url)
-    end
-    local function onFailed()
-    
-    end
-    NetworkManager.send(request, onSuccess, onFailed)
+    local request = RegisterRequest.create()
+    NetworkManager.send(request, request.onSuccess)
 end
 
 function TestScene:onUpdate()
