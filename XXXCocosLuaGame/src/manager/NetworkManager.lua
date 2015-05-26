@@ -60,7 +60,8 @@ function NetworkManager.send(request)
     local xhr = xhrBuilder(request)
 
     -- XHR通信開始した時間を記録
-    local responseTime = TimeUtil.getRunningTime()
+    local requestTime = TimeUtil.getRunningTime()
+    local nowServerTime = TimeUtil.getServerTime()
     
     local retryCount = 0
     local function onReadyStateChange()
@@ -97,7 +98,9 @@ function NetworkManager.send(request)
                     doSuccess(request, data)
                     
                     if data.serverTime then
-                        _G.__g_utcDiffSeconds = TimeUtil.getServerTime() - data.serverTime
+                        --Since the server returns the request time,
+                        --so it's more accurate to calculate use local request time
+                        _G.__g_utcDiffSeconds = nowServerTime - data.serverTime
                     end
                 else
                     cclog(xhr.response)
@@ -120,8 +123,9 @@ function NetworkManager.send(request)
         end
         
         -- レスポンスタームを計算
-        responseTime = TimeUtil.getRunningTime() - responseTime
-        cclog("Request finished in " .. responseTime .. "s")
+        requestTime = TimeUtil.getRunningTime() - requestTime
+        cclog("Request received at " .. TimeUtil.getTimeString())
+        cclog("Request finished in " .. requestTime .. "s")
     end
 
     -- 関数を登録  引数1 (function) 関数
@@ -136,5 +140,5 @@ function NetworkManager.send(request)
     -- XHR通信を停止
     --xhr:abort()
     
-    cclog("Request sent...")
+    cclog("Request sent at " .. TimeUtil.getTimeString())
 end
