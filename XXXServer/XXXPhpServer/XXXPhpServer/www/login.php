@@ -70,8 +70,10 @@
     
     /* create a prepared statement */
     if ($stmt =$mysqli->prepare($sql_get)){
+        $skey = session_id();
+        
         $count = 0;
-        while(true){ 
+        while(false){ 
             $count ++;
             if($count > 100){
                 error(2004);
