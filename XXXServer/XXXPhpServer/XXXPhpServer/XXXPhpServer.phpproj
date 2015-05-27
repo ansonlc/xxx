@@ -21,6 +21,7 @@
     <Compile Include="www\battle.php" />
     <Compile Include="www\login.php" />
     <Compile Include="www\register.php" />
+    <Compile Include="www\add.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="www\" />
