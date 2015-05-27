@@ -152,6 +152,17 @@
                 $.post(host + "/" + targetURL, params, function (data) {
                     console.log(data)
                     $("#result").val(data)
+                    var json = JSON.parse(data)
+
+                    if (json.uuid) {
+                        $("#input-para-name-1").val("uuid");
+                        $("#input-para-1").val(json.uuid);
+                    }
+
+                    if (json.skey) {
+                        $("#input-para-name-4").val("skey");
+                        $("#input-para-4").val(json.skey);
+                    }
                 });
             });
 
