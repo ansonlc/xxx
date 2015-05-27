@@ -20,28 +20,106 @@ SoundManager.effectList = {
 }
 
 function SoundManager.init()
-    SoundManager.currentSound = nil 
+    SoundManager.currentSound = nil
+    SoundManager.currentEffect = nil
+    SoundManager.isMusicOn = true
+    SoundManager.isEffectOn = false 
+    --add volume
+    SoundManager.bgmVolume = 1.0
+    SoundManager.effectVolume = 1.0
 end
 
 function SoundManager.playBGM(name, isLoop)
     local test = SoundManager.currentSound
-    if SoundManager.currentSound == nil then
-        AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
-        SoundManager.currentSound = name
-    else
-        if SoundManager.currentSound ~= name then
-            AudioEngine.stopMusic(true)
+    --SoundManager.isMusicOn = true
+    if SoundManager.isMusicOn then 
+        if SoundManager.currentSound == nil then
             AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
             SoundManager.currentSound = name
-        end
+        else
+            if SoundManager.currentSound ~= name then
+                AudioEngine.stopMusic(true)
+                AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
+	            --set volume
+                AudioEngine.setMusicVolume(SoundManager.bgmVolume)
+                SoundManager.currentSound = name
+            end
+       end
+    end
+end
+
+function SoundManager.stopMusic()
+    if SoundManager.isMusicOn then
+        AudioEngine.stopMusic(true)
+        SoundManager.currentSound = nil
+    end
+end
+
+function SoundManager.pauseMusic()
+    if SoundManager.isMusicOn then
+        AudioEngine.pauseMusic()
+    end
+end
+
+function SoundManager.resumeMusic()
+    if SoundManager.isMusicOn then
+        AudioEngine.resumeMusic()
+    end
+end
+
+function SoundManager.noMusic()
+    SoundManager.isMusicOn = false
+end
+
+function SoundManager.musicVolumeUp()
+    if SoundManager.bgmVolume ~= 1 then
+        SoundManager.bgmVolume = SoundManager.bgmVolume + 0.1
+        AudioEngine.setMusicVolume(SoundManager.bgmVolume)
+    end
+end
+
+function SoundManager.musicVolumeDown()
+    if SoundManager.bgmVolume ~= 0 then
+        SoundManager.bgmVolume = SoundManager.bgmVolume - 0.1
+        AudioEngine.setMusicVolume(SoundManager.bgmVolume)
     end
 end
 
 function SoundManager.playEffect(name, isLoop)
-    AudioEngine.playEffect(SoundManager.effectList[name], isLoop)
+    if SoundManager.isEffectOn then
+        SoundManager.currentEffect = AudioEngine.playEffect(SoundManager.effectList[name], isLoop)
+        --set volume
+        AudioEngine.setEffectsVolume(SoundManager.effectVolume)
+    end
 end
 
-function SoundManager.stopMusic()
-    AudioEngine.stopMusic(true)
-    SoundManager.currentSound = nil
+function SoundManager.pauseEffect()
+    if SoundManager.isEffectOn then
+        AudioEngine.pauseEffect(SoundManager.currentEffect)
+    end
 end
+
+function SoundManager.resumeEffect()
+    if SoundManager.isEffectOn then
+        AudioEngine.resumeEffect(SoundManager.currentEffect)
+    end
+end
+
+function SoundManager.noEffect()
+    SoundManager.isEffectOn = false
+end
+
+function SoundManager.effectVolumeUp()
+    if SoundManager.effectVolume ~= 1 then
+        SoundManager.effectVolume = SoundManager.effectVolume + 0.1
+        AudioEngine.setEffectsVolume(SoundManager.effectVolume)
+    end
+end
+
+function SoundManager.effectVolumeDown()
+    if SoundManager.effectVolume ~= 0 then
+        SoundManager.effectVolume = SoundManager.effectVolume - 0.1
+        AudioEngine.setEffectsVolume(SoundManager.effectVolume)
+    end
+end
+

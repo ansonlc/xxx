@@ -26,21 +26,19 @@
     
 
      //MAIN ENTRY
-     
     $uuid = "";
     if(isset($_POST["uuid"])==true){
         $uuid = $_POST["uuid"];
+    }else{
+        error(1005);
     }
 
     //Connect
-    $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");
-    if ($mysqli->connect_errno) {
-        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
-    
+    $mysqli = connectDB();
+   
     //Filter special characters
     $uuid = sqlFilter($mysqli,$uuid);
-   
+
 //Check UUID
     //Prepare SQL statement
     $sql_get = "SELECT uid FROM UserInfo WHERE uuid = ?";
@@ -56,7 +54,7 @@
         $result = $stmt->get_result();
         $data = $result->fetch_array();
         if($data == null){
-            error(20);
+            error(2003);
             exit();
         }       
         $stmt->close();    
@@ -76,7 +74,7 @@
         while(true){ 
             $count ++;
             if($count > 100){
-                error(21);
+                error(2004);
                 exit();
             }
             $skey = getRandomKey();
@@ -124,7 +122,7 @@
 
              $stmt->close();
              if($story == null){
-                 error(2);
+                 error(1003);
                  exit();
              }
          }

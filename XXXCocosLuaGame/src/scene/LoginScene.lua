@@ -57,6 +57,7 @@ function LoginScene:initGame(sceneName)
     AnimationManager.init()
     SoundManager.init()
     NetworkManager.init()
+    SoundManager.playBGM('menu', true)
 end
 
 function LoginScene:onInit()
@@ -66,7 +67,7 @@ function LoginScene:onInit()
    --DataManager.loadUserInfo()
     --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
-    SoundManager.playBGM('menu', true)
+    --SoundManager.playBGM('menu', true)
 end
 
 function LoginScene:onEnter()
