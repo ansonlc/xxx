@@ -5,9 +5,15 @@
  *
  * common description.
  *
- * @version 1.0
- * @author Hang
+ * @version 2.0
+ * @author Hang & Fangzhou
  */
+
+if (isset($_POST['skey'])) {
+    session_id($_POST['skey']);
+}
+session_start();
+
  //1 - General  2 - about User info
  $errorMsg = array(
     1001 => "General Error",
