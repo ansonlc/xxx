@@ -18,6 +18,7 @@
   <ItemGroup>
     <Compile Include="httptester.html" />
     <Compile Include="www\common.php" />
+    <Compile Include="www\battle.php" />
     <Compile Include="www\login.php" />
     <Compile Include="www\register.php" />
   </ItemGroup>

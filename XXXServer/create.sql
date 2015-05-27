@@ -5,18 +5,31 @@ CREATE TABLE UserInfo(
 	money int,
 	energy int,
 	PRIMARY KEY(uid)
-)
+);
 
 CREATE TABLE SessionInfo(
 	sid int AUTO_INCREMENT,
 	uid int,
 	skey varchar(50),
 	PRIMARY KEY(sid)	
-)
+);
 
-CREATE TABLE BattleSkill{
+CREATE TABLE SkillInfo(
 	skillID int,
-	skillQuality int,
-	skillName int,
-	PRIMARY KEY(skillid)
-}
+	uid int,
+	skillExp int,
+	PRIMARY KEY(skillID, uid)
+);
+
+CREATE TABLE MissionInfo(
+	missionID int,
+	uid int,
+	levelScore int,
+	PRIMARY KEY(missionID,uid)
+);
+
+CREATE TABLE MonsterInfo(
+	monsterID int,
+	uid int,
+	PRIMARY KEY(monsterID,uid)
+);

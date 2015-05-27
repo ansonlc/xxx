@@ -28,17 +28,14 @@
 
 
      //MAIN ENTRY
-    if($_SERVER['REQUEST_METHOD'] != 'POST'){error(10);}
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){error(1005);}
 
     $registrationAllowed = true;
     
-    if(!$registrationAllowed){error(11);}
+    if(!$registrationAllowed){error(2001);}
     
     //Connect
-    $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");
-    if ($mysqli->connect_errno) {
-        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+    $mysqli = connectDB();
 
     
 
@@ -52,7 +49,7 @@
         while(true){ 
             $count ++;
             if($count > 100){
-                error(11);
+                error(2002);
                 exit();
             }
             $uuid = getRandomUUID();
@@ -102,7 +99,7 @@
 
              $stmt->close();
              if($story == null){
-                 error(2);
+                 error(1003);
                  exit();
              }
          }
