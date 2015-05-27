@@ -19,7 +19,8 @@
     2002 => "Error in creating uuid",
     2003 => "You need to register first",
     2004 => "Error in creating session key",
-    2005 => "No record for this UUID or SESSION ",
+    2005 => "No record for this UUID",
+    2006 => "No record for this SKEY",
  );
  function connectDB(){
     $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");
