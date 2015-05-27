@@ -9,6 +9,7 @@
  * @author Hang & Fangzhou
  */
 
+ //Loading Session with skey
 if (isset($_POST['skey'])) {
     session_id($_POST['skey']);
 }
@@ -26,7 +27,7 @@ session_start();
     2003 => "You need to register first",
     2004 => "Error in creating session key",
     2005 => "No record for this UUID",
-    2006 => "No record for this SKEY",
+    2006 => "SKEY doesn't match with UUID",
  );
  function connectDB(){
     $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");

@@ -21,10 +21,7 @@
         $uuid = $_POST["uuid"];
         $skey = $_POST["skey"];
     }else{
-        //error(1005);
-        //FOR DEBUG ONLY NEED TO BE DELETED
-        $uuid ='justfortest';
-        $skey = '64379b83874f3f21f41b72c816388381';
+        error(1005);
     }
 
     //Connect
@@ -32,8 +29,9 @@
     
     //Filter special characters
     $uuid = sqlFilter($mysqli,$uuid);
-   
-    //Check UUID & Session
+    $skey = sqlFilter($mysqli,$skey);
+    
+    //Check UUID with Session
     //Prepare SQL statement
     $sql_get = "SELECT * FROM UserInfo WHERE uuid = ?";
     
@@ -55,29 +53,16 @@
     }
         
     $uid = $data['uid'];
+    
+    $session_uid = $_SESSION['uid'];
+    if($uid != $session_uid){error(2006);}
+    
     $jsonUser = array();
     $jsonUser['crystal'] = $data['crystal'];
     $jsonUser['money'] = $data['money'];
     $jsonUser['energy'] = $data['energy'];
     
-    $sql_get = "SELECT uid FROM SessionInfo WHERE (uid = ? AND skey = ?)";
     
-      /* create a prepared statement */
-    if ($stmt =$mysqli->prepare($sql_get)){
-        
-        /* bind parameters for markers */
-        $stmt->bind_param('is',$uid, $skey);
-        $res = ($stmt->execute());
-
-        /* fetch value */
-        $result = $stmt->get_result();
-        $data = $result->fetch_array();
-        if($data == null){
-            error(2006);
-            exit();
-        }       
-        $stmt->close();    
-    }
     
 
 //Get skill info & mission info
