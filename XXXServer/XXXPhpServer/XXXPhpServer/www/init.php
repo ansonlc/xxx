@@ -24,7 +24,7 @@
         //error(1005);
         //FOR DEBUG ONLY NEED TO BE DELETED
         $uuid ='justfortest';
-        $session = '64379b83874f3f21f41b72c816388381';
+        $skey = '64379b83874f3f21f41b72c816388381';
     }
 
     //Connect
@@ -60,7 +60,7 @@
     $jsonUser['money'] = $data['money'];
     $jsonUser['energy'] = $data['energy'];
     
-    $sql_get = "SELECT uid FROM SessionInfo WHERE uid = ? & skey = ?";
+    $sql_get = "SELECT uid FROM SessionInfo WHERE (uid = ? AND skey = ?)";
     
       /* create a prepared statement */
     if ($stmt =$mysqli->prepare($sql_get)){
@@ -73,7 +73,7 @@
         $result = $stmt->get_result();
         $data = $result->fetch_array();
         if($data == null){
-            error(2005);
+            error(2006);
             exit();
         }       
         $stmt->close();    
