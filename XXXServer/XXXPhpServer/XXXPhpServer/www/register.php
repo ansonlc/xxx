@@ -71,7 +71,7 @@
     }
     
 //Insert UUID into database
-    $sql_insert ="INSERT INTO UserInfo(uuid,crystal,money,energy)VALUES (?,?,?,?)";
+    $sql_insert ="INSERT INTO UserInfo(uuid,crystal,money,energy,userHP)VALUES (?,?,?,?,?)";
     /* create a prepared statement */
     if ($stmt =$mysqli->prepare($sql_insert)){
 
@@ -79,7 +79,8 @@
         $crystal = 0;
         $money = 0;
         $energy = 0;
-        $stmt->bind_param('siii', $uuid, $crystal,$money,$energy);
+        $userHP = 300;
+        $stmt->bind_param('siii', $uuid, $crystal,$money,$energy,$userHP);
 
          // uID is auto-increased, need to check the result
          $stmt->execute();
@@ -126,12 +127,12 @@
             $stmt->execute();
         } 
          $stmt->close();   
-         $sql_get = "SELECT uid FROM SkillInfo WHERE uuid = ?";
+         $sql_get = "SELECT uid FROM SkillInfo WHERE uid = ?";
         
          if ($stmt =$mysqli->prepare($sql_get)){
 
              /* bind parameters for markers */
-             $stmt->bind_param('s', $uuid);
+             $stmt->bind_param('s', $uid);
              $res = ($stmt->execute());
              
              /* fetch value */
