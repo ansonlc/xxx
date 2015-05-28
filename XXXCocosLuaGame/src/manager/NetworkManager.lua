@@ -29,13 +29,14 @@ local function xhrBuilder(request)
     local first = true
     if request.params then
         for key, value in pairs(request.params) do
-            params = params .. key .. "=" .. value
+            params = params .. (first and "" or "&") .. key .. "=" .. value
             first = false
         end
     end
     local trueUrl = request.server .. request.endpoint .. ".php"
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
     cclog(trueUrl)
+    cclog(params)
     xhr:open(request.method, trueUrl, true)
     request.body = params
 
@@ -80,7 +81,7 @@ function NetworkManager.send(request)
             if status == 200 then
                 ---[[ HTTPレスポンスヘッダを全て取得
                 local headers = xhr:getAllResponseHeaders()
-                cclog(headers)
+                --cclog(headers)
                 --]]
 
                 --[[ HTTPレスポンスヘッダを指定して取得  引数1 (string) ラベル名
