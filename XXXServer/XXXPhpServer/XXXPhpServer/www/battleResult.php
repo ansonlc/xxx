@@ -44,7 +44,7 @@
     $crystal = sqlFilter($mysqli,$crystal);    
         
     $unlock = false;
-    if($win == $true){
+    if($win == true){
             $unlock = true;
         
         //Get UID
@@ -52,8 +52,8 @@
          $uid = $_SESSION['uid'];
   
     
-    $bool_enter = true;
-    // Insert MissionInfo
+     
+         // Insert MissionInfo
         //Prepare SQL statement
         $sql_insert = "INSERT INTO MissionInfo (uid,missionID)VALUES (?,?)";
     
