@@ -19,6 +19,7 @@
     <Compile Include="httptester.html" />
     <Compile Include="www\common.php" />
     <Compile Include="www\battle.php" />
+    <Compile Include="www\init.php" />
     <Compile Include="www\login.php" />
     <Compile Include="www\register.php" />
     <Compile Include="www\add.php" />

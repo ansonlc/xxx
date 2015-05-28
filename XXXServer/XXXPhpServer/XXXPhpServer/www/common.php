@@ -79,8 +79,11 @@ session_start();
     $json['serverTime'] = getServerTime();
     
     $json['retcode'] = $retcode;
-    $json['errmsg'] = $errorMsg[$retcode]." ".$str." ".$_SERVER['PHP_SELF'];
+    $path = $_SERVER['PHP_SELF'];
+    
+    $json['errmsg'] = $errorMsg[$retcode]." ".$str." ".$path;
     $res = json_encode($json);
+    $res = str_replace('\/','/',$res);
     echo($res);
     exit();
 }
