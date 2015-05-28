@@ -13,10 +13,8 @@ function InitRequest:ctor()
     local uuid = inst:getStringForKey("uuid")
     local skey = DataManager.sessionKey
     
-    self.params = {
-        skey = skey,
-        uuid = uuid,
-    }
+    self.params.skey = skey
+    self.params.uuid = uuid
 end
 
 function InitRequest.create()

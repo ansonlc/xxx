@@ -11,9 +11,7 @@ function LoginRequest:ctor()
     
     local inst = cc.UserDefault:getInstance()
     local uuid = inst:getStringForKey("uuid")
-    self.params = {
-        uuid = uuid
-    }
+    self.params.uuid = uuid
 end
 
 function LoginRequest.create()
