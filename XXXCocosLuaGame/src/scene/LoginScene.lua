@@ -26,6 +26,7 @@ function LoginScene.create()
 end
 
 function LoginScene:initGame(sceneName)
+    DataManager.loadUserInfo()
     MetaManager.init()
     ParticleManager.init()
     AnimationManager.init()
@@ -58,11 +59,6 @@ function LoginScene:initGame(sceneName)
         NetworkManager.send(request)
     end
     
-    MetaManager.init()
-    ParticleManager.init()
-    AnimationManager.init()
-    SoundManager.init()
-    NetworkManager.init()
     SoundManager.playBGM('menu', true)
 end
 

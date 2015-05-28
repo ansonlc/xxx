@@ -63,8 +63,7 @@ local function main()
     -- run
     initGLView()
     
-    DataManager.loadUserInfo()
-    DataManager.saveData()
+    
     -- Don't init game/data here, init game at LoginScene:initGame() !
     SceneManager.replaceSceneWithName("LoginScene")
 end
