@@ -22,6 +22,7 @@ session_start();
     1003 => "Database Insert Error",
     1004 => "Database Connect Error",
     1005 => "Request Format Error",
+    1006 => "Database Update Error",
     2001 => "You cannot register new accounts now",   
     2002 => "Error in creating uuid",
     2003 => "You need to register first",
