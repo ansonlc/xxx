@@ -79,6 +79,11 @@ function NetworkManager.send(request)
         
         if readyState == 4 then
             if status == 200 then
+                -- レスポンスタームを計算
+                requestTime = TimeUtil.getRunningTime() - requestTime
+                cclog("Request received at " .. TimeUtil.getTimeString())
+                cclog("Request finished in " .. requestTime .. "s")
+                
                 ---[[ HTTPレスポンスヘッダを全て取得
                 local headers = xhr:getAllResponseHeaders()
                 --cclog(headers)
@@ -94,10 +99,18 @@ function NetworkManager.send(request)
 
                 if NetworkManager.useJson then
                     ---[[ jsonファイルをパースしてみる
+                    cclog(xhr.response)
                     local data = json.decode(xhr.response)
                     --cclog(data.origin)
                     --]]
-                    doSuccess(request, data)
+                    
+                    if data.retcode then
+                        cclog("Request error code: " .. data.retcode)
+                        cclog(data.errmsg)
+                        doFail(request, data)
+                    else
+                        doSuccess(request, data)
+                    end
                     
                     if data.serverTime then
                         --Since the server returns the request time,
@@ -118,16 +131,10 @@ function NetworkManager.send(request)
                 xhr:registerScriptHandler(onReadyStateChange)
                 xhr:send(request.body)
                 retryCount = retryCount + 1
-                return
             else
                 doFail(request)
             end
         end
-        
-        -- レスポンスタームを計算
-        requestTime = TimeUtil.getRunningTime() - requestTime
-        cclog("Request received at " .. TimeUtil.getTimeString())
-        cclog("Request finished in " .. requestTime .. "s")
     end
 
     -- 関数を登録  引数1 (function) 関数
