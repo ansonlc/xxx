@@ -10,7 +10,7 @@
  */
 
  //Loading Session with skey
-if (isset($_POST['skey'])) {
+if (isset($_POST['skey']) && !($_SERVER['PHP_SELF']=='/register.php' || $_SERVER['PHP_SELF']!='/login.php') && !($_POST['skey']=='')) {
     session_id($_POST['skey']);
 }
 session_start();
