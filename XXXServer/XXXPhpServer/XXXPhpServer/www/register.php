@@ -95,10 +95,55 @@
              
              /* fetch value */
              $result = $stmt->get_result();
-             $story = $result->fetch_array();
+             $data = $result->fetch_array();
+
+
+             if($data == null){
+                 error(1003);
+                 exit();
+             }else{
+                $uid = $data['uid'];
+             }
+             $stmt->close();
+         }
+             
+    }
+ 
+     $initialSkills = array(1001,1002,1004,1006,1008);//NEED STANDARIZATION IN THE FUTURE
+     
+    //Insert Initial Skill into database
+    $sql_insert ="INSERT INTO SkillInfo(uid,skillID,skillExp)VALUES (?,?,?)";
+    /* create a prepared statement */
+    if ($stmt =$mysqli->prepare($sql_insert)){
+
+        //Initial resource
+        $skillID =0;
+        $skillExp =0;
+        $stmt->bind_param('iii', $uid, $skillID,$skillExp);
+
+        for($i =0; $i < count($initialSkills);$i++){
+            $skillID = $initialSkills[$i];
+            $stmt->execute();
+        } 
+         $stmt->close();   
+         $sql_get = "SELECT uid FROM SkillInfo WHERE uuid = ?";
+        
+         if ($stmt =$mysqli->prepare($sql_get)){
+
+             /* bind parameters for markers */
+             $stmt->bind_param('s', $uuid);
+             $res = ($stmt->execute());
+             
+             /* fetch value */
+             $result = $stmt->get_result();
+             
+             $count = 0;
+             while($data = $result->fetch_array()){
+                   $count ++;
+             }    
 
              $stmt->close();
-             if($story == null){
+             if($count != count($initialSkills)){
                  error(1003);
                  exit();
              }
