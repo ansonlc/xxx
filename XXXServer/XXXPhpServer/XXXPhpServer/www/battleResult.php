@@ -84,6 +84,8 @@
         
     }
   
+    unset($_SESSION['missionID']);
+    
     //Return response
     $json = array();
     $json['serverTime'] = getServerTime();   
