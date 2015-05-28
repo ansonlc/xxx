@@ -23,5 +23,11 @@ function InitRequest.create()
 end
 
 function InitRequest.onSuccess(data)
-
+    local realSkills = {}
+    for key, value in pairs(data.skillInfo) do
+        table.insert(realSkills, value["skillID"], value)
+    end
+    
+    DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills = realSkills
+    DataManager.userSkillStatus[DataManager.userInfo.currentUser].currentSkills = allSkill()
 end
