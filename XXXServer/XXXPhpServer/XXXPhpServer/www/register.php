@@ -80,7 +80,7 @@
         $money = 0;
         $energy = 0;
         $userHP = 300;
-        $stmt->bind_param('siii', $uuid, $crystal,$money,$energy,$userHP);
+        $stmt->bind_param('siiii', $uuid, $crystal,$money,$energy,$userHP);
 
          // uID is auto-increased, need to check the result
          $stmt->execute();

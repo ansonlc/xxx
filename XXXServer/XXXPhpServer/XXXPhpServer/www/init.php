@@ -53,8 +53,11 @@
     }
         
     $uid = $data['uid'];
-    
     $session_uid = $_SESSION['uid'];
+    
+    echo('¡¾uid¡¿'.$uid);
+    echo('¡¾session uid¡¿'.$session_uid);
+    
     if($uid != $session_uid){error(2006);}
     
     $jsonUser = array();
