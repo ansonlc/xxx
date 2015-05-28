@@ -52,6 +52,10 @@
                     <select class="form-control" id="input-endpoint">
                         <option value="register.php">register.php</option>
                         <option value="login.php">login.php</option>
+                        <option value="init.php">init.php</option>
+                        <option value="battle.php">battle.php</option>
+                        <option value="battleResult.php">battleResult.php</option>
+                        <option value="upgradeSkills.php">upgradeSkills.php</option>
                         <option value="post">post</option>
                     </select>
                 </div>
@@ -162,7 +166,7 @@
                         host = $("#input-host").val();
 
                         if (host == 'localhost')
-                            if (location.origin.includes('localhost'))
+                            if (location.origin.includes && location.origin.includes('localhost'))
                                 host = location.origin + "/www";
                             else
                                 host = location.origin;
@@ -188,9 +192,9 @@
                     //alert(json);
                     var params = '';
                     params = params + (name1 ? name1 + '=' + para1 : '');
-                    params = params + (name2 ? (params ? '' : '&' + name2 + "=" + para2) : "");
-                    params = params + (name3 ? (params ? '' : '&' + name3 + "=" + para3) : "");
-                    params = params + (name4 ? (params ? '' : '&' + name4 + "=" + para4) : "");
+                    params = params + (name2 ? ((params ? '&' : '') + name2 + "=" + para2) : "");
+                    params = params + (name3 ? ((params ? '&' : '') + name3 + "=" + para3) : "");
+                    params = params + (name4 ? ((params ? '&' : '') + name4 + "=" + para4) : "");
                     $("#result").val("Loading..." + host + "/" + targetURL + params);
                     $.post(host + "/" + targetURL, params, function (data) {
                         console.log(data)
