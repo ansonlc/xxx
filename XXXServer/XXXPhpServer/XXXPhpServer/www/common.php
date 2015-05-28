@@ -28,6 +28,7 @@ session_start();
     2004 => "Error in creating session key",
     2005 => "No record for this UUID",
     2006 => "SKEY doesn't match with UUID",
+    3001 => 'No record for mission info',
  );
  function connectDB(){
     $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");

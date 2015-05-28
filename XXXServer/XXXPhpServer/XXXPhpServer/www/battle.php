@@ -36,7 +36,7 @@
   
     
 $bool_enter = true;
-// Check MissionInfo
+// Check MissionInfo with pre mission 
     //Prepare SQL statement
     $sql_get = "SELECT missionID FROM MissionInfo WHERE (uid = ? AND missionID = ?)";
     
@@ -56,12 +56,12 @@ $bool_enter = true;
         $stmt->close();    
     }
         
-    
+     $_SESSION['missionID'] = $missionID;
   
     //Return response
     $json = array();
     $json['serverTime'] = getServerTime();   
-    $json['enter'] = $bool_enter;
+    $json['enter'] = true;//$bool_enter;  NOW RETURN TRUE //TODO
     $res = json_encode($json);
     echo($res);
  

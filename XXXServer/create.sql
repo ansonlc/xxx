@@ -4,6 +4,7 @@ CREATE TABLE UserInfo(
 	crystal int,
 	money int,
 	energy int,
+	userHP int,
 	PRIMARY KEY(uid)
 );
 
