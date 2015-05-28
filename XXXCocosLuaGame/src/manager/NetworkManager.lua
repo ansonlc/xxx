@@ -9,6 +9,7 @@ function NetworkManager.init()
     NetworkManager.useJson = true
     require("request.RegisterRequest")
     require("request.LoginRequest")
+    require("request.InitRequest")
 end
 
 local function xhrBuilder(request)
