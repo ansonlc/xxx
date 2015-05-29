@@ -12,6 +12,20 @@ function NetworkManager.init()
     require("request.InitRequest")
 end
 
+local function showLoadingBox()
+    local ccRunning = cc.Director:getInstance():getRunningScene()
+    if ccRunning then
+        ccRunning:showLoadingPanel()
+    end
+end
+
+local function killLoadingBox()
+    local ccRunning = cc.Director:getInstance():getRunningScene()
+    if ccRunning then
+        ccRunning:closeLoadingPanel()
+    end
+end
+
 local function xhrBuilder(request)
     -- インスタンス宣言 XMLHttpRequestの慣例に従い、createではなくnewになっている模様
     local xhr = cc.XMLHttpRequest:new()
@@ -52,13 +66,17 @@ end
 local function doSuccess(request, data)
     request.onSuccess(data)
     request.postRequest()
+    killLoadingBox()
 end
 
 local function doFail(request, data)
     request.onFail(data)
+    killLoadingBox()
 end
 
 function NetworkManager.send(request)
+    showLoadingBox()
+    
     local xhr = xhrBuilder(request)
 
     -- XHR通信開始した時間を記録

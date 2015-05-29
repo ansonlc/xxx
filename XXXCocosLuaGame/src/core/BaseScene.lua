@@ -39,6 +39,9 @@ function BaseScene:ctor()
     
     -- Record the scene need to return, available after initScene(params)
     self.returnScene = nil
+    
+    -- Loading panel
+    self.loadingPanel = nil
 end
 
 --------------------------------
@@ -61,6 +64,9 @@ function BaseScene:initScene(params)
     sceneInitCount = sceneInitCount + 1
     cclog("No." .. sceneInitCount .. " Scene " .. self.sceneName .. " Initializing")
     
+    local LoadingPanel = require("panel.LoadingPanel")
+    self.loadingPanel = LoadingPanel.create()
+    
     if params then
         self.enterScene = params.enterScene
         self.returnScene = params.returnScene
@@ -68,6 +74,21 @@ function BaseScene:initScene(params)
     end
     
     self:onInit()
+    self:addChild(self.loadingPanel)
+end
+
+function BaseScene:showLoadingPanel()
+    self.touchEnabled = false
+    self.loadingPanel:setVisible(true)
+    self.loadingPanel:setTouchEnabled(true)
+    self.loadingPanel:setSwallowsTouches(true)
+end
+
+function BaseScene:closeLoadingPanel()
+    self.touchEnabled = true
+    self.loadingPanel:setVisible(false)
+    self.loadingPanel:setTouchEnabled(false)
+    self.loadingPanel:setSwallowsTouches(false)
 end
 
 --------------------------------
