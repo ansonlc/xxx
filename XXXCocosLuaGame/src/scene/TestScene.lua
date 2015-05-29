@@ -25,6 +25,24 @@ function TestScene:onInit()
     
     local rootNode = cc.CSLoader:createNode("ParticleTestScene.csb")
     
+    -- Add the SettingPanel
+    local GameSettingPanel = require("panel.GameSettingPanel")
+    self.settingPanel = GameSettingPanel.create()
+    self.settingPanel:setName("GameSettingPanel")
+    self:addChild(self.settingPanel)
+    self.settingPanel:setVisible(false)
+    
+    self.setbtn = ccui.Button:create()
+    self.setbtn:loadTextures("res/imgs/btns/icon/icon_option.png", "res/imgs/btns/icon/icon_option_selected.png")
+    self.setbtn:setPosition(100,100)
+    self:addChild(self.setbtn)
+    self.setbtn:addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then 
+            self.settingPanel:setVisible(true)
+        end
+    end
+    )
+    
     --[[
     -- test for the particle effect
     local particle1  = MetaManager.getParticle(1001)
