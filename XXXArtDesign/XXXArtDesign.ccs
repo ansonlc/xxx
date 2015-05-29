@@ -66,6 +66,8 @@
               <Image Name="icon_return.png" />
               <Image Name="icon_return_press.png" />
             </Folder>
+            <Image Name="btn_confirm.png" />
+            <Image Name="btn_confirm_press.png" />
           </Folder>
           <Folder Name="game_scene_contents">
             <Image Name="BattlePanel.png" />
@@ -102,6 +104,19 @@
             <Image Name="level_lock.png" />
             <Image Name="level_unlock.png" />
             <Image Name="skillselect_panel.png" />
+          </Folder>
+          <Folder Name="SettingPanel">
+            <Image Name="setting_panel.png" />
+            <Image Name="1-resume.png" />
+            <Image Name="1-resume_press.png" />
+            <Image Name="2-music.png" />
+            <Image Name="2-music_press.png" />
+            <Image Name="3-sound.png" />
+            <Image Name="3-sound_press.png" />
+            <Image Name="4-home.png" />
+            <Image Name="4-home_press.png" />
+            <Image Name="5-credits.png" />
+            <Image Name="5-credits_press.png" />
           </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />

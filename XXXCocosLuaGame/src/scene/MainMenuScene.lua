@@ -24,9 +24,9 @@ function MainMenuScene:onInit()
     
     -- Add the SettingPanel
     local GameSettingPanel = require("panel.GameSettingPanel")
-    self.settingPanel = GameSettingPanel.create()
-    self.settingPanel:setName("GameSettingPanel")
-    self:addChild(self.settingPanel)
+    self.settingPanel = GameSettingPanel:create(self)
+    --self.settingPanel:setName("GameSettingPanel")
+    --self:addChild(self.settingPanel)
     --self.settingPanel.managePanel:setVisible(false)
     
     self.btnOption = GameButton.create("OptionBtn_Menu")

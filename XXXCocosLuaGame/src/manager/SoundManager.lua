@@ -20,51 +20,65 @@ SoundManager.effectList = {
 }
 
 function SoundManager.init()
-    SoundManager.currentSound = nil
+    SoundManager.currentMusic = nil
+    SoundManager.pausedMusic = nil
     SoundManager.currentEffect = nil
     SoundManager.isMusicOn = true
     SoundManager.isEffectOn = true 
-    --add volume
     SoundManager.bgmVolume = 1.0
     SoundManager.effectVolume = 1.0
 end
 
 function SoundManager.playBGM(name, isLoop)
-    local test = SoundManager.currentSound
-    --SoundManager.isMusicOn = true
-    if SoundManager.isMusicOn then 
-        if SoundManager.currentSound == nil then
+    --[[if SoundManager.isMusicOn then 
+        if SoundManager.currentMusic == nil then
             AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
-            SoundManager.currentSound = name
+            SoundManager.currentMusic = name
         else
-            if SoundManager.currentSound ~= name then
+            if SoundManager.currentMusic ~= name then
                 AudioEngine.stopMusic(true)
                 AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
 	            --set volume
                 AudioEngine.setMusicVolume(SoundManager.bgmVolume)
-                SoundManager.currentSound = name
+                SoundManager.currentMusic = name
             end
-       end
+       end    
+    end]]--    
+     
+    if SoundManager.currentMusic ~= name then
+        SoundManager.currentMusic = name
+        if SoundManager.isMusicOn then
+            if SoundManager.currentMusic ~= nil then
+                AudioEngine.stopMusic(true)
+            end
+            AudioEngine.playMusic(SoundManager.bgmList[name], isLoop)
+            AudioEngine.setMusicVolume(SoundManager.bgmVolume)        
+        end    
     end
 end
 
 function SoundManager.stopMusic()
     if SoundManager.isMusicOn then
         AudioEngine.stopMusic(true)
-        SoundManager.currentSound = nil
+        SoundManager.currentMusic = nil
     end
 end
 
 function SoundManager.pauseMusic()
-    --if SoundManager.isMusicOn then
-        AudioEngine.pauseMusic()
-    --end
+    SoundManager.isMusicOn = false
+    SoundManager.pausedMusic = SoundManager.currentMusic
+    AudioEngine.pauseMusic()    
 end
 
 function SoundManager.resumeMusic()
-    --if SoundManager.isMusicOn then
+    SoundManager.isMusicOn = true
+    if SoundManager.pausedMusic == SoundManager.currentMusic then
         AudioEngine.resumeMusic()
-    --end
+    else        
+        --SoundManager.playBGM(SoundManager.currentMusic,true)
+        AudioEngine.playMusic(SoundManager.bgmList[SoundManager.currentMusic], true)
+        AudioEngine.setMusicVolume(SoundManager.bgmVolume)
+    end
 end
 
 function SoundManager.noMusic()
@@ -73,10 +87,8 @@ end
 
 function SoundManager.switchMusic()
     if SoundManager.isMusicOn then 
-        SoundManager.pauseMusic()
-        SoundManager.isMusicOn = false        
-    else
-         SoundManager.isMusicOn = true
+        SoundManager.pauseMusic()                
+    else         
         SoundManager.resumeMusic()
     end
 end
@@ -104,15 +116,13 @@ function SoundManager.playEffect(name, isLoop)
 end
 
 function SoundManager.pauseEffect()
-    --if SoundManager.isEffectOn then
-        AudioEngine.pauseEffect(SoundManager.currentEffect)
-    --end
+    SoundManager.isEffectOn = false
+    AudioEngine.pauseEffect(SoundManager.currentEffect)
 end
 
 function SoundManager.resumeEffect()
-    --if SoundManager.isEffectOn then
-        AudioEngine.resumeEffect(SoundManager.currentEffect)
-    --end
+    SoundManager.isEffectOn = true
+    AudioEngine.resumeEffect(SoundManager.currentEffect)
 end
 
 function SoundManager.noEffect()
@@ -121,10 +131,8 @@ end
 
 function SoundManager.switchEffect()
     if SoundManager.isEffectOn then 
-        SoundManager.isEffectOn = false
         SoundManager.pauseEffect()
     else
-        SoundManager.isEffectOn = true
         SoundManager.resumeEffect()
     end
 end

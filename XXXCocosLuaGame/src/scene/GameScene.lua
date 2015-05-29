@@ -90,6 +90,10 @@ function GameScene:onInit()
     self.monsterAI:initAI()
     self.monsterAI:initMonster(DataManager.userInfo.currentMonsterID)
     
+    -- Add the setting panel
+    local GameSettingPanel = require("panel.GameSettingPanel")
+    self.settingPanel = GameSettingPanel:create(self)
+    
     --local rootNode = cc.CSLoader:createNode("GameScene.csb")
     --self:addChild(rootNode)
 
