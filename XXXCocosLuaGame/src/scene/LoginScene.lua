@@ -126,6 +126,7 @@ function LoginScene:createBtnLayer()
     local function onStartBtnPress(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then   
+            self.touchEnabled = false
             return onTouchEnded()
         end
     end
