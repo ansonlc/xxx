@@ -9,6 +9,7 @@ function NetworkManager.init()
     NetworkManager.useJson = true
     require("request.RegisterRequest")
     require("request.LoginRequest")
+    require("request.InitRequest")
 end
 
 local function xhrBuilder(request)
@@ -28,13 +29,14 @@ local function xhrBuilder(request)
     local first = true
     if request.params then
         for key, value in pairs(request.params) do
-            params = params .. key .. "=" .. value
+            params = params .. (first and "" or "&") .. key .. "=" .. value
             first = false
         end
     end
     local trueUrl = request.server .. request.endpoint .. ".php"
     -- リクエストの初期化  引数1 (string) HTTPメソッド  引数2 (string) アクセス先URL
     cclog(trueUrl)
+    cclog(params)
     xhr:open(request.method, trueUrl, true)
     request.body = params
 
@@ -77,9 +79,14 @@ function NetworkManager.send(request)
         
         if readyState == 4 then
             if status == 200 then
+                -- レスポンスタームを計算
+                requestTime = TimeUtil.getRunningTime() - requestTime
+                cclog("Request received at " .. TimeUtil.getTimeString())
+                cclog("Request finished in " .. requestTime .. "s")
+                
                 ---[[ HTTPレスポンスヘッダを全て取得
                 local headers = xhr:getAllResponseHeaders()
-                cclog(headers)
+                --cclog(headers)
                 --]]
 
                 --[[ HTTPレスポンスヘッダを指定して取得  引数1 (string) ラベル名
@@ -92,10 +99,18 @@ function NetworkManager.send(request)
 
                 if NetworkManager.useJson then
                     ---[[ jsonファイルをパースしてみる
+                    cclog(xhr.response)
                     local data = json.decode(xhr.response)
                     --cclog(data.origin)
                     --]]
-                    doSuccess(request, data)
+                    
+                    if data.retcode then
+                        cclog("Request error code: " .. data.retcode)
+                        cclog(data.errmsg)
+                        doFail(request, data)
+                    else
+                        doSuccess(request, data)
+                    end
                     
                     if data.serverTime then
                         --Since the server returns the request time,
@@ -116,16 +131,10 @@ function NetworkManager.send(request)
                 xhr:registerScriptHandler(onReadyStateChange)
                 xhr:send(request.body)
                 retryCount = retryCount + 1
-                return
             else
                 doFail(request)
             end
         end
-        
-        -- レスポンスタームを計算
-        requestTime = TimeUtil.getRunningTime() - requestTime
-        cclog("Request received at " .. TimeUtil.getTimeString())
-        cclog("Request finished in " .. requestTime .. "s")
     end
 
     -- 関数を登録  引数1 (function) 関数

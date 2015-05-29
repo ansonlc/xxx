@@ -5,19 +5,40 @@
  *
  * common description.
  *
- * @version 1.0
- * @author Hang
+ * @version 2.0
+ * @author Hang & Fangzhou
  */
- 
+
+ //Loading Session with skey
+if (isset($_POST['skey']) && !($_SERVER['PHP_SELF']=='/register.php' || $_SERVER['PHP_SELF']=='/login.php') && !($_POST['skey']=='')) {
+    session_id($_POST['skey']);
+}
+session_start();
+
+ //1 - General  2 - about User info
  $errorMsg = array(
-    0 => "General Error",
-    1 => "Connection Error",
-    2 => "Database Error",
-    10 => "You cannot register new accounts now",
-    11 => "Error in creating uuid",
-    20 => "You need to register first",
-    21 => "Error in creating session key",
+    1001 => "General Error",
+    1002 => "Connection Error",
+    1003 => "Database Insert Error",
+    1004 => "Database Connect Error",
+    1005 => "Request Format Error",
+    1006 => "Database Update Error",
+    2001 => "You cannot register new accounts now",   
+    2002 => "Error in creating uuid",
+    2003 => "You need to register first",
+    2004 => "Error in creating session key",
+    2005 => "No record for this UUID",
+    2006 => "SKEY doesn't match with UUID",
+    3001 => 'No record for mission info',
  );
+ function connectDB(){
+    $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");
+    if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        error(1004);
+    }
+    return $mysqli;
+ }
  function getServerTime(){
    return $_SERVER['REQUEST_TIME'];//time(
  }
@@ -60,8 +81,11 @@
     $json['serverTime'] = getServerTime();
     
     $json['retcode'] = $retcode;
-    $json['errmsg'] = $errorMsg[$retcode]." ".$str." ".$_SERVER['PHP_SELF'];
+    $path = $_SERVER['PHP_SELF'];
+    
+    $json['errmsg'] = $errorMsg[$retcode]." ".$str." ".$path;
     $res = json_encode($json);
+    $res = str_replace('\/','/',$res);
     echo($res);
     exit();
 }

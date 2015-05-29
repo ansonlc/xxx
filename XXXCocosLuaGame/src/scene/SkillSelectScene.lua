@@ -33,6 +33,9 @@ local function drawCurrentSkill(root)
 
     for i = 1,5 do
         local skillSprite = skillIcons[skills[i]]
+        if not skillSprite then
+            break
+        end
         skillSprite:setPosition(i * 196 - 45 - 82 , 1654 - 82)
         skillSprite:setScale(0.95)
         skillSprite:setVisible(true)

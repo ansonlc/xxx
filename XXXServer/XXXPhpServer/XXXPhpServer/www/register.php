@@ -28,17 +28,14 @@
 
 
      //MAIN ENTRY
-    if($_SERVER['REQUEST_METHOD'] != 'POST'){error(10);}
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){error(1005);}
 
     $registrationAllowed = true;
     
-    if(!$registrationAllowed){error(11);}
+    if(!$registrationAllowed){error(2001);}
     
     //Connect
-    $mysqli = new mysqli("162.243.157.235", "mobile", "mobilegame2015", "MobileGame");
-    if ($mysqli->connect_errno) {
-        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+    $mysqli = connectDB();
 
     
 
@@ -52,7 +49,7 @@
         while(true){ 
             $count ++;
             if($count > 100){
-                error(11);
+                error(2002);
                 exit();
             }
             $uuid = getRandomUUID();
@@ -74,7 +71,7 @@
     }
     
 //Insert UUID into database
-    $sql_insert ="INSERT INTO UserInfo(uuid,crystal,money,energy)VALUES (?,?,?,?)";
+    $sql_insert ="INSERT INTO UserInfo(uuid,crystal,money,energy,userHP)VALUES (?,?,?,?,?)";
     /* create a prepared statement */
     if ($stmt =$mysqli->prepare($sql_insert)){
 
@@ -82,7 +79,8 @@
         $crystal = 0;
         $money = 0;
         $energy = 0;
-        $stmt->bind_param('siii', $uuid, $crystal,$money,$energy);
+        $userHP = 300;
+        $stmt->bind_param('siiii', $uuid, $crystal,$money,$energy,$userHP);
 
          // uID is auto-increased, need to check the result
          $stmt->execute();
@@ -98,11 +96,56 @@
              
              /* fetch value */
              $result = $stmt->get_result();
-             $story = $result->fetch_array();
+             $data = $result->fetch_array();
+
+
+             if($data == null){
+                 error(1003);
+                 exit();
+             }else{
+                $uid = $data['uid'];
+             }
+             $stmt->close();
+         }
+             
+    }
+ 
+     $initialSkills = array(1001,1002,1004,1006,1008);//NEED STANDARIZATION IN THE FUTURE
+     
+    //Insert Initial Skill into database
+    $sql_insert ="INSERT INTO SkillInfo(uid,skillID,skillExp)VALUES (?,?,?)";
+    /* create a prepared statement */
+    if ($stmt =$mysqli->prepare($sql_insert)){
+
+        //Initial resource
+        $skillID =0;
+        $skillExp =0;
+        $stmt->bind_param('iii', $uid, $skillID,$skillExp);
+
+        for($i =0; $i < count($initialSkills);$i++){
+            $skillID = $initialSkills[$i];
+            $stmt->execute();
+        } 
+         $stmt->close();   
+         $sql_get = "SELECT uid FROM SkillInfo WHERE uid = ?";
+        
+         if ($stmt =$mysqli->prepare($sql_get)){
+
+             /* bind parameters for markers */
+             $stmt->bind_param('s', $uid);
+             $res = ($stmt->execute());
+             
+             /* fetch value */
+             $result = $stmt->get_result();
+             
+             $count = 0;
+             while($data = $result->fetch_array()){
+                   $count ++;
+             }    
 
              $stmt->close();
-             if($story == null){
-                 error(2);
+             if($count != count($initialSkills)){
+                 error(1003);
                  exit();
              }
          }

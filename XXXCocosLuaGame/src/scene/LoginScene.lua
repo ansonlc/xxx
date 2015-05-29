@@ -26,17 +26,24 @@ function LoginScene.create()
 end
 
 function LoginScene:initGame(sceneName)
+    DataManager.loadUserInfo()
     MetaManager.init()
     ParticleManager.init()
     AnimationManager.init()
     SoundManager.init()
     NetworkManager.init()
     
-    local function doLogin()
-        local request = LoginRequest.create()
+    local function doInit()
+        local request = InitRequest.create()
         request.postRequest = function()
             SceneManager.replaceSceneWithName(sceneName)
         end
+        NetworkManager.send(request)
+    end
+    
+    local function doLogin()
+        local request = LoginRequest.create()
+        request.postRequest = doInit
         NetworkManager.send(request)
     end
     
@@ -52,11 +59,6 @@ function LoginScene:initGame(sceneName)
         NetworkManager.send(request)
     end
     
-    MetaManager.init()
-    ParticleManager.init()
-    AnimationManager.init()
-    SoundManager.init()
-    NetworkManager.init()
     SoundManager.playBGM('menu', true)
 end
 
