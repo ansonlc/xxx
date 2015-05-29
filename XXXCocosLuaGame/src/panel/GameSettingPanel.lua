@@ -34,8 +34,13 @@ function GameSettingPanel:initBtn(parent,rootNode)
             if parent.sceneName == "GameScene" then
                 local AINode = parent:getChildByName("MonsterAILogic")
                 AINode.isAIOn = true
+                parent:setGameTouch(true)
+            else
+                --parent:setTouchEnabled(true)
+                parent.touchEnabled = true
             end
             rootNode:setVisible(false)
+            
         end
     end)
     
@@ -44,8 +49,12 @@ function GameSettingPanel:initBtn(parent,rootNode)
             if parent.sceneName == "GameScene" then
                 local AINode = parent:getChildByName("MonsterAILogic")
                 AINode.isAIOn = true
+                parent:setGameTouch(true)
+            else
+                --parent:setTouchEnabled(true)
+                parent.touchEnabled = true
             end
-            rootNode:setVisible(false)
+            rootNode:setVisible(false)            
         end
     end)
     

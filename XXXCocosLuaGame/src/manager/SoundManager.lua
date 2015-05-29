@@ -117,12 +117,16 @@ end
 
 function SoundManager.pauseEffect()
     SoundManager.isEffectOn = false
-    AudioEngine.pauseEffect(SoundManager.currentEffect)
+    if SoundManager.currentEffect ~= nil then
+        AudioEngine.pauseEffect(SoundManager.currentEffect)
+    end
 end
 
 function SoundManager.resumeEffect()
     SoundManager.isEffectOn = true
-    AudioEngine.resumeEffect(SoundManager.currentEffect)
+    if SoundManager.currentEffect ~= nil then
+        AudioEngine.resumeEffect(SoundManager.currentEffect)
+    end
 end
 
 function SoundManager.noEffect()

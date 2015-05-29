@@ -269,6 +269,8 @@ function GameBattlePanel:initPanel()
             --SoundManager.playBGM('menu')
             --SceneManager.replaceSceneWithName("LevelSelectScene","Test")
             parentNode.settingPanel.managePanel:setVisible(true)
+            --parentNode.touchEnabled = false
+            parentNode:setGameTouch(false)
             local AINode = self:getParent():getChildByName("MonsterAILogic")
             AINode.isAIOn = false
         end

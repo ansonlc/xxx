@@ -80,7 +80,10 @@ function MainMenuScene:onInit()
     self.btnOption:addTouchEventListener( function(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
-            self.settingPanel.managePanel:setVisible(true)            
+            self.settingPanel.managePanel:setVisible(true)
+            --self:setTouchEnabled(false)
+            self.touchEnabled = false 
+            --self.settingPanel.managePanel:setSwallowsTouches(true)           
         end
 
     end
