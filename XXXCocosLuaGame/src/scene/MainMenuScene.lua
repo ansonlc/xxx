@@ -27,7 +27,7 @@ function MainMenuScene:onInit()
     self.settingPanel = GameSettingPanel.create()
     self.settingPanel:setName("GameSettingPanel")
     self:addChild(self.settingPanel)
-    self.settingPanel:setVisible(false)
+    --self.settingPanel.managePanel:setVisible(false)
     
     self.btnOption = GameButton.create("OptionBtn_Menu")
     rootNode:getChildByName("panel_icon"):getChildByName("node_option"):addChild(self.btnOption)
@@ -80,11 +80,7 @@ function MainMenuScene:onInit()
     self.btnOption:addTouchEventListener( function(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
-            --SoundManager.stopMusic()
-            --SoundManager.pauseMusic()
-            --SoundManager.musicVolumeDown()
-            self.settingPanel:setVisible(true)
-            print(self.settingPanel)
+            self.settingPanel.managePanel:setVisible(true)            
         end
 
     end
