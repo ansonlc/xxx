@@ -86,7 +86,9 @@ function SkillTree:drawSkillInfo()
     
     local skill = MetaManager.getSkill(currentSelect)
     -- Name
-    self.currentSelectSkill.skillName = cc.LabelTTF:create("[" .. currentSelect .. "] " .. skill.skillName , "Arial", 35)
+    self.currentSelectSkill.skillName = cc.LabelTTF:create(
+        -- "[" .. currentSelect .. "] " .. 
+        skill.skillName , "Arial", 35)
     self.currentSelectSkill.skillName:setColor(cc.c3b(255, 255, 255))
     self.currentSelectSkill.skillName:setPosition(cc.p(650, 190))
     self:addChild(self.currentSelectSkill.skillName)
