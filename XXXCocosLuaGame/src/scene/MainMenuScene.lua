@@ -47,8 +47,7 @@ function MainMenuScene:onInit()
     self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
     rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
     
-    local panel = require("panel.TutorialPanel")
-    rootNode:addChild(panel.create(self, self.btnTutorial))
+    
     
     self.panelIcon = rootNode:getChildByName("panel_icon")
     self.btn_skill = GameButton.create("SkillBtn")
@@ -136,6 +135,9 @@ function MainMenuScene:onEnter()
         self:addChild(part)
         part:setPosition(cc.p(100, self.visibleSize.height/1.5))
         part:runAction(repeatFunc)
+        
+        local panel = require("panel.TutorialPanel")
+        self:addChild(panel.create(self, self.btnTutorial))
     end
     
     local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})
