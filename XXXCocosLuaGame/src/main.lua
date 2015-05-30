@@ -34,6 +34,7 @@ function __G__TRACKBACK__(msg)
     cclog("LUA ERROR: " .. tostring(msg) .. "\n")
     cclog(debug.traceback())
     cclog("----------------------------------------")
+    SceneManager.replaceSceneWithName("LoginScene")
 end
 
 local function initGLView()
