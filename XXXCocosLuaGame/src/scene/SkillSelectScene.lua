@@ -177,6 +177,11 @@ function SkillSelectScene:onInit()
     
     
     local rootNode = cc.CSLoader:createNode("SkillSelectScene.csb")
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
+
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial))
     
     DataManager.getRecommendSkills()
     

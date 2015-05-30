@@ -43,6 +43,12 @@ function MainMenuScene:onInit()
     self.btnVs = GameButton.create("VS")
     rootNode:getChildByName("btn_vs"):addChild(self.btnVs)
     
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
+    
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial))
+    
     self.panelIcon = rootNode:getChildByName("panel_icon")
     self.btn_skill = GameButton.create("SkillBtn")
     rootNode:getChildByName("panel_icon"):getChildByName("btn_skill"):addChild(self.btn_skill)
@@ -58,6 +64,7 @@ function MainMenuScene:onInit()
     self.btnStory:setOpacity(0)
     self.btnEndless:setOpacity(0)
     self.btnVs:setOpacity(0)
+    self.btnTutorial:setOpacity(0)
     self.panelIcon:setOpacity(0)
     
     local function onStoryPress(sender, eventType)
@@ -98,6 +105,7 @@ function MainMenuScene:onEnter()
         self.btnStory:runAction(cc.FadeIn:create(1))
         self.btnEndless:runAction(cc.FadeIn:create(1))
         self.btnVs:runAction(cc.FadeIn:create(1))
+        self.btnTutorial:runAction(cc.FadeIn:create(1))
         self.panelIcon:runAction(cc.FadeIn:create(1))
         
         local part = cc.ParticleGalaxy:create()
