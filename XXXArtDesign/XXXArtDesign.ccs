@@ -131,6 +131,41 @@
             <Image Name="5-credits.png" />
             <Image Name="5-credits_press.png" />
           </Folder>
+          <Folder Name="GameScene">
+            <Image Name="battle_panel.png" />
+            <Image Name="btn_option.png" />
+            <Image Name="CrystalLabel.png" />
+            <Image Name="GameSceneBG.png" />
+            <Image Name="level_101101.png" />
+            <Image Name="level_101102.png" />
+            <Image Name="level_101103.png" />
+            <Image Name="level_101104.png" />
+            <Image Name="level_101105.png" />
+            <Image Name="level_101106.png" />
+            <Image Name="matching_panel.png" />
+            <Image Name="monster_buff_panel.png" />
+            <Image Name="player_buff_panel.png" />
+            <Image Name="player_effectblock.png" />
+            <Image Name="player_health_bar.png" />
+            <Image Name="player_health_bar_down.png" />
+            <Image Name="player_health_bar_up.png" />
+            <Image Name="player_shell_bar.png" />
+            <Image Name="rune_air_label.png" />
+            <Image Name="rune_earth_label.png" />
+            <Image Name="rune_fire_label.png" />
+            <Image Name="rune_water_label.png" />
+            <Image Name="skillslot_panel.png" />
+            <Image Name="tile_air.png" />
+            <Image Name="tile_air_selected.png" />
+            <Image Name="tile_crystal.png" />
+            <Image Name="tile_crystal_selected.png" />
+            <Image Name="tile_earth.png" />
+            <Image Name="tile_earth_selected.png" />
+            <Image Name="tile_fire.png" />
+            <Image Name="tile_fire_selected.png" />
+            <Image Name="tile_water.png" />
+            <Image Name="tile_water_selected.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">

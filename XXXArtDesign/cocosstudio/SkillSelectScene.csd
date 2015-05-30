@@ -30,15 +30,15 @@
             <ColorVector ScaleY="1.0000" />
             <InnerNodeSize Width="864" Height="2600" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Image_SkillSlots" ActionTag="1959469483" Tag="42" IconVisible="False" LeftMargin="42.4991" RightMargin="37.5010" TopMargin="167.5276" BottomMargin="1552.4724" Scale9Width="1000" Scale9Height="200" ctype="ImageViewObjectData">
-            <Size X="1000.0000" Y="200.0000" />
+          <AbstractNodeData Name="Image_SkillSlots" ActionTag="1959469483" Tag="42" IconVisible="False" LeftMargin="31.9991" RightMargin="27.0010" TopMargin="157.0276" BottomMargin="1541.9724" Scale9Width="1021" Scale9Height="221" ctype="ImageViewObjectData">
+            <Size X="1021.0000" Y="221.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="542.4991" Y="1652.4724" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.5023" Y="0.8607" />
-            <PreSize />
-            <FileData Type="Normal" Path="imgs/game_scene_contents/SkillSlots.png" Plist="" />
+            <PreSize X="0.9454" Y="0.1151" />
+            <FileData Type="Normal" Path="imgs/GameScene/skillslot_panel.png" Plist="" />
           </AbstractNodeData>
           <AbstractNodeData Name="Button_Ok" ActionTag="1058655525" Tag="6" IconVisible="False" LeftMargin="160.8184" RightMargin="873.1816" TopMargin="1695.9989" BottomMargin="188.0011" TouchEnable="True" FontSize="14" ButtonText="Ok" Scale9Width="46" Scale9Height="36" ctype="ButtonObjectData">
             <Size X="46.0000" Y="36.0000" />
