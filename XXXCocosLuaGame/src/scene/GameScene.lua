@@ -186,8 +186,8 @@ function GameScene:onGameOver(playerWins, gameData)
                         skillId = 1001,
                         lvlBefore = 1,
                         lvlAfter = 99,
-                    },
-                    {
+                },
+                {
                         skillId = 1002,
                         lvlBefore = 1,
                         lvlAfter = 99,
@@ -240,11 +240,28 @@ function GameScene:onGameOver(playerWins, gameData)
                     battleResult = battleResult,
                 }
                 params = SceneManager.generateParams(self, "MainMenuScene", resultData)
-                SceneManager.replaceSceneWithName("ResultScene", params)
+                
             else
                 params = SceneManager.generateParams(self, "MainMenuScene", self.enterData)
-                SceneManager.replaceSceneWithName("EndingScene", params)
             end
+            
+            local request = BattleResultRequest.create()
+            request.params.win = playerWins
+            request.params.monsterID = playerWins and DataManager.userInfo.currentMonsterID or 0
+            request.params.crystal = self.battleLogicNode.crystalNum
+
+            request.onSuccess = function(data)
+                if playerWins then
+                    if not data.unlock then
+                        params.battleResult.unlockMonsterId = ""
+                    end
+                    SceneManager.replaceSceneWithName("ResultScene", params)
+                else
+                    SceneManager.replaceSceneWithName("EndingScene", params)
+                end
+            end
+            NetworkManager.send(request)
+            
             return true
         end
         return true
