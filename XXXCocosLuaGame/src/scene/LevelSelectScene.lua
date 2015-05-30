@@ -18,7 +18,7 @@ function LevelSelectScene.create()
     return scene
 end
 
-local function buildLevelButton(lvlBoss, isLocked, isBossLevel, lvlNum, posY)
+local function buildLevelButton(lvlBossType, isLocked, isBossLevel, lvlNum, posY)
     local lvlBtn = ccui.Button:create()
     lvlBtn:setTitleText("          Level " .. lvlNum)-- ? - 0.lvlName
     lvlBtn:setTitleFontName("fonts/ALGER.TTF")
@@ -38,9 +38,13 @@ local function buildLevelButton(lvlBoss, isLocked, isBossLevel, lvlNum, posY)
     
     -- Add level icon
     local pic = 
-    --isLocked and 
-    cc.Sprite:create("imgs/LevelSelectScene/icon_lock" .. (isBossLevel and "_boss" or "") .. ".png")
-    --or cc.Sprite:create()
+        isLocked and 
+        cc.Sprite:create("imgs/LevelSelectScene/icon_lock" .. (isBossLevel and "_boss" or "") .. ".png")
+        or cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[lvlBossType])..  ".png")
+    
+    if not isLocked and not isBossLevel then
+        pic:setScale(0.5)
+    end
     
     pic:setNormalizedPosition(cc.p(.25, .5))
     lvlBtn:addChild(pic)
@@ -98,7 +102,7 @@ function LevelSelectScene:onInit()
     local unLockedStoryLevelNum = DataManager.getStoryProgress()
     for key, value in ipairs(battle_mission_cfg) do
         --TODO Add different chapters and worlds
-        local lvBossType = value.lvlBossType==0 and nil or value.lvlBossType
+        local lvBossType = value.missionBossType and value.missionBossType or 1
         local lvNum = math.mod(value.id, 100)
         local yOffset = (value.isBossLevel) and 310 or 190 --It should be 320/200, I dont know why its 10px less by Fangzhou.Long
 
