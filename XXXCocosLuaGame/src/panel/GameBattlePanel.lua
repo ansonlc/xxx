@@ -143,15 +143,10 @@ function GameBattlePanel:initPanel()
     self:addChild(levelSprite)
 
     -- Option Block
-    local optionSprite = cc.Sprite:create("res/imgs/GameScene/btn_option.png")
-    optionSprite.onScreenWidth = visibleSize.width * GBattleOptionBlockHorizontalRatio
-    optionSprite.onScreenHeight = visibleSize.height * GBattleOptionBlockVerticalRatio
+    local optionSprite = GameButton.create("OptionBtn", true , 0.5)
     optionSprite.onScreenX = visibleSize.width * GBattleOptionBlockHorizontalStartOffset
     optionSprite.onScreenY = visibleSize.height * GBattleOptionBlockVerticalStartOffset
 
-    optionSprite:setScaleX(optionSprite.onScreenWidth / optionSprite:getContentSize().width)
-    optionSprite:setScaleY(optionSprite.onScreenHeight / optionSprite:getContentSize().height)
-    optionSprite:setAnchorPoint(0,0)
     optionSprite:setPosition(optionSprite.onScreenX, optionSprite.onScreenY)
 
     self.optionButton = optionSprite
@@ -265,17 +260,17 @@ function GameBattlePanel:initPanel()
 
     -- test for the scene change
     local function onTouch(eventType, x, y)
-        if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
+        --print(x .. " " .. y)
+        if not parentNode.touchEnabled then return true end
+        --if x >= self.optionButton.onScreenX and x <= (self.optionButton.onScreenX + self.optionButton.onScreenWidth) and y >= (self.optionButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.optionButton.onScreenY + self.optionButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             --SoundManager.playBGM('menu')
             --SceneManager.replaceSceneWithName("LevelSelectScene","Test")
             parentNode.settingPanel.managePanel:setVisible(true)
             --parentNode.touchEnabled = false
             parentNode:setGameTouch(false)
-            local AINode = self:getParent():getChildByName("MonsterAILogic")
-            AINode.isAIOn = false
-        end
+        --end
 
-        if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
+        --if x >= self.toggleButton.onScreenX and x <= (self.toggleButton.onScreenX + self.toggleButton.onScreenWidth) and y >= (self.toggleButton.onScreenY + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) and y <= (self.toggleButton.onScreenY + self.toggleButton.onScreenHeight + visibleSize.height * GBattlePanelVerticalStartOffsetRatio) then
             -- For Test Purpose
             --[[local AINode = self:getParent():getChildByName("MonsterAILogic")
             AINode.isAIOn = not AINode.isAIOn
@@ -285,11 +280,12 @@ function GameBattlePanel:initPanel()
                 cclog("Current AI Status: Off")
             end
             self:getParent():onGameOver(true, nil)--]]
-        end
+        --end
+        return true
     end
 
-    self:registerScriptTouchHandler(onTouch)
-    self:setTouchEnabled(true)
+    self.optionButton:addTouchEventListener(onTouch)
+    self.optionButton:setTouchEnabled(true)
 
 end
 

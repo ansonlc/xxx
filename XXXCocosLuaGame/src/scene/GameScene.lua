@@ -30,6 +30,9 @@ function GameScene:setGameTouch(flag)
     self.battlePanel:setTouchEnabled(flag)
     self.skillPanel:setTouchEnabled(flag)
     self.skillPanel.skillSlotManagerLayer:setTouchEnabled(flag)
+    
+    local AINode = self:getChildByName("MonsterAILogic")
+    AINode.isAIOn = flag
 end
 
 -- create game scene
@@ -99,6 +102,13 @@ function GameScene:onInit()
 
     --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_battle.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
+    
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    self.btnTutorial:setPosition(880, 1825)
+    self:addChild(self.btnTutorial)
+
+    local panel = require("panel.TutorialPanel")
+    self:addChild(panel.create(self, self.btnTutorial))
 end
 
 function GameScene:onUpdate(dt)
@@ -137,8 +147,7 @@ function GameScene:onGameOver(playerWins, gameData)
         SoundManager.stopMusic()
     end 
      
-    local AINode = self:getChildByName("MonsterAILogic")
-    AINode.isAIOn = false
+    
     
     self:setGameTouch(false)
     
