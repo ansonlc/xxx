@@ -29,6 +29,21 @@ function GameSettingPanel:onUpdate(dt)
 end
 
 function GameSettingPanel:initBtn(parent,rootNode)
+    rootNode:getChildByName("btn_confirm"):addTouchEventListener( function(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then             
+            if parent.sceneName == "GameScene" then
+                local AINode = parent:getChildByName("MonsterAILogic")
+                AINode.isAIOn = true
+                parent:setGameTouch(true)
+            else
+                --parent:setTouchEnabled(true)
+                parent.touchEnabled = true
+            end
+            rootNode:setVisible(false)
+
+        end
+    end)
+    
     rootNode:getChildByName("btn_close"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then             
             if parent.sceneName == "GameScene" then
