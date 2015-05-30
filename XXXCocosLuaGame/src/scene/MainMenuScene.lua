@@ -48,7 +48,7 @@ function MainMenuScene:onInit()
     rootNode:getChildByName("panel_icon"):getChildByName("btn_skill"):addChild(self.btn_skill)
     self.btn_monster = GameButton.create("MonsterBtn")
     self.panelIcon:getChildByName("btn_monster"):addChild(self.btn_monster)
-    self.btn_tutorial = GameButton.create("TutorialBtn")
+    self.btn_tutorial = GameButton.create("TutorialBtn_Menu")
     self.panelIcon:getChildByName("btn_tutorial"):addChild(self.btn_tutorial)
     
     self.logoSprite:setPosition(self.visibleSize.width/2, self.visibleSize.height/3)
