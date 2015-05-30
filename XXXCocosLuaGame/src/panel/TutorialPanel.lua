@@ -14,57 +14,64 @@ function GameOptionPanel.create(scene, tutorialBtn)
 end
 
 function GameOptionPanel:initLayer(scene, tutorialBtn)
-if scene.sceneName then
-    local sprite = cc.Sprite:create("imgs/tutorial/" .. scene.sceneName .. ".png")
-if sprite then
-    sprite:setPosition(visibleSize.width/2, visibleSize.height/2)
-    self:addChild(sprite)
+    local inst = cc.UserDefault:getInstance()
+    local showTutorial = inst:getBoolForKey("showTutorial")
     
-    local dispatcher = cc.Director:getInstance():getEventDispatcher()
-    local listener = cc.EventListenerTouchOneByOne:create()
-    
-    local function onTouch(touch, event)
-        if event:getEventCode() == ccui.TouchEventType.ended then
-            sprite:runAction(cc.FadeOut:create(0.5))
-            scene.touchEnabled = true
-            listener:setEnabled(false)
-            if scene.setGameTouch then
-                scene:setGameTouch(true)
-            end
-        end
-        
-        return true
-    end
-    
-    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
-    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
-    listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_ENDED)
-    dispatcher:addEventListenerWithSceneGraphPriority(listener, scene)
-    listener:setSwallowTouches(true)
-    
-    local function onBtnPress()
-        print("touch")
-        if not scene.touchEnabled then return true end
-        
-        if scene.setGameTouch then
-            scene:setGameTouch(false)
-        end
+    if scene.sceneName and showTutorial then
+        local sprite = cc.Sprite:create("imgs/tutorial/" .. scene.sceneName .. ".png")
+        if sprite then
+            sprite:setPosition(visibleSize.width/2, visibleSize.height/2)
+            self:addChild(sprite)
+            
+            local dispatcher = cc.Director:getInstance():getEventDispatcher()
+            local listener = cc.EventListenerTouchOneByOne:create()
+            
+            local function onTouch(touch, event)
+                if event:getEventCode() == ccui.TouchEventType.ended then
+                    sprite:runAction(cc.FadeOut:create(0.5))
+                    scene.touchEnabled = true
+                    listener:setEnabled(false)
+                    if scene.setGameTouch then
+                        scene:setGameTouch(true)
+                    end
+                end
                 
-        scene.touchEnabled = false
-        sprite:runAction(cc.FadeIn:create(0.5))
-        listener:setEnabled(true)
-
-        return true
+                return true
+            end
+            
+            listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_BEGAN)
+            listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_MOVED)
+            listener:registerScriptHandler(onTouch, cc.Handler.EVENT_TOUCH_ENDED)
+            dispatcher:addEventListenerWithSceneGraphPriority(listener, scene)
+            listener:setSwallowTouches(true)
+            
+            local function onBtnPress()
+                if not scene.touchEnabled then return true end
+                if eventType == ccui.TouchEventType.ended then 
+                    if scene.setGameTouch then
+                        scene:setGameTouch(false)
+                    end
+                            
+                    scene.touchEnabled = false
+                    sprite:runAction(cc.FadeIn:create(0.5))
+                    listener:setEnabled(true)
+                end
+                return true
+            end
+            
+            tutorialBtn:addTouchEventListener(onBtnPress)
+            
+            listener:setEnabled(false)
+            sprite:setOpacity(0)
+        else
+            cclog("ERROR: This scene dont have a tutorial")
+        end
+    else
+        if tutorialBtn then
+            tutorialBtn:setEnabled(false)
+            tutorialBtn:setVisible(false)
+        end
     end
-    
-    tutorialBtn:addTouchEventListener(onBtnPress)
-    
-    listener:setEnabled(false)
-    sprite:setOpacity(0)
-else
-    cclog("ERROR: This scene dont have a tutorial")
-end
-end
 end
 
 return GameOptionPanel
