@@ -10,6 +10,7 @@ function NetworkManager.init()
     require("request.RegisterRequest")
     require("request.LoginRequest")
     require("request.InitRequest")
+    require("request.BattleRequest")
 end
 
 local function showLoadingBox()

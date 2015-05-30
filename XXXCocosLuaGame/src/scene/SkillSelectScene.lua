@@ -241,8 +241,17 @@ function SkillSelectScene:onInit()
                 params.enterScene = self.enterScene
                 params.returnScene = self.returnScene
                 params.data = self.enterData
-                SceneManager.replaceSceneWithName("GameScene", params)
                 
+                local request = BattleRequest.create()
+                request.params.missionID = self.enterData.missionId
+                request.onSuccess = function(data)
+                    if data.enter then
+                        SceneManager.replaceSceneWithName("GameScene", params)
+                    else
+                        SceneManager.replaceSceneWithName("LevelSelectScene")
+                    end
+                end
+                NetworkManager.send(request)
             end
             if sender:getName() == "Button_Cancel" then
                 --print ("cancel!")
