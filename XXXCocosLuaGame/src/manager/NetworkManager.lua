@@ -11,6 +11,7 @@ function NetworkManager.init()
     require("request.LoginRequest")
     require("request.InitRequest")
     require("request.BattleRequest")
+    require("request.BattleResultRequest")
 end
 
 local function showLoadingBox()
@@ -44,7 +45,9 @@ local function xhrBuilder(request)
     local first = true
     if request.params then
         for key, value in pairs(request.params) do
-            params = params .. (first and "" or "&") .. key .. "=" .. value
+            print(key)
+            print(value)
+            params = params .. (first and "" or "&") .. tostring(key) .. "=" .. tostring(value)
             first = false
         end
     end
