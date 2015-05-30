@@ -88,7 +88,9 @@ local function buildSkillButton(id, skill, posY)
     --skillButton:setTitleFontName("fonts/ALGER.TTF")
     --skillButton:setTitleFontSize(72)
     
-    local name = cc.LabelTTF:create("[" .. id .. "] " .. skill.skillName , "Arial", 35)
+    local name = cc.LabelTTF:create(
+        --"[" .. id .. "] " ..
+        skill.skillName , "Arial", 35)
     name:setColor(cc.c3b(0,0,0))
     name:setScale(1.0 / 800, 1.0 / SkillListSize)
     name:setPosition(450.0 / 800, 150.0 / SkillListSize)

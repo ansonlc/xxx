@@ -86,7 +86,9 @@ function SkillTree:drawSkillInfo()
     
     local skill = MetaManager.getSkill(currentSelect)
     -- Name
-    self.currentSelectSkill.skillName = cc.LabelTTF:create("[" .. currentSelect .. "] " .. skill.skillName , "Arial", 35)
+    self.currentSelectSkill.skillName = cc.LabelTTF:create(
+        -- "[" .. currentSelect .. "] " .. 
+        skill.skillName , "Arial", 35)
     self.currentSelectSkill.skillName:setColor(cc.c3b(255, 255, 255))
     self.currentSelectSkill.skillName:setPosition(cc.p(650, 190))
     self:addChild(self.currentSelectSkill.skillName)
@@ -371,7 +373,9 @@ function SkillTree:updateUpgradePanel()
         local newLevel = DataManager.expToLevel(newExp)
         local newRate = DataManager.expToRate(newExp)
        
-        self.UpgradePanel:getChildByName("display"):setString("Use " .. upgradePanelCost .. " Crystal, upgrade to Lv."   .. toString2(newLevel) .. " (+" .. math.floor(newRate*100) .. "%)" )
+        self.UpgradePanel:getChildByName("display_number"):setString(upgradePanelCost)
+        self.UpgradePanel:getChildByName("display_level"):setString(toString2(newLevel))
+        -- .. " (+" .. math.floor(newRate*100) .. "%)" )
         
         
         
@@ -408,11 +412,11 @@ function SkillTree:onInit()
     
     self:drawTab()
     
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("Confirm", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("Cancel", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("Confirm", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("Cancel", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true))
     
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)

@@ -93,6 +93,17 @@
             <Image Name="plus1.png" />
             <Image Name="confirm.png" />
             <Image Name="cancel.png" />
+            <Folder Name="update_panel">
+              <Image Name="btn_1.png" />
+              <Image Name="btn_10.png" />
+              <Image Name="btn_100.png" />
+              <Image Name="btn_100_press.png" />
+              <Image Name="btn_10_press.png" />
+              <Image Name="btn_1_press.png" />
+              <Image Name="SkillUpdatePanel.png" />
+              <Image Name="update_panel.png" />
+              <Image Name="update_panel_text.png" />
+            </Folder>
           </Folder>
           <Image Name="bg_level.jpg" />
           <Folder Name="LevelSelectScene">
@@ -122,6 +133,7 @@
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
           <File Name="ALGER.TTF" />
+          <TTF Name="MOD20.TTF" />
         </Folder>
         <Project Name="GameSceneLayout.csd" Type="Scene" />
         <Project Name="ResultScene.csd" Type="Scene" />
