@@ -173,6 +173,7 @@ function SkillTree:getSkillButton(skillID, canClick)
     
     if DataManager.getSkillLevel(skillID) > 0 then
         skillButton:addTouchEventListener(function(sender, eventType)
+            if not self.touchEnabled then return true end
             if eventType == 0 and upgradePanelOn == false then
             currentSelect = skillID
             self:drawSkillInfo()
@@ -231,6 +232,7 @@ function SkillTree:drawTab()
     self.tab.tab1:addChild(tab1Text)
     
     self.tab.tab1:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 1
             self.ScrollView1:setVisible(true)
@@ -258,6 +260,7 @@ function SkillTree:drawTab()
     self.tab.tab2:addChild(tab2Text)
     
     self.tab.tab2:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 2
             self.ScrollView1:setVisible(false)
@@ -283,6 +286,7 @@ function SkillTree:drawTab()
     self.tab.tab3:addChild(tab3Text)
    
     self.tab.tab3:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 3
             self.ScrollView1:setVisible(false)
@@ -423,6 +427,7 @@ function SkillTree:onInit()
     
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             SceneManager.replaceSceneWithName("MainMenuScene")
         end
@@ -432,6 +437,7 @@ function SkillTree:onInit()
     
     
     rootNode:getChildByName("Button_1"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             if currentSelect > 0 then
                 upgradePanelOn = true
@@ -445,6 +451,7 @@ function SkillTree:onInit()
     )
     
     self.UpgradePanel:getChildByName("cancel"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelOn = false
             self:updateUpgradePanel()
@@ -455,6 +462,7 @@ function SkillTree:onInit()
     )
     
     self.UpgradePanel:getChildByName("confirm"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelOn = false
             DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
@@ -468,6 +476,7 @@ function SkillTree:onInit()
     )
 
     self.UpgradePanel:getChildByName("plus100"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 100
             self:updateUpgradePanel()
@@ -476,6 +485,7 @@ function SkillTree:onInit()
     end)
     
     self.UpgradePanel:getChildByName("plus10"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 10
             self:updateUpgradePanel()
@@ -484,6 +494,7 @@ function SkillTree:onInit()
     end)
     
     self.UpgradePanel:getChildByName("plus1"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 1
             self:updateUpgradePanel()
