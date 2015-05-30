@@ -49,3 +49,5 @@ end
 function BaseRequest.onFail(data)
     cclog("WARN: No failed handler for this request")
 end
+
+function BaseRequest.postRequest() end
