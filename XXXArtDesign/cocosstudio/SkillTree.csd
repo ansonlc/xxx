@@ -197,25 +197,25 @@
                 <OutlineColor A="255" R="255" G="0" B="0" />
                 <ShadowColor A="255" R="255" G="127" B="80" />
               </AbstractNodeData>
-              <AbstractNodeData Name="display_number" ActionTag="1795713424" Tag="70" IconVisible="False" LeftMargin="339.5199" RightMargin="432.4801" TopMargin="99.4800" BottomMargin="315.5200" FontSize="48" LabelText="9999&#xA;" OutlineSize="1" OutlineEnabled="True" ctype="TextObjectData">
-                <Size X="96.0000" Y="53.0000" />
+              <AbstractNodeData Name="display_number" ActionTag="1795713424" Tag="70" IconVisible="False" LeftMargin="346.0000" RightMargin="434.0000" TopMargin="100.5000" BottomMargin="316.5000" FontSize="48" LabelText="9999&#xA;" OutlineSize="1" ShadowOffsetX="2" ShadowOffsetY="-2" ctype="TextObjectData">
+                <Size X="88.0000" Y="51.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="387.5199" Y="342.0200" />
+                <Position X="390.0000" Y="342.0000" />
                 <Scale ScaleX="0.9270" ScaleY="1.0710" />
-                <CColor A="255" R="255" G="0" B="0" />
-                <PrePosition X="0.4465" Y="0.7308" />
+                <CColor A="255" R="0" G="122" B="209" />
+                <PrePosition X="0.4493" Y="0.7308" />
                 <PreSize />
                 <FontResource Type="Normal" Path="fonts/MOD20.TTF" Plist="" />
                 <OutlineColor A="255" R="255" G="255" B="0" />
                 <ShadowColor A="255" R="255" G="127" B="80" />
               </AbstractNodeData>
-              <AbstractNodeData Name="display_level" ActionTag="1778659114" Tag="71" IconVisible="False" LeftMargin="691.2226" RightMargin="138.7774" TopMargin="100.6938" BottomMargin="322.3062" FontSize="48" LabelText="99&#xA;" OutlineSize="1" ShadowOffsetX="2" ShadowOffsetY="-2" ShadowEnabled="True" ctype="TextObjectData">
+              <AbstractNodeData Name="display_level" ActionTag="1778659114" Tag="71" IconVisible="False" LeftMargin="688.0000" RightMargin="136.0000" TopMargin="100.5000" BottomMargin="316.5000" FontSize="48" LabelText="99&#xA;" OutlineSize="1" ShadowOffsetX="2" ShadowOffsetY="-2" ctype="TextObjectData">
                 <Size X="44.0000" Y="51.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="710.2226" Y="344.8062" />
+                <Position X="710.0000" Y="342.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
-                <CColor A="255" R="255" G="0" B="0" />
-                <PrePosition X="0.8182" Y="0.7368" />
+                <CColor A="255" R="0" G="122" B="209" />
+                <PrePosition X="0.8180" Y="0.7308" />
                 <PreSize />
                 <FontResource Type="Normal" Path="fonts/MOD20.TTF" Plist="" />
                 <OutlineColor A="255" R="255" G="0" B="0" />
