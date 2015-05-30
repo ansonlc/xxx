@@ -10,7 +10,7 @@ local ButtonTable = {
     ["OptionBtn"] = {text=nil, normal="imgs/btns/icon/icon_option.png", selected="imgs/btns/icon/icon_option_selected.png", disabled="normal",},
     ["ReturnBtn"] = {text=nil, normal="imgs/btns/icon/icon_return.png", selected="imgs/btns/icon/icon_return_selected.png", disabled="normal",},
     ["CloseBtn"] = {text=nil, normal="imgs/btns/icon/icon_close.png", selected="imgs/btns/icon/icon_close_selected.png", disabled="normal",},
-    ["TutorialBtn"] = {text=nil, normal="imgs/btns/icon/icon_close.png", selected="imgs/btns/icon/icon_close_selected.png", disabled="normal",},
+    ["TutorialBtn"] = {text=nil, normal="imgs/btns/icon/icon_tutorial.png", selected="imgs/btns/icon/icon_tutorial_selected.png", disabled="normal",},
     
     ["Endless"] = {text=nil, normal="res/imgs/btns/btn_endless.png", selected="imgs/btns/btn_endless_selected.png", disabled="normal"},
     ["Story"] = {text=nil, normal="res/imgs/btns/btn_story.png", selected="imgs/btns/btn_story_selected.png", disabled="normal"},
