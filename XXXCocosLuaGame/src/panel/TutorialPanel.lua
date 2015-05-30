@@ -45,7 +45,7 @@ function GameOptionPanel:initLayer(scene, tutorialBtn)
             dispatcher:addEventListenerWithSceneGraphPriority(listener, scene)
             listener:setSwallowTouches(true)
             
-            local function onBtnPress()
+            local function onBtnPress(sender, eventType)
                 if not scene.touchEnabled then return true end
                 if eventType == ccui.TouchEventType.ended then 
                     if scene.setGameTouch then
