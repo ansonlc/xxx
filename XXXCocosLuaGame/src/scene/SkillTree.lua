@@ -81,7 +81,7 @@ function SkillTree:drawSkillInfo()
         self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect, false)
         self.currentSelectSkill.skillIcon:setPosition(cc.p(137, 267))
         self.currentSelectSkill.skillIcon.removeLevel()
-        self:addChild(self.currentSelectSkill.skillIcon)
+        self:addChild(self.currentSelectSkill.skillIcon, 1001)
     end
     
     local skill = MetaManager.getSkill(currentSelect)
@@ -391,9 +391,6 @@ function SkillTree:onInit()
     
     self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
     rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
-
-    local panel = require("panel.TutorialPanel")
-    rootNode:addChild(panel.create(self, self.btnTutorial))
     
     self:addChild(rootNode)
     self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
@@ -497,7 +494,8 @@ function SkillTree:onInit()
     
     
     
-
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial),10001)
 
 end
 

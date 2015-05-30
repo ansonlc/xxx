@@ -79,7 +79,7 @@ local function updateInvalidSkills()
     end
 end
 
-local function buildSkillButton(id, skill, posY)
+local function buildSkillButton(id, skill, posY, self)
     local skillButton = ccui.Button:create()
     
     skillListIcons[id] = skillButton
@@ -144,6 +144,7 @@ local function buildSkillButton(id, skill, posY)
     
     
     local function onBtnPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == 0 then
             if currentSelect > 0 and currentNotContain(id) then
                 print ("x[" .. currentSelect .. "] = " .. id)
@@ -180,9 +181,6 @@ function SkillSelectScene:onInit()
     self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
     rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
 
-    local panel = require("panel.TutorialPanel")
-    rootNode:addChild(panel.create(self, self.btnTutorial))
-    
     DataManager.getRecommendSkills()
     
     drawIcons(rootNode)
@@ -214,7 +212,7 @@ function SkillSelectScene:onInit()
     
 
     local function onBtnPress(sender, eventType)
-        
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             for i = 1,5 do
                 if sender:getName() == ("Button_Skill" .. i) then
@@ -279,7 +277,7 @@ function SkillSelectScene:onInit()
     
     for id, key in pairs(allSkill()) do
         
-        local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
+        local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY, self)
         self.skillScroll:addChild(skillButton)
         nowPosY = nowPosY - yOffset
         totalY = totalY + SkillListSizePlus
@@ -287,6 +285,8 @@ function SkillSelectScene:onInit()
     
     updateInvalidSkills()
 
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial))
 
 end
 
