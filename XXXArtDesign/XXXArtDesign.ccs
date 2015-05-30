@@ -65,6 +65,8 @@
               <Image Name="icon_Close_press.png" />
               <Image Name="icon_return.png" />
               <Image Name="icon_return_press.png" />
+              <Image Name="icon_tutorial.png" />
+              <Image Name="icon_tutorial_selected.png" />
             </Folder>
             <Image Name="btn_confirm.png" />
             <Image Name="btn_confirm_press.png" />

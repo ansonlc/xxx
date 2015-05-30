@@ -42,13 +42,22 @@
             <ColorVector ScaleY="1.0000" />
             <InnerNodeSize Width="1080" Height="1500" />
           </AbstractNodeData>
-          <AbstractNodeData Name="node_rtn_btn" ActionTag="-827736537" Tag="169" IconVisible="True" LeftMargin="940.0000" RightMargin="140.0000" TopMargin="100.0000" BottomMargin="1820.0000" ctype="SingleNodeObjectData">
+          <AbstractNodeData Name="node_rtn_btn" ActionTag="-827736537" Tag="169" IconVisible="True" LeftMargin="1000.0000" RightMargin="80.0000" TopMargin="95.0000" BottomMargin="1825.0000" ctype="SingleNodeObjectData">
             <Size />
             <AnchorPoint />
-            <Position X="940.0000" Y="1820.0000" />
+            <Position X="1000.0000" Y="1825.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.8704" Y="0.9479" />
+            <PrePosition X="0.9259" Y="0.9505" />
+            <PreSize />
+          </AbstractNodeData>
+          <AbstractNodeData Name="btn_tutorial" ActionTag="443781287" Tag="60" IconVisible="True" LeftMargin="900.0000" RightMargin="180.0000" TopMargin="95.0000" BottomMargin="1825.0000" ctype="SingleNodeObjectData">
+            <Size />
+            <AnchorPoint />
+            <Position X="900.0000" Y="1825.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.8333" Y="0.9505" />
             <PreSize />
           </AbstractNodeData>
         </Children>

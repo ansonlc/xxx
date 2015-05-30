@@ -65,13 +65,13 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="255" G="127" B="80" />
           </AbstractNodeData>
-          <AbstractNodeData Name="ButtonReturn" ActionTag="500458427" Tag="19" IconVisible="False" LeftMargin="889.3163" RightMargin="-9.3163" TopMargin="-17.8921" BottomMargin="1737.8921" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Width="200" Scale9Height="200" ctype="ButtonObjectData">
+          <AbstractNodeData Name="ButtonReturn" ActionTag="500458427" Tag="19" IconVisible="False" LeftMargin="900.0000" RightMargin="-20.0000" TopMargin="-5.0000" BottomMargin="1725.0000" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Width="200" Scale9Height="200" ctype="ButtonObjectData">
             <Size X="200.0000" Y="200.0000" />
-            <AnchorPoint ScaleX="0.5109" ScaleY="0.4372" />
-            <Position X="991.4963" Y="1825.3320" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1000.0000" Y="1825.0000" />
             <Scale ScaleX="0.4615" ScaleY="0.4615" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.9181" Y="0.9507" />
+            <PrePosition X="0.9259" Y="0.9505" />
             <PreSize />
             <TextColor A="255" R="65" G="65" B="70" />
             <DisabledFileData Type="Default" Path="Default/Button_Disable.png" Plist="" />
@@ -79,6 +79,15 @@
             <NormalFileData Type="Normal" Path="imgs/btns/icon/icon_return.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="255" G="127" B="80" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="btn_tutorial" ActionTag="1163072386" Tag="54" IconVisible="True" LeftMargin="900.0000" RightMargin="180.0000" TopMargin="95.0000" BottomMargin="1825.0000" ctype="SingleNodeObjectData">
+            <Size />
+            <AnchorPoint />
+            <Position X="900.0000" Y="1825.0000" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.8333" Y="0.9505" />
+            <PreSize />
           </AbstractNodeData>
           <AbstractNodeData Name="CrystalNumDisplay" ActionTag="-234263723" Tag="22" IconVisible="False" LeftMargin="163.8811" RightMargin="856.1189" TopMargin="64.9923" BottomMargin="1815.0077" FontSize="20" LabelText="999999&#xA;" ctype="TextObjectData">
             <Size X="60.0000" Y="40.0000" />
