@@ -32,7 +32,7 @@ function TestScene:onInit()
     -- Add the MessageBoxPanel
     local MessageBoxPanel = require("panel.MessageBoxPanel")
     local testfunc = function()print("test callback func")end
-    local dataTable ={title="testtitle",msg="testmsg",callback = testfunc}
+    local dataTable ={title="Test Title",msg="Testmsg\nThis is a warning\nThis is an error",callback = testfunc}
     self.messageBoxPanel = MessageBoxPanel.create(self,dataTable)
     
        

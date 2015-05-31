@@ -18,6 +18,7 @@ function MessageBoxPanel.create(parent,dataTable)
 end
 
 function MessageBoxPanel.initBtn(parent,panel,dataTable)
+    GameButton.ChangeTo(panel:getChildByName("btn_ok"), GameButton.create("Confirm", true))
     panel:getChildByName("btn_ok"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then             
             if dataTable.callback == nil then
@@ -29,12 +30,6 @@ function MessageBoxPanel.initBtn(parent,panel,dataTable)
             end 
         end
     end)
-    
-    panel:getChildByName("btn_cancel"):addTouchEventListener( function(sender, eventType)
-        if eventType == ccui.TouchEventType.ended then             
-            panel:setVisible(false)
-        end
-    end)
 end
 
 function MessageBoxPanel.initText(parent,panel,dataTable)
@@ -42,8 +37,6 @@ function MessageBoxPanel.initText(parent,panel,dataTable)
     title:setString(dataTable.title)
     local msg = panel:getChildByName("txt_msg")
     msg:setString(dataTable.msg)
-    title:setScale(2.5)
-    msg:setScale(1.5)    
 end
 
 return MessageBoxPanel
