@@ -17,9 +17,10 @@
      
     $uuid = "";
     $skey = "";
-    if(isset($_POST["skey"])==true && isset($_POST["skillID"])==true && isset($_POST["skillExp"])==true){
+    if(isset($_POST["skey"])==true && isset($_POST["skillID"])==true && isset($_POST["skillExp"])==true && isset($_POST["crystal"])==true){
         $skillIDArray = $_POST["skillID"];
         $skillExpArray = $_POST["skillExp"];
+        $crystal = $_POST["crystal"];
     }else{
         error(1005);
     }
@@ -29,36 +30,44 @@
     
     $uid =  $_SESSION['uid'];
     
+
     //Update skillExp
     
     //Prepare SQL statement
     $sql_update = "UPDATE SkillInfo SET skillExp = ? WHERE uid = ? AND skillID = ?";
+    $sql_insert = "INSERT INTO SkillInfo(skillExp,uid,skillID)VALUES (?,?,?)";
     
     /* create a prepared statement */
-    if ($stmt =$mysqli->prepare($sql_update)){
+    if ($stmt =$mysqli->prepare($sql_update) && $stmtInsert =$mysqli->prepare($sql_insert)){
         
         $skillExp = 0;
         $skillID = 0;
         
         /* bind parameters for markers */
         $stmt->bind_param('iii',$skillExp,$uid,$skillID);
-        
+        $stmtInsert->bind_param('iii',$skillExp,$uid,$skillID);
         
         for($i =0; $i < count($skillIDArray);$i++){
             $skillID = $skillIDArray[$i];
             $skillExp = $skillExpArray[$i];
-            $stmt->execute();
+            if($skillExp ==0){
+                $stmtInsert->execute();
+            }
+            else{
+                $stmt->execute();
+            }
         } 
         
         $stmt->close();   
+        $stmtInsert->close();   
         
         //Check Update result
-        $sql_get = "SELECT uid FROM SkillInfo WHERE uid = ? AND skillID = ? AND skillExp = ?";
+        $sql_get = "SELECT skillExp FROM SkillInfo WHERE uid = ? AND skillID = ?";
         
         if ($stmt =$mysqli->prepare($sql_get)){
         
             /* bind parameters for markers */
-            $stmt->bind_param('iii',$uid,$skillID,$skillExp);
+            $stmt->bind_param('ii',$uid,$skillID);
         
             for($i =0; $i < count($skillIDArray);$i++){
                 $skillID = $skillIDArray[$i];
@@ -68,12 +77,20 @@
             /* fetch value */
             $result = $stmt->get_result();
             $data = $result->fetch_array();
-            if($data == null){
+            if($data['skillExp'] != $skillExp){
                 error(1006);
                 exit();
             }       
             $stmt->close();   
+        }else{
+            error(1007);
         }
+        
+        //Change crystal
+        updateCrystal($mysqli,$uid, 0 - $crystal);
+        
+    }else{
+        error(1007);
     }
         
  
