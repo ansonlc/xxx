@@ -166,6 +166,13 @@
             <Image Name="tile_water.png" />
             <Image Name="tile_water_selected.png" />
           </Folder>
+          <Folder Name="MessageBox">
+            <Image Name="message_panel.png" />
+            <Image Name="btn_OK.png" />
+            <Image Name="btn_OK_press.png" />
+            <Image Name="btn_cancel.png" />
+            <Image Name="btn_cancel_press.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
@@ -179,7 +186,7 @@
         <Project Name="SkillSelectScene.csd" Type="Scene" />
         <Project Name="SkillTree.csd" Type="Scene" />
         <Project Name="SettingPanel.csd" Type="Layer" />
-        <Project Name="MessageBox.csd" Type="Layer" />
+        <Project Name="MessageBoxPanel.csd" Type="Layer" />
       </RootFolder>
     </Group>
   </SolutionFolder>
