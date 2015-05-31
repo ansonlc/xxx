@@ -12,6 +12,7 @@ function NetworkManager.init()
     require("request.InitRequest")
     require("request.BattleRequest")
     require("request.BattleResultRequest")
+    require("request.UpgradeSkillsRequest")
 end
 
 local function showLoadingBox()
