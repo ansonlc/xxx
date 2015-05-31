@@ -28,10 +28,21 @@ function InitRequest.onSuccess(data)
         table.insert(realSkills, value["skillID"], value)
     end
     
-    
-    print("Cyrstal: " .. data.userInfo.crystal)
     DataManager.setCrystalNum(data.userInfo.crystal)
     
     DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills = realSkills
     DataManager.userSkillStatus[DataManager.userInfo.currentUser].currentSkills = allSkill()
+    
+    ---[[
+    local maxMissionId = 0
+    
+    for key, value in pairs(data.missionInfo) do
+        if value.missionID then
+            maxMissionId = maxMissionId>value.missionID and maxMissionId or value.missionID
+        end
+    end
+    --]]
+    local _, nowLevelKey = GeneralUtil.getSubTableByKey(MetaManager["battle_mission"], 
+        {name = "id", value = maxMissionId})
+    DataManager.setStoryProgress(nowLevelKey==-1 and 0 or nowLevelKey)
 end
