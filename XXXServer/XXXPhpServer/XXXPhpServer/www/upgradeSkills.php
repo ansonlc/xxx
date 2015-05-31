@@ -23,6 +23,9 @@
         $crystal = $_POST["crystal"];
     }else{
         error(1005);
+       // $skillIDArray =array(1008);
+       // $skillExpArray = array(2222);
+       // $crystal = 3333;
     }
 
     //Connect
@@ -38,7 +41,7 @@
     $sql_insert = "INSERT INTO SkillInfo(skillExp,uid,skillID)VALUES (?,?,?)";
     
     /* create a prepared statement */
-    if ($stmt =$mysqli->prepare($sql_update) && $stmtInsert =$mysqli->prepare($sql_insert)){
+    if (($stmt =$mysqli->prepare($sql_update)) && ($stmtInsert =$mysqli->prepare($sql_insert))){
         
         $skillExp = 0;
         $skillID = 0;
@@ -73,14 +76,15 @@
                 $skillID = $skillIDArray[$i];
                 $skillExp = $skillExpArray[$i];
                 $stmt->execute();
+            
+                /* fetch value */
+                $result = $stmt->get_result();
+                $data = $result->fetch_array();
+                if($data['skillExp'] != $skillExp){
+                    error(1006);
+                  
+                }      
             } 
-            /* fetch value */
-            $result = $stmt->get_result();
-            $data = $result->fetch_array();
-            if($data['skillExp'] != $skillExp){
-                error(1006);
-                exit();
-            }       
             $stmt->close();   
         }else{
             error(1007);
