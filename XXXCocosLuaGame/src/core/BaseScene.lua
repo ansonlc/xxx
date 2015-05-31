@@ -42,6 +42,9 @@ function BaseScene:ctor()
     
     -- Loading panel
     self.loadingPanel = nil
+    
+    -- Message box
+    self.messageBoxPanel = nil
 end
 
 --------------------------------
@@ -75,6 +78,12 @@ function BaseScene:initScene(params)
     
     self:onInit()
     self:addChild(self.loadingPanel)
+    
+    if DataManager.message then
+        local MessageBoxPanel = require("panel.MessageBoxPanel")
+        self.messageBoxPanel = MessageBoxPanel.create(self, DataManager.message)
+        DataManager.message = nil
+    end
 end
 
 function BaseScene:showLoadingPanel()
@@ -122,6 +131,10 @@ function BaseScene:doEnter()
     end
     
     self.touchEnabled = true
+    
+    if self.messageBoxPanel then
+        self.messageBoxPanel:setVisible(true)
+    end
 end
 
 --------------------------------
