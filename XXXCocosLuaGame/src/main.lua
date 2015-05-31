@@ -37,7 +37,7 @@ function __G__TRACKBACK__(msg)
     
     DataManager.message = {
         title="Error: Game crashed",
-        msg="Message: " + tostring(msg) + "\nWe will fix this problem in next version.",
+        msg="We will fix this problem in\nnext version.",
         callback = nil,
     }
     SceneManager.replaceSceneWithName("LoginScene")
