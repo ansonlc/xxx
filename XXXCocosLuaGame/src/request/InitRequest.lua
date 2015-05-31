@@ -28,6 +28,10 @@ function InitRequest.onSuccess(data)
         table.insert(realSkills, value["skillID"], value)
     end
     
+    
+    print("Cyrstal: " .. data.userInfo.crystal)
+    DataManager.setCrystalNum(data.userInfo.crystal)
+    
     DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills = realSkills
     DataManager.userSkillStatus[DataManager.userInfo.currentUser].currentSkills = allSkill()
 end
