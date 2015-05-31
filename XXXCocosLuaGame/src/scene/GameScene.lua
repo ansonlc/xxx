@@ -214,6 +214,7 @@ function GameScene:onGameOver(playerWins, gameData)
                         DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp + expGained
                         -- check if the skill has leveled up or not\
                         upgradeSkillIds[index].lvlAfter = DataManager.expToLevel(DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp)
+                        upgradeSkillIds[index].nowExp = DataManager.userSkillStatus[DataManager.userInfo.currentUser].availableSkills[k].exp
                         --[[if true then
                         --if currentLvl < GSkillMaxLevel then
                             local nextLvl = 1  -- always points to the next lvl
@@ -255,7 +256,24 @@ function GameScene:onGameOver(playerWins, gameData)
                     if not data.unlock then
                         params.battleResult.unlockMonsterId = ""
                     end
-                    SceneManager.replaceSceneWithName("ResultScene", params)
+                    
+                    local request = UpgradeSkillsRequest.create()
+                    request.params.crystal = 0
+                    local count = 0
+                    for key, value in pairs(params.data.battleResult.upgradeSkillIds) do
+                        request.params["skillID[" .. count .."]"] = value.skillId
+                        request.params["skillExp[" .. count .."]"] = value.nowExp
+                        count = count + 1
+                    end
+                    request.onSuccess = function(data)
+                        SceneManager.replaceSceneWithName("ResultScene", params)
+                    end
+                    
+                    if count>0 then
+                        NetworkManager.send(request)
+                    else
+                        SceneManager.replaceSceneWithName("ResultScene", params)
+                    end
                 else
                     SceneManager.replaceSceneWithName("EndingScene", params)
                 end

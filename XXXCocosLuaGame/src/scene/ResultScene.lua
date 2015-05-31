@@ -68,7 +68,8 @@ function ResultScene:onInit()
     local skills = {}
     
     local learn = DataManager.getLearningData()
-
+    
+    local learnSkills = {}
     for i,v in ipairs(learn) do
         local req = v[1]
         local id = v[2]
@@ -80,9 +81,19 @@ function ResultScene:onInit()
             skill:setAnchorPoint(0.5, 0.5)
             skills[table.getn(skills)+1] = skill
             DataManager.userSkillStatus[userID].availableSkills[id] = ({skillID = id, exp = 0})
+            learnSkills[id] = 0
         end
-
     end
+    
+    local request = UpgradeSkillsRequest.create()
+    request.params.crystal = 0
+    local count = 0
+    for key, value in pairs(learnSkills) do
+        request.params["skillID[" .. count .."]"] = key
+        request.params["skillExp[" .. count .."]"] = value
+        count = count + 1
+    end
+    NetworkManager.send(request)
     
     if (battleResult.learnSkillId) then
         
