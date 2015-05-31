@@ -34,6 +34,12 @@ function __G__TRACKBACK__(msg)
     cclog("LUA ERROR: " .. tostring(msg) .. "\n")
     cclog(debug.traceback())
     cclog("----------------------------------------")
+    
+    DataManager.message = {
+        title="Error: Game crashed",
+        msg="Message: " + tostring(msg) + "\nWe will fix this problem in next version.",
+        callback = nil,
+    }
     SceneManager.replaceSceneWithName("LoginScene")
 end
 
