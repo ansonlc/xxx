@@ -133,6 +133,54 @@
                 </div>
             </div>
             <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 5" id="input-para-name-5" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 5" id="input-para-5" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 6" id="input-para-name-6" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 6" id="input-para-6" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 7" id="input-para-name-7" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 7" id="input-para-7" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 8" id="input-para-name-8" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 8" id="input-para-8" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
             <br />
             <div class="row">
                 <div class="col-xs-2">
@@ -182,11 +230,19 @@
                     var name2 = $("#input-para-name-2").val();
                     var name3 = $("#input-para-name-3").val();
                     var name4 = $("#input-para-name-4").val();
+                    var name5 = $("#input-para-name-5").val();
+                    var name6 = $("#input-para-name-6").val();
+                    var name7 = $("#input-para-name-7").val();
+                    var name8 = $("#input-para-name-8").val();
 
                     var para1 = $("#input-para-1").val();
                     var para2 = $("#input-para-2").val();
                     var para3 = $("#input-para-3").val();
                     var para4 = $("#input-para-4").val();
+                    var para5 = $("#input-para-5").val();
+                    var para6 = $("#input-para-6").val();
+                    var para7 = $("#input-para-7").val();
+                    var para8 = $("#input-para-8").val();
 
                     var targetURL = target;
                     //alert(json);
@@ -195,6 +251,11 @@
                     params = params + (name2 ? ((params ? '&' : '') + name2 + "=" + para2) : "");
                     params = params + (name3 ? ((params ? '&' : '') + name3 + "=" + para3) : "");
                     params = params + (name4 ? ((params ? '&' : '') + name4 + "=" + para4) : "");
+                    params = params + (name5 ? ((params ? '&' : '') + name5 + "=" + para5) : "");
+                    params = params + (name6 ? ((params ? '&' : '') + name6 + "=" + para6) : "");
+                    params = params + (name7 ? ((params ? '&' : '') + name7 + "=" + para7) : "");
+                    params = params + (name8 ? ((params ? '&' : '') + name8 + "=" + para8) : "");
+
                     $("#result").val("Loading..." + host + "/" + targetURL + params);
                     $.post(host + "/" + targetURL, params, function (data) {
                         console.log(data)
@@ -202,13 +263,13 @@
                         var json = JSON.parse(data)
 
                         if (json.uuid) {
-                            $("#input-para-name-1").val("uuid");
-                            $("#input-para-1").val(json.uuid);
+                            $("#input-para-name-2").val("uuid");
+                            $("#input-para-2").val(json.uuid);
                         }
 
                         if (json.skey) {
-                            $("#input-para-name-4").val("skey");
-                            $("#input-para-4").val(json.skey);
+                            $("#input-para-name-1").val("skey");
+                            $("#input-para-1").val(json.skey);
                         }
                     });
                 });
