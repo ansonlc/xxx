@@ -106,8 +106,12 @@
                 $uid = $data['uid'];
              }
              $stmt->close();
+         }else{
+            error(1007);
          }
              
+    }else{
+        error(1007);
     }
  
      $initialSkills = array(1001,1002,1004,1006,1008);//NEED STANDARIZATION IN THE FUTURE
@@ -148,8 +152,12 @@
                  error(1003);
                  exit();
              }
-         }
+         }else{
+            error(1007);
+        }
              
+    }else{
+        error(1007);
     }
     
     //Return response

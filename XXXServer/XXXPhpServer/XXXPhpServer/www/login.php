@@ -48,6 +48,8 @@
             exit();
         }       
         $stmt->close();    
+    }else{
+        error(1007);
     }
         
     $uid = $data['uid'];
