@@ -109,7 +109,7 @@
         while($data = $result->fetch_array()){
             $missionID = $data['missionID'];
             $missionScore = $data['missionScore']; 
-            $jsonMission = array("missionID" => $missionID, "score" => $missionScore );
+            $jsonMission[$missionID] = $missionScore;
         }    
         $stmt->close();    
     }else{
