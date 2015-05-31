@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- main.lua - 主类
+-- main.lua
 -- author: fangzhou.long
 --------------------------------------------------------------------------------
 
@@ -11,6 +11,7 @@ require "cocos.init"
 
 require "core.BaseScene"
 require "core.GameButton"
+require "core.BaseRequest"
 
 require "manager.DataManager"
 require "manager.MetaManager"
@@ -19,6 +20,7 @@ require "manager.GameIconManager"
 require "manager.ParticleManager"
 require "manager.AnimationManager"
 require "manager.SoundManager"
+require "manager.NetworkManager"
 require "utils.TimeUtil"
 
 -- cclog
@@ -32,6 +34,7 @@ function __G__TRACKBACK__(msg)
     cclog("LUA ERROR: " .. tostring(msg) .. "\n")
     cclog(debug.traceback())
     cclog("----------------------------------------")
+    SceneManager.replaceSceneWithName("LoginScene")
 end
 
 local function initGLView()
@@ -61,8 +64,7 @@ local function main()
     -- run
     initGLView()
     
-    DataManager.loadUserInfo()
-    DataManager.saveData()
+    
     -- Don't init game/data here, init game at LoginScene:initGame() !
     SceneManager.replaceSceneWithName("LoginScene")
 end

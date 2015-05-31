@@ -33,6 +33,9 @@ local function drawCurrentSkill(root)
 
     for i = 1,5 do
         local skillSprite = skillIcons[skills[i]]
+        if not skillSprite then
+            break
+        end
         skillSprite:setPosition(i * 196 - 45 - 82 , 1654 - 82)
         skillSprite:setScale(0.95)
         skillSprite:setVisible(true)
@@ -76,7 +79,7 @@ local function updateInvalidSkills()
     end
 end
 
-local function buildSkillButton(id, skill, posY)
+local function buildSkillButton(id, skill, posY, self)
     local skillButton = ccui.Button:create()
     
     skillListIcons[id] = skillButton
@@ -85,7 +88,9 @@ local function buildSkillButton(id, skill, posY)
     --skillButton:setTitleFontName("fonts/ALGER.TTF")
     --skillButton:setTitleFontSize(72)
     
-    local name = cc.LabelTTF:create("[" .. id .. "] " .. skill.skillName , "Arial", 35)
+    local name = cc.LabelTTF:create(
+        --"[" .. id .. "] " ..
+        skill.skillName , "Arial", 35)
     name:setColor(cc.c3b(0,0,0))
     name:setScale(1.0 / 800, 1.0 / SkillListSize)
     name:setPosition(450.0 / 800, 150.0 / SkillListSize)
@@ -139,6 +144,7 @@ local function buildSkillButton(id, skill, posY)
     
     
     local function onBtnPress(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == 0 then
             if currentSelect > 0 and currentNotContain(id) then
                 print ("x[" .. currentSelect .. "] = " .. id)
@@ -172,7 +178,9 @@ function SkillSelectScene:onInit()
     
     
     local rootNode = cc.CSLoader:createNode("SkillSelectScene.csb")
-    
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
+
     DataManager.getRecommendSkills()
     
     drawIcons(rootNode)
@@ -198,13 +206,13 @@ function SkillSelectScene:onInit()
     
 
     
-    GameButton.ChangeTo(rootNode:getChildByName("Button_Ok"), GameButton.create("OK", true, 2))
+    GameButton.ChangeTo(rootNode:getChildByName("Button_Ok"), GameButton.create("Confirm", true, 2))
     GameButton.ChangeTo(rootNode:getChildByName("Button_Cancel"), GameButton.create("Cancel", true, 2))
     
     
 
     local function onBtnPress(sender, eventType)
-        
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
             for i = 1,5 do
                 if sender:getName() == ("Button_Skill" .. i) then
@@ -231,8 +239,17 @@ function SkillSelectScene:onInit()
                 params.enterScene = self.enterScene
                 params.returnScene = self.returnScene
                 params.data = self.enterData
-                SceneManager.replaceSceneWithName("GameScene", params)
                 
+                local request = BattleRequest.create()
+                request.params.missionID = self.enterData.missionId
+                request.onSuccess = function(data)
+                    if data.enter then
+                        SceneManager.replaceSceneWithName("GameScene", params)
+                    else
+                        SceneManager.replaceSceneWithName("LevelSelectScene")
+                    end
+                end
+                NetworkManager.send(request)
             end
             if sender:getName() == "Button_Cancel" then
                 --print ("cancel!")
@@ -260,7 +277,7 @@ function SkillSelectScene:onInit()
     
     for id, key in pairs(allSkill()) do
         
-        local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY)
+        local skillButton = buildSkillButton(key, MetaManager.getSkill(key), nowPosY, self)
         self.skillScroll:addChild(skillButton)
         nowPosY = nowPosY - yOffset
         totalY = totalY + SkillListSizePlus
@@ -268,6 +285,8 @@ function SkillSelectScene:onInit()
     
     updateInvalidSkills()
 
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial))
 
 end
 

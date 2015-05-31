@@ -1,5 +1,5 @@
 <Solution>
-  <PropertyGroup Name="XXXArtDesign" Version="2.0.5.0" Type="CocosStudio" />
+  <PropertyGroup Name="XXXArtDesign" Version="2.2.6.0" Type="CocosStudio" />
   <SolutionFolder>
     <Group ctype="ResourceGroup">
       <RootFolder Name=".">
@@ -38,7 +38,7 @@
           <Image Name="tx_4star.png" />
           <Image Name="tx_snow.png" />
           <Image Name="tx_wave.png" />
-          <PlistImageFolder PListFile="fx_starshining.plist" LastPlistWriteTime="2015-03-25T12:35:07.6769493-07:00" LastImageWriteTime="2015-03-25T12:35:07.67795-07:00" Name=".fx_starshining_PList.Dir">
+          <PlistImageFolder Image="fx_starshining.png" PListFile="fx_starshining.plist" Name=".fx_starshining_PList.Dir">
             <PlistImageFile Name="fx_starshining_cell-bong_light.png" Key="fx_starshining_cell-bong_light.png" />
             <PlistImageFile Name="fx_starshining_cell-bong_light_light.png" Key="fx_starshining_cell-bong_light_light.png" />
             <PlistImageFile Name="fx_starshining_cell-dian.png" Key="fx_starshining_cell-dian.png" />
@@ -65,7 +65,11 @@
               <Image Name="icon_Close_press.png" />
               <Image Name="icon_return.png" />
               <Image Name="icon_return_press.png" />
+              <Image Name="icon_tutorial.png" />
+              <Image Name="icon_tutorial_selected.png" />
             </Folder>
+            <Image Name="btn_confirm.png" />
+            <Image Name="btn_confirm_press.png" />
           </Folder>
           <Folder Name="game_scene_contents">
             <Image Name="BattlePanel.png" />
@@ -81,104 +85,6 @@
           <Folder Name="ResultScene">
             <Image Name="battle_result_panel.png" />
           </Folder>
-          <Folder Name="MissionSelect">
-            <PlistImageFolder PListFile="EgyptRes.plist" LastPlistWriteTime="2015-03-25T12:35:07.7560056-07:00" LastImageWriteTime="2015-03-25T12:35:07.7610087-07:00" Name=".EgyptRes_PList.Dir">
-              <PlistImageFile Name="gap01.png" Key="gap01.png" />
-              <PlistImageFile Name="gap02.png" Key="gap02.png" />
-              <PlistImageFile Name="gap03.png" Key="gap03.png" />
-              <PlistImageFile Name="gap04.png" Key="gap04.png" />
-              <PlistImageFile Name="gap05.png" Key="gap05.png" />
-              <PlistImageFile Name="gap06.png" Key="gap06.png" />
-              <PlistImageFile Name="grass01.png" Key="grass01.png" />
-              <PlistImageFile Name="grass02.png" Key="grass02.png" />
-              <PlistImageFile Name="grass03.png" Key="grass03.png" />
-              <PlistImageFile Name="grass04.png" Key="grass04.png" />
-              <PlistImageFile Name="grass05.png" Key="grass05.png" />
-              <PlistImageFile Name="grass06.png" Key="grass06.png" />
-              <PlistImageFile Name="lake.PNG" Key="lake.PNG" />
-              <PlistImageFile Name="lg01.png" Key="lg01.png" />
-              <PlistImageFile Name="lg02.png" Key="lg02.png" />
-              <PlistImageFile Name="lg03.png" Key="lg03.png" />
-              <PlistImageFile Name="lg04.PNG" Key="lg04.PNG" />
-              <PlistImageFile Name="manm01.png" Key="manm01.png" />
-              <PlistImageFile Name="manm02.png" Key="manm02.png" />
-              <PlistImageFile Name="manm03.png" Key="manm03.png" />
-              <PlistImageFile Name="manm04.png" Key="manm04.png" />
-              <PlistImageFile Name="manm05.png" Key="manm05.png" />
-              <PlistImageFile Name="mount_01.png" Key="mount_01.png" />
-              <PlistImageFile Name="mount_02.png" Key="mount_02.png" />
-              <PlistImageFile Name="mount_03.png" Key="mount_03.png" />
-              <PlistImageFile Name="mount_04.png" Key="mount_04.png" />
-              <PlistImageFile Name="mount_05.png" Key="mount_05.png" />
-              <PlistImageFile Name="mount_06.png" Key="mount_06.png" />
-              <PlistImageFile Name="river01.png" Key="river01.png" />
-              <PlistImageFile Name="river02.png" Key="river02.png" />
-              <PlistImageFile Name="river03.png" Key="river03.png" />
-              <PlistImageFile Name="river04.png" Key="river04.png" />
-              <PlistImageFile Name="rock01.png" Key="rock01.png" />
-              <PlistImageFile Name="rock02.png" Key="rock02.png" />
-              <PlistImageFile Name="rock03.png" Key="rock03.png" />
-              <PlistImageFile Name="rock04.png" Key="rock04.png" />
-              <PlistImageFile Name="rock05.png" Key="rock05.png" />
-              <PlistImageFile Name="rock06.png" Key="rock06.png" />
-              <PlistImageFile Name="rock07.png" Key="rock07.png" />
-              <PlistImageFile Name="rock08.png" Key="rock08.png" />
-              <PlistImageFile Name="rock09.png" Key="rock09.png" />
-              <PlistImageFile Name="rock10.png" Key="rock10.png" />
-              <PlistImageFile Name="skeleton.png" Key="skeleton.png" />
-              <PlistImageFile Name="struc01.png" Key="struc01.png" />
-              <PlistImageFile Name="struc02_02.png" Key="struc02_02.png" />
-              <PlistImageFile Name="struc02_05.png" Key="struc02_05.png" />
-              <PlistImageFile Name="struc02_07.png" Key="struc02_07.png" />
-              <PlistImageFile Name="struc02_09.png" Key="struc02_09.png" />
-              <PlistImageFile Name="struc02_11.png" Key="struc02_11.png" />
-              <PlistImageFile Name="struc02_13.png" Key="struc02_13.png" />
-              <PlistImageFile Name="struc02_15.png" Key="struc02_15.png" />
-              <PlistImageFile Name="struc02_16.png" Key="struc02_16.png" />
-              <PlistImageFile Name="struc02_17.png" Key="struc02_17.png" />
-              <PlistImageFile Name="struc02_18.png" Key="struc02_18.png" />
-              <PlistImageFile Name="struc02_19.png" Key="struc02_19.png" />
-              <PlistImageFile Name="tower01_02.png" Key="tower01_02.png" />
-              <PlistImageFile Name="tower01_05.png" Key="tower01_05.png" />
-              <PlistImageFile Name="tower01_08.png" Key="tower01_08.png" />
-              <PlistImageFile Name="tower01_10.png" Key="tower01_10.png" />
-              <PlistImageFile Name="tower01_12.png" Key="tower01_12.png" />
-              <PlistImageFile Name="tower01_15.png" Key="tower01_15.png" />
-              <PlistImageFile Name="tower02.png" Key="tower02.png" />
-              <PlistImageFile Name="tower03_01.png" Key="tower03_01.png" />
-              <PlistImageFile Name="tower03_02.png" Key="tower03_02.png" />
-              <PlistImageFile Name="tower03_04.png" Key="tower03_04.png" />
-              <PlistImageFile Name="tower03_07.png" Key="tower03_07.png" />
-              <PlistImageFile Name="tower04_02.png" Key="tower04_02.png" />
-              <PlistImageFile Name="tower04_05.png" Key="tower04_05.png" />
-              <PlistImageFile Name="tower04_06.png" Key="tower04_06.png" />
-              <PlistImageFile Name="tower04_09.png" Key="tower04_09.png" />
-              <PlistImageFile Name="tower04_10.png" Key="tower04_10.png" />
-              <PlistImageFile Name="tower04_12.png" Key="tower04_12.png" />
-              <PlistImageFile Name="tower04_14.png" Key="tower04_14.png" />
-              <PlistImageFile Name="tree01-s.png" Key="tree01-s.png" />
-              <PlistImageFile Name="tree01.png" Key="tree01.png" />
-              <PlistImageFile Name="tree02.png" Key="tree02.png" />
-              <PlistImageFile Name="tree03.png" Key="tree03.png" />
-              <PlistImageFile Name="tree04.png" Key="tree04.png" />
-              <PlistImageFile Name="tree05.png" Key="tree05.png" />
-              <PlistImageFile Name="tree06.png" Key="tree06.png" />
-            </PlistImageFolder>
-            <Image Name="MS01.png" />
-            <Image Name="MS02.png" />
-            <Image Name="MS03.png" />
-            <Image Name="MS04.png" />
-            <PlistImageFolder PListFile="map_board.plist" LastPlistWriteTime="2015-03-25T12:35:07.767013-07:00" LastImageWriteTime="2015-03-25T12:35:07.7690144-07:00" Name=".map_board_PList.Dir">
-              <PlistImageFile Name="Atlantis_map_bg_l.png" Key="Atlantis_map_bg_l.png" />
-              <PlistImageFile Name="Atlantis_map_bg_r.png" Key="Atlantis_map_bg_r.png" />
-              <PlistImageFile Name="Egypt_map_bg_l.png" Key="Egypt_map_bg_l.png" />
-              <PlistImageFile Name="Egypt_map_bg_r.png" Key="Egypt_map_bg_r.png" />
-              <PlistImageFile Name="Indian_map_bg_l.png" Key="Indian_map_bg_l.png" />
-              <PlistImageFile Name="Indian_map_bg_r.png" Key="Indian_map_bg_r.png" />
-              <PlistImageFile Name="Qintomb_map_bg_l.png" Key="Qintomb_map_bg_l.png" />
-              <PlistImageFile Name="Qintomb_map_bg_r.png" Key="Qintomb_map_bg_r.png" />
-            </PlistImageFolder>
-          </Folder>
           <Folder Name="SkillTree">
             <Image Name="Header.png" />
             <Image Name="Foot.png" />
@@ -189,24 +95,98 @@
             <Image Name="plus1.png" />
             <Image Name="confirm.png" />
             <Image Name="cancel.png" />
+            <Folder Name="update_panel">
+              <Image Name="btn_1.png" />
+              <Image Name="btn_10.png" />
+              <Image Name="btn_100.png" />
+              <Image Name="btn_100_press.png" />
+              <Image Name="btn_10_press.png" />
+              <Image Name="btn_1_press.png" />
+              <Image Name="SkillUpdatePanel.png" />
+              <Image Name="update_panel.png" />
+              <Image Name="update_panel_text.png" />
+            </Folder>
           </Folder>
           <Image Name="bg_level.jpg" />
+          <Folder Name="LevelSelectScene">
+            <Image Name="icon_lock.png" />
+            <Image Name="icon_lock_boss.png" />
+            <Image Name="LevelSelectScene_sample.png" />
+            <Image Name="level_boss_lock.png" />
+            <Image Name="level_boss_unlock.png" />
+            <Image Name="level_lock.png" />
+            <Image Name="level_unlock.png" />
+            <Image Name="skillselect_panel.png" />
+          </Folder>
+          <Folder Name="SettingPanel">
+            <Image Name="setting_panel.png" />
+            <Image Name="1-resume.png" />
+            <Image Name="1-resume_press.png" />
+            <Image Name="2-music.png" />
+            <Image Name="2-music_press.png" />
+            <Image Name="3-sound.png" />
+            <Image Name="3-sound_press.png" />
+            <Image Name="4-home.png" />
+            <Image Name="4-home_press.png" />
+            <Image Name="5-credits.png" />
+            <Image Name="5-credits_press.png" />
+          </Folder>
+          <Folder Name="GameScene">
+            <Image Name="battle_panel.png" />
+            <Image Name="btn_option.png" />
+            <Image Name="CrystalLabel.png" />
+            <Image Name="GameSceneBG.png" />
+            <Image Name="level_101101.png" />
+            <Image Name="level_101102.png" />
+            <Image Name="level_101103.png" />
+            <Image Name="level_101104.png" />
+            <Image Name="level_101105.png" />
+            <Image Name="level_101106.png" />
+            <Image Name="matching_panel.png" />
+            <Image Name="monster_buff_panel.png" />
+            <Image Name="player_buff_panel.png" />
+            <Image Name="player_effectblock.png" />
+            <Image Name="player_health_bar.png" />
+            <Image Name="player_health_bar_down.png" />
+            <Image Name="player_health_bar_up.png" />
+            <Image Name="player_shell_bar.png" />
+            <Image Name="rune_air_label.png" />
+            <Image Name="rune_earth_label.png" />
+            <Image Name="rune_fire_label.png" />
+            <Image Name="rune_water_label.png" />
+            <Image Name="skillslot_panel.png" />
+            <Image Name="tile_air.png" />
+            <Image Name="tile_air_selected.png" />
+            <Image Name="tile_crystal.png" />
+            <Image Name="tile_crystal_selected.png" />
+            <Image Name="tile_earth.png" />
+            <Image Name="tile_earth_selected.png" />
+            <Image Name="tile_fire.png" />
+            <Image Name="tile_fire_selected.png" />
+            <Image Name="tile_water.png" />
+            <Image Name="tile_water_selected.png" />
+          </Folder>
+          <Folder Name="MessageBox">
+            <Image Name="message_panel.png" />
+            <Image Name="btn_OK.png" />
+            <Image Name="btn_OK_press.png" />
+            <Image Name="btn_cancel.png" />
+            <Image Name="btn_cancel_press.png" />
+          </Folder>
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
           <File Name="ALGER.TTF" />
+          <TTF Name="MOD20.TTF" />
         </Folder>
         <Project Name="GameSceneLayout.csd" Type="Scene" />
         <Project Name="ResultScene.csd" Type="Scene" />
         <Project Name="EndingScene.csd" Type="Scene" />
         <Project Name="GameScene.csd" Type="Scene" />
         <Project Name="SkillSelectScene.csd" Type="Scene" />
-        <Folder Name="level_select">
-          <Project Name="MissionPoint.csd" Type="Node" />
-          <Project Name="MissionSandBackground.csd" Type="Node" />
-          <Project Name="MissionSelectBackground.csd" Type="Node" />
-        </Folder>
         <Project Name="SkillTree.csd" Type="Scene" />
+        <Project Name="SettingPanel.csd" Type="Layer" />
+        <Project Name="MessageBoxPanel.csd" Type="Layer" />
       </RootFolder>
     </Group>
   </SolutionFolder>

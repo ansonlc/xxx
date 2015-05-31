@@ -19,8 +19,16 @@ function MainMenuScene.create()
 end
 
 function MainMenuScene:onInit()
+    print("hello " .. tostring(true))
     local rootNode = cc.CSLoader:createNode("MainMenuScene.csb")
     self:addChild(rootNode)
+    
+    -- Add the SettingPanel
+    local GameSettingPanel = require("panel.GameSettingPanel")
+    self.settingPanel = GameSettingPanel:create(self)
+    --self.settingPanel:setName("GameSettingPanel")
+    --self:addChild(self.settingPanel)
+    --self.settingPanel.managePanel:setVisible(false)
     
     self.btnOption = GameButton.create("OptionBtn_Menu")
     rootNode:getChildByName("panel_icon"):getChildByName("node_option"):addChild(self.btnOption)
@@ -36,12 +44,17 @@ function MainMenuScene:onInit()
     self.btnVs = GameButton.create("VS")
     rootNode:getChildByName("btn_vs"):addChild(self.btnVs)
     
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
+    
+    
+    
     self.panelIcon = rootNode:getChildByName("panel_icon")
     self.btn_skill = GameButton.create("SkillBtn")
     rootNode:getChildByName("panel_icon"):getChildByName("btn_skill"):addChild(self.btn_skill)
     self.btn_monster = GameButton.create("MonsterBtn")
     self.panelIcon:getChildByName("btn_monster"):addChild(self.btn_monster)
-    self.btn_tutorial = GameButton.create("TutorialBtn")
+    self.btn_tutorial = GameButton.create("TutorialBtn_Menu")
     self.panelIcon:getChildByName("btn_tutorial"):addChild(self.btn_tutorial)
     
     self.logoSprite:setPosition(self.visibleSize.width/2, self.visibleSize.height/3)
@@ -51,6 +64,7 @@ function MainMenuScene:onInit()
     self.btnStory:setOpacity(0)
     self.btnEndless:setOpacity(0)
     self.btnVs:setOpacity(0)
+    self.btnTutorial:setOpacity(0)
     self.panelIcon:setOpacity(0)
     
     local function onStoryPress(sender, eventType)
@@ -69,6 +83,39 @@ function MainMenuScene:onInit()
         
     end
     )
+    
+    self.btnOption:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
+        if eventType == ccui.TouchEventType.ended then 
+            self.settingPanel.managePanel:setVisible(true)
+            --self:setTouchEnabled(false)
+            self.touchEnabled = false 
+            --self.settingPanel.managePanel:setSwallowsTouches(true)           
+        end
+
+    end
+    )
+    
+    self.btn_tutorial:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
+        if eventType == ccui.TouchEventType.ended then 
+            local inst = cc.UserDefault:getInstance()
+            local showTutorial = inst:getBoolForKey("showTutorial")
+            showTutorial = not showTutorial
+            inst:setBoolForKey("showTutorial", showTutorial)
+            
+            self.btnTutorial:setEnabled(showTutorial)
+            if showTutorial then
+                self.btnTutorial:setVisible(true)
+                self.btnTutorial:setOpacity(0)
+                self.btnTutorial:runAction(cc.FadeIn:create(0.5))
+            else
+                self.btnTutorial:setVisible(false)
+            end
+        end
+
+    end
+    )
 end
 
 function MainMenuScene:onEnter()
@@ -79,6 +126,7 @@ function MainMenuScene:onEnter()
         self.btnStory:runAction(cc.FadeIn:create(1))
         self.btnEndless:runAction(cc.FadeIn:create(1))
         self.btnVs:runAction(cc.FadeIn:create(1))
+        self.btnTutorial:runAction(cc.FadeIn:create(1))
         self.panelIcon:runAction(cc.FadeIn:create(1))
         
         local part = cc.ParticleGalaxy:create()
@@ -87,6 +135,9 @@ function MainMenuScene:onEnter()
         self:addChild(part)
         part:setPosition(cc.p(100, self.visibleSize.height/1.5))
         part:runAction(repeatFunc)
+        
+        local panel = require("panel.TutorialPanel")
+        self:addChild(panel.create(self, self.btnTutorial))
     end
     
     local sequence = cc.Sequence:create({moveToAction, cc.CallFunc:create(endOnMoveTo)})

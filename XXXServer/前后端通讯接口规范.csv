@@ -1,0 +1,12 @@
+Backend,Interfaces,,,,,,,
+Interface,Request Param1,Request Param2,Request Param3,Request Param4,Request Param5,Request Body,Response Type,Response Body
+/register,,,,,,,json,uuid
+/login,uuid,,,,,,json,skey
+/init,skey,uuid,,,,,json,table userInfo
+/battle,skey,missionID,,,,,json,bool enter
+/battleResult,skey,win,monsterId,crystal,,,json,bool unlock
+/upgradeSkills,skey,skillId[],skillExp[],,,,json,array skillIds
+/log,uuid,skey,,,,,json,none
+,,,,,,,,
+Every json contains a child:,,,,,,,,
+"{""serverTime"":""linux seconds time""}",,,,,,,,

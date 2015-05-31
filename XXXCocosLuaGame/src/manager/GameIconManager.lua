@@ -236,7 +236,7 @@ function GameIconManager.getMonsterSprite(monsterId, scale, border)
         monsterSprite:setScaleX(380 / monsterSprite:getContentSize().width)
         monsterSprite:setScaleY(380 / monsterSprite:getContentSize().height)
     end
-    monsterSprite.monster = MetaManager.getSkill(skillId)
+    --monsterSprite.monster = MetaManager.getSkill(skillId)
     return monsterSprite
 end
 

@@ -18,12 +18,9 @@ function LevelSelectScene.create()
     return scene
 end
 
-local function buildLevelButton(lvlBossType, lvlNum, lvlName, posY)
+local function buildLevelButton(lvlBossType, isLocked, isBossLevel, lvlNum, posY)
     local lvlBtn = ccui.Button:create()
-    lvlBossType = lvlBossType and lvlBossType or "?"
-    lvlBtn:setTitleText(
-        --lvlBossType .. " - " ..
-        lvlNum .. "." .. lvlName)-- ? - 0.lvlName
+    lvlBtn:setTitleText("          Level " .. lvlNum)-- ? - 0.lvlName
     lvlBtn:setTitleFontName("fonts/ALGER.TTF")
     lvlBtn:setTitleFontSize(72)
     
@@ -31,12 +28,37 @@ local function buildLevelButton(lvlBossType, lvlNum, lvlName, posY)
     --lvlBtn:setPositionPercent(cc.p(.5, posY))
     lvlBtn:setPosition(cc.p(540, posY))
     
-    --TODO Add level button background
+    -- Add level button background
+    local suffix = isLocked and "lock" or "unlock"
+    if isBossLevel then
+        lvlBtn:loadTextureNormal("imgs/LevelSelectScene/level_boss_" .. suffix .. ".png")
+    else
+        lvlBtn:loadTextureNormal("imgs/LevelSelectScene/level_" .. suffix .. ".png")
+    end
+    
+    -- Add level icon
+    local pic = 
+        isLocked and 
+        cc.Sprite:create("imgs/LevelSelectScene/icon_lock" .. (isBossLevel and "_boss" or "") .. ".png")
+        or cc.Sprite:create("res/imgs/GameScene/tile_" .. (({"fire","earth","crystal","air","water"})[lvlBossType])..  ".png")
+    
+    if not isLocked and not isBossLevel then
+        pic:setScale(0.5)
+    end
+    
+    pic:setNormalizedPosition(cc.p(.25, .5))
+    lvlBtn:addChild(pic)
     return lvlBtn
 end
 
 function LevelSelectScene:onInit()
     local rootNode = cc.CSLoader:createNode("LevelSelectScene.csb")
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
+
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial))
+    
     self:addChild(rootNode)
     self.lvlScroll = rootNode:getChildByName("LevelScroll")
     
@@ -72,22 +94,21 @@ function LevelSelectScene:onInit()
         end
     end
     
-    -- Add level button items to scroll view
-    self.lvlScroll:setInnerContainerSize(cc.size(1080, 15960))
-    local yOffset = 100
-    local nowPosY = self.lvlScroll:getInnerContainerSize().height - 100
+    -- Add level button items to scroll view    
+    local nowPosY = 600
+    local totalHeight = 1300
+    local preOffset = 200
+    
     local unLockedStoryLevelNum = DataManager.getStoryProgress()
     for key, value in ipairs(battle_mission_cfg) do
         --TODO Add different chapters and worlds
-        local lvBossType = value.lvlBossType==0 and nil or value.lvlBossType
+        local lvBossType = value.missionBossType and value.missionBossType or 1
         local lvNum = math.mod(value.id, 100)
-        local lvName = value.missionName
-        
-        if unLockedStoryLevelNum<key then
-            lvName = "-- LEVEL LOCKED --"
-        end
-        
-        local lvlBtn = buildLevelButton(lvBossType, lvNum, lvName, nowPosY)
+        local yOffset = (value.isBossLevel) and 310 or 190 --It should be 320/200, I dont know why its 10px less by Fangzhou.Long
+
+        nowPosY = nowPosY + yOffset/2 + preOffset/2
+        local isUnlocked = unLockedStoryLevelNum<key
+        local lvlBtn = buildLevelButton(lvBossType, isUnlocked, value.isBossLevel, lvNum, nowPosY)
         lvlBtn:setTag(LevelTagHeader + key)
         lvlBtn:addTouchEventListener(onTouch)
         self.lvlScroll:addChild(lvlBtn)
@@ -97,9 +118,12 @@ function LevelSelectScene:onInit()
             break
         end
         
-        nowPosY = nowPosY - yOffset
+        totalHeight = totalHeight + yOffset
+        preOffset = yOffset
     end
-    --TODO Adjust scroll view size here
+
+    --Auto adjust inner size
+    self.lvlScroll:setInnerContainerSize(cc.size(1080, totalHeight))
 end
 
 return LevelSelectScene
