@@ -13,6 +13,7 @@ if _G.dataManagerInit == nil then
             ["battle_monster"] = 1,
         },
         sessionKey = "",
+        message = nil,
     }
     _G.dataManagerInit = true
 end
@@ -124,7 +125,8 @@ function DataManager.expToRate(exp)
 end
 
 function DataManager.getStoryProgress()
-    return DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+    local progress = DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+    return progress and progress or 0
 end
 
 function DataManager.setStoryProgress(num)

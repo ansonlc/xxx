@@ -107,13 +107,13 @@ function LevelSelectScene:onInit()
         local yOffset = (value.isBossLevel) and 310 or 190 --It should be 320/200, I dont know why its 10px less by Fangzhou.Long
 
         nowPosY = nowPosY + yOffset/2 + preOffset/2
-        local isUnlocked = unLockedStoryLevelNum<key
+        local isUnlocked = unLockedStoryLevelNum+1<key
         local lvlBtn = buildLevelButton(lvBossType, isUnlocked, value.isBossLevel, lvNum, nowPosY)
         lvlBtn:setTag(LevelTagHeader + key)
         lvlBtn:addTouchEventListener(onTouch)
         self.lvlScroll:addChild(lvlBtn)
         
-        if unLockedStoryLevelNum<key then
+        if isUnlocked then
             lvlBtn:setEnabled(false)
             break
         end

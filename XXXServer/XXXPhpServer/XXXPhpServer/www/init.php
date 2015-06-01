@@ -50,6 +50,8 @@
             exit();
         }       
         $stmt->close();    
+    }else{
+        error(1007);
     }
         
     $uid = $data['uid'];
@@ -87,6 +89,8 @@
             $jsonSkill[$skillID] = array("skillID" =>$skillID,"exp" => $skillExp );
         }    
         $stmt->close();    
+    }else{
+        error(1007);
     }
     
 
@@ -105,9 +109,11 @@
         while($data = $result->fetch_array()){
             $missionID = $data['missionID'];
             $missionScore = $data['missionScore']; 
-            $jsonMission[$skillID] = array("missionID" => $missionID, "score" => $missionScore );
+            $jsonMission[$missionID] = array("missionID" => $missionID, "score" => $missionScore );
         }    
         $stmt->close();    
+    }else{
+        error(1007);
     }
 
     

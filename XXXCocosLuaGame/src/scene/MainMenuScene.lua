@@ -19,7 +19,7 @@ function MainMenuScene.create()
 end
 
 function MainMenuScene:onInit()
-    print("hello " .. tostring(true))
+    --print("hello " .. true)
     local rootNode = cc.CSLoader:createNode("MainMenuScene.csb")
     self:addChild(rootNode)
     

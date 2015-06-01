@@ -464,13 +464,25 @@ function SkillTree:onInit()
     self.UpgradePanel:getChildByName("confirm"):addTouchEventListener( function(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
-            upgradePanelOn = false
-            DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
-            DataManager.setCrystalNum(DataManager.getCrystalNum() - upgradePanelCost)
-            self:updateUpgradePanel()
-            self:updateCrystalNum()
-            self:drawSkillInfo()
-            skillIconListUpdates()
+            
+            
+            local request = UpgradeSkillsRequest.create()
+            request.params.crystal = upgradePanelCost
+            request.params["skillID[0]"] = currentSelect
+            request.params["skillExp[0]"] = upgradePanelCost + DataManager.getSkillExp(currentSelect)
+            request.onSuccess = function(data)
+                upgradePanelOn = false
+                DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
+                DataManager.setCrystalNum(DataManager.getCrystalNum() - upgradePanelCost)
+                self:updateUpgradePanel()
+                self:updateCrystalNum()
+                self:drawSkillInfo()
+                skillIconListUpdates()
+            end
+            
+            NetworkManager.send(request)
+            
+            
         end
     end
     )

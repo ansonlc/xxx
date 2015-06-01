@@ -58,7 +58,7 @@
         $sql_insert = "INSERT INTO MissionInfo (uid,missionID)VALUES (?,?)";
     
          /* create a prepared statement */
-            if ($stmt =$mysqli->prepare($sql_insert)){
+        if ($stmt =$mysqli->prepare($sql_insert)){
         
          
             /* bind parameters for markers */
@@ -79,11 +79,17 @@
                     error(1003);
                 }       
                 $stmt->close();    
+            }else{
+                error(1007);
             }
+        }else{
+            error(1007);
         }
         
     }
-  
+    //Change crystal
+    updateCrystal($mysqli,$uid, $crystal);
+    
     unset($_SESSION['missionID']);
     
     //Return response
