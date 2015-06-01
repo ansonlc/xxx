@@ -44,12 +44,15 @@
     $crystal = sqlFilter($mysqli,$crystal);    
         
     $unlock = false;
-    if($win == true){
+	
+	//Get UID
+
+    $uid = $_SESSION['uid'];
+		 
+    if($win === 'true'){
             $unlock = true;
         
-        //Get UID
 
-         $uid = $_SESSION['uid'];
   
     
      
