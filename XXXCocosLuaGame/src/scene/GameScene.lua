@@ -42,6 +42,8 @@ function GameScene:onInit()
     local musicIndex = math.random(1,4)
     SoundManager.playBGM('battle'..tostring(musicIndex), true)
     
+    self.startCrystalNum = DataManager.getCrystalNum()
+    
     local GameBackgroundLayer = require("panel.GameBackgroundLayer")
     self.backLayer = GameBackgroundLayer.create()
     self:addChild(self.backLayer)
@@ -160,7 +162,7 @@ function GameScene:onGameOver(playerWins, gameData)
             {name = "id", value = self.enterData.missionId})
         local nowProgress = DataManager.getStoryProgress()
         local battle_mission_cfg = require("config.battle_mission")
-        if nowLevelKey == nowProgress and battle_mission_cfg[nowProgress + 1] then
+        if nowLevelKey == nowProgress + 1 and battle_mission_cfg[nowProgress + 1] then
             DataManager.setStoryProgress(nowProgress + 1)
         end
     else
@@ -249,7 +251,7 @@ function GameScene:onGameOver(playerWins, gameData)
             local request = BattleResultRequest.create()
             request.params.win = playerWins
             request.params.monsterID = playerWins and DataManager.userInfo.currentMonsterID or 0
-            request.params.crystal = self.battleLogicNode.crystalNum
+            request.params.crystal = self.battleLogicNode.crystalNum - self.startCrystalNum
 
             request.onSuccess = function(data)
                 if playerWins then
