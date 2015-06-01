@@ -47,7 +47,7 @@ function GameBoardPanelSwitchMode.create()
     return panel
 end
 
-function GameBoardPanel:setTouch(flag)
+function GameBoardPanelSwitchMode:setTouch(flag)
     self.touchLayer:setTouchEnabled(flag)
 end
 
@@ -141,11 +141,13 @@ function GameBoardPanelSwitchMode:onClickGameIcon(cell)
     curSelectTag = 10 * cell.x + cell.y
     
     print("Cur select " .. curSelectTag)
-
-    self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(NORMAL_TAG):setVisible(false)
-    self:getChildByTag(NODE_TAG_START + curSelectTag):getChildByTag(SELECT_TAG):setVisible(true)
-
-    AudioEngine.playEffect("sound/A_select.wav")
+    
+    local thisCell = self:getChildByTag(NODE_TAG_START + curSelectTag)
+    if thisCell then
+        thisCell:getChildByTag(NORMAL_TAG):setVisible(false)
+        thisCell:getChildByTag(SELECT_TAG):setVisible(true)
+        AudioEngine.playEffect("sound/A_select.wav")
+    end
 end
 
 
@@ -363,7 +365,11 @@ local function cfRefreshBoard()
     FallEndCheckNode:runAction(sequence)
 end
 
+local boardlock = 0
+
 local function onCheckSuccess(succCellSet)
+    boardlock = boardlock + 1
+    cclog(boardlock)
     if #succCellSet == 0 then
         return
     end
@@ -393,9 +399,12 @@ local function onCheckSuccess(succCellSet)
     --延迟一段时间后刷新棋盘
     local delay = cc.DelayTime:create(0.2)
     local refreshBoardFunc = cc.CallFunc:create(cfRefreshBoard) 
+    local unloackBoardFunc = cc.CallFunc:create(function()
+        boardlock = boardlock - 1
+        cclog(boardlock)
+    end)
 
-
-    local arrayOfActions = {delay, refreshBoardFunc}
+    local arrayOfActions = {delay, refreshBoardFunc, unloackBoardFunc}
 
     local sequence = cc.Sequence:create(arrayOfActions)
 

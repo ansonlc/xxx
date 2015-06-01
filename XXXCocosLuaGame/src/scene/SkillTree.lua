@@ -81,12 +81,14 @@ function SkillTree:drawSkillInfo()
         self.currentSelectSkill.skillIcon = self:getSkillButton(currentSelect, false)
         self.currentSelectSkill.skillIcon:setPosition(cc.p(137, 267))
         self.currentSelectSkill.skillIcon.removeLevel()
-        self:addChild(self.currentSelectSkill.skillIcon)
+        self:addChild(self.currentSelectSkill.skillIcon, 1001)
     end
     
     local skill = MetaManager.getSkill(currentSelect)
     -- Name
-    self.currentSelectSkill.skillName = cc.LabelTTF:create("[" .. currentSelect .. "] " .. skill.skillName , "Arial", 35)
+    self.currentSelectSkill.skillName = cc.LabelTTF:create(
+        -- "[" .. currentSelect .. "] " .. 
+        skill.skillName , "Arial", 35)
     self.currentSelectSkill.skillName:setColor(cc.c3b(255, 255, 255))
     self.currentSelectSkill.skillName:setPosition(cc.p(650, 190))
     self:addChild(self.currentSelectSkill.skillName)
@@ -171,6 +173,7 @@ function SkillTree:getSkillButton(skillID, canClick)
     
     if DataManager.getSkillLevel(skillID) > 0 then
         skillButton:addTouchEventListener(function(sender, eventType)
+            if not self.touchEnabled then return true end
             if eventType == 0 and upgradePanelOn == false then
             currentSelect = skillID
             self:drawSkillInfo()
@@ -229,6 +232,7 @@ function SkillTree:drawTab()
     self.tab.tab1:addChild(tab1Text)
     
     self.tab.tab1:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 1
             self.ScrollView1:setVisible(true)
@@ -256,6 +260,7 @@ function SkillTree:drawTab()
     self.tab.tab2:addChild(tab2Text)
     
     self.tab.tab2:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 2
             self.ScrollView1:setVisible(false)
@@ -281,6 +286,7 @@ function SkillTree:drawTab()
     self.tab.tab3:addChild(tab3Text)
    
     self.tab.tab3:addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             tabSelect = 3
             self.ScrollView1:setVisible(false)
@@ -371,7 +377,9 @@ function SkillTree:updateUpgradePanel()
         local newLevel = DataManager.expToLevel(newExp)
         local newRate = DataManager.expToRate(newExp)
        
-        self.UpgradePanel:getChildByName("display"):setString("Use " .. upgradePanelCost .. " Crystal, upgrade to Lv."   .. toString2(newLevel) .. " (+" .. math.floor(newRate*100) .. "%)" )
+        self.UpgradePanel:getChildByName("display_number"):setString(upgradePanelCost)
+        self.UpgradePanel:getChildByName("display_level"):setString(toString2(newLevel))
+        -- .. " (+" .. math.floor(newRate*100) .. "%)" )
         
         
         
@@ -384,6 +392,9 @@ function SkillTree:onInit()
 
 
     local rootNode = cc.CSLoader:createNode("SkillTree.csb")
+    
+    self.btnTutorial = GameButton.create("TutorialBtn", true, 0.5)
+    rootNode:getChildByName("btn_tutorial"):addChild(self.btnTutorial)
     
     self:addChild(rootNode)
     self.CrystalNumDisplay = rootNode:getChildByName("CrystalNumDisplay")
@@ -408,14 +419,15 @@ function SkillTree:onInit()
     
     self:drawTab()
     
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("confirm", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("cancel", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true, 0.70))
-    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true, 0.70))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("confirm"), GameButton.create("Confirm", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("cancel"), GameButton.create("Cancel", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus100"), GameButton.create("+100", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus10"), GameButton.create("+10", true))
+    GameButton.ChangeTo(self.UpgradePanel:getChildByName("plus1"), GameButton.create("+1", true))
     
     
     rootNode:getChildByName("ButtonReturn"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             SceneManager.replaceSceneWithName("MainMenuScene")
         end
@@ -425,6 +437,7 @@ function SkillTree:onInit()
     
     
     rootNode:getChildByName("Button_1"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             if currentSelect > 0 then
                 upgradePanelOn = true
@@ -438,6 +451,7 @@ function SkillTree:onInit()
     )
     
     self.UpgradePanel:getChildByName("cancel"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelOn = false
             self:updateUpgradePanel()
@@ -448,19 +462,33 @@ function SkillTree:onInit()
     )
     
     self.UpgradePanel:getChildByName("confirm"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
-            upgradePanelOn = false
-            DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
-            DataManager.setCrystalNum(DataManager.getCrystalNum() - upgradePanelCost)
-            self:updateUpgradePanel()
-            self:updateCrystalNum()
-            self:drawSkillInfo()
-            skillIconListUpdates()
+            
+            
+            local request = UpgradeSkillsRequest.create()
+            request.params.crystal = upgradePanelCost
+            request.params["skillID[0]"] = currentSelect
+            request.params["skillExp[0]"] = upgradePanelCost + DataManager.getSkillExp(currentSelect)
+            request.onSuccess = function(data)
+                upgradePanelOn = false
+                DataManager.setSkillExp(currentSelect, upgradePanelCost + DataManager.getSkillExp(currentSelect))
+                DataManager.setCrystalNum(DataManager.getCrystalNum() - upgradePanelCost)
+                self:updateUpgradePanel()
+                self:updateCrystalNum()
+                self:drawSkillInfo()
+                skillIconListUpdates()
+            end
+            
+            NetworkManager.send(request)
+            
+            
         end
     end
     )
 
     self.UpgradePanel:getChildByName("plus100"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 100
             self:updateUpgradePanel()
@@ -469,6 +497,7 @@ function SkillTree:onInit()
     end)
     
     self.UpgradePanel:getChildByName("plus10"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 10
             self:updateUpgradePanel()
@@ -477,6 +506,7 @@ function SkillTree:onInit()
     end)
     
     self.UpgradePanel:getChildByName("plus1"):addTouchEventListener( function(sender, eventType)
+        if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             upgradePanelCost = upgradePanelCost + 1
             self:updateUpgradePanel()
@@ -487,7 +517,8 @@ function SkillTree:onInit()
     
     
     
-
+    local panel = require("panel.TutorialPanel")
+    rootNode:addChild(panel.create(self, self.btnTutorial),10001)
 
 end
 

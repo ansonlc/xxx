@@ -147,8 +147,8 @@ GBattleMaxEffectNumber = 6
 
 GBattleOptionBlockVerticalRatio = 110 / 1920
 GBattleOptionBlockHorizontalRatio = 110 / 1080
-GBattleOptionBlockVerticalStartOffset = 560 / 1920
-GBattleOptionBlockHorizontalStartOffset = 900 / 1080
+GBattleOptionBlockVerticalStartOffset = 625 / 1920
+GBattleOptionBlockHorizontalStartOffset = 980 / 1080
 
 GBattleToggleBlockVerticalRatio = 110 / 1920
 GBattleToggleBlockHorizontalRatio = 110 / 1080

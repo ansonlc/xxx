@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>Http tester</title>
+<!-- jQuery CDN-->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+<!-- bootstrap CDN-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<style type="text/css">
+.page{
+    margin: 0 auto;
+    width:80%;
+    padding-top:40px;
+}
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page">
+            <div class="row">
+                <h1> OriStein Backend test tool</h1>
+            </div>
+
+            <div class="row bg-info">
+                <div class="col-xs-6">
+                    <h2>Server:</h2>
+                </div>
+            </div>
+            <div class="row bg-info">
+                <div class="col-xs-2">
+                    <select class="form-control" id="input-host">
+                        <option value="localhost">localhost</option>
+                        <option value="oristein.com">oristein.com</option>
+                        <option value="httpbin.org">httpbin.org</option>
+                    </select>
+                </div>
+                <div class="col-xs-1">
+                    /
+                </div>
+                <div class="col-xs-3">
+                    <select class="form-control" id="input-endpoint">
+                        <option value="register.php">register.php</option>
+                        <option value="login.php">login.php</option>
+                        <option value="init.php">init.php</option>
+                        <option value="battle.php">battle.php</option>
+                        <option value="battleResult.php">battleResult.php</option>
+                        <option value="upgradeSkills.php">upgradeSkills.php</option>
+                        <option value="post">post</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row bg-info">&nbsp;</div>
+
+            <div class="row bg-warning">
+                <div class="col-xs-6">
+                    <h2>My Server:</h2>
+                </div>
+            </div>
+            <div class="row bg-warning">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="self defined server address" id="input-my-host" />
+                </div>
+                <div class="col-xs-1">
+                    /
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="self defined endpoint" id="input-my-endpoint" />
+                </div>
+            </div>
+            <div class="row bg-warning">&nbsp;</div>
+
+            <div class="row bg-success">
+                <div class="col-xs-6">
+                    <h2>Parameters:</h2>
+                </div>
+            </div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 1" id="input-para-name-1" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 1" id="input-para-1" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 2" id="input-para-name-2" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 2" id="input-para-2" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 3" id="input-para-name-3" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 3" id="input-para-3" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 4" id="input-para-name-4" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 4" id="input-para-4" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 5" id="input-para-name-5" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 5" id="input-para-5" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 6" id="input-para-name-6" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 6" id="input-para-6" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 7" id="input-para-name-7" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 7" id="input-para-7" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <div class="row bg-success">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="parameter name 8" id="input-para-name-8" />
+                </div>
+                <div class="col-xs-1">
+                    =
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" placeholder="parameter 8" id="input-para-8" />
+                </div>
+            </div>
+            <div class="row bg-success">&nbsp;</div>
+            <br />
+            <div class="row">
+                <div class="col-xs-2">
+                    <button id="button_submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+            <br /><br /><br /><br />
+            <div class="row bg-info">
+                <div class="col-xs-6">
+                    <h2>Result:</h2>
+                </div>
+            </div>
+            <div class="row bg-info">
+                <div class="col-xs-6">
+                    <textarea id="result" cols="100" rows="10" disabled></textarea>
+                </div>
+            </div>
+            <div class="row bg-info">&nbsp;</div>
+        </div>
+    </div>
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("#button_submit").click(function (e) {
+                    var host = $("#input-my-host").val();
+                    if (!host) {
+                        host = $("#input-host").val();
+
+                        if (host == 'localhost')
+                            if (location.origin.includes && location.origin.includes('localhost'))
+                                host = location.origin + "/www";
+                            else
+                                host = location.origin;
+                        else
+                            host = "http://" + host;
+                    }
+
+                    var target = $("#input-my-endpoint").val();
+                    if (!target)
+                        target = $("#input-endpoint").val();
+
+                    var name1 = $("#input-para-name-1").val();
+                    var name2 = $("#input-para-name-2").val();
+                    var name3 = $("#input-para-name-3").val();
+                    var name4 = $("#input-para-name-4").val();
+                    var name5 = $("#input-para-name-5").val();
+                    var name6 = $("#input-para-name-6").val();
+                    var name7 = $("#input-para-name-7").val();
+                    var name8 = $("#input-para-name-8").val();
+
+                    var para1 = $("#input-para-1").val();
+                    var para2 = $("#input-para-2").val();
+                    var para3 = $("#input-para-3").val();
+                    var para4 = $("#input-para-4").val();
+                    var para5 = $("#input-para-5").val();
+                    var para6 = $("#input-para-6").val();
+                    var para7 = $("#input-para-7").val();
+                    var para8 = $("#input-para-8").val();
+
+                    var targetURL = target;
+                    //alert(json);
+                    var params = '';
+                    params = params + (name1 ? name1 + '=' + para1 : '');
+                    params = params + (name2 ? ((params ? '&' : '') + name2 + "=" + para2) : "");
+                    params = params + (name3 ? ((params ? '&' : '') + name3 + "=" + para3) : "");
+                    params = params + (name4 ? ((params ? '&' : '') + name4 + "=" + para4) : "");
+                    params = params + (name5 ? ((params ? '&' : '') + name5 + "=" + para5) : "");
+                    params = params + (name6 ? ((params ? '&' : '') + name6 + "=" + para6) : "");
+                    params = params + (name7 ? ((params ? '&' : '') + name7 + "=" + para7) : "");
+                    params = params + (name8 ? ((params ? '&' : '') + name8 + "=" + para8) : "");
+
+                    $("#result").val("Loading..." + host + "/" + targetURL + params);
+                    $.post(host + "/" + targetURL, params, function (data) {
+                        console.log(data)
+                        $("#result").val(data)
+                        var json = JSON.parse(data)
+
+                        if (json.uuid) {
+                            $("#input-para-name-2").val("uuid");
+                            $("#input-para-2").val(json.uuid);
+                        }
+
+                        if (json.skey) {
+                            $("#input-para-name-1").val("skey");
+                            $("#input-para-1").val(json.skey);
+                        }
+                    });
+                });
+
+
+
+            });
+
+
+
+        </script>
+</body>
+</html>

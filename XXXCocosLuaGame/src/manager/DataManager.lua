@@ -1,6 +1,5 @@
 require("utils.GeneralUtil")
 require("utils.StringUtil")
-require("config.user_skill_status")
 
 if _G.dataManagerInit == nil then
     print("require manager.DataManager")
@@ -13,7 +12,8 @@ if _G.dataManagerInit == nil then
             ["battle_mission"] = 1,
             ["battle_monster"] = 1,
         },
-        
+        sessionKey = "",
+        message = nil,
     }
     _G.dataManagerInit = true
 end
@@ -65,11 +65,12 @@ function DataManager.loadUserInfo()
         --DataManager.userData = userData
     end
     DataManager.userData = require("config.user_status")
-    DataManager.userSkillStatus = require("config.user_skill_status")
     -- TODO: Delete the predefined table
     DataManager.userInfo = {}
     DataManager.userInfo.currentUser = 1001
-    DataManager.userInfo.currentSkills = DataManager.userSkillStatus[DataManager.userInfo.currentUser].currentSkills
+    
+    DataManager.userSkillStatus = {}
+    DataManager.userSkillStatus[DataManager.userInfo.currentUser] = {}
 end
 
 --[[
@@ -124,7 +125,8 @@ function DataManager.expToRate(exp)
 end
 
 function DataManager.getStoryProgress()
-    return DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+    local progress = DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
+    return progress and progress or 0
 end
 
 function DataManager.setStoryProgress(num)
@@ -164,25 +166,6 @@ function DataManager.getLearningData()
 end
 
 function DataManager.getAvailableSkill(userID)
-    
-    --[[
-    local lv = DataManager.userData[DataManager.userInfo.currentUser].StoryProgress
-    local var = DataManager.userSkillStatus[userID].availableSkills
-    
-    local learn = DataManager.getLearningData()
-    
-    for i,v in ipairs(learn) do
-        local req = v[1]
-        local id = v[2]
-        
-        if  lv >= req and DataManager.userSkillStatus[userID].availableSkills[id] == nil then
-            --print ('req is ' .. req)
-            --print ('id is ' .. id)
-            DataManager.userSkillStatus[userID].availableSkills[id] = ({skillID = id, exp = 0})
-        end
-        
-    end]]--
-    
     return DataManager.userSkillStatus[userID].availableSkills
 end
 

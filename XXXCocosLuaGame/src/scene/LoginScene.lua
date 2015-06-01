@@ -25,11 +25,41 @@ function LoginScene.create()
     return scene
 end
 
-function LoginScene:initGame()
+function LoginScene:initGame(sceneName)
+    DataManager.loadUserInfo()
     MetaManager.init()
     ParticleManager.init()
     AnimationManager.init()
     SoundManager.init()
+    NetworkManager.init()
+    
+    local function doInit()
+        local request = InitRequest.create()
+        request.postRequest = function()
+            SceneManager.replaceSceneWithName(sceneName)
+        end
+        NetworkManager.send(request)
+    end
+    
+    local function doLogin()
+        local request = LoginRequest.create()
+        request.postRequest = doInit
+        NetworkManager.send(request)
+    end
+    
+    cclog("Path: " .. cc.UserDefault:getXMLFilePath())
+    local inst = cc.UserDefault:getInstance()
+    local uuid = inst:getStringForKey("uuid")
+    if uuid and uuid~="" then
+        cclog("UUID: " .. uuid)
+        doLogin()
+    else
+        local request = RegisterRequest.create()
+        request.postRequest = doLogin
+        NetworkManager.send(request)
+    end
+    
+    SoundManager.playBGM('menu', true)
 end
 
 function LoginScene:onInit()
@@ -39,7 +69,7 @@ function LoginScene:onInit()
    --DataManager.loadUserInfo()
     --local bgMusicPath = cc.FileUtils:getInstance():fullPathForFilename("sound/bgm_game.wav")
     --AudioEngine.playMusic(bgMusicPath, true)
-    SoundManager.playBGM('menu', true)  
+    --SoundManager.playBGM('menu', true)
 end
 
 function LoginScene:onEnter()
@@ -53,7 +83,7 @@ function LoginScene.createTextBtn(btnStr)
 	button:setScale(4)
 	
 	local scale1 = cc.ScaleTo:create(1.5, 3.5)
-	local scale2 = cc.ScaleTo:create(2, 4)			
+	local scale2 = cc.ScaleTo:create(2, 4)
 
     local arrayOfActions = {scale1,scale2}
 
@@ -87,8 +117,7 @@ function LoginScene:createBtnLayer()
     local touchBeginPoint = nil
 
     local function onTouchEnded()
-        self:initGame()
-        SceneManager.replaceSceneWithName("MainMenuScene")
+        self:initGame("MainMenuScene")
 
         -- CCTOUCHBEGAN event must return true
         return true
@@ -97,6 +126,7 @@ function LoginScene:createBtnLayer()
     local function onStartBtnPress(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then   
+            self.touchEnabled = false
             return onTouchEnded()
         end
     end
@@ -110,9 +140,7 @@ function LoginScene:createBtnLayer()
     local function onDebugBtnPress(sender, eventType)
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then
-            print ("here")
-            --SceneManager.replaceSceneWithName("SkillTree", nil)
-            SceneManager.replaceSceneWithName("TestScene", nil)
+            self:initGame("TestScene")
             return true
         end
     end
