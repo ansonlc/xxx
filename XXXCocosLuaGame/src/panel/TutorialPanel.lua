@@ -15,7 +15,7 @@ end
 
 function GameOptionPanel:initLayer(scene, tutorialBtn)
     local inst = cc.UserDefault:getInstance()
-    local showTutorial = inst:getBoolForKey("showTutorial")
+    local hideTutorial = inst:getBoolForKey("hideTutorial")
     
     if scene.sceneName then
         local sprite = cc.Sprite:create("imgs/tutorial/" .. scene.sceneName .. ".png")
@@ -64,7 +64,7 @@ function GameOptionPanel:initLayer(scene, tutorialBtn)
             listener:setEnabled(false)
             sprite:setOpacity(0)
             
-            if showTutorial==false then
+            if hideTutorial then
                 tutorialBtn:setEnabled(false)
                 tutorialBtn:setVisible(false)
             end

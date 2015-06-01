@@ -59,11 +59,6 @@ function LoginScene:initGame(sceneName)
         NetworkManager.send(request)
     end
     
-    local showTutorial = inst:getStringForKey("showTutorial")
-    if showTutorial==nil or showTutorial=="" then
-        inst:setBoolForKey("showTutorial", true)
-    end
-    
     SoundManager.playBGM('menu', true)
 end
 

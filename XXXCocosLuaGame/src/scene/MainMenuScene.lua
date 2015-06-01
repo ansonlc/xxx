@@ -100,17 +100,17 @@ function MainMenuScene:onInit()
         if not self.touchEnabled then return true end
         if eventType == ccui.TouchEventType.ended then 
             local inst = cc.UserDefault:getInstance()
-            local showTutorial = inst:getBoolForKey("showTutorial")
-            showTutorial = not showTutorial
-            inst:setBoolForKey("showTutorial", showTutorial)
+            local hideTutorial = inst:getBoolForKey("hideTutorial")
+            hideTutorial = not hideTutorial
+            inst:setBoolForKey("hideTutorial", hideTutorial)
             
-            self.btnTutorial:setEnabled(showTutorial)
-            if showTutorial then
+            self.btnTutorial:setEnabled(not hideTutorial)
+            if hideTutorial then
+                self.btnTutorial:setVisible(false)
+            else
                 self.btnTutorial:setVisible(true)
                 self.btnTutorial:setOpacity(0)
                 self.btnTutorial:runAction(cc.FadeIn:create(0.5))
-            else
-                self.btnTutorial:setVisible(false)
             end
         end
 
