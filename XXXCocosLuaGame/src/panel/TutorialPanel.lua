@@ -17,7 +17,7 @@ function GameOptionPanel:initLayer(scene, tutorialBtn)
     local inst = cc.UserDefault:getInstance()
     local showTutorial = inst:getBoolForKey("showTutorial")
     
-    if scene.sceneName and showTutorial then
+    if scene.sceneName then
         local sprite = cc.Sprite:create("imgs/tutorial/" .. scene.sceneName .. ".png")
         if sprite then
             sprite:setPosition(visibleSize.width/2, visibleSize.height/2)
@@ -63,6 +63,11 @@ function GameOptionPanel:initLayer(scene, tutorialBtn)
             
             listener:setEnabled(false)
             sprite:setOpacity(0)
+            
+            if showTutorial==false then
+                tutorialBtn:setEnabled(false)
+                tutorialBtn:setVisible(false)
+            end
         else
             cclog("ERROR: This scene dont have a tutorial")
         end
