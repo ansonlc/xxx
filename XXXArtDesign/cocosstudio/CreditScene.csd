@@ -20,25 +20,26 @@
           <AbstractNodeData Name="scroll_credit" ActionTag="-2127273263" Tag="27" IconVisible="False" TopMargin="210.0000" BottomMargin="210.0000" ClipAble="True" BackColorAlpha="74" ComboBoxIndex="1" ColorAngle="90.0000" ScrollDirectionType="Vertical" ctype="ScrollViewObjectData">
             <Size X="1080.0000" Y="1500.0000" />
             <Children>
-              <AbstractNodeData Name="Text_1" ActionTag="-1854703620" Tag="53" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="264.0000" RightMargin="264.0000" TopMargin="1500.0000" BottomMargin="444.0000" FontSize="48" LabelText="Producer&#xA;Fangzhou Long&#xA;&#xA;Lead Artist&#xA;Liquan Chen&#xA;&#xA;Lead Frontend Engineer&#xA;Fangzhou Long&#xA;&#xA;Lead Backend Engineer&#xA;Hang Fan&#xA;&#xA;Programmer&#xA;Chao Lin&#xA;Gaoyuan Chen (quit)&#xA;Chichen Ren (quit)&#xA;Chaomin Zhong (quit)&#xA;&#xA;Special thanks&#xA;Nickel (CG)&#xA;Agolous (CG)&#xA;maoudamashii (free bgm)" HorizontalAlignmentType="HT_Center" OutlineSize="1" ShadowOffsetX="2" ShadowOffsetY="-2" ctype="TextObjectData">
-                <Size X="552.0000" Y="1056.0000" />
+              <AbstractNodeData Name="Text_1" ActionTag="-1854703620" Tag="53" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="292.5000" RightMargin="292.5000" BottomMargin="378.0000" FontSize="50" LabelText="Producer&#xA;Fangzhou Long&#xA;&#xA;Lead Artist&#xA;Liquan Chen&#xA;&#xA;Lead Frontend Engineer&#xA;Fangzhou Long&#xA;&#xA;Lead Backend Engineer&#xA;Hang Fan&#xA;&#xA;Programmer&#xA;Chao Lin&#xA;Gaoyuan Chen (quit)&#xA;Chichen Ren (quit)&#xA;Chaomin Zhong (quit)&#xA;&#xA;Special thanks&#xA;Nickel (CG)&#xA;Agolous (CG)&#xA;maoudamashii (free bgm)" HorizontalAlignmentType="HT_Center" OutlineSize="1" ShadowOffsetX="2" ShadowOffsetY="-2" ctype="TextObjectData">
+                <Size X="521.0000" Y="1188.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="1.0000" />
                 <Position X="540.0000" Y="1500.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition X="0.5000" Y="0.5000" />
+                <PrePosition X="0.5000" Y="1.0000" />
                 <PreSize X="0.6167" Y="0.2721" />
+                <FontResource Type="Normal" Path="fonts/MOD20.TTF" Plist="" />
                 <OutlineColor A="255" R="255" G="0" B="0" />
                 <ShadowColor A="255" R="110" G="110" B="110" />
               </AbstractNodeData>
-              <AbstractNodeData Name="gamepipe_1" ActionTag="1326928012" Tag="18" IconVisible="False" LeftMargin="282.6733" RightMargin="297.3267" TopMargin="1052.5188" BottomMargin="230.4813" ctype="SpriteObjectData">
+              <AbstractNodeData Name="gamepipe_1" ActionTag="1326928012" Tag="18" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="290.0000" RightMargin="290.0000" TopMargin="1151.5000" BottomMargin="131.5000" ctype="SpriteObjectData">
                 <Size X="500.0000" Y="217.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="532.6733" Y="338.9813" />
+                <Position X="540.0000" Y="240.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition X="0.4932" Y="0.2260" />
-                <PreSize />
+                <PrePosition X="0.5000" Y="0.1600" />
+                <PreSize X="0.4630" Y="0.1447" />
                 <FileData Type="Normal" Path="imgs/gamepipe.png" Plist="" />
                 <BlendFunc Src="1" Dst="771" />
               </AbstractNodeData>
