@@ -114,6 +114,11 @@ function GameScene:onInit()
 end
 
 function GameScene:onUpdate(dt)
+    local AINode = self:getChildByName("MonsterAILogic")
+    if not AINode.isAIOn then
+        return
+    end
+
     if self.gameBoard and self.gameBoard.onUpdate then
         self.gameBoard:onUpdate(dt)
     end
