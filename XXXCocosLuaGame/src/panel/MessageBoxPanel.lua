@@ -16,13 +16,20 @@ function MessageBoxPanel.create(parent,dataTable)
     --panel:setVisible(false)
     blackLayer:addChild(panel)
     parent:addChild(blackLayer)
+    if parent.touchEnabled then
+        parent.touchEnabled = false
+    end
     return blackLayer
 end
 
 function MessageBoxPanel.initBtn(parent,panel,layer,dataTable)
-    GameButton.ChangeTo(panel:getChildByName("btn_ok"), GameButton.create("Confirm", true))
+    local btnTitle = dataTable.btn and dataTable.btn or "Confirm"
+    GameButton.ChangeTo(panel:getChildByName("btn_ok"), GameButton.create(btnTitle, true))
     panel:getChildByName("btn_ok"):addTouchEventListener( function(sender, eventType)
-        if eventType == ccui.TouchEventType.ended then             
+        if eventType == ccui.TouchEventType.ended then
+            if not parent.touchEnabled then
+                parent.touchEnabled = true
+            end
             if dataTable.callback == nil then
                 layer:setVisible(false)
             else
