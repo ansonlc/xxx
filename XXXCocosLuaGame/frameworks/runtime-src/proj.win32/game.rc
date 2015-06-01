@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -27,7 +27,7 @@ LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -47,30 +47,9 @@ END
 
 IDR_MENU_COCOS MENU
 BEGIN
-    POPUP "&File"
+    POPUP "°ïÖú(&H)"
     BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_FILE_EXIT
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "&Portrait",                   ID_VIEW_PORTRAIT
-        MENUITEM "&Landscape",                  ID_VIEW_LANDSCAPE
-        MENUITEM SEPARATOR
-        MENUITEM "&Actual(100%)",               ID_VIEW_ZOOMOUT100
-        MENUITEM "Zoom Out(75%)",               ID_VIEW_ZOOMOUT75
-        MENUITEM "Zoom Out(50%)",               ID_VIEW_ZOOMOUT50
-        MENUITEM "Zoom Out(25%)",               ID_VIEW_ZOOMOUT25
-    END
-    POPUP "&Control"
-    BEGIN
-        MENUITEM "Restart(F5)",                 ID_CONTROL_RELOAD
-        MENUITEM "Keep Window Top",             ID_CONTROL_TOP
-    END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About ...",                  ID_HELP_ABOUT
+        MENUITEM "¹ØÓÚ(&A)",                      ID_HELP_ABOUT
     END
 END
 
@@ -80,13 +59,15 @@ END
 // Dialog
 //
 
-IDD_DIALOG_ABOUT DIALOGEX 0, 0, 243, 94
+IDD_DIALOG_ABOUT DIALOGEX 0, 0, 243, 134
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Simulator"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,173,69,63,18
-    LTEXT           "Cocos2d-x-Simulator",IDC_STATIC,29,17,169,25
+    CTEXT           "Version 1.0",IDC_ABOUT_VERSION,35,70,173,17
+    CTEXT           "Cocos Simulator",IDC_ABOUT_TITLE,35,49,173,17
+    CTEXT           "Copyright (C) 2015. All rights reserved.",IDC_STATIC,35,94,173,17
+    ICON            "GLFW_ICON",IDC_STATIC,111,15,20,20
 END
 
 
@@ -103,12 +84,36 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 236
         TOPMARGIN, 7
-        BOTTOMMARGIN, 87
+        BOTTOMMARGIN, 127
     END
 END
 #endif    // APSTUDIO_INVOKED
 
 #endif    // Chinese (Simplified, PRC) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_COCOS MENU
+BEGIN
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  ID_HELP_ABOUT
+    END
+END
+
+#endif    // English resources
 /////////////////////////////////////////////////////////////////////////////
 
 

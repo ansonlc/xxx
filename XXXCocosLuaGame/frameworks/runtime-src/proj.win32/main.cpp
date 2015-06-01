@@ -1,73 +1,28 @@
 #include "main.h"
-#include "AppDelegate.h"
-#include "cocos2d.h"
+#include "SimulatorWin.h"
 #include <shellapi.h>
-USING_NS_CC;
 
-// uncomment below line, open debug console
-//#define USE_WIN32_CONSOLE
+#if _MSC_VER > 1700
+#pragma comment(lib,"libcocos2d_2013.lib")
+#pragma comment(lib,"libluacocos2d_2013.lib")
+#pragma comment(lib,"libbox2d_2013.lib")
+#pragma comment(lib,"libSpine_2013.lib")
+#pragma comment(lib,"libsimulator_2013.lib")
+#else
+#pragma comment(lib,"libcocos2d_2012.lib")
+#pragma comment(lib,"libluacocos2d_2012.lib")
+#pragma comment(lib,"libbox2d_2012.lib")
+#pragma comment(lib,"libSpine_2012.lib")
+#pragma comment(lib,"libsimulator_2012.lib")
+#endif
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
-                       HINSTANCE hPrevInstance,
-                       LPTSTR    lpCmdLine,
-                       int       nCmdShow)
+	HINSTANCE hPrevInstance,
+	LPTSTR    lpCmdLine,
+	int       nCmdShow)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-
-    LPWSTR *szArgList=nullptr;
-    int argCount=0;
-
-    szArgList = CommandLineToArgvW(GetCommandLine(),&argCount);
-    if (argCount >=2 )
-    {
-        int iLen = 2*wcslen(szArgList[1]);    
-        char* chRtn = new char[iLen+1];    
-        wcstombs(chRtn,szArgList[1],iLen+1);
-        delete [] chRtn;
-    }
-    LocalFree(szArgList);
-
-#ifdef USE_WIN32_CONSOLE
-    AllocConsole();
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);
-#endif
-
-    // create the application instance
-    AppDelegate app;
-    int ret = Application::getInstance()->run();
-
-#ifdef USE_WIN32_CONSOLE
-    if (!ret)
-    {
-        system("pause");
-    }
-    FreeConsole();
-#endif
-
-    return ret;
-}
-std::string getCurAppPath(void)
-{
-    TCHAR szAppDir[MAX_PATH]={0};
-    if (!GetModuleFileName(NULL,szAppDir,MAX_PATH))
-        return "";
-    int nEnd=0;
-    for (int i=0;szAppDir[i];i++)
-    {
-        if(szAppDir[i]=='\\')
-            nEnd = i;
-    }
-    szAppDir[nEnd] = 0;
-    int iLen = 2*wcslen(szAppDir);    
-    char* chRtn = new char[iLen+1];    
-    wcstombs(chRtn,szAppDir,iLen+1);
-    std::string strPath = chRtn;
-    delete [] chRtn;
-    chRtn=NULL;
-    char fuldir[MAX_PATH]={0};
-    _fullpath(fuldir,strPath.c_str(),MAX_PATH);
-    return fuldir;    
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+    auto simulator = SimulatorWin::getInstance();
+    return simulator->run();
 }
