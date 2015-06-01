@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Scene" Name="SkillSelectScene" ID="7c70b029-b20a-4ea9-a503-ec882787cd8b" Version="2.2.6.0" />
+  <PropertyGroup Type="Scene" Name="SkillSelectScene" ID="7c70b029-b20a-4ea9-a503-ec882787cd8b" Version="2.2.8.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

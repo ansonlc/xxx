@@ -187,6 +187,7 @@
         <Project Name="SkillTree.csd" Type="Scene" />
         <Project Name="SettingPanel.csd" Type="Layer" />
         <Project Name="MessageBoxPanel.csd" Type="Layer" />
+        <Project Name="CreditScene.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

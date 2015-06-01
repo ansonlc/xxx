@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Scene" Name="EndingScene" ID="4c051a21-c405-4365-9f9e-019423f5420d" Version="2.2.6.0" />
+  <PropertyGroup Type="Scene" Name="EndingScene" ID="4c051a21-c405-4365-9f9e-019423f5420d" Version="2.2.8.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

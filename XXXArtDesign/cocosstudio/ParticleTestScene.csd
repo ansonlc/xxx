@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Scene" Name="ParticleTestScene" ID="369ab3d4-4b8d-4693-8d66-318b5a9e5900" Version="2.2.6.0" />
+  <PropertyGroup Type="Scene" Name="ParticleTestScene" ID="369ab3d4-4b8d-4693-8d66-318b5a9e5900" Version="2.2.8.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

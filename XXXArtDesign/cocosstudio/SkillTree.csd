@@ -1,9 +1,9 @@
 <GameProjectFile>
-  <PropertyGroup Type="Scene" Name="SkillTree" ID="b317f116-a615-41ca-af73-3f27eadb5a7d" Version="2.2.6.0" />
+  <PropertyGroup Type="Scene" Name="SkillTree" ID="b317f116-a615-41ca-af73-3f27eadb5a7d" Version="2.2.8.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
-      <ObjectData Name="Scene" Tag="256" ctype="GameNodeObjectData">
+      <ObjectData Name="Scene" Visible="False" Tag="256" ctype="GameNodeObjectData">
         <Size X="1080.0000" Y="1920.0000" />
         <Children>
           <AbstractNodeData Name="Image_1" ActionTag="-1807929310" Tag="415" IconVisible="False" Scale9Width="1080" Scale9Height="1920" ctype="ImageViewObjectData">

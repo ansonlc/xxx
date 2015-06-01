@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Layer" Name="SettingPanel" ID="7b77cc79-f408-49ab-8adc-cd6bdcaf5105" Version="2.2.6.0" />
+  <PropertyGroup Type="Layer" Name="SettingPanel" ID="7b77cc79-f408-49ab-8adc-cd6bdcaf5105" Version="2.2.8.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

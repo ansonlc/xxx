@@ -100,7 +100,7 @@ function GameSettingPanel:initBtn(parent,rootNode)
     
     rootNode:getChildByName("btn_credits"):addTouchEventListener( function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then 
-
+            SceneManager.replaceSceneWithName("CreditScene")
         end
     end)
 end
