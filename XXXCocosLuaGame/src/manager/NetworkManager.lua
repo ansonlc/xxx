@@ -163,7 +163,7 @@ function NetworkManager.send(request)
             else
                 local data = {}
                 data.retcode = "Network Unavailable"
-                data.errmsg = ""
+                data.errmsg = "Please connect to network and \npress 'Retry' to reconnect."
                 data.btn = "Retry"
                 data.callback = function()
                     NetworkManager.send(request)
@@ -178,7 +178,14 @@ function NetworkManager.send(request)
                 xhr:send(request.body)
                 retryCount = retryCount + 1
             else
-                doFail(request)
+                local data = {}
+                data.retcode = "Network Unavailable"
+                data.errmsg = "Please connect to network and \npress 'Retry' to reconnect."
+                data.btn = "Retry"
+                data.callback = function()
+                    NetworkManager.send(request)
+                end
+                doFail(request, data)
             end
         end
     end
