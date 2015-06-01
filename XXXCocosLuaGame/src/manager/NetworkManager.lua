@@ -77,6 +77,19 @@ end
 local function doFail(request, data)
     request.onFail(data)
     killLoadingBox()
+    
+    local reconnectMessage = {
+        title="Error: " .. data.retcode,
+        msg= data.errmsg,
+        btn= data.btn,
+        callback = data.callback,
+    }
+    local ccRunning = cc.Director:getInstance():getRunningScene()
+    if ccRunning.messageBoxPanel then
+        ccRunning:removeChild(ccRunning.messageBoxPanel, true)
+    end
+    local MessageBoxPanel = require("panel.MessageBoxPanel")
+    ccRunning.messageBoxPanel = MessageBoxPanel.create(ccRunning, reconnectMessage)
 end
 
 function NetworkManager.send(request)
@@ -130,6 +143,9 @@ function NetworkManager.send(request)
                     if data.retcode then
                         cclog("Request error code: " .. data.retcode)
                         cclog(data.errmsg)
+                        data.errmsg = "You need to login again"
+                        data.btn = "Login"
+                        data.callback = function()  SceneManager.replaceSceneWithName("LoginScene")  end
                         doFail(request, data)
                     else
                         doSuccess(request, data)
@@ -145,7 +161,14 @@ function NetworkManager.send(request)
                     doSuccess(request, response)
                 end
             else
-                doFail(request)
+                local data = {}
+                data.retcode = "Network Unavailable"
+                data.errmsg = ""
+                data.btn = "Retry"
+                data.callback = function()
+                    NetworkManager.send(request)
+                end
+                doFail(request, data)
             end
         else
             if retryCount<5 then
