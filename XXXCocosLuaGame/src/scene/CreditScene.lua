@@ -38,7 +38,7 @@ end
 
 local pos = -1500
 function CreditScene:onUpdate()
-    if pos<-200 and self.scrollView then
+    if pos<-100 and self.scrollView then
         self.scrollView:getInnerContainer():setPosition(cc.p(0, pos))
         pos = pos + 2
     end

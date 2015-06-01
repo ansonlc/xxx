@@ -173,6 +173,7 @@
             <Image Name="btn_cancel.png" />
             <Image Name="btn_cancel_press.png" />
           </Folder>
+          <Image Name="gamepipe.png" />
         </Folder>
         <Project Name="LevelSelectScene.csd" Type="Scene" />
         <Folder Name="fonts">
