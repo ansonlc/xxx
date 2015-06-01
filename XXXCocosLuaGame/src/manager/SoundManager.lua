@@ -1,12 +1,12 @@
 SoundManager = {}
 
 SoundManager.bgmList = {
-    ['battle1'] = "res/sound/bgm_battle1.wav",
-    ['battle2'] = "res/sound/bgm_battle2.wav",
-    ['battle3'] = "res/sound/bgm_battle3.wav",
-    ['battle4'] = "res/sound/bgm_battle4.wav",
-    ['victory'] = "res/sound/bgm_victory.wav",
-    ['menu'] = "res/sound/bgm_game.wav",
+    ['battle1'] = "res/sound/bgm_battle1.mp3",
+    ['battle2'] = "res/sound/bgm_battle2.mp3",
+    ['battle3'] = "res/sound/bgm_battle3.mp3",
+    ['battle4'] = "res/sound/bgm_battle4.mp3",
+    ['victory'] = "res/sound/bgm_victory.mp3",
+    ['menu'] = "res/sound/bgm_game.mp3",
 }
 
 SoundManager.effectList = {
